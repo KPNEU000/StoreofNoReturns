@@ -265,68 +265,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &253703957
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2055909772}
-    m_Modifications:
-    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_Name
-      value: Clothing Rack (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -12.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
---- !u!4 &253703958 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-  m_PrefabInstance: {fileID: 253703957}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &294711991
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,42 +626,134 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1 &348728276
-GameObject:
+--- !u!1001 &373486182
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 348728277}
-  m_Layer: 0
-  m_Name: Clothing Racks Right Wall
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &348728277
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 348728276}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.435, y: 0.57728946, z: 4.675294}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1313588465}
-  - {fileID: 683914852}
-  - {fileID: 1755664060}
-  - {fileID: 436036911}
-  - {fileID: 1378261251}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2055909772}
+    m_Modifications:
+    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_Name
+      value: Clothing Rack (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+--- !u!4 &373486183 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+  m_PrefabInstance: {fileID: 373486182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &376727713
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1692834382}
+    m_Modifications:
+    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_Name
+      value: Clothing Rack (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578395036761156019, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 832e983b0c977b644907aaa603b90944, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+--- !u!4 &376727714 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+  m_PrefabInstance: {fileID: 376727713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &405613844
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,68 +993,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1001 &436036910
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 348728277}
-    m_Modifications:
-    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_Name
-      value: Clothing Rack (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
---- !u!4 &436036911 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-  m_PrefabInstance: {fileID: 436036910}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &656317636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1087,17 +1055,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5905470049048890127, guid: 86b44bd3ab974a04bbdff38f462e602b, type: 3}
   m_PrefabInstance: {fileID: 656317636}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &683914851
+--- !u!1001 &663654032
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 348728277}
+    m_TransformParent: {fileID: 1692834382}
     m_Modifications:
     - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
       propertyPath: m_Name
-      value: Clothing Rack (2)
+      value: Clothing Rack (8)
       objectReference: {fileID: 0}
     - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1109,7 +1077,73 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.5
+      value: -13.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578395036761156019, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 832e983b0c977b644907aaa603b90944, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+--- !u!4 &663654033 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+  m_PrefabInstance: {fileID: 663654032}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &795487228
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1692834382}
+    m_Modifications:
+    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_Name
+      value: Clothing Rack (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1144,10 +1178,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
---- !u!4 &683914852 stripped
+--- !u!4 &795487229 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-  m_PrefabInstance: {fileID: 683914851}
+  m_PrefabInstance: {fileID: 795487228}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
@@ -1220,7 +1254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1372,6 +1406,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1001 &1173034032
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2055909772}
+    m_Modifications:
+    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_Name
+      value: Clothing Rack (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -13.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578395036761156019, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 832e983b0c977b644907aaa603b90944, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+--- !u!4 &1173034033 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+  m_PrefabInstance: {fileID: 1173034032}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1203146893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1546,68 +1646,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1262128304
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2055909772}
-    m_Modifications:
-    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_Name
-      value: Clothing Rack (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -6.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
---- !u!4 &1262128305 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-  m_PrefabInstance: {fileID: 1262128304}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1289418611
 GameObject:
   m_ObjectHideFlags: 0
@@ -1720,68 +1758,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1313588464
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 348728277}
-    m_Modifications:
-    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_Name
-      value: Clothing Rack (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -12.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
---- !u!4 &1313588465 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-  m_PrefabInstance: {fileID: 1313588464}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1317551934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,141 +1870,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1001 &1378261250
-PrefabInstance:
+--- !u!1 &1692834381
+GameObject:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 348728277}
-    m_Modifications:
-    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_Name
-      value: Clothing Rack (5)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
---- !u!4 &1378261251 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-  m_PrefabInstance: {fileID: 1378261250}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1539751267
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2055909772}
-    m_Modifications:
-    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_Name
-      value: Clothing Rack (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -9.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
---- !u!4 &1539751268 stripped
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1692834382}
+  m_Layer: 0
+  m_Name: Clothing Racks Right Wall
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1692834382
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-  m_PrefabInstance: {fileID: 1539751267}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1755664059
+  m_GameObject: {fileID: 1692834381}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.435, y: 0.57728946, z: 4.675294}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1757381721}
+  - {fileID: 376727714}
+  - {fileID: 663654033}
+  - {fileID: 1904341074}
+  - {fileID: 795487229}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1757381720
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 348728277}
+    m_TransformParent: {fileID: 1692834382}
     m_Modifications:
     - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
       propertyPath: m_Name
-      value: Clothing Rack (3)
+      value: Clothing Rack (4)
       objectReference: {fileID: 0}
     - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2040,7 +1928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.5
+      value: -3.25
       objectReference: {fileID: 0}
     - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2070,15 +1958,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4578395036761156019, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 832e983b0c977b644907aaa603b90944, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
---- !u!4 &1755664060 stripped
+--- !u!4 &1757381721 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
-  m_PrefabInstance: {fileID: 1755664059}
+  m_PrefabInstance: {fileID: 1757381720}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1807064530
 GameObject:
@@ -2304,6 +2196,138 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1001 &1894735180
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2055909772}
+    m_Modifications:
+    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_Name
+      value: Clothing Rack (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578395036761156019, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 832e983b0c977b644907aaa603b90944, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+--- !u!4 &1894735181 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+  m_PrefabInstance: {fileID: 1894735180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1904341073
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1692834382}
+    m_Modifications:
+    - target: {fileID: 2632712936122009702, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_Name
+      value: Clothing Rack (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4578395036761156019, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 832e983b0c977b644907aaa603b90944, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+--- !u!4 &1904341074 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3441478936424387292, guid: c72c0824cfe5c2a4eaf8aeca60570cca, type: 3}
+  m_PrefabInstance: {fileID: 1904341073}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1979348138
 GameObject:
   m_ObjectHideFlags: 0
@@ -2445,10 +2469,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 253703958}
-  - {fileID: 1539751268}
-  - {fileID: 1262128305}
   - {fileID: 2130664867}
+  - {fileID: 1894735181}
+  - {fileID: 1173034033}
+  - {fileID: 373486183}
   - {fileID: 1013783555}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2708,5 +2732,5 @@ SceneRoots:
   - {fileID: 1807064534}
   - {fileID: 1234548689}
   - {fileID: 2055909772}
-  - {fileID: 348728277}
+  - {fileID: 1692834382}
   - {fileID: 193554714}
