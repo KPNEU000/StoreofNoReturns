@@ -1024,22 +1024,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-<<<<<<< Updated upstream
-  m_LocalRotation: {x: 0.016579883, y: 0, z: 0, w: 0.99986255}
-  m_LocalPosition: {x: -0.13, y: 2.16, z: -10}
-=======
   m_LocalRotation: {x: -0, y: 0.9923501, z: -0.12345609, w: 0}
   m_LocalPosition: {x: 0, y: 2.67, z: 11.578648}
->>>>>>> Stashed changes
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-<<<<<<< Updated upstream
-  m_LocalEulerAnglesHint: {x: 1.9, y: 0, z: 0}
-=======
   m_LocalEulerAnglesHint: {x: 14.183, y: 180, z: 0}
->>>>>>> Stashed changes
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7535,8 +7526,6 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
-<<<<<<< Updated upstream
-=======
 --- !u!1 &1979348138
 GameObject:
   m_ObjectHideFlags: 0
@@ -7649,7 +7638,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1838009690}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
->>>>>>> Stashed changes
 --- !u!1 &2008616640
 GameObject:
   m_ObjectHideFlags: 0
@@ -8665,24 +8653,7 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1209032773}
-<<<<<<< Updated upstream
-  - {fileID: 534220916}
-  - {fileID: 2086852238}
-  - {fileID: 338212083}
-  - {fileID: 1437943166}
-  - {fileID: 1317551938}
-  - {fileID: 1386645332}
-  - {fileID: 1853912938}
-  - {fileID: 1043931115}
-  - {fileID: 294711995}
-  - {fileID: 1289418615}
-  - {fileID: 215717460}
-  - {fileID: 1807064534}
-  - {fileID: 1234548689}
-  - {fileID: 792153472}
-=======
   - {fileID: 1838009690}
->>>>>>> Stashed changes
   - {fileID: 2055909772}
   - {fileID: 1692834382}
   - {fileID: 2014338326}
