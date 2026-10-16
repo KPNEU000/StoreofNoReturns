@@ -3,6 +3,7 @@ using System;
 using UnityEngine.InputSystem;
 using UnityEditor;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Camera))]
 public class CameraBehaviour : MonoBehaviour
@@ -10,6 +11,7 @@ public class CameraBehaviour : MonoBehaviour
 
     [SerializeField] LayerMask interactableLayer;
     Camera cam;
+    PhysicsRaycaster physicsRaycaster;
 
     Ray ray;
 
@@ -24,6 +26,8 @@ public class CameraBehaviour : MonoBehaviour
     private bool zoomedIn = false;
     [SerializeField] private Transform computerAnchor;
     [SerializeField] private Transform basePosition;
+    [SerializeField] private GameObject pixelationFilter;
+    bool active = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,6 +36,7 @@ public class CameraBehaviour : MonoBehaviour
         ExitCustomerInteraction();
 
         cam = GetComponent<Camera>();
+        physicsRaycaster = GetComponent<PhysicsRaycaster>();
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
         cam.fieldOfView = currentFOV;
@@ -60,7 +65,7 @@ public class CameraBehaviour : MonoBehaviour
         //cam.ScreenToViewportPoint(Mouse.current.position.ReadValue()
         //this returns a normalized (0-1) unsigned vector2 about the position of mouse on screen
 
-        if (mouse.leftButton.wasPressedThisFrame)
+        if (mouse.leftButton.wasPressedThisFrame && active)
         {
             Debug.Log("mouse clicked");
             Vector2 mousePos = Mouse.current.position.ReadValue(); // scaled to 780 x 440
@@ -119,18 +124,18 @@ public class CameraBehaviour : MonoBehaviour
 
     private void EnterComputerInteraction()
     {
-        //Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        transform.position = computerAnchor.position;
-        transform.rotation = computerAnchor.rotation;
+        cam.enabled = false;
+        physicsRaycaster.enabled = false;
+        pixelationFilter.SetActive(false);
+        active = false;
     }
     
     public void ExitComputerInteraction()
     {
-        //Cursor.visible = false; //Might not be what we're going for
-        Cursor.lockState = CursorLockMode.Locked;
-        transform.position = basePosition.position;
-        transform.rotation = basePosition.rotation;
+        cam.enabled = true;
+        physicsRaycaster.enabled = true;
+        pixelationFilter.SetActive(true);
+        active = true;
     }
 
 
