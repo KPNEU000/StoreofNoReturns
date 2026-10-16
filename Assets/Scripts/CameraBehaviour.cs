@@ -1,10 +1,16 @@
 using UnityEngine;
 using System;
+using UnityEngine.InputSystem;
+using UnityEditor;
+
 [RequireComponent(typeof(Camera))]
 public class CameraBehaviour : MonoBehaviour
 {
 
+    [SerializeField] LayerMask interactableLayer;
     Camera cam;
+
+    Ray ray;
 
     [SerializeField] private FrontdeskTrigger frontdesk;
 
@@ -19,12 +25,13 @@ public class CameraBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Debug.Log(Screen.width + ", " + Screen.height);
         ExitCustomerInteraction();
 
         cam = GetComponent<Camera>();
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
-
+        cam.fieldOfView = currentFOV;
         frontdesk.CustomerInService += EnterCustomerInteraction;
     }
 
@@ -41,9 +48,45 @@ public class CameraBehaviour : MonoBehaviour
         {
             currentFOV = baseFOV;
         }
-        
 
         cam.fieldOfView = currentFOV;
+
+        var mouse = Mouse.current;
+        if (mouse == null) {Debug.Log("mouse null"); return;} // no mouse connected
+        //Mouse.current.position.ReadValue()
+        //cam.ScreenToViewportPoint(Mouse.current.position.ReadValue()
+        //this returns a normalized (0-1) unsigned vector2 about the position of mouse on screen
+
+        if (mouse.leftButton.wasPressedThisFrame)
+        {
+            Debug.Log("mouse clicked");
+            Vector2 mousePos = Mouse.current.position.ReadValue(); // scaled to 780 x 440
+            Vector2 viewportFactor = new Vector2((float)cam.pixelWidth / Screen.width, (float)cam.pixelHeight / Screen.height);
+            ray = cam.ScreenPointToRay(mousePos * viewportFactor);
+            RaycastHit hit;
+
+            print(mousePos + " " + viewportFactor);
+            if(Physics.Raycast(ray, out hit, 50f))
+            {
+                if(hit.transform.CompareTag("Customer"))
+                {
+                    Debug.Log("customer clicked");
+                }
+
+                if(hit.transform.CompareTag("Computer"))
+                {
+                    Debug.Log("computer clicked");
+                }
+
+            }
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        if (cam == null) cam = GetComponent<Camera>();
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(ray);
     }
 
     private void EnterCustomerInteraction()
@@ -64,4 +107,6 @@ public class CameraBehaviour : MonoBehaviour
         float y = zoomCurve.Evaluate(x);
         return y;
     }
+
+
 }
