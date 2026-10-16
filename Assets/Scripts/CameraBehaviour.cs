@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
 using UnityEditor;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Camera))]
 public class CameraBehaviour : MonoBehaviour
@@ -21,6 +22,8 @@ public class CameraBehaviour : MonoBehaviour
     private float timerBegin = 0;
 
     private bool zoomedIn = false;
+    [SerializeField] private Transform computerAnchor;
+    [SerializeField] private Transform basePosition;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -73,9 +76,15 @@ public class CameraBehaviour : MonoBehaviour
                     Debug.Log("customer clicked");
                 }
 
-                if(hit.transform.CompareTag("Computer"))
+                if (hit.transform.CompareTag("Computer") && zoomedIn)
                 {
                     Debug.Log("computer clicked");
+                    EnterComputerInteraction();
+                }
+                
+                if(hit.transform.GetComponent<Button>())
+                {
+                    Debug.Log("button clicked");
                 }
 
             }
@@ -103,9 +112,25 @@ public class CameraBehaviour : MonoBehaviour
 
     private float InterpolateZoomIn(float x)
     {
-        if(x > 1) {return zoomCurve.Evaluate(1);}
+        if (x > 1) { return zoomCurve.Evaluate(1); }
         float y = zoomCurve.Evaluate(x);
         return y;
+    }
+
+    private void EnterComputerInteraction()
+    {
+        //Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        transform.position = computerAnchor.position;
+        transform.rotation = computerAnchor.rotation;
+    }
+    
+    public void ExitComputerInteraction()
+    {
+        //Cursor.visible = false; //Might not be what we're going for
+        Cursor.lockState = CursorLockMode.Locked;
+        transform.position = basePosition.position;
+        transform.rotation = basePosition.rotation;
     }
 
 
