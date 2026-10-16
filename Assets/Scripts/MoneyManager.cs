@@ -10,7 +10,11 @@ public class MoneyManager : MonoBehaviour
     [SerializeField]
     private float heatingCutOff = 100;
     [SerializeField]
+    private GameObject heatingCutOffAlert;
+    [SerializeField]
     private float lightingCutOff = 500;
+    [SerializeField]
+    private GameObject lightingCutOffAlert;
     bool lightingCut = false;
     bool heatingCut = false;
 
@@ -53,12 +57,14 @@ public class MoneyManager : MonoBehaviour
             {
                 light.enabled = false;
             }
+            lightingCutOffAlert.SetActive(true);
         }
 
         if (currentMoney <= heatingCutOff && !heatingCut)
         {
             heatingCut = true;
             playerMovement.speed = playerMovement.speed * 0.5f;
+            heatingCutOffAlert.SetActive(true);
         }
     }
 

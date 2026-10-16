@@ -14877,7 +14877,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoneyManager
   startingMoney: 1000
   heatingCutOff: 100
+  heatingCutOffAlert: {fileID: 788401097}
   lightingCutOff: 500
+  lightingCutOffAlert: {fileID: 102655214}
   outfitsToReturn: []
   currentMoneyValue: {fileID: 1745998235}
   lights:
