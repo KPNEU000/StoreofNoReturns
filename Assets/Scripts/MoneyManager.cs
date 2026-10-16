@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,12 +8,28 @@ public class MoneyManager : MonoBehaviour
     [Header("GameData")]
     [SerializeField]
     private float startingMoney = 1000;
+    [SerializeField]
+    private float heatingCutOff = 100;
+    [SerializeField]
+    private GameObject heatingCutOffAlert;
+    [SerializeField]
+    private float lightingCutOff = 500;
+    [SerializeField]
+    private GameObject lightingCutOffAlert;
+    bool lightingCut = false;
+    bool heatingCut = false;
 
     private float currentMoney;
 
     [Header("UI")]
     [SerializeField]
     private TMP_Text currentMoneyValue;
+    [SerializeField]
+    private List<Light> lights = new List<Light>();
+    [SerializeField]
+    private GameObject flashlight;
+    [SerializeField]
+    private PlayerMovement playerMovement;
 
     [SerializeField]
     private Slider star1;
@@ -39,6 +56,24 @@ public class MoneyManager : MonoBehaviour
         if (currentMoney.ToString() != currentMoneyValue.text)
         {
             currentMoneyValue.text = "$" + currentMoney.ToString();
+        }
+
+        if (currentMoney <= lightingCutOff && !lightingCut)
+        {
+            lightingCut = true;
+            flashlight.SetActive(true);
+            foreach (Light light in lights)
+            {
+                light.enabled = false;
+            }
+            lightingCutOffAlert.SetActive(true);
+        }
+
+        if (currentMoney <= heatingCutOff && !heatingCut)
+        {
+            heatingCut = true;
+            playerMovement.speed = playerMovement.speed * 0.5f;
+            heatingCutOffAlert.SetActive(true);
         }
     }
 

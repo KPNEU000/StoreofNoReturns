@@ -2,6 +2,8 @@ using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
 using UnityEditor;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Camera))]
 public class CameraBehaviour : MonoBehaviour
@@ -9,6 +11,7 @@ public class CameraBehaviour : MonoBehaviour
 
     [SerializeField] LayerMask interactableLayer;
     Camera cam;
+    PhysicsRaycaster physicsRaycaster;
 
     Ray ray;
 
@@ -21,6 +24,10 @@ public class CameraBehaviour : MonoBehaviour
     private float timerBegin = 0;
 
     private bool zoomedIn = false;
+    [SerializeField] private Transform computerAnchor;
+    [SerializeField] private Transform basePosition;
+    [SerializeField] private GameObject pixelationFilter;
+    bool active = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,6 +36,7 @@ public class CameraBehaviour : MonoBehaviour
         ExitCustomerInteraction();
 
         cam = GetComponent<Camera>();
+        physicsRaycaster = GetComponent<PhysicsRaycaster>();
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
         cam.fieldOfView = currentFOV;
@@ -57,7 +65,7 @@ public class CameraBehaviour : MonoBehaviour
         //cam.ScreenToViewportPoint(Mouse.current.position.ReadValue()
         //this returns a normalized (0-1) unsigned vector2 about the position of mouse on screen
 
-        if (mouse.leftButton.wasPressedThisFrame)
+        if (mouse.leftButton.wasPressedThisFrame && active)
         {
             Debug.Log("mouse clicked");
             Vector2 mousePos = Mouse.current.position.ReadValue(); // scaled to 780 x 440
@@ -73,9 +81,15 @@ public class CameraBehaviour : MonoBehaviour
                     Debug.Log("customer clicked");
                 }
 
-                if(hit.transform.CompareTag("Computer"))
+                if (hit.transform.CompareTag("Computer") && zoomedIn)
                 {
                     Debug.Log("computer clicked");
+                    EnterComputerInteraction();
+                }
+                
+                if(hit.transform.GetComponent<Button>())
+                {
+                    Debug.Log("button clicked");
                 }
 
             }
@@ -103,9 +117,25 @@ public class CameraBehaviour : MonoBehaviour
 
     private float InterpolateZoomIn(float x)
     {
-        if(x > 1) {return zoomCurve.Evaluate(1);}
+        if (x > 1) { return zoomCurve.Evaluate(1); }
         float y = zoomCurve.Evaluate(x);
         return y;
+    }
+
+    private void EnterComputerInteraction()
+    {
+        cam.enabled = false;
+        physicsRaycaster.enabled = false;
+        pixelationFilter.SetActive(false);
+        active = false;
+    }
+    
+    public void ExitComputerInteraction()
+    {
+        cam.enabled = true;
+        physicsRaycaster.enabled = true;
+        pixelationFilter.SetActive(true);
+        active = true;
     }
 
 

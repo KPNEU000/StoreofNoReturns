@@ -13,7 +13,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Screen
-    second: {fileID: 2100000, guid: b7f3084a6b23fd04e8418e15113de996, type: 2}
+    second: {fileID: 2100000, guid: db1375e7308a62a4aa10c151848af3da, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -106,7 +106,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.0008054777
+    globalScale: 0.08054777
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
