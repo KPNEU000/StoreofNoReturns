@@ -13486,9 +13486,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1104982151}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 20
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 20
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -14651,9 +14651,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 673229462}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 20
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 20
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -15690,9 +15690,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 512221857}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 20
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -15925,9 +15925,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 309002838}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 20
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 10
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -16761,9 +16761,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 578478475}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 20
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -19709,7 +19709,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1146c287278e8d14cb41dd88faede93a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReputationManager
-  moneyManager: {fileID: 0}
   startingReputation: 100
   minimumReputation: 0
   maximumReputation: 100
