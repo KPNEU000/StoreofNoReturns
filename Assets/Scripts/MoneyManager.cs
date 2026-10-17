@@ -82,21 +82,21 @@ public class MoneyManager : MonoBehaviour
         currentMoney -= costume.getReturnValue();
     }
 
-    public void ratingDecreaser(float amount)
+    void ratingValueChanger(float amount)
     {
-        if (star5.value > star5.minValue)
+        if (star5.value > 0)
         {
             if (star5.value > amount)
             {
                 star5.value -= amount;
+                star5.value = 0;
             }
             else
             {
                 amount -= star5.value;
-                star5.value = star5.minValue;
             }
         }
-        if (star4.value > star4.minValue && amount > 0)
+        if (star4.value > 0 && amount > 0)
         {
             if (star4.value > amount)
             {
@@ -105,10 +105,10 @@ public class MoneyManager : MonoBehaviour
             else
             {
                 amount -= star4.value;
-                star4.value = star4.minValue;
+                star4.value = 0;
             }
         }
-        if (star3.value > star3.minValue && amount > 0)
+        if (star3.value > 0 && amount > 0)
         {
             if (star3.value > amount)
             {
@@ -117,10 +117,10 @@ public class MoneyManager : MonoBehaviour
             else
             {
                 amount -= star3.value;
-                star3.value = star3.minValue;
+                star3.value = 0;
             }
         }
-        if (star2.value > star2.minValue && amount > 0)
+        if (star2.value > 0 && amount > 0)
         {
             if (star2.value > amount)
             {
@@ -129,10 +129,10 @@ public class MoneyManager : MonoBehaviour
             else
             {
                 amount -= star2.value;
-                star2.value = star2.minValue;
+                star2.value = 0;
             }
         }
-        if (star1.value > star1.minValue && amount > 0)
+        if (star1.value > 0 && amount > 0)
         {
             if (star1.value > amount)
             {
@@ -140,81 +140,12 @@ public class MoneyManager : MonoBehaviour
             }
             else
             {
-                star1.value = star1.minValue;
-                amount = 0;
+                star1.value = 0;
             }
         }
         else
         {
             //damn u suck at ur job
-        }
-    }
-
-    public void ratingIncreaser(float amount)
-    {
-        if (star1.value < star1.maxValue)
-        {
-            if (star1.value + amount > star1.maxValue)
-            {
-                amount -= (star1.maxValue - star1.value);
-                star1.value = star1.maxValue;
-            }
-            else
-            {
-                star1.value += amount;
-            }
-        }
-        if (star2.value < star2.maxValue && amount > 0)
-        {
-            if (star2.value + amount > star2.maxValue)
-            {
-                amount -= (star2.maxValue - star2.value);
-                star2.value = star2.maxValue;
-            }
-            else
-            {
-                star2.value += amount;
-            }
-        }
-        if (star3.value < star3.maxValue && amount > 0)
-        {
-            if (star3.value + amount > star3.maxValue)
-            {
-                amount -= (star3.maxValue - star3.value);
-                star3.value = star3.maxValue;
-            }
-            else
-            {
-                star3.value += amount;
-            }
-        }
-        if (star4.value < star4.maxValue && amount > 0)
-        {
-            if (star4.value + amount > star4.maxValue)
-            {
-                amount -= (star4.maxValue - star4.value);
-                star4.value = star4.maxValue;
-            }
-            else
-            {
-                star4.value += amount;
-            }
-        }
-        if (star5.value < star5.maxValue && amount > 0)
-        {
-            if (star5.value + amount > star5.maxValue)
-            {
-                amount = 0;
-                star5.value = star5.maxValue;
-            }
-            else
-            {
-                star5.value += amount;
-            }
-        }
-        else
-        {
-            //damn try hard
         }
     }
 }
