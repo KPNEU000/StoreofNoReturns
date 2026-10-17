@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ReputationManager : MonoBehaviour
 {
+
+    [Header("GameManager Reference")]
+    [SerializeField] private MoneyManager moneyManager;
+
     [Header("Reputation Settings")]
     [SerializeField] private int startingReputation = 100;
     [SerializeField] private int minimumReputation = 0;
@@ -50,7 +54,16 @@ public class ReputationManager : MonoBehaviour
             change = correctDenialReward;
         }
 
-        ChangeReputation(change);
+        if (change > 0)
+        {
+            moneyManager.ratingIncreaser(change);
+        }
+        else if (change < 0)
+        {
+            moneyManager.ratingDecreaser(Math.Abs(change));
+        }
+
+            ChangeReputation(change);
     }
 
     private void ChangeReputation(int amount)
