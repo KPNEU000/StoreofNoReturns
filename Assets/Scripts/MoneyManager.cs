@@ -31,17 +31,6 @@ public class MoneyManager : MonoBehaviour
     [SerializeField]
     private PlayerMovement playerMovement;
 
-    [SerializeField]
-    private Slider star1;
-    [SerializeField]
-    private Slider star2;
-    [SerializeField]
-    private Slider star3;
-    [SerializeField]
-    private Slider star4;
-    [SerializeField]
-    private Slider star5;
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -77,75 +66,11 @@ public class MoneyManager : MonoBehaviour
         }
     }
 
-    void returnCostumeAction(CostumeScriptData costume)
+    public void returnCostumeAction()
     {
+        //replace this code to get the current costume we are working with
+        CostumeScriptData costume = new CostumeScriptData();
         currentMoney -= costume.getReturnValue();
     }
 
-    void ratingValueChanger(float amount)
-    {
-        if (star5.value > 0)
-        {
-            if (star5.value > amount)
-            {
-                star5.value -= amount;
-                star5.value = 0;
-            }
-            else
-            {
-                amount -= star5.value;
-            }
-        }
-        if (star4.value > 0 && amount > 0)
-        {
-            if (star4.value > amount)
-            {
-                star4.value -= amount;
-            }
-            else
-            {
-                amount -= star4.value;
-                star4.value = 0;
-            }
-        }
-        if (star3.value > 0 && amount > 0)
-        {
-            if (star3.value > amount)
-            {
-                star3.value -= amount;
-            }
-            else
-            {
-                amount -= star3.value;
-                star3.value = 0;
-            }
-        }
-        if (star2.value > 0 && amount > 0)
-        {
-            if (star2.value > amount)
-            {
-                star2.value -= amount;
-            }
-            else
-            {
-                amount -= star2.value;
-                star2.value = 0;
-            }
-        }
-        if (star1.value > 0 && amount > 0)
-        {
-            if (star1.value > amount)
-            {
-                star1.value -= amount;
-            }
-            else
-            {
-                star1.value = 0;
-            }
-        }
-        else
-        {
-            //damn u suck at ur job
-        }
-    }
 }
