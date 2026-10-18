@@ -5,9 +5,10 @@ public enum invalidReturnReason
     TooLateToReturn,
     RemovedTags,
     Stained,
-    Damaged,
+    SlightlyDamaged,
     NoReceipt,
     MissingAccessories,
+    WrongCostume
 }
 
 [CreateAssetMenu(fileName = "NewCostumeData", menuName = "CostumeData")]
@@ -21,6 +22,12 @@ public class CostumeScriptData : ScriptableObject
 
     [SerializeField]
     private GameObject costumeModel;
+
+    [SerializeField]
+    private string dateOfPurchase = "";
+
+    [SerializeField]
+    private string conditionStatus;
 
     [SerializeField]
     private bool returnable = false;
