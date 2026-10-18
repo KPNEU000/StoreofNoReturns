@@ -39,4 +39,9 @@ public class CostumeScriptData : ScriptableObject
     {
         return returnValue;
     }
+
+    public invalidReturnReason[] getReasons()
+    {
+        return reasons;
+    }
 }

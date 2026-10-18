@@ -1078,11 +1078,6 @@ MonoBehaviour:
   lights: []
   flashlight: {fileID: 1134117795}
   playerMovement: {fileID: 1001882434}
-  star1: {fileID: 1565851308}
-  star2: {fileID: 1483030939}
-  star3: {fileID: 1654607290}
-  star4: {fileID: 1744078204}
-  star5: {fileID: 1634261787}
 --- !u!4 &133887731
 Transform:
   m_ObjectHideFlags: 0
@@ -13148,6 +13143,7 @@ GameObject:
   - component: {fileID: 1465837767}
   - component: {fileID: 1465837766}
   - component: {fileID: 1465837772}
+  - component: {fileID: 1465837773}
   m_Layer: 7
   m_Name: Customer
   m_TagString: Customer
@@ -13312,6 +13308,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1465837773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465837765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65fa3cc4b78f6d04187a4b26b89e571d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomerScript
+  customerCostume: {fileID: 0}
+  dialogue: []
 --- !u!1 &1468334892
 GameObject:
   m_ObjectHideFlags: 0
