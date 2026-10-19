@@ -3,7 +3,12 @@ guid: e4f8a0b31b98b3a4a947a0cf03cda77a
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Character_Monster_04.001
+    second: {fileID: 2100000, guid: 33d4638f05ff25d4c9cf2261879649de, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -91,7 +96,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.005
+    globalScale: 0.5
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
