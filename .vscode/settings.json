@@ -66,5 +66,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "StoreofNoReturns.slnx"
+    "dotnet.defaultSolution": "StoreofNoReturn(s).slnx"
 }
