@@ -50,7 +50,7 @@ public class CameraBehaviour : MonoBehaviour
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
         cam.fieldOfView = currentFOV;
-        frontdesk.CustomerInService += EnterCustomerInteraction;
+        frontdesk.CustomerInService += performZoom;
 
         BossBattleTest.BossFight += disable;
     }
@@ -96,6 +96,7 @@ public class CameraBehaviour : MonoBehaviour
                 if(hit.transform.CompareTag("Customer"))
                 {
                     Debug.Log("customer clicked");
+                    EnterCustomerInteraction();
                 }
 
                 if (hit.transform.CompareTag("Computer") && zoomedIn)
@@ -132,7 +133,12 @@ public class CameraBehaviour : MonoBehaviour
         active = false;
     }
 
-    private void ExitCustomerInteraction()
+    private void performZoom()
+    {
+
+    }
+
+    public void ExitCustomerInteraction()
     {
         cam.enabled = true;
         cusCam.enabled = false;
