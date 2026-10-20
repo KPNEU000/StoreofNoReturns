@@ -34,7 +34,7 @@ public class CustomerBehaviour : MonoBehaviour
     {
         Walking = false;
         //**Play handing costume animation chain
-        animator.Play("Talking");
+        animator.Play("HandCostume");
     }
 
     void LateUpdate()
