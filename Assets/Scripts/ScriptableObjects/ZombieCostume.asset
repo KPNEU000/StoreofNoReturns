@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8806a30761f4cd84793bee140c1b3ea0, type: 3}
+  m_Name: ZombieCostume
+  m_EditorClassIdentifier: Assembly-CSharp::CostumeScriptData
+  costumeName: Zombie
+  returnValue: 100
+  costumeModel: {fileID: 4934502139020659760, guid: 82593fbdae0a3c64caabae2a2a78e079, type: 3}
+  dateOfPurchase: 10/30/2001
+  returnable: 0
+  reasons: 02000000

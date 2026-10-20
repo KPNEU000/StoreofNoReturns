@@ -33,6 +33,11 @@ public class CostumeScriptData : ScriptableObject
     [SerializeField]
     private List<invalidReturnReason> reasons;
 
+    [SerializeField]
+    private Sprite computerViewSpriteFront;
+    [SerializeField]
+    private Sprite computerViewSpriteBack;
+
     public float getReturnValue()
     {
         return returnValue;
@@ -47,4 +52,15 @@ public class CostumeScriptData : ScriptableObject
     {
         reasons.Remove(clearedReason);
     }
+
+    public Sprite getFrontSprite()
+    {
+        return computerViewSpriteFront;
+    }
+
+    public Sprite getBackSprite()
+    {
+        return computerViewSpriteBack;
+    }
 }
+

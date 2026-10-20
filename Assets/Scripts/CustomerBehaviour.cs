@@ -9,12 +9,14 @@ public class CustomerBehaviour : MonoBehaviour
     Animator animator;
     bool Walking = true;
     GameObject player;
+    Animation barcodeAnim;
 
     [SerializeField] private Transform target;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        barcodeAnim = GameObject.Find("BarcodeReader").GetComponent<Animation>();
         player = GameObject.FindGameObjectWithTag("Player");
         player = GameObject.Find("Player");
         agent.SetDestination(target.position);
@@ -35,6 +37,11 @@ public class CustomerBehaviour : MonoBehaviour
         Walking = false;
         //**Play handing costume animation chain
         animator.Play("HandCostume");
+    }
+
+    public void BarcadeScan()
+    {
+        barcodeAnim.Play();
     }
 
     void LateUpdate()
