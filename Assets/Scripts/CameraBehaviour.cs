@@ -24,6 +24,7 @@ public class CameraBehaviour : MonoBehaviour
     private float timerBegin = 0;
 
     private bool zoomedIn = false;
+    Camera comCam;
     [SerializeField] private Transform computerAnchor;
     [SerializeField] private Transform basePosition;
     [SerializeField] private GameObject pixelationFilter;
@@ -38,6 +39,8 @@ public class CameraBehaviour : MonoBehaviour
         ExitCustomerInteraction();
 
         cam = GetComponent<Camera>();
+        comCam = computerAnchor.GetComponentInChildren<Camera>();
+        comCam.enabled = false;
         physicsRaycaster = GetComponent<PhysicsRaycaster>();
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
@@ -134,6 +137,9 @@ public class CameraBehaviour : MonoBehaviour
     private void EnterComputerInteraction()
     {
         cam.enabled = false;
+        comCam.enabled = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         physicsRaycaster.enabled = false;
         pixelationFilter.SetActive(false);
         active = false;
@@ -142,6 +148,9 @@ public class CameraBehaviour : MonoBehaviour
     public void ExitComputerInteraction()
     {
         cam.enabled = true;
+        comCam.enabled = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         physicsRaycaster.enabled = true;
         pixelationFilter.SetActive(true);
         active = true;
