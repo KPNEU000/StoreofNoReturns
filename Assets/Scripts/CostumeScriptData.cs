@@ -31,12 +31,6 @@ public class CostumeScriptData : ScriptableObject
     private string dateOfPurchase = "";
 
     [SerializeField]
-    private string conditionStatus;
-
-    [SerializeField]
-    private bool returnable = false;
-
-    [SerializeField]
     private List<invalidReturnReason> reasons;
 
     public float getReturnValue()

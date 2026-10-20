@@ -33,12 +33,17 @@ public class CustomerScript : MonoBehaviour
     {
         if (customerCostume.getReasons().Contains(reason))
         {
-            if (genuineReason)
+           
+            //go to sympatetic dialogue sentence for possible explanation of refund
+            if (reason == invalidReturnReason.Stained || reason == invalidReturnReason.MissingAccessories || reason == invalidReturnReason.SlightlyDamaged)
             {
-                //go to sympatetic dialogue sentence for possible explanation of refund
-                if (reason == invalidReturnReason.Stained || reason == invalidReturnReason.MissingAccessories || reason == invalidReturnReason.SlightlyDamaged)
+                if (genuineReason)
                 {
                     customerCostume.removeReason(reason);
+                }
+                else
+                {
+                    //scummy reason
                 }
             }
             else
