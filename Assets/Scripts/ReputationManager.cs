@@ -53,7 +53,7 @@ public class ReputationManager : MonoBehaviour
         ChangeReputation(change);
     }
 
-    private void ChangeReputation(int amount)
+    public void ChangeReputation(int amount)
     {
         int newReputation = Mathf.Clamp(
             CurrentReputation + amount,

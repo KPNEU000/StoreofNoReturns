@@ -11,7 +11,8 @@ public enum invalidReturnReason
     SlightlyDamaged,
     NoReceipt,
     MissingAccessories,
-    WrongCostume
+    WrongCostume,
+    Ripped
 }
 
 [CreateAssetMenu(fileName = "NewCostumeData", menuName = "CostumeData")]

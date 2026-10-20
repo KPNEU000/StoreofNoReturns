@@ -4,10 +4,20 @@ using UnityEngine;
 public class CustomerScript : MonoBehaviour
 {
     [SerializeField]
+    private ReputationManager repManager;
+    
+    [SerializeField]
     private CostumeScriptData customerCostume;
 
     [SerializeField]
     private string[] dialogue;
+
+    [SerializeField]
+    private bool genuineReason;
+
+    [SerializeField]
+    private int wrongReasonAmount = -2;
+
     void Start()
     {
         
@@ -23,11 +33,24 @@ public class CustomerScript : MonoBehaviour
     {
         if (customerCostume.getReasons().Contains(reason))
         {
-            //go to next dialogue sentence for possible explanation of refund
+            if (genuineReason)
+            {
+                //go to sympatetic dialogue sentence for possible explanation of refund
+                if (reason == invalidReturnReason.Stained || reason == invalidReturnReason.MissingAccessories || reason == invalidReturnReason.SlightlyDamaged)
+                {
+                    customerCostume.removeReason(reason);
+                }
+            }
+            else
+            {
+                //go to scummy return reason
+            }
+
         }
         else
         {
             //call reputation manager and provide dialogue calling clerk a dick
+            repManager.ChangeReputation(wrongReasonAmount);
         }
     }
 
