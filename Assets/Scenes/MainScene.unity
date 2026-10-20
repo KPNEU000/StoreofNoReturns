@@ -8720,9 +8720,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65fa3cc4b78f6d04187a4b26b89e571d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomerScript
+  repManager: {fileID: 0}
   customerCostume: {fileID: 0}
   dialogue:
   - Yo
+  genuineReason: 0
+  wrongReasonAmount: -2
 --- !u!54 &757527006
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13257,7 +13260,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1296736581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15182,8 +15185,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65fa3cc4b78f6d04187a4b26b89e571d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomerScript
+  repManager: {fileID: 0}
   customerCostume: {fileID: 0}
   dialogue: []
+  genuineReason: 0
+  wrongReasonAmount: -2
 --- !u!1 &1468334892
 GameObject:
   m_ObjectHideFlags: 0
