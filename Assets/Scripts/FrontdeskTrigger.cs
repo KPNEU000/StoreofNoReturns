@@ -4,6 +4,9 @@ using System;
 public class FrontdeskTrigger : MonoBehaviour
 {
     public Action CustomerInService;
+
+    [SerializeField]
+    private MoneyManager gameManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,6 +26,7 @@ public class FrontdeskTrigger : MonoBehaviour
         {
             col.GetComponent<CustomerBehaviour>().StopWalking();
             CustomerInService?.Invoke();
+            gameManager.GetCurrentCustomer(col.GetComponent<CustomerScript>().getCostume());
         }
     } 
 }

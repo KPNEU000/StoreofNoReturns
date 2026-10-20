@@ -30,4 +30,9 @@ public class CustomerScript : MonoBehaviour
             //call reputation manager and provide dialogue calling clerk a dick
         }
     }
+
+    public CostumeScriptData getCostume()
+    {
+        return customerCostume;
+    }
 }

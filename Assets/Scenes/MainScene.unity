@@ -785,15 +785,15 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 133887730}
         m_TargetAssemblyTypeName: MoneyManager, Assembly-CSharp
-        m_MethodName: returnCostumeAction
-        m_Mode: 2
+        m_MethodName: ReturnCostumeAction
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: CostumeScriptData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &84534199
 MonoBehaviour:
@@ -1251,7 +1251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0284ac523e547b3448ecd2c30bdbf61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReputationUI
-  reputationManager: {fileID: 2060798172}
+  reputationManager: {fileID: 133887734}
   stars:
   - {fileID: 1565851308}
   - {fileID: 1483030939}
@@ -1285,6 +1285,7 @@ GameObject:
   - component: {fileID: 133887730}
   - component: {fileID: 133887732}
   - component: {fileID: 133887733}
+  - component: {fileID: 133887734}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -1309,6 +1310,7 @@ MonoBehaviour:
   heatingCutOffAlert: {fileID: 1027833848}
   lightingCutOff: 500
   lightingCutOffAlert: {fileID: 1616932967}
+  reputationManager: {fileID: 133887734}
   currentMoneyValue: {fileID: 1006360919}
   lights: []
   flashlight: {fileID: 1134117795}
@@ -1359,6 +1361,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   tip: Press F to trigger boss fight
+--- !u!114 &133887734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133887729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1146c287278e8d14cb41dd88faede93a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReputationManager
+  startingReputation: 100
+  minimumReputation: 0
+  maximumReputation: 100
+  correctRefundReward: 5
+  unfairDenialPenalty: 10
+  incorrectRefundPenalty: 0
+  correctDenialReward: 0
 --- !u!1 &135492483
 GameObject:
   m_ObjectHideFlags: 0
@@ -1965,6 +1986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6556b2c4a609c2149ad4e3a5edbc6fbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  gameManager: {fileID: 0}
 --- !u!1 &164234455
 GameObject:
   m_ObjectHideFlags: 0
@@ -10320,7 +10342,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2060798173}
   - {fileID: 125010066}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13236,7 +13257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1296736581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17869,7 +17890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bb0c30a7a9afe48aefff89a8153508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  reputationManager: {fileID: 2060798172}
+  reputationManager: {fileID: 0}
   enemyPrefab: {fileID: 3450087733009562377, guid: c4f153b4ae0d4df4695b7f74b9c230d7, type: 3}
   spawnPoints:
   - {fileID: 360753674}
@@ -18238,13 +18259,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CameraBehaviour, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 133887730}
+        m_TargetAssemblyTypeName: MoneyManager, Assembly-CSharp
+        m_MethodName: ReturnCostumeAction
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -22101,71 +22122,6 @@ Transform:
   - {fileID: 373486183}
   - {fileID: 1013783555}
   m_Father: {fileID: 1838009690}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2060798170
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2060798173}
-  - component: {fileID: 2060798172}
-  - component: {fileID: 2060798171}
-  m_Layer: 0
-  m_Name: ReputationManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2060798171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2060798170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d80b0ffd08b783043859b8cc651e7464, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ReputationTester
-  reputationManager: {fileID: 2060798172}
---- !u!114 &2060798172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2060798170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1146c287278e8d14cb41dd88faede93a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ReputationManager
-  startingReputation: 100
-  minimumReputation: 0
-  maximumReputation: 100
-  correctRefundReward: 5
-  unfairDenialPenalty: 10
-  incorrectRefundPenalty: 0
-  correctDenialReward: 0
---- !u!4 &2060798173
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2060798170}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 961580035}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2086852234
 GameObject:
