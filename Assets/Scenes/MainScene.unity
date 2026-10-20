@@ -21405,18 +21405,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 85cda58391d4f424cac3ce2085759046, type: 3}
       propertyPath: m_Name
-      value: barcpde_reader
+      value: BarcodeReader
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 85cda58391d4f424cac3ce2085759046, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1899521815}
   m_SourcePrefab: {fileID: 100100000, guid: 85cda58391d4f424cac3ce2085759046, type: 3}
 --- !u!4 &1899521813 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 85cda58391d4f424cac3ce2085759046, type: 3}
   m_PrefabInstance: {fileID: 1899521812}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1899521814 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 85cda58391d4f424cac3ce2085759046, type: 3}
+  m_PrefabInstance: {fileID: 1899521812}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &1899521815
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899521814}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 7400000, guid: 0025200317fa5194e87466720e0369ae, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 0025200317fa5194e87466720e0369ae, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &1900367523
 GameObject:
   m_ObjectHideFlags: 0

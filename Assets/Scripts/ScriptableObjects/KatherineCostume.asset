@@ -16,5 +16,6 @@ MonoBehaviour:
   returnValue: 200
   costumeModel: {fileID: 5469550793840556797, guid: 5e1dd68ab1a282247bc8fe06a356279e, type: 3}
   dateOfPurchase: 10/28/2001
-  returnable: 0
   reasons: 0700000005000000
+  computerViewSpriteFront: {fileID: 21300000, guid: e3126ea75c59cc64297f5a78026e0dd6, type: 3}
+  computerViewSpriteBack: {fileID: 21300000, guid: 57612e6f9b2ad5c4f9d4bba57f429c2d, type: 3}
