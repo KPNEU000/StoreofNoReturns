@@ -25,7 +25,7 @@ public class MoneyManager : MonoBehaviour
     [SerializeField]
     private TMP_Text currentMoneyValue;
     [SerializeField]
-    private List<Light> lights = new List<Light>();
+    private Light[] lights;
     [SerializeField]
     private GameObject flashlight;
     [SerializeField]
@@ -35,6 +35,7 @@ public class MoneyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        lights = GameObject.FindObjectsByType<Light>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
         currentMoney = startingMoney;
         currentMoneyValue.text = "$"+ currentMoney.ToString();
     }
@@ -64,6 +65,8 @@ public class MoneyManager : MonoBehaviour
             playerMovement.speed = playerMovement.speed * 0.5f;
             heatingCutOffAlert.SetActive(true);
         }
+
+        
     }
 
     public void returnCostumeAction()
