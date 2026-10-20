@@ -25,9 +25,13 @@ public class CameraBehaviour : MonoBehaviour
 
     private bool zoomedIn = false;
     Camera comCam;
+    Camera cusCam;
+
     [SerializeField] private Transform computerAnchor;
+    [SerializeField] private Transform customerAnchor;
     [SerializeField] private Transform basePosition;
     [SerializeField] private GameObject pixelationFilter;
+    [SerializeField] private GameObject customerCanvas;
     bool active = true;
 
     public bool cameraBehaviourEnabled {get; private set;} = true;
@@ -36,11 +40,12 @@ public class CameraBehaviour : MonoBehaviour
     void Start()
     {
         Debug.Log(Screen.width + ", " + Screen.height);
-        ExitCustomerInteraction();
 
         cam = GetComponent<Camera>();
         comCam = computerAnchor.GetComponentInChildren<Camera>();
         comCam.enabled = false;
+        cusCam = customerAnchor.GetComponentInChildren<Camera>();
+        cusCam.enabled = false;
         physicsRaycaster = GetComponent<PhysicsRaycaster>();
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
@@ -117,14 +122,26 @@ public class CameraBehaviour : MonoBehaviour
 
     private void EnterCustomerInteraction()
     {
-        zoomedIn = true;
-        timerBegin = Time.time;
-        Debug.Log("zoomed");
+        cam.enabled = false;
+        cusCam.enabled = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        physicsRaycaster.enabled = false;
+        pixelationFilter.SetActive(false);
+        customerCanvas.SetActive(true);
+        active = false;
     }
 
     private void ExitCustomerInteraction()
     {
-        zoomedIn = false;
+        cam.enabled = true;
+        cusCam.enabled = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        physicsRaycaster.enabled = true;
+        pixelationFilter.SetActive(true);
+        customerCanvas.SetActive(false);
+        active = true;
     }
 
     private float InterpolateZoomIn(float x)

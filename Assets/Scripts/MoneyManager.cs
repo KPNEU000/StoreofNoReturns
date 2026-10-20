@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-
+using System;
 public class MoneyManager : MonoBehaviour
 {
     [Header("GameData")]
@@ -23,6 +21,7 @@ public class MoneyManager : MonoBehaviour
     
     bool lightingCut = false;
     bool heatingCut = false;
+    CustomerScript customer;
     CostumeScriptData costume;
 
     private float currentMoney;
@@ -73,7 +72,12 @@ public class MoneyManager : MonoBehaviour
         }
     }
 
-    public void GetCurrentCustomer(CostumeScriptData currentCustomer)
+    public void GetCurrentCustomer(CustomerScript currentCustomer)
+    {
+        customer = currentCustomer;
+    }
+
+    public void GetCurrentCostume(CostumeScriptData currentCustomer)
     {
         costume = currentCustomer;
     }
@@ -109,6 +113,21 @@ public class MoneyManager : MonoBehaviour
             else
             {
                 reputationManager.ProcessRefund(false, false);
+            }
+        }
+    }
+
+    public void ReasoningCheck(string reasonSelected)
+    {
+        if (customer == null)
+        {
+            if (Enum.TryParse(reasonSelected, out invalidReturnReason reason))
+            {
+                customer.CheckReasoning(reason);
+            }
+            else
+            {
+                Debug.LogError($"Invalid reason string: {reasonSelected}");
             }
         }
     }

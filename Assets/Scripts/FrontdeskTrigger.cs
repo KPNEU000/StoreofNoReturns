@@ -26,7 +26,8 @@ public class FrontdeskTrigger : MonoBehaviour
         {
             col.GetComponent<CustomerBehaviour>().StopWalking();
             CustomerInService?.Invoke();
-            gameManager.GetCurrentCustomer(col.GetComponent<CustomerScript>().getCostume());
+            gameManager.GetCurrentCustomer(col.GetComponent<CustomerScript>());
+            gameManager.GetCurrentCostume(col.GetComponent<CustomerScript>().getCostume());
         }
     } 
 }
