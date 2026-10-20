@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
 using UnityEngine;
 
 public enum invalidReturnReason
@@ -33,15 +36,20 @@ public class CostumeScriptData : ScriptableObject
     private bool returnable = false;
 
     [SerializeField]
-    private invalidReturnReason[] reasons;
+    private List<invalidReturnReason> reasons;
 
     public float getReturnValue()
     {
         return returnValue;
     }
 
-    public invalidReturnReason[] getReasons()
+    public List<invalidReturnReason> getReasons()
     {
         return reasons;
+    }
+
+    public void removeReason(invalidReturnReason clearedReason)
+    {
+        reasons.Remove(clearedReason);
     }
 }

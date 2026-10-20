@@ -24,10 +24,13 @@ public class CameraBehaviour : MonoBehaviour
     private float timerBegin = 0;
 
     private bool zoomedIn = false;
+    Camera comCam;
     [SerializeField] private Transform computerAnchor;
     [SerializeField] private Transform basePosition;
     [SerializeField] private GameObject pixelationFilter;
     bool active = true;
+
+    public bool cameraBehaviourEnabled {get; private set;} = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,16 +39,25 @@ public class CameraBehaviour : MonoBehaviour
         ExitCustomerInteraction();
 
         cam = GetComponent<Camera>();
+        comCam = computerAnchor.GetComponentInChildren<Camera>();
+        comCam.enabled = false;
         physicsRaycaster = GetComponent<PhysicsRaycaster>();
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
         cam.fieldOfView = currentFOV;
         frontdesk.CustomerInService += EnterCustomerInteraction;
+
+        BossBattleTest.BossFight += disable;
     }
 
+    void disable()
+    {
+        cameraBehaviourEnabled = false;
+    }
     // Update is called once per frame
     void Update()
     {
+        if(!cameraBehaviourEnabled) return;
         //float targetFOV = zoomedIn ? baseFOV * zoom : baseFOV;
         //currentFOV = Mathf.Lerp(currentFOV, targetFOV, Time.deltaTime);
         if(zoomedIn)
@@ -125,6 +137,9 @@ public class CameraBehaviour : MonoBehaviour
     private void EnterComputerInteraction()
     {
         cam.enabled = false;
+        comCam.enabled = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         physicsRaycaster.enabled = false;
         pixelationFilter.SetActive(false);
         active = false;
@@ -133,6 +148,9 @@ public class CameraBehaviour : MonoBehaviour
     public void ExitComputerInteraction()
     {
         cam.enabled = true;
+        comCam.enabled = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         physicsRaycaster.enabled = true;
         pixelationFilter.SetActive(true);
         active = true;

@@ -16,8 +16,14 @@ public class MoneyManager : MonoBehaviour
     private float lightingCutOff = 500;
     [SerializeField]
     private GameObject lightingCutOffAlert;
+
+    [Header("Reputation")]
+    [SerializeField]
+    private ReputationManager reputationManager;
+    
     bool lightingCut = false;
     bool heatingCut = false;
+    CostumeScriptData costume;
 
     private float currentMoney;
 
@@ -25,7 +31,7 @@ public class MoneyManager : MonoBehaviour
     [SerializeField]
     private TMP_Text currentMoneyValue;
     [SerializeField]
-    private List<Light> lights = new List<Light>();
+    private Light[] lights;
     [SerializeField]
     private GameObject flashlight;
     [SerializeField]
@@ -35,6 +41,7 @@ public class MoneyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        lights = GameObject.FindObjectsByType<Light>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
         currentMoney = startingMoney;
         currentMoneyValue.text = "$"+ currentMoney.ToString();
     }
@@ -66,11 +73,44 @@ public class MoneyManager : MonoBehaviour
         }
     }
 
-    public void returnCostumeAction()
+    public void GetCurrentCustomer(CostumeScriptData currentCustomer)
+    {
+        costume = currentCustomer;
+    }
+
+    public void ReturnCostumeAction(bool confirmRefund)
     {
         //replace this code to get the current costume we are working with
-        CostumeScriptData costume = new CostumeScriptData();
-        currentMoney -= costume.getReturnValue();
+        if (costume == null)
+        {
+            Debug.LogWarning("No Costume assigned");
+            return;
+        }
+
+        //check return
+        if (confirmRefund)
+        {
+            if (costume.getReasons().Count == 0)
+            {
+                reputationManager.ProcessRefund(true, true);
+            }
+            else
+            {
+                reputationManager.ProcessRefund(false, true);
+            }
+            currentMoney -= costume.getReturnValue();
+        }
+        else
+        {
+            if (costume.getReasons().Count == 0)
+            {
+                reputationManager.ProcessRefund(true, false);
+            }
+            else
+            {
+                reputationManager.ProcessRefund(false, false);
+            }
+        }
     }
 
 }

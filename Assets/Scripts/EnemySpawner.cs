@@ -59,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
 
             Instantiate(
                 enemyPrefab,
-                spawnPoint.position,
+                spawnPoint.position + Vector3.up * 0.5f, //slight offset to enemy spawns above ground
                 spawnPoint.rotation
             );
 
