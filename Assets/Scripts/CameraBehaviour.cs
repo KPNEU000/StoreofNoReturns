@@ -29,6 +29,8 @@ public class CameraBehaviour : MonoBehaviour
     [SerializeField] private GameObject pixelationFilter;
     bool active = true;
 
+    public bool cameraBehaviourEnabled {get; private set;} = true;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,11 +43,18 @@ public class CameraBehaviour : MonoBehaviour
         currentFOV = baseFOV;
         cam.fieldOfView = currentFOV;
         frontdesk.CustomerInService += EnterCustomerInteraction;
+
+        BossBattleTest.BossFight += disable;
     }
 
+    void disable()
+    {
+        cameraBehaviourEnabled = false;
+    }
     // Update is called once per frame
     void Update()
     {
+        if(!cameraBehaviourEnabled) return;
         //float targetFOV = zoomedIn ? baseFOV * zoom : baseFOV;
         //currentFOV = Mathf.Lerp(currentFOV, targetFOV, Time.deltaTime);
         if(zoomedIn)
