@@ -18,9 +18,10 @@ public class FrontdeskTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-            Debug.Log("customer in service");
+        Debug.Log("customer in service");
         if(col.transform.CompareTag("Customer"))
         {
+            col.GetComponent<CustomerBehaviour>().StopWalking();
             CustomerInService?.Invoke();
         }
     } 
