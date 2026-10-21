@@ -12,7 +12,6 @@ Eric: Uh...hello there. I'm sorry to bother you on a night like tonight, but I h
 
 -> questions
 
-
 === questions ===
 
 + [Why are you returning this outfit?]
@@ -36,29 +35,29 @@ Eric: Uh...hello there. I'm sorry to bother you on a night like tonight, but I h
 
 === accusations ===
 
-+ {not accused_damage} [Accuse of slightly damaged costume]
++ {not accused_damage} [Accuse of slight damage]
     ~ accused_damage = true
     ~ reputation_change = reputation_change - 10
     Eric: What are you talking about, there are no rips or tears anywhere on this costume, are you calling me a liar?!?
-    -> questions
+    -> accusations
 
-+ {not accused_stain} [Accuse of stained costume]
++ {not accused_stain} [Accuse of a stain]
     ~ accused_stain = true
     ~ stain_cleared = true
     Eric: Yeah, that might be a pee stain that my cat left on the costume or a vase that he tipped over on the counter but I promise that it was an accident and I will be giving Marshall no more treats this month for his behaviour.
-    -> questions
+    -> accusations
 
 + {not accused_accessories} [Accuse of missing accessories]
     ~ accused_accessories = true
     ~ reputation_change = reputation_change - 10
     Eric: I brought all the accessories that were given to me back with the costume as instructed, I read your store policies!
-    -> questions
+    -> accusations
 
-+ {not accused_receipt} [Accuse of missing receipt]
++ {not accused_receipt} [Accuse of a missing receipt]
     ~ accused_receipt = true
     ~ reputation_change = reputation_change - 10
     Eric: I just gave you the receipt, are you high or something, damn they just hire anyone now.
-    -> questions
+    -> accusations
 
 + [Back to questions]
     -> questions
