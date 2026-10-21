@@ -33,6 +33,23 @@ public class CustomerBehaviour : MonoBehaviour
         }
     }
 
+    public void Leave()
+    {
+        agent.SetDestination(frontDoor.transform.position);
+    }
+
+    public void Respond(bool Positively)
+    {
+        if (Positively)
+        {
+            animator.Play("Excited");
+        }
+        else
+        {
+            animator.Play("Dissapointed");
+        }
+    }
+
     public void StopWalking()
     {
         Walking = false;
