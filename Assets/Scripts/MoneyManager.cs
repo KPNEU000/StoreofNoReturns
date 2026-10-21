@@ -22,6 +22,7 @@ public class MoneyManager : MonoBehaviour
     bool lightingCut = false;
     bool heatingCut = false;
     CustomerScript customer;
+    CustomerBehaviour customerBehaviour;
     CostumeScriptData costume;
 
     private float currentMoney;
@@ -35,7 +36,6 @@ public class MoneyManager : MonoBehaviour
     private GameObject flashlight;
     [SerializeField]
     private PlayerMovement playerMovement;
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -80,6 +80,7 @@ public class MoneyManager : MonoBehaviour
     public void GetCurrentCustomer(CustomerScript currentCustomer)
     {
         customer = currentCustomer;
+        customerBehaviour = customer.GetComponent<CustomerBehaviour>();
     }
 
     public void GetCurrentCostume(CostumeScriptData currentCustomer)
@@ -108,6 +109,7 @@ public class MoneyManager : MonoBehaviour
                 reputationManager.ProcessRefund(false, true);
             }
             currentMoney -= costume.getReturnValue();
+            customerBehaviour.Respond(true);
         }
         else
         {
@@ -119,6 +121,16 @@ public class MoneyManager : MonoBehaviour
             {
                 reputationManager.ProcessRefund(false, false);
             }
+            customerBehaviour.Respond(false);
+        }
+
+        if(customerBehaviour.gameObject.name == "Witch")
+        {
+            //Start boss battle
+            print("boss battle starts");
+            customerBehaviour.gameObject.GetComponent<Enemy>().enabled = true;
+            customerBehaviour.gameObject.tag = "Enemy";
+            playerMovement.enableMovement();
         }
     }
 

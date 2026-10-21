@@ -23,6 +23,8 @@ public class TimeManager : MonoBehaviour
     [Header("UI Settings")]
     [SerializeField]
     private TMP_Text timeText;
+    [SerializeField]
+    CustomerSpawner customerSpawner;
 
     void Awake()
     {
@@ -65,6 +67,7 @@ public class TimeManager : MonoBehaviour
         {
             CurrentMinute = 0;
             CurrentHour++;
+            customerSpawner.NewCustomer();
 
             if (CurrentHour >= 24)
             {

@@ -96,22 +96,17 @@ public class CameraBehaviour : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 50f))
             {
 
-                if (hit.transform.CompareTag("Computer") && zoomedIn)
+                if (hit.transform.CompareTag("Computer")
+                //&& zoomedIn
+                )
                 {
                     Debug.Log("computer clicked");
                     EnterComputerInteraction();
                 }
                 if (hit.transform.CompareTag("Poster"))
                 {
-                    Debug.Log("computer clicked");
-                    if (polCam.enabled)
-                    {
-                        ExitPosterDisplay();
-                    }
-                    else
-                    {
-                        EnterPosterDisplay();
-                    }
+                    Debug.Log("poster clicked");
+                    EnterPosterDisplay();
                 }
 
                 if (hit.transform.GetComponent<Button>())

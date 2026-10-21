@@ -10,6 +10,7 @@ TagManager:
   - EnemyHit
   - Poster
   - SceneManager
+  - Enemy
   layers:
   - Default
   - TransparentFX
