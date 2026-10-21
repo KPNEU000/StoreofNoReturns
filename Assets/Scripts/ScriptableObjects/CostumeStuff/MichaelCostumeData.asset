@@ -17,3 +17,6 @@ MonoBehaviour:
   costumeModel: {fileID: 0}
   dateOfPurchase: 
   reasons: 
+  computerViewSpriteFront: {fileID: 0}
+  computerViewSpriteBack: {fileID: 0}
+  accessories: 

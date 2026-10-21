@@ -25,10 +25,8 @@ public class CameraBehaviour : MonoBehaviour
 
     private bool zoomedIn = false;
     Camera comCam;
-    Camera cusCam;
 
     [SerializeField] private Transform computerAnchor;
-    [SerializeField] private Transform customerAnchor;
     [SerializeField] private Transform basePosition;
     [SerializeField] private GameObject pixelationFilter;
     [SerializeField] private GameObject customerCanvas;
@@ -44,8 +42,6 @@ public class CameraBehaviour : MonoBehaviour
         cam = GetComponent<Camera>();
         comCam = computerAnchor.GetComponentInChildren<Camera>();
         comCam.enabled = false;
-        cusCam = customerAnchor.GetComponentInChildren<Camera>();
-        cusCam.enabled = false;
         physicsRaycaster = GetComponent<PhysicsRaycaster>();
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
@@ -93,11 +89,6 @@ public class CameraBehaviour : MonoBehaviour
             print(mousePos + " " + viewportFactor);
             if(Physics.Raycast(ray, out hit, 50f))
             {
-                if(hit.transform.CompareTag("Customer"))
-                {
-                    Debug.Log("customer clicked");
-                    EnterCustomerInteraction();
-                }
 
                 if (hit.transform.CompareTag("Computer") && zoomedIn)
                 {
@@ -121,40 +112,16 @@ public class CameraBehaviour : MonoBehaviour
         Gizmos.DrawRay(ray);
     }
 
-    private void EnterCustomerInteraction()
-    {
-        cam.enabled = false;
-        cusCam.enabled = true;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        physicsRaycaster.enabled = false;
-        pixelationFilter.SetActive(false);
-        customerCanvas.SetActive(true);
-        active = false;
-    }
-
-    private void performZoom()
-    {
-
-    }
-
-    public void ExitCustomerInteraction()
-    {
-        cam.enabled = true;
-        cusCam.enabled = false;
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
-        physicsRaycaster.enabled = true;
-        pixelationFilter.SetActive(true);
-        customerCanvas.SetActive(false);
-        active = true;
-    }
-
     private float InterpolateZoomIn(float x)
     {
         if (x > 1) { return zoomCurve.Evaluate(1); }
         float y = zoomCurve.Evaluate(x);
         return y;
+    }
+
+    public void performZoom()
+    {
+
     }
 
     private void EnterComputerInteraction()
