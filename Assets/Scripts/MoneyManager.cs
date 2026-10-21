@@ -70,6 +70,11 @@ public class MoneyManager : MonoBehaviour
             playerMovement.speed = playerMovement.speed * 0.5f;
             heatingCutOffAlert.SetActive(true);
         }
+
+        if (currentMoney == 0)
+        {
+            FindFirstObjectByType<SceneLoadingManager>().LoadSceneByName("Game Over");
+        }
     }
 
     public void GetCurrentCustomer(CustomerScript currentCustomer)
