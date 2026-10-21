@@ -25,17 +25,8 @@ public class CameraBehaviour : MonoBehaviour
 
     private bool zoomedIn = false;
     Camera comCam;
-<<<<<<< Updated upstream
 
     [SerializeField] private Transform computerAnchor;
-=======
-    Camera cusCam;
-    Camera polCam;
-
-    [SerializeField] private Transform computerAnchor;
-    [SerializeField] private Transform customerAnchor;
-    [SerializeField] private Transform policyAnchor;
->>>>>>> Stashed changes
     [SerializeField] private Transform basePosition;
     [SerializeField] private GameObject pixelationFilter;
     [SerializeField] private GameObject customerCanvas;
@@ -51,13 +42,6 @@ public class CameraBehaviour : MonoBehaviour
         cam = GetComponent<Camera>();
         comCam = computerAnchor.GetComponentInChildren<Camera>();
         comCam.enabled = false;
-<<<<<<< Updated upstream
-=======
-        cusCam = customerAnchor.GetComponentInChildren<Camera>();
-        cusCam.enabled = false;
-        polCam = policyAnchor.GetComponentInChildren<Camera>();
-        polCam.enabled = false;
->>>>>>> Stashed changes
         physicsRaycaster = GetComponent<PhysicsRaycaster>();
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
@@ -103,37 +87,16 @@ public class CameraBehaviour : MonoBehaviour
             RaycastHit hit;
 
             print(mousePos + " " + viewportFactor);
-            if (Physics.Raycast(ray, out hit, 50f))
+            if(Physics.Raycast(ray, out hit, 50f))
             {
-<<<<<<< Updated upstream
-=======
-                if (hit.transform.CompareTag("Customer"))
-                {
-                    Debug.Log("customer clicked");
-                    EnterCustomerInteraction();
-                }
->>>>>>> Stashed changes
 
                 if (hit.transform.CompareTag("Computer") && zoomedIn)
                 {
                     Debug.Log("computer clicked");
                     EnterComputerInteraction();
                 }
-
-                if (hit.transform.CompareTag("Poster"))
-                {
-                    Debug.Log("poster clicked");
-                    if (polCam.enabled)
-                    {
-                        ExitPosterDisplay();
-                    }
-                    else
-                    {
-                        EnterPosterDisplay();
-                    }
-                }
-
-                if (hit.transform.GetComponent<Button>())
+                
+                if(hit.transform.GetComponent<Button>())
                 {
                     Debug.Log("button clicked");
                 }
@@ -149,62 +112,6 @@ public class CameraBehaviour : MonoBehaviour
         Gizmos.DrawRay(ray);
     }
 
-<<<<<<< Updated upstream
-=======
-    private void EnterCustomerInteraction()
-    {
-        cam.enabled = false;
-        cusCam.enabled = true;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        physicsRaycaster.enabled = false;
-        pixelationFilter.SetActive(false);
-        customerCanvas.SetActive(true);
-        active = false;
-    }
-
-    private void EnterPosterDisplay()
-    {
-        cam.enabled = false;
-        polCam.enabled = true;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        physicsRaycaster.enabled = false;
-        pixelationFilter.SetActive(false);
-        //customerCanvas.SetActive(true);
-        active = false;
-    }
-
-    public void ExitPosterDisplay()
-    {
-        cam.enabled = true;
-        polCam.enabled = false;
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
-        physicsRaycaster.enabled = true;
-        pixelationFilter.SetActive(true);
-        //customerCanvas.SetActive(false);
-        active = true;
-    }
-
-    private void performZoom()
-    {
-
-    }
-
-    public void ExitCustomerInteraction()
-    {
-        cam.enabled = true;
-        cusCam.enabled = false;
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
-        physicsRaycaster.enabled = true;
-        pixelationFilter.SetActive(true);
-        customerCanvas.SetActive(false);
-        active = true;
-    }
-
->>>>>>> Stashed changes
     private float InterpolateZoomIn(float x)
     {
         if (x > 1) { return zoomCurve.Evaluate(1); }
