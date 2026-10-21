@@ -11,6 +11,7 @@ public class CameraBehaviour : MonoBehaviour
 
     [SerializeField] LayerMask interactableLayer;
     Camera cam;
+    Camera polCam;
     PhysicsRaycaster physicsRaycaster;
 
     Ray ray;
@@ -27,12 +28,15 @@ public class CameraBehaviour : MonoBehaviour
     Camera comCam;
 
     [SerializeField] private Transform computerAnchor;
+
+    [SerializeField] private Transform posterAnchor;
+
     [SerializeField] private Transform basePosition;
     [SerializeField] private GameObject pixelationFilter;
     [SerializeField] private GameObject customerCanvas;
     bool active = true;
 
-    public bool cameraBehaviourEnabled {get; private set;} = true;
+    public bool cameraBehaviourEnabled { get; private set; } = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,6 +46,8 @@ public class CameraBehaviour : MonoBehaviour
         cam = GetComponent<Camera>();
         comCam = computerAnchor.GetComponentInChildren<Camera>();
         comCam.enabled = false;
+        polCam = posterAnchor.GetComponentInChildren<Camera>();
+        polCam.enabled = false;
         physicsRaycaster = GetComponent<PhysicsRaycaster>();
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
@@ -58,10 +64,10 @@ public class CameraBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!cameraBehaviourEnabled) return;
+        if (!cameraBehaviourEnabled) return;
         //float targetFOV = zoomedIn ? baseFOV * zoom : baseFOV;
         //currentFOV = Mathf.Lerp(currentFOV, targetFOV, Time.deltaTime);
-        if(zoomedIn)
+        if (zoomedIn)
         {
             currentFOV = InterpolateZoomIn(Time.time - timerBegin) * baseFOV;
         }
@@ -73,7 +79,7 @@ public class CameraBehaviour : MonoBehaviour
         cam.fieldOfView = currentFOV;
 
         var mouse = Mouse.current;
-        if (mouse == null) {Debug.Log("mouse null"); return;} // no mouse connected
+        if (mouse == null) { Debug.Log("mouse null"); return; } // no mouse connected
         //Mouse.current.position.ReadValue()
         //cam.ScreenToViewportPoint(Mouse.current.position.ReadValue()
         //this returns a normalized (0-1) unsigned vector2 about the position of mouse on screen
@@ -87,7 +93,7 @@ public class CameraBehaviour : MonoBehaviour
             RaycastHit hit;
 
             print(mousePos + " " + viewportFactor);
-            if(Physics.Raycast(ray, out hit, 50f))
+            if (Physics.Raycast(ray, out hit, 50f))
             {
 
                 if (hit.transform.CompareTag("Computer") && zoomedIn)
@@ -95,8 +101,20 @@ public class CameraBehaviour : MonoBehaviour
                     Debug.Log("computer clicked");
                     EnterComputerInteraction();
                 }
-                
-                if(hit.transform.GetComponent<Button>())
+                if (hit.transform.CompareTag("Poster"))
+                {
+                    Debug.Log("computer clicked");
+                    if (polCam.enabled)
+                    {
+                        ExitPosterDisplay();
+                    }
+                    else
+                    {
+                        EnterPosterDisplay();
+                    }
+                }
+
+                if (hit.transform.GetComponent<Button>())
                 {
                     Debug.Log("button clicked");
                 }
@@ -134,7 +152,7 @@ public class CameraBehaviour : MonoBehaviour
         pixelationFilter.SetActive(false);
         active = false;
     }
-    
+
     public void ExitComputerInteraction()
     {
         cam.enabled = true;
@@ -146,5 +164,28 @@ public class CameraBehaviour : MonoBehaviour
         active = true;
     }
 
+    private void EnterPosterDisplay()
+    {
+        cam.enabled = false;
+        polCam.enabled = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        physicsRaycaster.enabled = false;
+        pixelationFilter.SetActive(false);
+        //customerCanvas.SetActive(true);
+        active = false;
+    }
+
+    public void ExitPosterDisplay()
+    {
+        cam.enabled = true;
+        polCam.enabled = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        physicsRaycaster.enabled = true;
+        pixelationFilter.SetActive(true);
+        //customerCanvas.SetActive(false);
+        active = true;
+    }
 
 }
