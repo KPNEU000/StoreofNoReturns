@@ -8,6 +8,7 @@ TagManager:
   - Customer
   - Computer
   - EnemyHit
+  - Poster
   layers:
   - Default
   - TransparentFX
