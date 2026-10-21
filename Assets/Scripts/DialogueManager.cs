@@ -36,6 +36,13 @@ public class DialogueManager : MonoBehaviour
 
         story = new Story(inkFile.storyJson);
         dialoguePanel.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (CameraControl.Instance != null)
+        {
+            CameraControl.Instance.active = false;
+        }
         ContinueStory();
     }
 
@@ -109,5 +116,13 @@ public class DialogueManager : MonoBehaviour
         ClearChoices();
         dialoguePanel.SetActive(false);
         story = null;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (CameraControl.Instance != null)
+        {
+            CameraControl.Instance.active = false;
+        }
     }
 }
