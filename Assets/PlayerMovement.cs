@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
     }
 
-    void enableMovement()
+    public void enableMovement()
     {
         MovementEnabled = true;
     }

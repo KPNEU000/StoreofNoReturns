@@ -9,6 +9,7 @@ TagManager:
   - Computer
   - EnemyHit
   - Poster
+  - Enemy
   layers:
   - Default
   - TransparentFX

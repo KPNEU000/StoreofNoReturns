@@ -43,7 +43,7 @@ public class FrontdeskTrigger : MonoBehaviour
             dopText.text = data.getDateofPurchase();
             nameText.text = "Name: " + data.getName();
             accessoriesText.text = "Accessories: \n" + data.getAccessories();
-            priceText.text = data.getReturnValue().ToString();
+            priceText.text = "$" + data.getReturnValue().ToString();
         }
     } 
 }
