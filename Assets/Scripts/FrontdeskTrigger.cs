@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class FrontdeskTrigger : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class FrontdeskTrigger : MonoBehaviour
 
     [SerializeField]
     private MoneyManager gameManager;
+    [SerializeField] Image frontSprite;
+    [SerializeField] Image backSprite;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,6 +32,8 @@ public class FrontdeskTrigger : MonoBehaviour
             CustomerInService?.Invoke();
             gameManager.GetCurrentCustomer(col.GetComponent<CustomerScript>());
             gameManager.GetCurrentCostume(col.GetComponent<CustomerScript>().getCostume());
+            frontSprite.sprite = col.GetComponent<CustomerScript>().getCostume().getFrontSprite();
+            backSprite.sprite = col.GetComponent<CustomerScript>().getCostume().getBackSprite();
         }
     } 
 }

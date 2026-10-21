@@ -3834,6 +3834,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   gameManager: {fileID: 133887730}
+  frontSprite: {fileID: 1632594106}
+  backSprite: {fileID: 994715730}
 --- !u!1 &164234455
 GameObject:
   m_ObjectHideFlags: 0
@@ -16002,7 +16004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomerScript
   repManager: {fileID: 133887734}
-  customerCostume: {fileID: 11400000, guid: ecba7b2be6ebe9f4db0344196f1501ee, type: 2}
+  customerCostume: {fileID: 11400000, guid: d4bf3fd03f661af4ebb4412f50f86e2c, type: 2}
   dialogue:
   - Yo
   genuineReason: 0
