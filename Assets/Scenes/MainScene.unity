@@ -1978,7 +1978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6556b2c4a609c2149ad4e3a5edbc6fbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 133887730}
 --- !u!1 &164234455
 GameObject:
   m_ObjectHideFlags: 0
@@ -4621,7 +4621,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  computerAnchor: {fileID: 0}
+  computerAnchor: {fileID: 176583051}
   basePosition: {fileID: 394936252}
   pixelationFilter: {fileID: 1246531821}
 --- !u!114 &394936254
@@ -10620,7 +10620,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1001882433}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -24259,7 +24259,6 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1209032773}
   - {fileID: 1838009690}
-  - {fileID: 176583051}
   - {fileID: 7897078010548488193}
   - {fileID: 757527003}
   - {fileID: 1465837771}
@@ -24272,3 +24271,4 @@ SceneRoots:
   - {fileID: 1661488563}
   - {fileID: 961580035}
   - {fileID: 1721047835}
+  - {fileID: 176583051}

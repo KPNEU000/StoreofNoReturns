@@ -44,7 +44,6 @@ public class CameraBehaviour : MonoBehaviour
         physicsRaycaster = GetComponent<PhysicsRaycaster>();
         baseFOV = cam.fieldOfView;
         currentFOV = baseFOV;
-        cam.fieldOfView = currentFOV;
         frontdesk.CustomerInService += EnterCustomerInteraction;
 
         BossBattleTest.BossFight += disable;
