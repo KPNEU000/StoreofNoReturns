@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -37,6 +38,8 @@ public class CostumeScriptData : ScriptableObject
     private Sprite computerViewSpriteFront;
     [SerializeField]
     private Sprite computerViewSpriteBack;
+    [SerializeField]
+    private string accessories;
 
     public float getReturnValue()
     {
@@ -61,6 +64,21 @@ public class CostumeScriptData : ScriptableObject
     public Sprite getBackSprite()
     {
         return computerViewSpriteBack;
+    }
+
+    public string getAccessories()
+    {
+        return accessories;
+    }
+
+    public string getDateofPurchase()
+    {
+        return dateOfPurchase;
+    }
+
+    public string getName()
+    {
+        return name;
     }
 }
 

@@ -3836,6 +3836,10 @@ MonoBehaviour:
   gameManager: {fileID: 133887730}
   frontSprite: {fileID: 1632594106}
   backSprite: {fileID: 994715730}
+  dopText: {fileID: 762277421}
+  nameText: {fileID: 1904410432}
+  accessoriesText: {fileID: 1294236541}
+  priceText: {fileID: 1493845058}
 --- !u!1 &164234455
 GameObject:
   m_ObjectHideFlags: 0

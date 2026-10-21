@@ -19,3 +19,4 @@ MonoBehaviour:
   reasons: 0200000000000000
   computerViewSpriteFront: {fileID: 21300000, guid: db4aa1432446b3b49890b862eb8afe10, type: 3}
   computerViewSpriteBack: {fileID: 21300000, guid: ca2cbcd09b9fd0340b436e2bd8d1b3c7, type: 3}
+  accessories: Wizard Hat

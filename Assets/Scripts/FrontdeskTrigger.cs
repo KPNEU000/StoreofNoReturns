@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using TMPro;
 
 public class FrontdeskTrigger : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class FrontdeskTrigger : MonoBehaviour
     private MoneyManager gameManager;
     [SerializeField] Image frontSprite;
     [SerializeField] Image backSprite;
+    [SerializeField] TextMeshProUGUI dopText;
+    [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] TextMeshProUGUI accessoriesText;
+    [SerializeField] TextMeshProUGUI priceText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,8 +37,13 @@ public class FrontdeskTrigger : MonoBehaviour
             CustomerInService?.Invoke();
             gameManager.GetCurrentCustomer(col.GetComponent<CustomerScript>());
             gameManager.GetCurrentCostume(col.GetComponent<CustomerScript>().getCostume());
-            frontSprite.sprite = col.GetComponent<CustomerScript>().getCostume().getFrontSprite();
-            backSprite.sprite = col.GetComponent<CustomerScript>().getCostume().getBackSprite();
+            CostumeScriptData data = col.GetComponent<CustomerScript>().getCostume();
+            frontSprite.sprite = data.getFrontSprite();
+            backSprite.sprite = data.getBackSprite();
+            dopText.text = data.getDateofPurchase();
+            nameText.text = "Name: " + data.getName();
+            accessoriesText.text = "Accessories: \n" + data.getAccessories();
+            priceText.text = data.getReturnValue().ToString();
         }
     } 
 }

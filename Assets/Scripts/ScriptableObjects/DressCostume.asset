@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8806a30761f4cd84793bee140c1b3ea0, type: 3}
   m_Name: DressCostume
   m_EditorClassIdentifier: Assembly-CSharp::CostumeScriptData
-  costumeName: Dress
+  costumeName: UNKNOWN COSTUME
   returnValue: -200
   costumeModel: {fileID: 6769698864430620868, guid: 35f2fe5f52d9a204ab4ffdba6d94dc20, type: 3}
   dateOfPurchase: 2/18/2001
   reasons: 060000000000000004000000
   computerViewSpriteFront: {fileID: 21300000, guid: 1dd69c112c47c1f4d98806bb9784b0a6, type: 3}
   computerViewSpriteBack: {fileID: 21300000, guid: 1dd69c112c47c1f4d98806bb9784b0a6, type: 3}
+  accessories: 

@@ -19,3 +19,4 @@ MonoBehaviour:
   reasons: 0700000005000000
   computerViewSpriteFront: {fileID: 21300000, guid: e3126ea75c59cc64297f5a78026e0dd6, type: 3}
   computerViewSpriteBack: {fileID: 21300000, guid: 57612e6f9b2ad5c4f9d4bba57f429c2d, type: 3}
+  accessories: Cat Ears

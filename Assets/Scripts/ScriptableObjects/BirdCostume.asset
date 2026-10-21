@@ -19,3 +19,4 @@ MonoBehaviour:
   reasons: 
   computerViewSpriteFront: {fileID: 21300000, guid: efcc8914c21a24e4e9bab87f6b90f0bf, type: 3}
   computerViewSpriteBack: {fileID: 21300000, guid: 38749b55466215f42944d0c6926c2e61, type: 3}
+  accessories: Right Wing, Left Wing
