@@ -13,6 +13,9 @@ public class CustomerScript : MonoBehaviour
     private string[] dialogue;
 
     [SerializeField]
+    private Ink.UnityIntegration.InkFile inkFile;
+
+    [SerializeField]
     private bool genuineReason;
 
     [SerializeField]
@@ -62,5 +65,10 @@ public class CustomerScript : MonoBehaviour
     public CostumeScriptData getCostume()
     {
         return customerCostume;
+    }
+
+    public Ink.UnityIntegration.InkFile GetInkFile()
+    {
+        return inkFile;
     }
 }

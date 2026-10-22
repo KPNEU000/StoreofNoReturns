@@ -29,9 +29,9 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(false);
     }
 
-    public void StartDialogue()
+    public void StartDialogue(Ink.UnityIntegration.InkFile customerInkFile)
     {
-        if (inkFile == null ||
+        if (customerInkFile == null ||
             dialoguePanel == null ||
             dialogueText == null ||
             choicesContainer == null ||
@@ -43,7 +43,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        story = new Story(inkFile.storyJson);
+        story = new Story(customerInkFile.storyJson);
 
         awaitingDecision = false;
         showingDecisionResponse = false;

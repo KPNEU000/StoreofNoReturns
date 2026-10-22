@@ -7445,6 +7445,10 @@ PrefabInstance:
       value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
+      propertyPath: inkFile
+      value: 
+      objectReference: {fileID: 6231892579173505729, guid: e8ccfe7be051b4f16a2317d750637aaf, type: 3}
+    - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
       propertyPath: repManager
       value: 
       objectReference: {fileID: 133887734}
@@ -17094,6 +17098,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
+      propertyPath: inkFile
+      value: 
+      objectReference: {fileID: 6231892579173505729, guid: 67607c2af2d656d4aa0754796632a9a5, type: 3}
     - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
       propertyPath: repManager
       value: 
@@ -32595,6 +32603,7 @@ MonoBehaviour:
   repManager: {fileID: 0}
   customerCostume: {fileID: 0}
   dialogue: []
+  inkFile: {fileID: 0}
   genuineReason: 0
   wrongReasonAmount: -2
 --- !u!1 &1468334892
@@ -44050,6 +44059,7 @@ MonoBehaviour:
   customerCostume: {fileID: 11400000, guid: 2a2954463af730c47abc169a61c7ec20, type: 2}
   dialogue:
   - Yo
+  inkFile: {fileID: 0}
   genuineReason: 0
   wrongReasonAmount: -2
 --- !u!54 &1898725738
