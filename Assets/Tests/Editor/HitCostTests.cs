@@ -57,9 +57,9 @@ public class HitCostTests
     }
 
     [Test]
-    public void DefaultInvincibilityIsHalfASecond()
+    public void DefaultInvincibilityIsOneSecond()
     {
-        Assert.AreEqual(0.5f, new BossFightSettings().invincibilitySeconds, 1e-4f);
+        Assert.AreEqual(1f, new BossFightSettings().invincibilitySeconds, 1e-4f);
     }
 
     [Test]

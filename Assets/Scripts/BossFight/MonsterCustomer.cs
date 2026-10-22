@@ -101,6 +101,7 @@ namespace BossFight
         private void Start()
         {
             receiver = FindFirstObjectByType<PlayerHitReceiver>();
+            EnemyContact.IgnorePlayer(gameObject);
         }
 
         private void Update()
@@ -182,12 +183,14 @@ namespace BossFight
                 Die();
                 return;
             }
-            attack.Cancel();
-            hurtUntil = Time.time + hurtSeconds;
             flashUntil = Time.time + damageFlashSeconds;
             ApplyTint(Color.red, true);
-            Play(HurtState, true);
             if (hurtSound != null) AudioSource.PlayClipAtPoint(hurtSound, transform.position);
+            // Playtest: hits used to cancel the wind-up, so spam-slashing a monster made it harmless. A swing in
+            // progress now always finishes; the flinch only plays when it is not attacking.
+            if (attack.State != MonsterAttackState.Idle) return;
+            hurtUntil = Time.time + hurtSeconds;
+            Play(HurtState, true);
         }
 
         // The Witch died: stop where it stands.

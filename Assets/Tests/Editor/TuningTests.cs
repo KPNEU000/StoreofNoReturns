@@ -10,10 +10,10 @@ public class TuningTests
     public void SpeedLadderDefaults()
     {
         var s = new BossFightSettings();
-        Assert.AreEqual(0.85f, s.clothingSpeedFactor);
+        Assert.AreEqual(0.51f, s.clothingSpeedFactor);
         Assert.AreEqual(0.95f, s.monsterSpeedFactor);
         Assert.AreEqual(1.4f, s.boostedMonsterSpeedFactor);
-        Assert.AreEqual(0.95f * 0.85f, s.SlashMoveSpeedFactor, 1e-4f);
+        Assert.AreEqual(0.9f * 0.51f, s.SlashMoveSpeedFactor, 1e-4f);
     }
 
     [Test]
@@ -71,7 +71,7 @@ public class TuningTests
         var config = BossFight.Editor.ConfigBuilder.Load();
         Assert.IsNotNull(config);
         var s = config.ToSettings();
-        Assert.AreEqual(0.85f, s.clothingSpeedFactor);
+        Assert.AreEqual(0.51f, s.clothingSpeedFactor);
         Assert.AreEqual(0.95f, s.monsterSpeedFactor);
         Assert.AreEqual(1.4f, s.boostedMonsterSpeedFactor);
         Assert.GreaterOrEqual(s.flashlightRange, 30f);

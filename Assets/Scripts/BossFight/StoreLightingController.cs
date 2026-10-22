@@ -25,7 +25,25 @@ namespace BossFight
             public Light light;
             public float baseIntensity;
             public LightFlicker flicker;
+            // The fixture's emissive (glowing) renderers, dimmed with the light so a dead light doesn't still glow.
+            public List<Renderer> glow = new List<Renderer>();
+            public List<Color> glowBase = new List<Color>();
         }
+
+        // Shiny surfaces (the wall mirror) that kept glowing white in the blackout.
+        private class Shine
+        {
+            public Renderer renderer;
+            public float smoothness;
+            public Color baseColor;
+        }
+
+        private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
+        private static readonly int SmoothnessId = Shader.PropertyToID("_Smoothness");
+        private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
+        private const float FixtureGlowRadius = 1.5f;
+        private readonly List<Shine> shines = new List<Shine>();
+        private MaterialPropertyBlock block;
 
         private readonly List<Entry> entries = new List<Entry>();
         private BossFightSettings settings;
@@ -40,6 +58,7 @@ namespace BossFight
             settings = BossFightConfig.SettingsOf(config);
             rules = new LightTierRules(settings);
             blackout = new BlackoutRules(settings);
+            block = new MaterialPropertyBlock();
         }
 
         private void Start()
@@ -80,6 +99,71 @@ namespace BossFight
                     baseIntensity = light.intensity,
                     flicker = rules.CreateFlicker(seed++ * 7919),
                 });
+            }
+            CollectGlowAndShine();
+        }
+
+        // Emissive renderers within reach of a store light belong to that light's fixture; mirrors dim with the store.
+        private void CollectGlowAndShine()
+        {
+            shines.Clear();
+            foreach (var renderer in FindObjectsByType<Renderer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+            {
+                if (renderer is ParticleSystemRenderer || renderer.GetComponentInParent<Camera>() != null) continue;
+                if (renderer.GetComponentInParent<PlayerMovement>() != null || renderer.GetComponentInParent<IBossMinion>() != null) continue;
+                var material = renderer.sharedMaterial;
+                if (material == null) continue;
+                if (renderer.name.ToLowerInvariant().Contains("mirror") || renderer.transform.root.name.ToLowerInvariant().Contains("mirror"))
+                {
+                    shines.Add(new Shine
+                    {
+                        renderer = renderer,
+                        smoothness = material.HasProperty(SmoothnessId) ? material.GetFloat(SmoothnessId) : 0.5f,
+                        baseColor = material.HasProperty(BaseColorId) ? material.GetColor(BaseColorId) : Color.white,
+                    });
+                    continue;
+                }
+                if (!material.IsKeywordEnabled("_EMISSION") || !material.HasProperty(EmissionColorId)) continue;
+                var emission = material.GetColor(EmissionColorId);
+                if (emission.maxColorComponent < 0.05f) continue;
+                var owner = NearestEntry(renderer.bounds.center);
+                if (owner == null) continue;
+                owner.glow.Add(renderer);
+                owner.glowBase.Add(emission);
+            }
+        }
+
+        private Entry NearestEntry(Vector3 point)
+        {
+            Entry best = null;
+            float bestDistance = FixtureGlowRadius * FixtureGlowRadius;
+            foreach (var e in entries)
+            {
+                if (e.light == null) continue;
+                float d = (e.light.transform.position - point).sqrMagnitude;
+                if (d <= bestDistance) { bestDistance = d; best = e; }
+            }
+            return best;
+        }
+
+        // A ceiling piece fell here: lights (and their fixtures) inside the hole go dark for good instead of floating.
+        public void RemoveLightsNear(Vector3 point, float radius)
+        {
+            for (int i = entries.Count - 1; i >= 0; i--)
+            {
+                var e = entries[i];
+                if (e.light == null) { entries.RemoveAt(i); continue; }
+                var p = e.light.transform.position;
+                if ((p.x - point.x) * (p.x - point.x) + (p.z - point.z) * (p.z - point.z) > radius * radius) continue;
+                e.light.enabled = false;
+                foreach (var r in e.glow) if (r != null) r.enabled = false;
+                // Non-emissive fixture parts beside this light (the parent may group every fixture, so stay local).
+                var scope = e.light.transform.parent != null ? e.light.transform.parent : e.light.transform;
+                foreach (var r in scope.GetComponentsInChildren<Renderer>())
+                {
+                    if ((r.bounds.center - p).sqrMagnitude <= FixtureGlowRadius * FixtureGlowRadius) r.enabled = false;
+                }
+                entries.RemoveAt(i);
             }
         }
 
@@ -124,6 +208,22 @@ namespace BossFight
                 float flicker = e.flicker.Sample(tier, now, settings.flickerIntervalMinSeconds, settings.flickerIntervalMaxSeconds);
                 e.light.intensity = e.baseIntensity * flicker * fade;
                 e.light.enabled = e.light.intensity > 0.001f;
+                for (int i = 0; i < e.glow.Count; i++)
+                {
+                    var r = e.glow[i];
+                    if (r == null) continue;
+                    r.GetPropertyBlock(block);
+                    block.SetColor(EmissionColorId, e.glowBase[i] * (flicker * fade));
+                    r.SetPropertyBlock(block);
+                }
+            }
+            foreach (var s in shines)
+            {
+                if (s.renderer == null) continue;
+                s.renderer.GetPropertyBlock(block);
+                block.SetFloat(SmoothnessId, s.smoothness * fade);
+                block.SetColor(BaseColorId, s.baseColor * Mathf.Lerp(0.15f, 1f, fade));
+                s.renderer.SetPropertyBlock(block);
             }
             ApplyOutsideLight();
             WriteEnvironment(blackout.Target(originalEnvironment, fade));

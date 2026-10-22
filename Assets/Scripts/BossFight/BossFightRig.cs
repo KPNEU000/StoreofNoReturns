@@ -31,11 +31,25 @@ namespace BossFight
                 if (surface != navMeshSurface) surface.enabled = false;
             }
             var player = FindFirstObjectByType<PlayerMovement>();
-            if (player != null) NavAgents.ExcludeFromNavMesh(player.gameObject);
+            if (player != null)
+            {
+                NavAgents.ExcludeFromNavMesh(player.gameObject);
+                var guard = player.GetComponent<PlayerBoundsGuard>();
+                if (guard == null) guard = player.gameObject.AddComponent<PlayerBoundsGuard>();
+                guard.Init(CeilingBounds());
+            }
             var witch = FindFirstObjectByType<WitchBoss>();
             if (witch != null) NavAgents.ExcludeFromNavMesh(witch.gameObject);
             // No baked NavMesh asset is committed; the shop is built into a NavMesh at runtime.
             navMeshSurface.BuildNavMesh();
+        }
+
+        // The store's ceiling (before any cave-in) marks the store's footprint for the player guard.
+        private static Bounds? CeilingBounds()
+        {
+            var ceiling = GameObject.Find("Ceiling");
+            var renderer = ceiling != null ? ceiling.GetComponent<Renderer>() : null;
+            return renderer != null ? renderer.bounds : (Bounds?)null;
         }
     }
 }

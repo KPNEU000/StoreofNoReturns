@@ -32,14 +32,14 @@ MonoBehaviour:
     monsterHitCostAtRep50: 75
     monsterHitCostAtRep100: 50
     bookHitCost: 50
-    invincibilitySeconds: 0.5
+    invincibilitySeconds: 1
     hitFlashSeconds: 0.25
     monsterHpMultiplierAtRep0: 2
     monsterHpMultiplierAtRep50: 1
     monsterHpMultiplierAtRep100: 0.5
     maxMonsters: 6
     slashArcDegrees: 70
-    slashReach: 2.2
+    slashReach: 2.5
     slashMaxTargets: 3
     slashDamage: 10
     slashWindupSeconds: 0.15
@@ -52,7 +52,7 @@ MonoBehaviour:
     flashlightSpotAngle: 75
     flashlightInnerSpotAngle: 55
     moveAccelerationSeconds: 0.1
-    clothingSpeedFactor: 0.85
+    clothingSpeedFactor: 0.51
     monsterSpeedFactor: 0.95
     boostedMonsterSpeedFactor: 1.4
     clothingHp: 10
@@ -84,7 +84,7 @@ MonoBehaviour:
     witchHoverHeight: 0
     tetherIntervalSeconds: 12
     tetherDurationSeconds: 5
-    bookThrowIntervalSeconds: 4
+    bookThrowIntervalSeconds: 6
     bookTelegraphSeconds: 0.8
     bookScale: 1.5
     bookArmSeconds: 0.4

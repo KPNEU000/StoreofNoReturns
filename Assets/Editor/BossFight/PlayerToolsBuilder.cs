@@ -111,7 +111,7 @@ namespace BossFight.Editor
         }
 
         // Round-2 playtest: the 0.9 m blade read as a dagger.
-        internal const float SwordBladeLength = 1.25f;
+        internal const float SwordBladeLength = 2f; // playtest: trying a long blade to see how it reads
 
         // Existing swords are kept, so the length is enforced on the blade and its trail tip every build.
         private static void EnsureBladeLength(Transform pivot, float length, ref bool changed)

@@ -11,6 +11,8 @@ namespace BossFight
         private float joltImpulse;
 
         public bool IsAlive => monster != null && monster.IsAlive;
+        // The monster this body belongs to; a slash counts the monster and its body as one target.
+        public IDamageable Owner => monster;
 
         public void Bind(IDamageable owner, float impulse)
         {

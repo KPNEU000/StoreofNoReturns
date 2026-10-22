@@ -48,6 +48,8 @@ namespace BossFight
         private Collider bookCollider;
         private Light glowLight;
         private TrailRenderer trail;
+        private ParticleSystem sparks;
+        private const float SparkRate = 90f;
         private Vector3 homePosition;
         private Quaternion homeRotation;
         private Transform homeParent;
@@ -62,6 +64,7 @@ namespace BossFight
         {
             bookRenderer = GetComponentInChildren<Renderer>();
             bookCollider = GetComponent<Collider>();
+            EnemyContact.IgnorePlayer(gameObject);
             BookThrowRules.ScaleAboutBase(transform.localPosition, transform.localScale, BossFightConfig.SettingsOf(config).bookScale,
                 out var scaledPosition, out var scaledScale);
             transform.localPosition = scaledPosition;
@@ -93,6 +96,7 @@ namespace BossFight
             trail.startColor = glowColor;
             trail.endColor = new Color(glowColor.r, glowColor.g, glowColor.b, 0f);
             trail.emitting = false;
+            sparks = MakeSparks();
         }
 
         public void Claim()
@@ -219,8 +223,39 @@ namespace BossFight
         }
 
         // 0 = dark book, 1 = full purple glow (emissive plus point light).
+        // Purple sparks shed while the book is charged (telegraph and flight), scaled with its glow.
+        private ParticleSystem MakeSparks()
+        {
+            var go = new GameObject("BookSparks");
+            go.transform.SetParent(transform, false);
+            var ps = go.AddComponent<ParticleSystem>();
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            var main = ps.main;
+            main.loop = true;
+            main.startLifetime = 0.7f;
+            main.startSpeed = 0.8f;
+            main.startSize = new ParticleSystem.MinMaxCurve(0.05f, 0.12f);
+            main.startColor = glowColor;
+            main.maxParticles = 300;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            var emission = ps.emission;
+            emission.rateOverTime = 0f;
+            var shape = ps.shape;
+            shape.shapeType = ParticleSystemShapeType.Sphere;
+            shape.radius = 0.25f;
+            var renderer = go.GetComponent<ParticleSystemRenderer>();
+            renderer.sharedMaterial = trail != null ? trail.sharedMaterial : null;
+            ps.Play();
+            return ps;
+        }
+
         private void SetGlow(float amount)
         {
+            if (sparks != null)
+            {
+                var emission = sparks.emission;
+                emission.rateOverTime = SparkRate * amount;
+            }
             if (bookRenderer != null) bookRenderer.material.SetColor(EmissionColorId, glowColor * (glowIntensity * amount));
             if (glowLight != null)
             {

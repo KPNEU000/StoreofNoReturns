@@ -66,6 +66,7 @@ namespace BossFight
         public void Dress(GameObject garment)
         {
             if (garment != null) dressedGarment = garment;
+            EnemyContact.IgnorePlayer(gameObject);
         }
 
         public void Init(ClothingSpawner owner, int index)
@@ -115,6 +116,7 @@ namespace BossFight
             player = movementTransform();
             receiver = FindFirstObjectByType<PlayerHitReceiver>();
             BuildVisual();
+            EnemyContact.IgnorePlayer(gameObject);
             // The rig's NavMeshSurface builds in its Awake; place the agent on the mesh before it moves.
             if (!agent.isOnNavMesh && NavMesh.SamplePosition(transform.position, out var hit, 5f, NavMesh.AllAreas))
             {

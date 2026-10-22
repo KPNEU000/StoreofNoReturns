@@ -53,7 +53,7 @@ public class ReputationScalingTests
     public void SlashSpeedIsDerivedFromClothingSpeed()
     {
         var settings = new BossFightSettings { clothingSpeedFactor = 0.6f };
-        Assert.AreEqual(0.57f, settings.SlashMoveSpeedFactor, 1e-4f);
+        Assert.AreEqual(0.9f * 0.6f, settings.SlashMoveSpeedFactor, 1e-4f);
     }
 
     [Test]

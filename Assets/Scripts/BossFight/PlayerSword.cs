@@ -106,9 +106,20 @@ namespace BossFight
             foreach (var col in colliders)
             {
                 var damageable = col.GetComponentInParent<IDamageable>();
-                if (damageable == null || !damageable.IsAlive || found.Contains(damageable)) continue;
-                found.Add(damageable);
-                positions.Add(col.transform.position);
+                // A dragged body's bones all forward to its monster: one slash hit the monster up to three times.
+                if (damageable is BodyHitbox body && body.Owner != null) damageable = body.Owner;
+                if (damageable == null || !damageable.IsAlive) continue;
+                int index = found.IndexOf(damageable);
+                var position = col.transform.position;
+                if (index < 0)
+                {
+                    found.Add(damageable);
+                    positions.Add(position);
+                }
+                else if ((position - origin).sqrMagnitude < (positions[index] - origin).sqrMagnitude)
+                {
+                    positions[index] = position; // aim at whichever part of it is closest
+                }
             }
             foreach (int i in rules.SelectTargets(origin, forward, positions))
             {

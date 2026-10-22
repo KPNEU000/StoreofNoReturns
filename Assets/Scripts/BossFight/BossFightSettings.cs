@@ -9,7 +9,7 @@ namespace BossFight
     public class BossFightSettings
     {
         // Slash move speed is always derived from clothing speed, never stored.
-        public const float SlashSpeedOfClothing = 0.95f;
+        public const float SlashSpeedOfClothing = 0.9f; // playtest: slashing leaves you 10% slower than the clothes
 
         [Header("Economy: light tiers (money thresholds)")]
         public float mildFlickerMoney = 700f;
@@ -34,7 +34,7 @@ namespace BossFight
         public float monsterHitCostAtRep50 = 75f;
         public float monsterHitCostAtRep100 = 50f;
         public float bookHitCost = 50f;
-        public float invincibilitySeconds = 0.5f;
+        public float invincibilitySeconds = 1f; // playtest: 0.5 s let swarms drain money too fast
         public float hitFlashSeconds = 0.25f;
 
         [Header("Economy: reputation -> monster HP multiplier")]
@@ -47,7 +47,7 @@ namespace BossFight
 
         [Header("Player combat: slash")]
         public float slashArcDegrees = 70f;
-        public float slashReach = 2.2f;
+        public float slashReach = 2.5f;
         public int slashMaxTargets = 3;
         public float slashDamage = 10f;
         public float slashWindupSeconds = 0.15f;
@@ -66,7 +66,7 @@ namespace BossFight
         public float moveAccelerationSeconds = 0.1f;
 
         [Header("Speed ladder (relative to player walk = 1)")]
-        public float clothingSpeedFactor = 0.85f;
+        public float clothingSpeedFactor = 0.51f; // playtest: 40% slower than 0.85 once pathing stopped stalling them
         public float monsterSpeedFactor = 0.95f;
         public float boostedMonsterSpeedFactor = 1.4f;
 
@@ -110,7 +110,7 @@ namespace BossFight
         public float witchHoverHeight = 0f;
         public float tetherIntervalSeconds = 12f;
         public float tetherDurationSeconds = 5f;
-        public float bookThrowIntervalSeconds = 4f;
+        public float bookThrowIntervalSeconds = 6f; // playtest: throws came too often
         public float bookTelegraphSeconds = 0.8f;
         public float bookScale = 1.5f;
         public float bookArmSeconds = 0.4f;

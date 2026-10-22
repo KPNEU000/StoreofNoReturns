@@ -69,6 +69,7 @@ namespace BossFight.Editor
                         CreateShelf(root, shelfName, wall, player.transform.position, floorY, shelfMaterial, bookMaterials);
                         changed = true;
                     }
+                    changed |= EnsureShelfScale(root.Find(shelfName));
                 }
 
                 var books = root.GetComponentsInChildren<ThrowableBook>(true);
@@ -116,6 +117,19 @@ namespace BossFight.Editor
         }
 
         // Stands just outside the wall group's bounds on the side away from the player, facing into the room.
+        // Playtest: the shelves were hard to see. Scaled about their floor pivot, then slid out from the wall by the
+        // extra depth so the back stays flush instead of sinking into it. Applied once (idempotent on scale).
+        internal const float ShelfScale = 1.5f;
+
+        private static bool EnsureShelfScale(Transform shelf)
+        {
+            if (shelf == null || (shelf.localScale - Vector3.one * ShelfScale).sqrMagnitude < 1e-6f) return false;
+            float previous = shelf.localScale.x;
+            shelf.localScale = Vector3.one * ShelfScale;
+            shelf.position += -shelf.forward * (ShelfDepth * (ShelfScale - previous) * 0.5f);
+            return true;
+        }
+
         private static void CreateShelf(Transform root, string name, Transform wall, Vector3 playerPosition, float floorY, Material shelfMaterial, Material[] bookMaterials)
         {
             var renderers = wall.GetComponentsInChildren<Renderer>(true);

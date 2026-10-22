@@ -40,6 +40,7 @@ namespace BossFight
 
             body = Instantiate(bodyPrefab, hand.position, hand.rotation);
             NavAgents.ExcludeFromNavMesh(body);
+            EnemyContact.IgnorePlayer(body);
             body.name = "DraggedCustomer";
             var costume = ResolveCostume(customerName);
             if (costume != null) DressBody(costume);

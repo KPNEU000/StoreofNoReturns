@@ -278,6 +278,14 @@ namespace BossFight
             beam.startColor = beam.endColor = new Color(0.7f, 0.3f, 1f, 1f);
             beam.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             MakeEmitter(go.transform, new Color(0.75f, 0.4f, 1f, 1f));
+            // Playtest: more purple — a second swirl at the Witch's hand while she casts.
+            if (witch != null)
+            {
+                var hand = new GameObject("WitchHandSparks").transform;
+                hand.SetParent(go.transform, false);
+                hand.position = WitchHand();
+                MakeEmitter(hand, new Color(0.65f, 0.25f, 1f, 1f));
+            }
             if (magicSound != null) AudioSource.PlayClipAtPoint(magicSound, WitchHand());
             UpdateBeam();
         }
@@ -303,15 +311,19 @@ namespace BossFight
             // The computer stays; its screen goes dark and cracked.
             BreakScreen();
             Burst(center, new Color(0.8f, 0.85f, 1f, 1f), 80, 0.3f, 5f);
-            Burst(center, new Color(0.75f, 0.35f, 1f, 1f), 40, 0.3f, 3f);
+            Burst(center, new Color(0.75f, 0.35f, 1f, 1f), 160, 0.45f, 3.5f);
             if (shatterSound != null) AudioSource.PlayClipAtPoint(shatterSound, center);
 
-            var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            go.name = "MonitorShard";
-            Destroy(go.GetComponent<Collider>());
-            go.transform.localScale = new Vector3(0.12f, 0.2f, 0.02f);
+            // A jagged piece of the same cracked, glossy glass as the HUD shard it becomes.
+            var go = new GameObject("MonitorShard", typeof(MeshFilter), typeof(MeshRenderer));
+            go.GetComponent<MeshFilter>().sharedMesh = GlassShard.BuildMesh(settings, true);
+            var shardRenderer = go.GetComponent<MeshRenderer>();
+            shardRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            var glass = HudGlassMaterial();
+            if (glass != null) shardRenderer.sharedMaterial = glass;
+            else if (shardMaterial != null) shardRenderer.sharedMaterial = shardMaterial;
+            go.transform.localScale = Vector3.one * 0.2f;
             go.transform.position = center;
-            if (shardMaterial != null) go.GetComponent<Renderer>().sharedMaterial = shardMaterial;
             shard = go.transform;
             shardStart = center;
             shardElapsed = 0f;
@@ -375,6 +387,15 @@ namespace BossFight
             var meshRenderer = go.GetComponent<MeshRenderer>();
             meshRenderer.sharedMaterial = material;
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        }
+
+        private static Material HudGlassMaterial()
+        {
+            foreach (var glass in FindObjectsByType<GlassShard>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (glass.FollowsCamera) return glass.GetComponent<MeshRenderer>().sharedMaterial;
+            }
+            return null;
         }
 
         private Rect HudGlassViewport()
@@ -585,14 +606,15 @@ namespace BossFight
             main.loop = true;
             main.startLifetime = 0.6f;
             main.startSpeed = 1.5f;
-            main.startSize = 0.07f;
+            main.startSize = new ParticleSystem.MinMaxCurve(0.06f, 0.14f);
             main.startColor = color;
+            main.maxParticles = 400;
             main.simulationSpace = ParticleSystemSimulationSpace.World;
             var emission = ps.emission;
-            emission.rateOverTime = 40f;
+            emission.rateOverTime = 140f;
             var shape = ps.shape;
             shape.shapeType = ParticleSystemShapeType.Sphere;
-            shape.radius = 0.25f;
+            shape.radius = 0.35f;
             if (shardMaterial != null) go.GetComponent<ParticleSystemRenderer>().sharedMaterial = shardMaterial;
             ps.Play();
         }

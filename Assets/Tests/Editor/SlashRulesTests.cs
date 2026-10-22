@@ -28,7 +28,7 @@ public class SlashRulesTests
     [Test]
     public void TargetBeyondReachIsMissed()
     {
-        Assert.IsEmpty(Select(new Vector3(0f, 0f, 2.3f)));
+        Assert.IsEmpty(Select(new Vector3(0f, 0f, new BossFightSettings().slashReach + 0.1f)));
     }
 
     [Test]
@@ -77,11 +77,11 @@ public class SlashRulesTests
     }
 
     [Test]
-    public void SlashMoveSpeedIsNinetyFivePercentOfClothingSpeed()
+    public void SlashMoveSpeedIsNinetyPercentOfClothingSpeed()
     {
         var settings = new BossFightSettings();
         float walk = 10f;
         float clothing = walk * settings.clothingSpeedFactor;
-        Assert.AreEqual(0.95f * clothing, rules.MoveSpeed(walk), 1e-4f);
+        Assert.AreEqual(0.9f * clothing, rules.MoveSpeed(walk), 1e-4f);
     }
 }

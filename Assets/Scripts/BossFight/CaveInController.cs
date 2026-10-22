@@ -10,6 +10,9 @@ namespace BossFight
     // tiles, each chunk is announced by a rising hand, falls, carves the NavMesh and lets moonlight through its hole.
     public class CaveInController : MonoBehaviour
     {
+        private const float RimSpacing = 0.8f;
+        private StoreLightingController lighting;
+
         public const string WitchLine = "The ceiling is too unstable to keep doing this.";
         private const int CandidateSamples = 80;
         private const float TileSize = 2f;
@@ -148,8 +151,11 @@ namespace BossFight
         }
 
         // Every tile the chunk's footprint overlaps, so the falling chunk never grazes a neighbouring tile.
-        private void RemoveTilesAbove(Vector3 position, float radius)
+        // Returns the combined footprint of the removed tiles (size zero when none were removed).
+        private Bounds RemoveTilesAbove(Vector3 position, float radius)
         {
+            var hole = new Bounds();
+            bool any = false;
             for (int i = tiles.Count - 1; i >= 0; i--)
             {
                 var tile = tiles[i];
@@ -159,8 +165,41 @@ namespace BossFight
                 float dx = Mathf.Max(Mathf.Abs(p.x - position.x) - half.x, 0f);
                 float dz = Mathf.Max(Mathf.Abs(p.z - position.z) - half.z, 0f);
                 if (dx * dx + dz * dz > radius * radius) continue;
+                var tileBounds = new Bounds(p, tile.transform.localScale);
+                if (any) hole.Encapsulate(tileBounds); else { hole = tileBounds; any = true; }
                 Destroy(tile);
                 tiles.RemoveAt(i);
+            }
+            return hole;
+        }
+
+        // Jagged concrete lumps along the hole's rim so the opening reads as broken, not as missing square tiles.
+        private void AddJaggedRim(Bounds hole)
+        {
+            if (hole.size.x <= 0f) return;
+            float y = ceilingBounds.min.y;
+            var min = hole.min;
+            var max = hole.max;
+            var corners = new[] { new Vector3(min.x, y, min.z), new Vector3(max.x, y, min.z), new Vector3(max.x, y, max.z), new Vector3(min.x, y, max.z) };
+            for (int side = 0; side < 4; side++)
+            {
+                var a = corners[side];
+                var b = corners[(side + 1) % 4];
+                int pieces = Mathf.Max(2, Mathf.CeilToInt(Vector3.Distance(a, b) / RimSpacing));
+                for (int k = 0; k < pieces; k++)
+                {
+                    var point = Vector3.Lerp(a, b, (k + Random.Range(0.2f, 0.8f)) / pieces);
+                    var go = new GameObject("CaveInRim");
+                    float width = Random.Range(0.5f, 1.1f);
+                    float height = Random.Range(0.35f, 0.8f);
+                    go.AddComponent<MeshFilter>().sharedMesh = ChunkMesh.Build(++seedCounter * 104729, width, height, 0.35f);
+                    var renderer = go.AddComponent<MeshRenderer>();
+                    if (chunkMaterial != null) renderer.sharedMaterial = chunkMaterial;
+                    renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                    // Hangs down from the ceiling plane, upside down, nudged into the opening so it overlaps the edge.
+                    go.transform.position = point + (hole.center - point).normalized * Random.Range(0f, 0.3f) + Vector3.up * 0.25f;
+                    go.transform.rotation = Quaternion.Euler(180f + Random.Range(-15f, 15f), Random.Range(0f, 360f), Random.Range(-15f, 15f));
+                }
             }
         }
 
@@ -218,7 +257,10 @@ namespace BossFight
 
             yield return RaiseHand(spot.Position, ceilingY);
 
-            RemoveTilesAbove(spot.Position, settings.caveInChunkRadius * 1.4f);
+            var hole = RemoveTilesAbove(spot.Position, settings.caveInChunkRadius * 1.4f);
+            AddJaggedRim(hole);
+            if (lighting == null) lighting = FindFirstObjectByType<StoreLightingController>();
+            if (lighting != null) lighting.RemoveLightsNear(spot.Position, Mathf.Max(hole.extents.x, hole.extents.z) + 0.5f);
             SpawnDust(new Vector3(spot.Position.x, ceilingY, spot.Position.z), 4f);
             PlaySound(crackSound, spot.Position);
 
