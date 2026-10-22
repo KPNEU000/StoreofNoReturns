@@ -13,10 +13,13 @@ namespace BossFight.Rules
     // Money -> store light tier, plus the per-light flicker sampler. Thresholds come from the settings snapshot.
     public class LightTierRules
     {
-        // A flicker dip never goes below this fraction of full intensity, whatever the config says.
-        public const float FloorIntensity = 0.3f;
 
         private readonly BossFightSettings settings;
+
+        // A flicker dip never goes below this fraction of full intensity, whatever the tier minimums say.
+        public float FloorIntensity => settings.flickerFloorIntensity;
+        public float DipSecondsMin => settings.flickerDipSecondsMin;
+        public float DipSecondsMax => Mathf.Max(settings.flickerDipSecondsMin, settings.flickerDipSecondsMax);
 
         public LightTierRules(BossFightSettings settings)
         {
@@ -44,7 +47,7 @@ namespace BossFight.Rules
         }
 
         // Stronger tiers dip more often.
-        public float IntervalScale(LightTier tier) => tier == LightTier.MildFlicker ? 1f : 0.5f;
+        public float IntervalScale(LightTier tier) => tier == LightTier.MildFlicker ? 1f : settings.strongFlickerIntervalScale;
 
         public LightFlicker CreateFlicker(int seed) => new LightFlicker(this, seed);
     }
@@ -52,9 +55,6 @@ namespace BossFight.Rules
     // One light's flicker: a seeded stream of dips, so no two lights are synchronized.
     public class LightFlicker
     {
-        private const float DipSecondsMin = 0.06f;
-        private const float DipSecondsMax = 0.18f;
-
         private readonly LightTierRules rules;
         private readonly System.Random random;
         private float nextDipStart = -1f;
@@ -79,13 +79,13 @@ namespace BossFight.Rules
             }
             if (now >= nextDipStart && now >= dipEnd)
             {
-                dipEnd = now + Mathf.Lerp(DipSecondsMin, DipSecondsMax, Next());
+                dipEnd = now + Mathf.Lerp(rules.DipSecondsMin, rules.DipSecondsMax, Next());
                 dipDepth = Next();
                 nextDipStart = dipEnd + Mathf.Lerp(intervalMin, intervalMax, Next()) * rules.IntervalScale(tier);
             }
             if (now < dipEnd)
             {
-                return Mathf.Max(LightTierRules.FloorIntensity, Mathf.Lerp(1f, rules.DipFloor(tier), dipDepth));
+                return Mathf.Max(rules.FloorIntensity, Mathf.Lerp(1f, rules.DipFloor(tier), dipDepth));
             }
             return 1f;
         }

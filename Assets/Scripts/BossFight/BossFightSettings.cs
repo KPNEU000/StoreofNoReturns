@@ -21,6 +21,10 @@ namespace BossFight
         [Range(0f, 1f)] public float mildFlickerMinIntensity = 0.6f;
         [Range(0f, 1f)] public float strongFlickerMinIntensity = 0.3f;
         public float outsideLightIntensity = 0.2f;
+        [Range(0f, 1f)] public float flickerFloorIntensity = 0.3f;
+        public float flickerDipSecondsMin = 0.06f;
+        public float flickerDipSecondsMax = 0.18f;
+        public float strongFlickerIntervalScale = 0.5f;
 
         [Header("Economy: hits")]
         public float clothingHitCost = 25f;

@@ -50,7 +50,7 @@ public class LightTierRulesTests
             Assert.LessOrEqual(v, 1f);
             if (v < min) min = v;
         }
-        Assert.GreaterOrEqual(min, LightTierRules.FloorIntensity);
+        Assert.GreaterOrEqual(min, rules.FloorIntensity);
         Assert.Less(min, 1f, "flicker should actually dip");
     }
 
