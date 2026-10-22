@@ -14,9 +14,6 @@ public class BossBattleTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Keyboard.current.fKey.wasPressedThisFrame)
-        {
-            BossFight?.Invoke();
-        }
+        // F no longer triggers the fight (F belongs to the shop flashlight); the P debug key arrives later.
     }
 }

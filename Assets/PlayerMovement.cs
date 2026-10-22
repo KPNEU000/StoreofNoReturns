@@ -1,10 +1,12 @@
 using UnityEngine;
 using System;
+using BossFight.Rules;
+using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 10f;
 
-    public float mouseSensitivity = 100F;
+    public float mouseSensitivity = MoveSmoothing.DefaultSensitivity; // degrees per pixel; legacy scene values (100) are normalized at runtime
     public float pitchMin = -90f;
     public float pitchMax = 90f;
     [SerializeField] Transform body;
@@ -13,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float jumpHeight = 0.4f;
     public float gravity = 9.81f;
-    public float airControll = 10f;
+    public float airControll = 10f; // unused
 
     public bool MovementEnabled { get; private set; } = false;
 
@@ -26,6 +28,15 @@ public class PlayerMovement : MonoBehaviour
     public static Action PlayerMoved;
 
     Vector3 PathTrail;
+
+    // Other components (e.g. the slash) can slow the player by setting this; 1 = full speed.
+    public float SpeedMultiplier { get; set; } = 1f;
+    public float EffectiveSpeed => speed * SpeedMultiplier;
+
+    [SerializeField] float accelTime = MoveSmoothing.DefaultAccelTime;
+    MoveSmoothing smoothing;
+    Vector2 planarVelocity;
+    float verticalVelocity;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         BossBattleTest.BossFight += enableMovement;
         controller = GetComponent<CharacterController>();
+        smoothing = new MoveSmoothing(accelTime);
     }
 
     public void enableMovement()
@@ -46,50 +58,49 @@ public class PlayerMovement : MonoBehaviour
     {
         if(!MovementEnabled) return;
 
-        float moveX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float moveY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        var mouse = Mouse.current;
+        var kb = Keyboard.current;
 
-        //yaw at the player
-        if (body)
+        if (mouse != null)
         {
-            Debug.Log("turn");
-            transform.Rotate(Vector3.up * moveX);
-
+            Vector2 look = MoveSmoothing.LookDelta(mouse.delta.ReadValue(), MoveSmoothing.NormalizeSensitivity(mouseSensitivity));
+            //yaw at the player
+            if (body)
+            {
+                transform.Rotate(Vector3.up * look.x);
+            }
+            //pitch at the camera
+            pitch -= look.y;
+            pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);
+            cameraTrans.localRotation = Quaternion.Euler(pitch, 0, 0);
         }
-        //pitch at the camera
-        pitch -= moveY;
-        pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);
-        cameraTrans.localRotation = Quaternion.Euler(pitch, 0, 0);
 
+        //get input (raw keys, eased by MoveSmoothing)
+        Vector2 keys = Vector2.zero;
+        if (kb != null)
+        {
+            keys.x = (kb.dKey.isPressed ? 1f : 0f) - (kb.aKey.isPressed ? 1f : 0f);
+            keys.y = (kb.wKey.isPressed ? 1f : 0f) - (kb.sKey.isPressed ? 1f : 0f);
+        }
+        keys = Vector2.ClampMagnitude(keys, 1f);
+        planarVelocity = smoothing.Approach(planarVelocity, keys, 1f, Time.deltaTime);
 
-        //get input
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-        //input vector 
-
-        input = transform.right * moveHorizontal + transform.forward * moveVertical;
-        input.Normalize();
+        input = transform.right * planarVelocity.x + transform.forward * planarVelocity.y;
+        moveDirection = input;
         if (controller.isGrounded)
         {
-            moveDirection = input;
-            if (Input.GetButton("Jump"))
-            {
-                //moveDirection.y = Mathf.Sqrt(2 * jumpHeight * gravity);
-            }
-            else
-            {
-                moveDirection.y = 0.0f;
-            }
+            moveDirection.y = 0.0f;
         }
         else
         {
-            input.y = moveDirection.y;
-            moveDirection = Vector3.Lerp(moveDirection, input, Time.deltaTime);
+            moveDirection.y = verticalVelocity;
         }
         moveDirection.y -= gravity * Time.deltaTime;
-        controller.Move(moveDirection * speed * Time.deltaTime);
+        verticalVelocity = moveDirection.y;
+        controller.Move(new Vector3(moveDirection.x * EffectiveSpeed, moveDirection.y, moveDirection.z * EffectiveSpeed) * Time.deltaTime);
         if(Vector3.Distance(transform.position, PathTrail) >= navRecalcThreshold)
         {
+            PathTrail = transform.position;
             PlayerMoved?.Invoke();
         }
     }
