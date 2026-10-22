@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BossFight
 {
-    // The Witch: floats by the door, shielded until Phase2. Her HP lives in the director's phase machine.
+    // The Witch: stands on the floor beside the entrance, idling, shielded until Phase2. Her HP lives in the director's phase machine.
     public class WitchBoss : MonoBehaviour, IDamageable
     {
         [SerializeField]
@@ -19,13 +19,18 @@ namespace BossFight
         [SerializeField]
         private AudioClip hurtSound;
         [SerializeField]
+        private Texture shieldTexture;
+        [SerializeField]
         private float bobAmplitude = 0.08f;
         [SerializeField]
         private float bobSpeed = 1.5f;
         [SerializeField]
         private float damageFlashSeconds = 0.15f;
 
+        private const string WalkingParameter = "Walking";
+
         private Vector3 floatPosition;
+        private float hoverHeight;
         private Renderer[] renderers;
         private MaterialPropertyBlock block;
         private float flashUntil;
@@ -40,11 +45,33 @@ namespace BossFight
             var settings = BossFightConfig.SettingsOf(config);
             if (director == null) director = FindFirstObjectByType<BossDirector>();
             transform.localScale *= settings.witchHeightScale;
-            transform.position += Vector3.up * settings.witchHoverHeight;
+            hoverHeight = settings.witchHoverHeight;
+            transform.position += Vector3.up * hoverHeight;
             floatPosition = transform.position;
             var all = GetComponentsInChildren<Renderer>(true);
             renderers = System.Array.FindAll(all, r => shield == null || !r.transform.IsChildOf(shield.transform));
             block = new MaterialPropertyBlock();
+            Idle();
+        }
+
+        // WitchAnim's Walking bool defaults to true; she stands still, so force the idle state.
+        private void Idle()
+        {
+            var animator = GetComponent<Animator>();
+            if (animator == null) return;
+            animator.applyRootMotion = false;
+            animator.SetBool(WalkingParameter, false);
+        }
+
+        private void ApplyShieldTexture()
+        {
+            if (shield == null || shieldTexture == null) return;
+            var shieldRenderer = shield.GetComponent<Renderer>();
+            if (shieldRenderer == null) return;
+            var shieldBlock = new MaterialPropertyBlock();
+            shieldBlock.SetTexture("_BaseMap", shieldTexture);
+            shieldBlock.SetTexture("_MainTex", shieldTexture);
+            shieldRenderer.SetPropertyBlock(shieldBlock);
         }
 
         private void OnEnable()
@@ -60,6 +87,8 @@ namespace BossFight
         private void Start()
         {
             if (shield != null) shield.SetActive(true);
+            ApplyShieldTexture();
+            Idle();
         }
 
         public void TakeDamage(float amount, Vector3 from)
@@ -100,6 +129,8 @@ namespace BossFight
         {
             if (flashing && !dead && Time.time >= flashUntil) ClearTint();
             if (dead) return;
+            // Only bob when configured to hover; on the floor she stays put.
+            if (hoverHeight <= 0f) return;
             transform.position = floatPosition + Vector3.up * (Mathf.Sin(Time.time * bobSpeed) * bobAmplitude);
         }
 

@@ -93,7 +93,7 @@ namespace BossFight
         [Header("Witch / phases")]
         public float witchHp = 100f;
         public float witchHeightScale = 1.15f;
-        public float witchHoverHeight = 0.5f;
+        public float witchHoverHeight = 0f;
         public float tetherIntervalSeconds = 12f;
         public float tetherDurationSeconds = 5f;
         public float bookThrowIntervalSeconds = 4f;

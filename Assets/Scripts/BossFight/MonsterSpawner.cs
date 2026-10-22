@@ -17,6 +17,8 @@ namespace BossFight
 
         private BossFightSettings settings;
 
+        public Transform SpawnPoint => spawnPoint;
+
         private void Awake()
         {
             settings = BossFightConfig.SettingsOf(config);

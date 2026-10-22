@@ -398,6 +398,8 @@ namespace BossFight
                 }
                 foreach (var r in renderers) r.enabled = false;
                 foreach (var c in door.GetComponentsInChildren<Collider>(true)) c.enabled = false;
+                // Out of the scene entirely, so the NavMesh rebuild below sees an open doorway.
+                door.gameObject.SetActive(false);
             }
             Burst(center, new Color(0.8f, 0.9f, 1f, 1f), 160, 1f, 7f);
             Burst(center, new Color(0.75f, 0.35f, 1f, 1f), 60, 1f, 4f);
@@ -405,10 +407,28 @@ namespace BossFight
 
             if (rig == null) rig = FindFirstObjectByType<BossFightRig>();
             if (rig != null && rig.NavMeshSurface != null) rig.NavMeshSurface.BuildNavMesh();
+            WarnIfDoorwayClosed();
             if (doorBarrier != null) doorBarrier.enabled = true;
             if (lighting != null) lighting.ForceNormal = false;
             if (flashlight != null) flashlight.BrightMultiplier = 1f;
             if (director != null) director.BeginFight(monsterCount);
+        }
+
+        private void WarnIfDoorwayClosed()
+        {
+            var monsterSpawner = FindFirstObjectByType<MonsterSpawner>();
+            if (monsterSpawner == null || monsterSpawner.SpawnPoint == null || player == null) return;
+            var from = monsterSpawner.SpawnPoint.position;
+            var to = player.transform.position;
+            if (NavMesh.SamplePosition(from, out var start, 4f, NavMesh.AllAreas)) from = start.position;
+            if (NavMesh.SamplePosition(to, out var end, 4f, NavMesh.AllAreas)) to = end.position;
+            var path = new NavMeshPath();
+            bool found = NavMesh.CalculatePath(from, to, NavMesh.AllAreas, path);
+            var last = path.corners.Length > 0 ? path.corners[path.corners.Length - 1] : from;
+            if (!found || !DoorwayRules.IsPathComplete(path.status, last, to, 0.5f))
+            {
+                Debug.LogWarning("Boss fight: no complete NavMesh path from the monster spawn point into the store after the door blast.");
+            }
         }
 
         private Camera PlayerCamera()

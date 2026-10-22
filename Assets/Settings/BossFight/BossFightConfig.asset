@@ -71,7 +71,7 @@ MonoBehaviour:
     flankDirectRadius: 4
     witchHp: 100
     witchHeightScale: 1.15
-    witchHoverHeight: 0.5
+    witchHoverHeight: 0
     tetherIntervalSeconds: 12
     tetherDurationSeconds: 5
     bookThrowIntervalSeconds: 4

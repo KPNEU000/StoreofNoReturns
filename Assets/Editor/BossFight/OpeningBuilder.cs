@@ -215,11 +215,21 @@ namespace BossFight.Editor
         // Invisible blocker across the doorway, off until the blast. NavMesh builds ignore it so monsters can still path in.
         private static Collider EnsureBarrier(UnityEngine.SceneManagement.Scene scene, Transform door, ref bool changed)
         {
-            var existing = BuilderUtil.FindByName(scene, BarrierName);
-            if (existing != null && existing.GetComponent<BoxCollider>() != null) return existing.GetComponent<BoxCollider>();
-
             var bounds = DoorBounds(door);
             bounds.Expand(BarrierPadding * 2f);
+            var existing = BuilderUtil.FindByName(scene, BarrierName);
+            if (existing != null && existing.GetComponent<BoxCollider>() != null)
+            {
+                // Follows the door, so a barrier built around a previously targeted door moves to the real one.
+                var existingBox = existing.GetComponent<BoxCollider>();
+                if ((existing.position - bounds.center).sqrMagnitude > 1e-6f || (existingBox.size - bounds.size).sqrMagnitude > 1e-6f)
+                {
+                    existing.position = bounds.center;
+                    existingBox.size = bounds.size;
+                    changed = true;
+                }
+                return existingBox;
+            }
             var go = new GameObject(BarrierName);
             UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(go, scene);
             go.transform.position = bounds.center;
@@ -233,7 +243,7 @@ namespace BossFight.Editor
         }
 
         // World AABB of the door's mesh/box bounds, computed from local data so it works while the door is inactive.
-        private static Bounds DoorBounds(Transform door)
+        internal static Bounds DoorBounds(Transform door)
         {
             bool any = false;
             var bounds = new Bounds(door.position, Vector3.zero);

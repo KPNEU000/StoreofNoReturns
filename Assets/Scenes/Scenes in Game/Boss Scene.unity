@@ -16265,7 +16265,7 @@ MonoBehaviour:
   player: {fileID: 1001882434}
   witch: {fileID: 1523467203}
   monitor: {fileID: 969668210}
-  door: {fileID: 1979348142}
+  door: {fileID: 1223093398}
   doorBarrier: {fileID: 1272452097}
   vaultTarget: {fileID: 0}
   spawner: {fileID: 862484918}
@@ -16931,8 +16931,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648182675}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.0017829672, z: -0, w: 0.99999845}
-  m_LocalPosition: {x: -0.0071318573, y: 0.59000003, z: -16.999985}
+  m_LocalRotation: {x: -0, y: 0.0020062157, z: -0, w: 0.999998}
+  m_LocalPosition: {x: -0.018025553, y: 0.59000003, z: -16.590227}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18604,7 +18604,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1.5187603
+      value: 1.1
       mode: 0
       spread: 0
       speed:
@@ -22756,7 +22756,7 @@ Transform:
   m_GameObject: {fileID: 682656912}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3201193, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5187603, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37221,7 +37221,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 5, y: 5.7500305, z: 2}
+  m_Size: {x: 5.090001, y: 5.655, z: 1.8381252}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1272452098
 MonoBehaviour:
@@ -37252,7 +37252,7 @@ Transform:
   m_GameObject: {fileID: 1272452096}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.625, z: -14.999998}
+  m_LocalPosition: {x: -0.010000706, y: 2.74, z: -14.590243}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -39862,8 +39862,8 @@ Transform:
   m_GameObject: {fileID: 1343199476}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3201193, z: 0}
-  m_LocalScale: {x: 3.037521, y: 3.0375206, z: 3.037521}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.2, y: 6.0750413, z: 2.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1523467203}
@@ -45190,7 +45190,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5077242204360244357, guid: 7e7cf07a32e25eb40b00455bb8e0e27f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.008914822
+      value: -3.9006162
       objectReference: {fileID: 0}
     - target: {fileID: 5077242204360244357, guid: 7e7cf07a32e25eb40b00455bb8e0e27f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -45198,11 +45198,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5077242204360244357, guid: 7e7cf07a32e25eb40b00455bb8e0e27f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -12.500014
+      value: -13.07462
       objectReference: {fileID: 0}
     - target: {fileID: 5077242204360244357, guid: 7e7cf07a32e25eb40b00455bb8e0e27f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99999845
+      value: 0.9966459
       objectReference: {fileID: 0}
     - target: {fileID: 5077242204360244357, guid: 7e7cf07a32e25eb40b00455bb8e0e27f, type: 3}
       propertyPath: m_LocalRotation.x
@@ -45210,7 +45210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5077242204360244357, guid: 7e7cf07a32e25eb40b00455bb8e0e27f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0017829672
+      value: 0.08183499
       objectReference: {fileID: 0}
     - target: {fileID: 5077242204360244357, guid: 7e7cf07a32e25eb40b00455bb8e0e27f, type: 3}
       propertyPath: m_LocalRotation.z
@@ -45274,6 +45274,7 @@ MonoBehaviour:
   shatterBurst: {fileID: 682656913}
   shatterSound: {fileID: 0}
   hurtSound: {fileID: 0}
+  shieldTexture: {fileID: 0}
   bobAmplitude: 0.08
   bobSpeed: 1.5
   damageFlashSeconds: 0.15

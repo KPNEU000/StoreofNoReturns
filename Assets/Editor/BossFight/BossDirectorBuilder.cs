@@ -3,6 +3,7 @@ using TMPro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using BossFight.Rules;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ namespace BossFight.Editor
     // Places the Witch (shield + shatter burst) by the door, the BossDirector with DebugCheats, and the fight HUD in the Boss Scene.
     public static class BossDirectorBuilder
     {
-        public const string DoorName = "GlassDoor";
+        public const string DoorName = "FrontDoor";
         public const string WitchName = "Witch";
         public const string ShieldName = "WitchShield";
         public const string ShatterName = "ShieldShatter";
@@ -22,7 +23,12 @@ namespace BossFight.Editor
         public const string WitchPrefab = "Assets/Prefabs/CC Attribution Characters/Witch.prefab";
         public const string ShieldMaterial = BossFightPaths.SettingsFolder + "/WitchShield.mat";
         public const string ShatterMaterial = BossFightPaths.SettingsFolder + "/WitchShatter.mat";
-        private const float WitchDistanceFromDoor = 2.5f;
+        private const float WitchDepthInside = 1.5f;
+        private const float WitchLaneMargin = 0.75f;
+        // Dome proportions: it must enclose the Witch's capsule, so it is taller than she is and wider than her radius.
+        private const float DomeHeightFactor = 1.15f;
+        private const float DomeRadiusFactor = 2.2f;
+        public const float LaneHalfWidth = 0.5f;
         private static readonly Color ShieldColor = new Color(0.6f, 0.2f, 1f, 0.3f);
         private static readonly Color ShatterColor = new Color(0.75f, 0.35f, 1f, 0.9f);
 
@@ -68,7 +74,9 @@ namespace BossFight.Editor
 
                 var witch = EnsureWitch(boss.Scene, witchPrefab, door, player, ref changed);
                 var shield = EnsureShield(witch, shieldMat, ref changed);
+                PlaceWitch(witch, shield, door, player, ref changed);
                 var burst = EnsureShatter(witch, shield.transform, shatterMat, ref changed);
+                changed |= PlaceShatter(witch, shield.transform, burst);
                 var hud = EnsureHud(boss.Scene, ref changed, out var moneyText, out var objectiveText);
 
                 var so = new SerializedObject(director);
@@ -158,6 +166,27 @@ namespace BossFight.Editor
                 {
                     errors.Add($"Boss Scene {ShieldName} must not have a collider");
                 }
+                var door = BuilderUtil.FindByName(scene, DoorName);
+                if (door == null)
+                {
+                    errors.Add($"Boss Scene has no '{DoorName}' prefab instance for the door blast");
+                }
+                else
+                {
+                    var player = BuilderUtil.FindPlayer(scene);
+                    var capsule = witch.GetComponent<CapsuleCollider>();
+                    var bounds = OpeningBuilder.DoorBounds(door);
+                    if (player != null)
+                    {
+                        var inward = player.transform.position - bounds.center;
+                        inward.y = 0f;
+                        float radius = capsule != null ? capsule.radius * Mathf.Max(witch.transform.lossyScale.x, witch.transform.lossyScale.z) : 0.5f;
+                        if (!DoorwayRules.IsClearOfLane(witch.transform.position, radius, bounds.center, inward, LaneHalfWidth))
+                        {
+                            errors.Add("Boss Scene Witch stands in the doorway lane");
+                        }
+                    }
+                }
             }
 
             var hud = BuilderUtil.FindInScene<BossHud>(scene);
@@ -191,8 +220,7 @@ namespace BossFight.Editor
             return go.AddComponent<T>();
         }
 
-        // A new Witch.prefab instance, standing on the floor a few metres in from the door, facing the player.
-        // WitchBoss lifts it to hover height and applies the height scale at runtime.
+        // The Witch.prefab instance; PlaceWitch decides where it stands. WitchBoss applies the height scale at runtime.
         private static WitchBoss EnsureWitch(UnityEngine.SceneManagement.Scene scene, GameObject prefab, Transform door, PlayerMovement player, ref bool changed)
         {
             var existing = BuilderUtil.FindInScene<WitchBoss>(scene);
@@ -202,23 +230,53 @@ namespace BossFight.Editor
             }
             var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, scene);
             instance.name = WitchName;
-
-            var controller = player.GetComponent<CharacterController>();
-            float floorY = controller != null
-                ? player.transform.position.y + controller.center.y - controller.height * 0.5f
-                : player.transform.position.y - 1f;
-            var toPlayer = player.transform.position - door.position;
-            toPlayer.y = 0f;
-            var inward = toPlayer.sqrMagnitude > 1e-4f ? toPlayer.normalized : Vector3.forward;
-            var position = door.position + inward * WitchDistanceFromDoor;
-            position.y = floorY;
-            instance.transform.SetPositionAndRotation(position, Quaternion.LookRotation(inward));
-
             changed = true;
             return instance.AddComponent<WitchBoss>();
         }
 
-        // Purple bubble sized to the Witch's capsule.
+        // Dome radius (world, before WitchBoss's runtime height scale) and height for a Witch standing in the scene.
+        private static void DomeSize(WitchBoss witch, out float radius, out float height)
+        {
+            var capsule = witch.GetComponent<CapsuleCollider>();
+            var scale = witch.transform.lossyScale;
+            float worldHeight = capsule != null ? capsule.height * scale.y : 2.6f;
+            float worldRadius = capsule != null ? capsule.radius * Mathf.Max(scale.x, scale.z) : 0.5f;
+            radius = worldRadius * DomeRadiusFactor;
+            height = worldHeight * DomeHeightFactor;
+        }
+
+        // On the floor beside the entrance, clear of the doorway lane, facing the player. Re-applied every build.
+        private static void PlaceWitch(WitchBoss witch, GameObject shield, Transform door, PlayerMovement player, ref bool changed)
+        {
+            DomeSize(witch, out var domeRadius, out _);
+            var bounds = OpeningBuilder.DoorBounds(door);
+            var doorCenter = bounds.center;
+            var controller = player.GetComponent<CharacterController>();
+            doorCenter.y = controller != null
+                ? player.transform.position.y + controller.center.y - controller.height * 0.5f
+                : player.transform.position.y - 1f;
+            var inward = player.transform.position - doorCenter;
+            inward.y = 0f;
+            inward = inward.sqrMagnitude > 1e-4f ? inward.normalized : Vector3.forward;
+            var lateral = Vector3.Cross(Vector3.up, inward);
+            float halfWidth = Mathf.Abs(lateral.x) * bounds.extents.x + Mathf.Abs(lateral.z) * bounds.extents.z;
+            halfWidth = Mathf.Max(halfWidth, LaneHalfWidth);
+
+            var position = DoorwayRules.WitchPosition(doorCenter, inward, player.transform.position, halfWidth, domeRadius, WitchDepthInside, WitchLaneMargin);
+            var toPlayer = player.transform.position - position;
+            toPlayer.y = 0f;
+            var facing = toPlayer.sqrMagnitude > 1e-4f ? Quaternion.LookRotation(toPlayer.normalized) : Quaternion.identity;
+            var t = witch.transform;
+            if ((t.position - position).sqrMagnitude > 1e-6f || Quaternion.Angle(t.rotation, facing) > 0.01f)
+            {
+                t.SetPositionAndRotation(position, facing);
+                changed = true;
+            }
+            // The shield is sized and anchored from the Witch's final transform.
+            changed |= FitShield(witch, shield.transform);
+        }
+
+        // Dome resting on the floor: a sphere centred on the Witch's feet, so only its upper half shows above the floor.
         private static GameObject EnsureShield(WitchBoss witch, Material material, ref bool changed)
         {
             var existing = witch.transform.Find(ShieldName);
@@ -230,21 +288,28 @@ namespace BossFight.Editor
             sphere.name = ShieldName;
             Object.DestroyImmediate(sphere.GetComponent<Collider>());
             sphere.transform.SetParent(witch.transform, false);
-
-            var capsule = witch.GetComponent<CapsuleCollider>();
-            var scale = witch.transform.lossyScale;
-            float worldHeight = capsule != null ? capsule.height * scale.y : 2.6f;
-            sphere.transform.position = capsule != null
-                ? witch.transform.TransformPoint(capsule.center)
-                : witch.transform.position + Vector3.up * worldHeight * 0.5f;
-            float diameter = worldHeight * 1.15f;
-            sphere.transform.localScale = new Vector3(diameter / scale.x, diameter / scale.y, diameter / scale.z);
+            FitShield(witch, sphere.transform);
 
             var renderer = sphere.GetComponent<MeshRenderer>();
             renderer.sharedMaterial = material;
             renderer.shadowCastingMode = ShadowCastingMode.Off;
             changed = true;
             return sphere;
+        }
+
+        private static bool FitShield(WitchBoss witch, Transform shield)
+        {
+            DomeSize(witch, out var radius, out var height);
+            var scale = witch.transform.lossyScale;
+            var localScale = new Vector3(radius * 2f / scale.x, height * 2f / scale.y, radius * 2f / scale.z);
+            if (shield.localPosition == Vector3.zero && (shield.localScale - localScale).sqrMagnitude < 1e-8f)
+            {
+                return false;
+            }
+            shield.localPosition = Vector3.zero;
+            shield.localRotation = Quaternion.identity;
+            shield.localScale = localScale;
+            return true;
         }
 
         private static ParticleSystem EnsureShatter(WitchBoss witch, Transform shield, Material material, ref bool changed)
@@ -256,7 +321,6 @@ namespace BossFight.Editor
             }
             var go = new GameObject(ShatterName);
             go.transform.SetParent(witch.transform, false);
-            go.transform.position = shield.position;
             var ps = go.AddComponent<ParticleSystem>();
             ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
@@ -277,12 +341,29 @@ namespace BossFight.Editor
 
             var shape = ps.shape;
             shape.shapeType = ParticleSystemShapeType.Sphere;
-            shape.radius = shield.lossyScale.y * 0.5f;
 
             var renderer = go.GetComponent<ParticleSystemRenderer>();
             renderer.sharedMaterial = material;
             changed = true;
             return ps;
+        }
+
+        // Burst sits at the dome's centre of mass (half the dome height up) and spans the dome radius.
+        private static bool PlaceShatter(WitchBoss witch, Transform shield, ParticleSystem burst)
+        {
+            DomeSize(witch, out var radius, out var height);
+            var scale = witch.transform.lossyScale;
+            var local = new Vector3(0f, height * 0.5f / scale.y, 0f);
+            var shape = burst.shape;
+            float shapeRadius = radius / Mathf.Max(scale.x, scale.z);
+            bool same = (burst.transform.localPosition - local).sqrMagnitude < 1e-8f && Mathf.Abs(shape.radius - shapeRadius) < 1e-4f;
+            if (same)
+            {
+                return false;
+            }
+            burst.transform.localPosition = local;
+            shape.radius = shapeRadius;
+            return true;
         }
 
         private static BossHud EnsureHud(UnityEngine.SceneManagement.Scene scene, ref bool changed, out TMP_Text moneyText, out TMP_Text objectiveText)

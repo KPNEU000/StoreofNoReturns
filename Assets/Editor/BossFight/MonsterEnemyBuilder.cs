@@ -51,15 +51,22 @@ namespace BossFight.Editor
                 {
                     point = new GameObject(SpawnPointName).transform;
                     point.SetParent(spawner.transform, false);
-                    var inward = player.transform.position - door.position;
-                    inward.y = 0f;
-                    inward = inward.sqrMagnitude > 1e-4f ? inward.normalized : Vector3.forward;
-                    var position = door.position - inward * SpawnDistanceOutsideDoor;
-                    var controller = player.GetComponent<CharacterController>();
-                    position.y = controller != null
-                        ? player.transform.position.y + controller.center.y - controller.height * 0.5f
-                        : player.transform.position.y - 1f;
-                    point.SetPositionAndRotation(position, Quaternion.LookRotation(inward));
+                    changed = true;
+                }
+                // Always outside the real front door, so a spawn point made for an earlier door target is moved.
+                var doorCenter = OpeningBuilder.DoorBounds(door).center;
+                var inward = player.transform.position - doorCenter;
+                inward.y = 0f;
+                inward = inward.sqrMagnitude > 1e-4f ? inward.normalized : Vector3.forward;
+                var position = doorCenter - inward * SpawnDistanceOutsideDoor;
+                var controller = player.GetComponent<CharacterController>();
+                position.y = controller != null
+                    ? player.transform.position.y + controller.center.y - controller.height * 0.5f
+                    : player.transform.position.y - 1f;
+                var rotation = Quaternion.LookRotation(inward);
+                if ((point.position - position).sqrMagnitude > 1e-6f || Quaternion.Angle(point.rotation, rotation) > 0.01f)
+                {
+                    point.SetPositionAndRotation(position, rotation);
                     changed = true;
                 }
 
