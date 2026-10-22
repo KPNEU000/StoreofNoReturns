@@ -78,7 +78,7 @@ public class CostumeScriptData : ScriptableObject
 
     public string getName()
     {
-        return name;
+        return costumeName;
     }
 }
 

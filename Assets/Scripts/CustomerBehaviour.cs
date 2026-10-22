@@ -81,6 +81,9 @@ public class CustomerBehaviour : MonoBehaviour
         {
             animator.Play("Dissapointed");
         }
+
+        customerSpawner.NewCustomer();
+        customerSpawner.UpdateLinePosition();
     }
 
     public void StopWalking()
