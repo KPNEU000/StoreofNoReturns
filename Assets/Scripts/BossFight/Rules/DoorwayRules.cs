@@ -10,8 +10,7 @@ namespace BossFight.Rules
         // far enough that the shield dome clears the doorway lane. `inward` points from the door into the store.
         public static Vector3 WitchPosition(Vector3 doorCenter, Vector3 inward, Vector3 playerPosition, float doorHalfWidth, float domeRadius, float depth, float margin)
         {
-            inward.y = 0f;
-            inward = inward.sqrMagnitude > 1e-6f ? inward.normalized : Vector3.forward;
+            inward = Planar.Direction(inward);
             var lateral = Vector3.Cross(Vector3.up, inward);
             var toPlayer = playerPosition - doorCenter;
             float side = Vector3.Dot(toPlayer, lateral) >= 0f ? 1f : -1f;
@@ -24,8 +23,7 @@ namespace BossFight.Rules
         // Horizontal distance from `point` to the lane running from the door straight into the store.
         public static float DistanceFromLane(Vector3 point, Vector3 doorCenter, Vector3 inward)
         {
-            inward.y = 0f;
-            inward = inward.sqrMagnitude > 1e-6f ? inward.normalized : Vector3.forward;
+            inward = Planar.Direction(inward);
             var lateral = Vector3.Cross(Vector3.up, inward);
             return Mathf.Abs(Vector3.Dot(point - doorCenter, lateral));
         }

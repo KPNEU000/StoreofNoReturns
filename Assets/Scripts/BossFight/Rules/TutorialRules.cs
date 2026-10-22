@@ -8,8 +8,7 @@ namespace BossFight.Rules
         // Point on the far side of the desk along `forward`: clear of every desk corner by `clearance`, at the player's height.
         public static Vector3 VaultTarget(Vector3 playerPosition, Vector3 forward, Bounds desk, float clearance)
         {
-            forward.y = 0f;
-            forward = forward.sqrMagnitude > 1e-6f ? forward.normalized : Vector3.forward;
+            forward = Planar.Direction(forward);
             float reach = 0f;
             var min = desk.min;
             var max = desk.max;
@@ -24,8 +23,7 @@ namespace BossFight.Rules
         // Endpoints of the pass: `ahead` m in front of the player, `halfWidth` m either side of their line of sight.
         public static void PassEndpoints(Vector3 playerPosition, Vector3 forward, float ahead, float halfWidth, out Vector3 from, out Vector3 to)
         {
-            forward.y = 0f;
-            forward = forward.sqrMagnitude > 1e-6f ? forward.normalized : Vector3.forward;
+            forward = Planar.Direction(forward);
             var right = Vector3.Cross(Vector3.up, forward);
             var centre = playerPosition + forward * ahead;
             from = centre - right * halfWidth;
