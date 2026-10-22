@@ -76,7 +76,11 @@ namespace BossFight
 
         private void RebuildNavMesh()
         {
-            if (rig != null && rig.NavMeshSurface != null) rig.NavMeshSurface.BuildNavMesh();
+            if (rig == null || rig.NavMeshSurface == null) return;
+            var surface = rig.NavMeshSurface;
+            // Incremental async update of the existing data; a first-time build is the only synchronous case.
+            if (surface.navMeshData == null) surface.BuildNavMesh();
+            else surface.UpdateNavMesh(surface.navMeshData);
         }
     }
 }

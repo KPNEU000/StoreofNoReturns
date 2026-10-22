@@ -71,6 +71,7 @@ namespace BossFight
             entries.Clear();
             int seed = 17;
             var lights = FindObjectsByType<Light>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
+            BossFight.Rules.ShadowRules.RestrictToFlashlight(lights);
             foreach (var light in PrepareStoreLights(lights, outsideLight, transform))
             {
                 entries.Add(new Entry
