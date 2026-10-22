@@ -174,13 +174,12 @@ namespace BossFight.Editor
                 else
                 {
                     var player = BuilderUtil.FindPlayer(scene);
-                    var capsule = witch.GetComponent<CapsuleCollider>();
                     var bounds = OpeningBuilder.DoorBounds(door);
                     if (player != null)
                     {
                         var inward = player.transform.position - bounds.center;
                         inward.y = 0f;
-                        float radius = capsule != null ? capsule.radius * Mathf.Max(witch.transform.lossyScale.x, witch.transform.lossyScale.z) : 0.5f;
+                        Footprint(witch, out var radius, out _);
                         if (!DoorwayRules.IsClearOfLane(witch.transform.position, radius, bounds.center, inward, LaneHalfWidth))
                         {
                             errors.Add("Boss Scene Witch stands in the doorway lane");
@@ -234,13 +233,19 @@ namespace BossFight.Editor
             return instance.AddComponent<WitchBoss>();
         }
 
-        // Dome radius (world, before WitchBoss's runtime height scale) and height for a Witch standing in the scene.
-        private static void DomeSize(WitchBoss witch, out float radius, out float height)
+        // World radius and height of the Witch's capsule as she stands in the scene (before WitchBoss's runtime height scale).
+        private static void Footprint(WitchBoss witch, out float radius, out float height)
         {
             var capsule = witch.GetComponent<CapsuleCollider>();
             var scale = witch.transform.lossyScale;
-            float worldHeight = capsule != null ? capsule.height * scale.y : 2.6f;
-            float worldRadius = capsule != null ? capsule.radius * Mathf.Max(scale.x, scale.z) : 0.5f;
+            height = capsule != null ? capsule.height * scale.y : 2.6f;
+            radius = capsule != null ? capsule.radius * Mathf.Max(scale.x, scale.z) : 0.5f;
+        }
+
+        // Dome radius and height for a Witch standing in the scene.
+        private static void DomeSize(WitchBoss witch, out float radius, out float height)
+        {
+            Footprint(witch, out var worldRadius, out var worldHeight);
             radius = worldRadius * DomeRadiusFactor;
             height = worldHeight * DomeHeightFactor;
         }
@@ -251,13 +256,8 @@ namespace BossFight.Editor
             DomeSize(witch, out var domeRadius, out _);
             var bounds = OpeningBuilder.DoorBounds(door);
             var doorCenter = bounds.center;
-            var controller = player.GetComponent<CharacterController>();
-            doorCenter.y = controller != null
-                ? player.transform.position.y + controller.center.y - controller.height * 0.5f
-                : player.transform.position.y - 1f;
-            var inward = player.transform.position - doorCenter;
-            inward.y = 0f;
-            inward = inward.sqrMagnitude > 1e-4f ? inward.normalized : Vector3.forward;
+            doorCenter.y = BuilderUtil.PlayerFloorY(player);
+            var inward = BuilderUtil.TowardsPlayer(doorCenter, player);
             var lateral = Vector3.Cross(Vector3.up, inward);
             float halfWidth = Mathf.Abs(lateral.x) * bounds.extents.x + Mathf.Abs(lateral.z) * bounds.extents.z;
             halfWidth = Mathf.Max(halfWidth, LaneHalfWidth);
@@ -266,12 +266,7 @@ namespace BossFight.Editor
             var toPlayer = player.transform.position - position;
             toPlayer.y = 0f;
             var facing = toPlayer.sqrMagnitude > 1e-4f ? Quaternion.LookRotation(toPlayer.normalized) : Quaternion.identity;
-            var t = witch.transform;
-            if ((t.position - position).sqrMagnitude > 1e-6f || Quaternion.Angle(t.rotation, facing) > 0.01f)
-            {
-                t.SetPositionAndRotation(position, facing);
-                changed = true;
-            }
+            changed |= BuilderUtil.SetPose(witch.transform, position, facing);
             // The shield is sized and anchored from the Witch's final transform.
             changed |= FitShield(witch, shield.transform);
         }
@@ -390,10 +385,8 @@ namespace BossFight.Editor
         private static TMP_Text EnsureLabel(Transform parent, string name, Vector2 offset, float size, ref bool changed)
         {
             // Anywhere under the HUD: OpeningBuilder moves the labels into the glass frame.
-            foreach (var existing in parent.GetComponentsInChildren<TMP_Text>(true))
-            {
-                if (existing.name == name) return existing;
-            }
+            var existing = BuilderUtil.FindLabel(parent, name);
+            if (existing != null) return existing;
             var go = new GameObject(name, typeof(RectTransform));
             go.transform.SetParent(parent, false);
             var rect = (RectTransform)go.transform;

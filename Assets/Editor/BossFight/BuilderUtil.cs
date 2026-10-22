@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -41,6 +42,41 @@ namespace BossFight.Editor
                 }
             }
             return null;
+        }
+
+        // A TMP label anywhere under root (inactive included) with this exact name.
+        public static TMP_Text FindLabel(Transform root, string name)
+        {
+            foreach (var label in root.GetComponentsInChildren<TMP_Text>(true))
+            {
+                if (label.name == name) return label;
+            }
+            return null;
+        }
+
+        // Height of the player's feet: the bottom of its CharacterController, else 1 m below its pivot.
+        public static float PlayerFloorY(PlayerMovement player)
+        {
+            var controller = player.GetComponent<CharacterController>();
+            return controller != null
+                ? player.transform.position.y + controller.center.y - controller.height * 0.5f
+                : player.transform.position.y - 1f;
+        }
+
+        // Horizontal unit direction from `from` (e.g. the door) towards the player; world forward when on top of it.
+        public static Vector3 TowardsPlayer(Vector3 from, PlayerMovement player)
+        {
+            var direction = player.transform.position - from;
+            direction.y = 0f;
+            return direction.sqrMagnitude > 1e-4f ? direction.normalized : Vector3.forward;
+        }
+
+        // Moves t only when it is off the target pose, so unchanged builds stay byte-identical. Returns true when moved.
+        public static bool SetPose(Transform t, Vector3 position, Quaternion rotation)
+        {
+            if ((t.position - position).sqrMagnitude <= 1e-6f && Quaternion.Angle(t.rotation, rotation) <= 0.01f) return false;
+            t.SetPositionAndRotation(position, rotation);
+            return true;
         }
 
         public static bool SetReference(SerializedObject so, string field, Object value)

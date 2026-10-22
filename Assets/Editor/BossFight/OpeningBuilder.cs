@@ -264,7 +264,7 @@ namespace BossFight.Editor
             var money = hudSo.FindProperty("moneyText").objectReferenceValue as TMP_Text;
             var objective = hudSo.FindProperty("objectiveText").objectReferenceValue as TMP_Text;
             if (money == null || objective == null) throw new System.InvalidOperationException("Boss Scene BossHud has no money/objective labels to put on the glass");
-            var prompt = FindLabel(overlay.transform, HudPromptName);
+            var prompt = BuilderUtil.FindLabel(overlay.transform, HudPromptName);
             if (prompt == null)
             {
                 var go = new GameObject(HudPromptName, typeof(RectTransform));
@@ -362,15 +362,6 @@ namespace BossFight.Editor
             }
             changed |= so.ApplyModifiedPropertiesWithoutUndo();
             return glass;
-        }
-
-        private static TMP_Text FindLabel(Transform root, string name)
-        {
-            foreach (var label in root.GetComponentsInChildren<TMP_Text>(true))
-            {
-                if (label.name == name) return label;
-            }
-            return null;
         }
 
         // Parents the label under the frame, stretched over `area` (xMin, yMin, xMax, yMax as frame fractions), centred.

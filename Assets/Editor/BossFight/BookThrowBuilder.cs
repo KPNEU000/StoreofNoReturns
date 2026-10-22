@@ -55,10 +55,7 @@ namespace BossFight.Editor
                     changed = true;
                 }
 
-                var controller = player.GetComponent<CharacterController>();
-                float floorY = controller != null
-                    ? player.transform.position.y + controller.center.y - controller.height * 0.5f
-                    : player.transform.position.y - 1f;
+                float floorY = BuilderUtil.PlayerFloorY(player);
                 for (int i = 0; i < WallNames.Length; i++)
                 {
                     var wall = BuilderUtil.FindByName(boss.Scene, WallNames[i]);
