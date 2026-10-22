@@ -27,7 +27,7 @@ public class DoorControl : MonoBehaviour
             if(other.GetComponent<CustomerBehaviour>().done)
             {
                 customerSpawner.UpdateLinePosition();
-                if(other.gameObject.name == "Kelly Darkson") //lmao
+                if(other.gameObject.name == "Shelly Darkson") //lmao
                 {
                     customerSpawner.WitchComes(); 
                 }
