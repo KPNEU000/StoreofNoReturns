@@ -51,4 +51,29 @@ public class SwordPoseTests
         Assert.That(Mathf.DeltaAngle(0f, yawStart), Is.GreaterThan(45f));
         Assert.That(Mathf.DeltaAngle(0f, yawEnd), Is.LessThan(-45f));
     }
+
+    // Camera-space blade tip (pivot rest from PlayerToolsBuilder.BuildSword, blade length 0.9): the trail follows this.
+    private static Vector3 Tip(float t)
+    {
+        var pose = SwordPose.Evaluate(t, Hit);
+        return new Vector3(0.35f, -0.4f, 0.6f) + pose.positionOffset + pose.rotation * new Vector3(0f, 0.9f, 0f);
+    }
+
+    [Test]
+    public void TipArcsInFrontOfPlayerFromRightToLeft()
+    {
+        float start = Hit * 0.7f;
+        float end = Hit + (1f - Hit) * 0.2f;
+        float previousX = float.MaxValue;
+        for (int i = 0; i <= 10; i++)
+        {
+            Vector3 tip = Tip(Mathf.Lerp(start, end, i / 10f));
+            Assert.That(tip.z, Is.GreaterThan(0.9f), "trail stays well in front of the camera");
+            Assert.That(tip.x, Is.LessThanOrEqualTo(previousX + 1e-4f));
+            previousX = tip.x;
+        }
+        Assert.That(Tip(start).x, Is.GreaterThan(0.3f), "starts to the right");
+        Assert.That(Tip(end).x, Is.LessThan(-0.3f), "ends to the left");
+        Assert.That(Tip(Hit).z, Is.GreaterThan(Tip(start).z), "arc bulges forward through the hit");
+    }
 }
