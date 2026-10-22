@@ -42,17 +42,18 @@ public class GlassHudTests
     }
 
     [Test]
-    public void ShardSitsTopRightAndIsALittleUnderAQuarterOfTheScreen()
+    public void ShardSitsTopRightAndStaysClearOfTheCentreReticle()
     {
         var s = new BossFightSettings();
         var rect = GlassShardRules.ScreenRect(s.glassHudWidth, s.glassHudHeight, s.glassHudMargin);
         float area = rect.width * rect.height;
-        Assert.Less(area, 0.25f);
-        Assert.Greater(area, 0.18f);
+        // Round 2 playtest: the first ~quarter-screen shard crowded the reticle; it is now a corner piece.
+        Assert.Less(area, 0.12f);
+        Assert.Greater(area, 0.05f);
         Assert.AreEqual(1f - s.glassHudMargin, rect.xMax, 1e-5f);
         Assert.AreEqual(1f - s.glassHudMargin, rect.yMax, 1e-5f);
-        Assert.Greater(rect.xMin, 0.5f, "stays in the right half");
-        Assert.Greater(rect.yMin, 0.5f, "stays in the top half");
+        Assert.Greater(rect.xMin, 0.6f, "stays well right of the centre reticle");
+        Assert.Greater(rect.yMin, 0.6f, "stays well above the centre reticle");
     }
 
     [Test]

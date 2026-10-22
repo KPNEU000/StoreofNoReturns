@@ -27,6 +27,7 @@ namespace BossFight
         private float placedFov;
 
         public Rect Viewport => viewport;
+        public bool FollowsCamera => followCamera;
 
         private void Awake()
         {
@@ -39,6 +40,15 @@ namespace BossFight
             var meshRenderer = GetComponent<MeshRenderer>();
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             meshRenderer.receiveShadows = false;
+            if (followCamera)
+            {
+                // Crack size is tuned in the config rather than on the shared material asset.
+                var block = new MaterialPropertyBlock();
+                meshRenderer.GetPropertyBlock(block);
+                block.SetFloat("_CrackScale", settings.glassHudCrackScale);
+                block.SetFloat("_CrackWidth", settings.glassHudCrackWidth);
+                meshRenderer.SetPropertyBlock(block);
+            }
             EnableOpaqueTexture(viewCamera);
         }
 

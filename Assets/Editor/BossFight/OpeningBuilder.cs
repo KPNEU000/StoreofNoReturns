@@ -28,7 +28,7 @@ namespace BossFight.Editor
         public const string GlassHudMaterial = BossFightPaths.SettingsFolder + "/GlassHud.mat";
         public const string MonitorGlassMaterial = BossFightPaths.SettingsFolder + "/MonitorGlass.mat";
         // In front of the monitor's world-space canvas, in metres.
-        internal const float MonitorGlassLift = 0.004f;
+        internal const float MonitorGlassLift = 0.03f; // clears the curved CRT surface in front of the canvas
         // Text sits in the middle of the shard, clear of its jagged edge (fractions of the frame).
         internal static readonly Vector4 MoneyArea = new Vector4(0.16f, 0.6f, 0.84f, 0.82f);
         internal static readonly Vector4 ObjectiveArea = new Vector4(0.16f, 0.42f, 0.84f, 0.6f);

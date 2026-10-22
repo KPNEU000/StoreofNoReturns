@@ -62,4 +62,11 @@ public class TutorialTests
             Object.DestroyImmediate(go);
         }
     }
+
+    [Test]
+    public void TutorialCostumePassesWithinSlashReach()
+    {
+        var settings = new BossFightSettings();
+        Assert.Less(BossFight.OpeningSequence.TutorialPassAhead, settings.slashReach, "the player must be able to hit it without walking");
+    }
 }

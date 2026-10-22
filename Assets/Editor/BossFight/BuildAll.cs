@@ -29,6 +29,20 @@ namespace BossFight.Editor
             ("Build settings scenes", BuildSettingsBuilder.Build),
         };
 
+        // Same as the headless run, for use while the Editor is open (it cannot run with Unity in Play mode).
+        [UnityEditor.MenuItem("Boss Fight/Rebuild Boss Scene")]
+        private static void RunFromMenu()
+        {
+            if (UnityEditor.EditorApplication.isPlaying)
+            {
+                UnityEditor.EditorUtility.DisplayDialog("Boss Fight", "Stop Play mode first, then rebuild.", "OK");
+                return;
+            }
+            if (!UnityEditor.SceneManagement.EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            Run();
+            Debug.Log("Boss Fight: rebuild finished.");
+        }
+
         public static void Run()
         {
             foreach (var step in Steps)

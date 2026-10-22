@@ -151,14 +151,19 @@ namespace BossFight
         public int openingWallCrackCount = 8;
 
         [Header("Glass HUD (viewport fractions, top-right)")]
-        [Range(0f, 1f)] public float glassHudWidth = 0.46f;
-        [Range(0f, 1f)] public float glassHudHeight = 0.46f;
+        [Range(0f, 1f)] public float glassHudWidth = 0.3f;
+        [Range(0f, 1f)] public float glassHudHeight = 0.3f;
         [Range(0f, 0.5f)] public float glassHudMargin = 0.01f;
         public int glassHudOutlinePoints = 14;
         [Range(0f, 0.6f)] public float glassHudJaggedness = 0.22f;
         // Edge weight = (distance from centre)^exponent, so refraction and blur pile up at the jagged edge.
         public float glassEdgeFalloffExponent = 2.5f;
         public int glassHudSeed = 7;
+        // Crack cells across the HUD shard and their line width (uv); more, finer cells read as smaller breaks.
+        public float glassHudCrackScale = 10f;
+        public float glassHudCrackWidth = 0.022f;
+        // How fast (degrees/second) the opening turns the view toward the Witch while she casts at the monitor.
+        public float openingLookTurnDegreesPerSecond = 120f;
 
         [Header("Debug (P = jump to boss start)")]
         public float debugStartMoney = 600f;

@@ -62,6 +62,16 @@ MonoBehaviour:
     waveMaxCostumes: 6
     maxClothingAlive: 15
     rackFadeSeconds: 1
+    clothPinBand: 0.15
+    clothFreeDistance: 0.35
+    clothMaxParticles: 400
+    clothSolverFrequency: 60
+    clothStretchingStiffness: 0.8
+    clothBendingStiffness: 0.1
+    clothDamping: 0.15
+    clothWorldVelocityScale: 0.6
+    clothWorldAccelerationScale: 0.9
+    clothFlapAcceleration: 2
     monsterBaseHp: 50
     monsterWindupSeconds: 0.6
     monsterAttackReach: 1.8
@@ -107,13 +117,16 @@ MonoBehaviour:
     openingVaultArcHeight: 0.7
     openingFlashlightMultiplier: 2.5
     openingWallCrackCount: 8
-    glassHudWidth: 0.46
-    glassHudHeight: 0.46
+    glassHudWidth: 0.3
+    glassHudHeight: 0.3
     glassHudMargin: 0.01
     glassHudOutlinePoints: 14
     glassHudJaggedness: 0.22
     glassEdgeFalloffExponent: 2.5
     glassHudSeed: 7
+    glassHudCrackScale: 10
+    glassHudCrackWidth: 0.022
+    openingLookTurnDegreesPerSecond: 120
     debugStartMoney: 600
     debugReputation: 50
     debugAngeredCustomers: 3

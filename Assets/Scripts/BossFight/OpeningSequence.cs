@@ -57,8 +57,8 @@ namespace BossFight
         [SerializeField]
         private AudioClip doorBlastSound;
 
-        private const float TutorialPassAhead = 3.5f;
-        private const float TutorialPassHalfWidth = 3f;
+        public const float TutorialPassAhead = 1.6f; // inside the 2.2 m slash reach
+        public const float TutorialPassHalfWidth = 2f;
 
         private BossFightSettings settings;
         private OpeningSteps steps;
@@ -188,8 +188,12 @@ namespace BossFight
         {
             switch (step)
             {
-                case OpeningStep.MagicToMonitor: UpdateBeam(); break;
-                case OpeningStep.ShatterMonitor: UpdateShard(); break;
+                case OpeningStep.LockPlayer:
+                case OpeningStep.MagicToMonitor:
+                    LookAtCast();
+                    if (step == OpeningStep.MagicToMonitor) UpdateBeam();
+                    break;
+                case OpeningStep.ShatterMonitor: LookAtCast(); UpdateShard(); break;
                 case OpeningStep.Vault: UpdateVault(); break;
             }
         }
@@ -203,6 +207,19 @@ namespace BossFight
             lighting = FindFirstObjectByType<StoreLightingController>();
             if (lighting != null) lighting.ForceNormal = true;
             rig = FindFirstObjectByType<BossFightRig>();
+        }
+
+        // Keeps the Witch (and the monitor she is blasting) in view while she casts; mouse look returns after the shatter.
+        private void LookAtCast()
+        {
+            if (player == null) return;
+            player.LookTarget = Vector3.Lerp(MonitorCenter(), WitchHand(), 0.65f);
+            player.LookTurnDegreesPerSecond = settings.openingLookTurnDegreesPerSecond;
+        }
+
+        private void ReleaseLook()
+        {
+            if (player != null) player.LookTarget = null;
         }
 
         private Vector3 WitchHand()
@@ -277,7 +294,9 @@ namespace BossFight
             float t = Mathf.Clamp01(shardElapsed / Mathf.Max(settings.openingShardFlightSeconds, 1e-3f));
             if (camera != null)
             {
-                var target = camera.transform.position + camera.transform.forward * 0.3f;
+                // Lands where the glass HUD shard sits (top right), not the middle of the view.
+                var hudRect = HudGlassViewport();
+                var target = camera.ViewportToWorldPoint(new Vector3(hudRect.center.x, hudRect.center.y, 0.3f));
                 shard.position = Vector3.Lerp(shardStart, target, t * t);
                 shard.Rotate(540f * Time.deltaTime, 360f * Time.deltaTime, 0f);
             }
@@ -285,14 +304,25 @@ namespace BossFight
             {
                 Destroy(shard.gameObject);
                 shard = null;
+                ReleaseLook();
                 if (crackOverlay != null) crackOverlay.Show();
                 if (hud != null) hud.SetVisible(true);
             }
         }
 
+        private Rect HudGlassViewport()
+        {
+            foreach (var glass in FindObjectsByType<GlassShard>(FindObjectsSortMode.None))
+            {
+                if (glass.FollowsCamera) return glass.Viewport;
+            }
+            return GlassShardRules.ScreenRect(settings.glassHudWidth, settings.glassHudHeight, settings.glassHudMargin);
+        }
+
         // Wall cracks appear from the player's eye outward, so they only ever mark the inside of the shop.
         private void CrackScreen()
         {
+            ReleaseLook();
             if (crackOverlay != null && !crackOverlay.Shown) crackOverlay.Show();
             if (hud != null) hud.SetVisible(true);
             if (wallCrackMaterial == null || player == null) return;
