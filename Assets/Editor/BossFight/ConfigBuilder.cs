@@ -13,7 +13,7 @@ namespace BossFight.Editor
             "clothingSpeedFactor", "monsterSpeedFactor", "boostedMonsterSpeedFactor",
             "flashlightFullIntensity", "flashlightRange", "flashlightSpotAngle", "flashlightInnerSpotAngle",
             "outsideLightIntensity", "blackoutEnvironmentFactor",
-            "bookScale", "bookTelegraphSeconds", "witchHoverHeight",
+            "bookScale", "bookTelegraphSeconds", "witchHoverHeight", "caveInChunkRadius",
         };
 
         // Creates the config asset with defaults, then writes the tuned values into it (new or existing).

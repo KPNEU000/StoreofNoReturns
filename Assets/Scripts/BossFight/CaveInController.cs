@@ -103,9 +103,10 @@ namespace BossFight
         private IEnumerator Run()
         {
             SwapCeiling();
+            float floorY = FloorHeight();
             PlaySound(rumbleSound, player.transform.position);
 
-            var spots = placement.Place(SampleCandidates(), player.transform.position);
+            var spots = placement.Place(SampleCandidates(floorY), player.transform.position, floorY);
             chunksPending = spots.Count;
             foreach (var spot in spots) StartCoroutine(RunChunk(spot));
             while (chunksPending > 0) yield return null;
@@ -160,14 +161,24 @@ namespace BossFight
             if (best != null) Destroy(best);
         }
 
-        private List<Vector3> SampleCandidates()
+        // The store floor is where the player's feet are on the NavMesh.
+        private float FloorHeight()
+        {
+            var feet = player.transform.position;
+            if (NavMesh.SamplePosition(feet, out var hit, 3f, NavMesh.AllAreas)) return hit.position.y;
+            return feet.y;
+        }
+
+        private List<Vector3> SampleCandidates(float floorY)
         {
             var points = new List<Vector3>();
             var b = ceilingBounds;
             for (int i = 0; i < CandidateSamples; i++)
             {
-                var random = new Vector3(Random.Range(b.min.x, b.max.x), b.min.y - 1f, Random.Range(b.min.z, b.max.z));
-                if (NavMesh.SamplePosition(random, out var hit, b.size.y + 6f, NavMesh.AllAreas)
+                // Sampled from just above the floor: the NavMesh also covers the ceiling top, which must never be hit.
+                var random = new Vector3(Random.Range(b.min.x, b.max.x), floorY + 0.1f, Random.Range(b.min.z, b.max.z));
+                if (NavMesh.SamplePosition(random, out var hit, 1f, NavMesh.AllAreas)
+                    && ChunkPlacement.OnFloor(hit.position, floorY)
                     && Mathf.Abs(hit.position.x - random.x) < 0.5f && Mathf.Abs(hit.position.z - random.z) < 0.5f)
                 {
                     points.Add(hit.position);
@@ -187,7 +198,7 @@ namespace BossFight
             yield return RaiseHand(spot.Position, ceilingY);
 
             RemoveTileAbove(spot.Position);
-            SpawnDust(new Vector3(spot.Position.x, ceilingY, spot.Position.z), 1.5f);
+            SpawnDust(new Vector3(spot.Position.x, ceilingY, spot.Position.z), 4f);
             PlaySound(crackSound, spot.Position);
 
             var chunk = CreateChunk(spot, restHeight);
@@ -196,6 +207,7 @@ namespace BossFight
             float dropFrom = ceilingY - restHeight - settings.caveInFallHeightPadding;
             chunk.transform.position = new Vector3(spot.Position.x, Mathf.Max(dropFrom, floorY), spot.Position.z);
             body.isKinematic = false;
+            var column = SpawnDustColumn(chunk.transform);
 
             float waited = 0f;
             while (!landing.Landed && waited < 4f)
@@ -206,9 +218,8 @@ namespace BossFight
 
             body.isKinematic = true;
             chunk.transform.rotation = Quaternion.Euler(0f, spot.Yaw, 0f);
-            var settled = chunk.transform.position;
-            chunk.transform.position = new Vector3(settled.x, floorY, settled.z);
-            SpawnDust(chunk.transform.position + Vector3.up * 0.2f, 1.2f);
+            if (column != null) column.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            SpawnDust(chunk.transform.position + Vector3.up * 0.2f, 4.5f);
             PlaySound(impactSound, chunk.transform.position);
             Shake(Vector3.Distance(player.transform.position, chunk.transform.position));
 
@@ -218,7 +229,7 @@ namespace BossFight
             yield return new WaitForSeconds(settings.caveInReachabilityDelaySeconds);
             if (BlocksWitch())
             {
-                SpawnDust(chunk.transform.position + Vector3.up * 0.6f, 2.5f);
+                SpawnDust(chunk.transform.position + Vector3.up * 0.6f, 5f);
                 Destroy(chunk);
                 Destroy(light);
             }
@@ -239,7 +250,7 @@ namespace BossFight
             {
                 float length = Mathf.Max(reach * (t / seconds), 0.05f);
                 // A capsule is 2 units tall, so half the length is the Y scale; it grows up from the floor.
-                hand.transform.localScale = new Vector3(0.16f, length * 0.5f, 0.16f);
+                hand.transform.localScale = new Vector3(0.35f, length * 0.5f, 0.35f);
                 hand.transform.position = floorPoint + Vector3.up * (length * 0.5f);
                 yield return null;
             }
@@ -250,7 +261,7 @@ namespace BossFight
         {
             var go = new GameObject("CaveInChunk");
             go.transform.rotation = Quaternion.Euler(0f, spot.Yaw, 0f);
-            var mesh = ChunkMesh.Build(++seedCounter * 7919 + Mathf.RoundToInt(spot.Yaw), settings.caveInChunkRadius * 2f, height, 0.08f);
+            var mesh = ChunkMesh.Build(++seedCounter * 7919 + Mathf.RoundToInt(spot.Yaw), settings.caveInChunkRadius * 2f, height, 0.3f);
             go.AddComponent<MeshFilter>().sharedMesh = mesh;
             var renderer = go.AddComponent<MeshRenderer>();
             if (chunkMaterial != null) renderer.sharedMaterial = chunkMaterial;
@@ -318,7 +329,7 @@ namespace BossFight
             main.stopAction = ParticleSystemStopAction.Destroy;
             var emission = ps.emission;
             emission.rateOverTime = 0f;
-            emission.SetBursts(new[] { new ParticleSystem.Burst(0f, (short)Mathf.RoundToInt(30f * size)) });
+            emission.SetBursts(new[] { new ParticleSystem.Burst(0f, (short)Mathf.RoundToInt(60f * size)) });
             var shape = ps.shape;
             shape.shapeType = ParticleSystemShapeType.Sphere;
             shape.radius = 0.4f * size;
@@ -332,6 +343,40 @@ namespace BossFight
             var renderer = go.GetComponent<ParticleSystemRenderer>();
             if (dustMaterial != null) renderer.sharedMaterial = dustMaterial;
             ps.Play();
+        }
+
+        // Dust trailing the chunk as it falls; detached from the chunk by StopEmitting so the cloud can linger.
+        private ParticleSystem SpawnDustColumn(Transform chunk)
+        {
+            var go = new GameObject("CaveInDustColumn");
+            go.transform.SetParent(chunk, false);
+            go.transform.localPosition = Vector3.up * 0.5f;
+            var ps = go.AddComponent<ParticleSystem>();
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            var main = ps.main;
+            main.loop = true;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            main.startLifetime = 2.5f;
+            main.startSpeed = new ParticleSystem.MinMaxCurve(0.2f, 1f);
+            main.startSize = new ParticleSystem.MinMaxCurve(0.6f, 1.6f);
+            main.startColor = new Color(0.55f, 0.55f, 0.55f, 0.5f);
+            main.gravityModifier = 0.02f;
+            var emission = ps.emission;
+            emission.rateOverTime = 120f;
+            var shape = ps.shape;
+            shape.shapeType = ParticleSystemShapeType.Box;
+            shape.scale = new Vector3(settings.caveInChunkRadius * 2f, 0.5f, settings.caveInChunkRadius * 2f);
+            var fade = ps.colorOverLifetime;
+            fade.enabled = true;
+            var gradient = new Gradient();
+            gradient.SetKeys(
+                new[] { new GradientColorKey(Color.white, 0f), new GradientColorKey(Color.white, 1f) },
+                new[] { new GradientAlphaKey(0.6f, 0f), new GradientAlphaKey(0f, 1f) });
+            fade.color = gradient;
+            var renderer = go.GetComponent<ParticleSystemRenderer>();
+            if (dustMaterial != null) renderer.sharedMaterial = dustMaterial;
+            ps.Play();
+            return ps;
         }
 
         private void PlaySound(AudioClip clip, Vector3 position)

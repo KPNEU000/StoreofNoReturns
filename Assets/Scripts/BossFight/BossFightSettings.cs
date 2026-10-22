@@ -118,7 +118,7 @@ namespace BossFight
         public float caveInHandTelegraphSeconds = 2f;
         public float caveInChunkRestHeight = 1.3f;
         public float caveInPlayerClearance = 3f;
-        public float caveInChunkRadius = 0.9f;
+        public float caveInChunkRadius = 1.6f;
         public float caveInFallHeightPadding = 0.1f;
         public float caveInReachabilityDelaySeconds = 0.5f;
         public float caveInMoonlightIntensity = 12f;

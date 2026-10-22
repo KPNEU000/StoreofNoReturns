@@ -42,13 +42,19 @@ namespace BossFight.Rules
         // Chunks start evenly spread over the duration: the first at 0, the last one step before the end.
         public float DelayOf(int index) => durationSeconds * index / Count;
 
+        // Candidates this far above the floor are furniture tops or the roof, never a landing spot.
+        public const float FloorTolerance = 0.5f;
+
+        public static bool OnFloor(Vector3 point, float floorY) => point.y <= floorY + FloorTolerance;
+
         // Accepts candidates in order; may return fewer than Count when the candidates run out.
-        public List<ChunkSpot> Place(IList<Vector3> candidates, Vector3 player)
+        public List<ChunkSpot> Place(IList<Vector3> candidates, Vector3 player, float floorY)
         {
             var spots = new List<ChunkSpot>();
             foreach (var candidate in candidates)
             {
                 if (spots.Count >= Count) break;
+                if (!OnFloor(candidate, floorY)) continue;
                 if (Planar(candidate, player) < minPlayerDistance) continue;
                 bool overlaps = false;
                 foreach (var spot in spots)
@@ -60,6 +66,8 @@ namespace BossFight.Rules
             }
             return spots;
         }
+
+        public List<ChunkSpot> Place(IList<Vector3> candidates, Vector3 player) => Place(candidates, player, float.PositiveInfinity);
 
         // A landed chunk that cuts the player off from the Witch crumbles away.
         public static bool Crumbles(NavMeshPathStatus status) => status != NavMeshPathStatus.PathComplete;

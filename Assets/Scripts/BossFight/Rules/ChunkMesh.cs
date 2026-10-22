@@ -7,7 +7,8 @@ namespace BossFight.Rules
     // on the floor; the top stays within `jitter` of the requested height.
     public static class ChunkMesh
     {
-        public const int Subdivisions = 4;
+        public const int Subdivisions = 8;
+        public const float LumpStrength = 1.5f;
 
         public static Mesh Build(int seed, float width, float height, float jitter)
         {
@@ -64,7 +65,10 @@ namespace BossFight.Rules
             float n = Subdivisions;
             var p = new Vector3((grid.x / n - 0.5f) * width, grid.y / n * height, (grid.z / n - 0.5f) * width);
             bool interiorY = grid.y > 0;
-            var offset = new Vector3(Hash(grid, seed, 1), interiorY ? Hash(grid, seed, 2) : 0f, Hash(grid, seed, 3)) * jitter;
+            // Lumps: each 2x2x2 block of cells may push its sideways jitter further out, breaking the cube silhouette.
+            var block = new Vector3Int(grid.x / 2, grid.y / 2, grid.z / 2);
+            float lump = 1f + LumpStrength * Mathf.Max(0f, Hash(block, seed, 4));
+            var offset = new Vector3(Hash(grid, seed, 1) * lump, interiorY ? Hash(grid, seed, 2) : 0f, Hash(grid, seed, 3) * lump) * jitter;
             return p + offset;
         }
 

@@ -89,7 +89,7 @@ public class ChunkPlacementTests
     [Test]
     public void ReturnsFewerWhenCandidatesRunOut()
     {
-        Assert.AreEqual(2, Make().Place(Line(2, 3f), Vector3.zero).Count);
+        Assert.AreEqual(2, Make().Place(Line(2, 4f), Vector3.zero).Count);
     }
 
     [Test]
