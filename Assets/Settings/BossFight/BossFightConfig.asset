@@ -21,7 +21,12 @@ MonoBehaviour:
     flickerIntervalMaxSeconds: 5
     mildFlickerMinIntensity: 0.6
     strongFlickerMinIntensity: 0.3
-    outsideLightIntensity: 0.2
+    outsideLightIntensity: 0.05
+    blackoutEnvironmentFactor: 0.03
+    flickerFloorIntensity: 0.3
+    flickerDipSecondsMin: 0.06
+    flickerDipSecondsMax: 0.18
+    strongFlickerIntervalScale: 0.5
     clothingHitCost: 25
     monsterHitCostAtRep0: 100
     monsterHitCostAtRep50: 75
@@ -42,10 +47,14 @@ MonoBehaviour:
     flashlightRampUpSeconds: 0.5
     flashlightRampDownSeconds: 0.25
     flashlightFaintGlow: 0.1
+    flashlightFullIntensity: 8
+    flashlightRange: 35
+    flashlightSpotAngle: 75
+    flashlightInnerSpotAngle: 55
     moveAccelerationSeconds: 0.1
-    clothingSpeedFactor: 0.6
-    monsterSpeedFactor: 0.8
-    boostedMonsterSpeedFactor: 1.25
+    clothingSpeedFactor: 0.85
+    monsterSpeedFactor: 0.95
+    boostedMonsterSpeedFactor: 1.4
     clothingHp: 10
     clothingFlopSeconds: 1.5
     waveIntervalSeconds: 20
@@ -55,20 +64,49 @@ MonoBehaviour:
     rackFadeSeconds: 1
     monsterBaseHp: 50
     monsterWindupSeconds: 0.6
+    monsterAttackReach: 1.8
+    monsterAttackConeDegrees: 90
+    monsterAttackCooldownSeconds: 1.2
+    monsterSpawnStaggerSeconds: 1.5
     flankDirectRadius: 4
     witchHp: 100
     witchHeightScale: 1.15
+    witchHoverHeight: 0.5
     tetherIntervalSeconds: 12
     tetherDurationSeconds: 5
     bookThrowIntervalSeconds: 4
-    bookTelegraphSeconds: 0.5
+    bookTelegraphSeconds: 0.8
+    bookScale: 1.5
+    bookArmSeconds: 0.4
+    bookSweepSeconds: 0.3
+    bookFlightSpeed: 12
+    bookHitRadius: 0.8
+    bookGlowFadeSeconds: 1
     winPauseSeconds: 2
+    bodyJoltImpulse: 2.5
+    fixedPoseSwayDegrees: 12
+    fixedPoseSwayHertz: 0.8
     caveInMoney: 250
     caveInChunkCount: 5
     caveInDurationSeconds: 10
     caveInHandTelegraphSeconds: 2
     caveInChunkRestHeight: 1.3
     caveInPlayerClearance: 3
+    caveInChunkRadius: 0.9
+    caveInFallHeightPadding: 0.1
+    caveInReachabilityDelaySeconds: 0.5
+    caveInMoonlightIntensity: 12
+    openingMagicSeconds: 3
+    openingShatterSeconds: 2
+    openingShardFlightSeconds: 0.6
+    openingCrackSeconds: 2
+    openingWitchLineSeconds: 4.5
+    openingMoveLineSeconds: 2.5
+    openingVaultSeconds: 0.6
+    openingVaultDistance: 2.5
+    openingVaultArcHeight: 0.7
+    openingFlashlightMultiplier: 2.5
+    openingWallCrackCount: 8
     debugStartMoney: 600
     debugReputation: 50
     debugAngeredCustomers: 3

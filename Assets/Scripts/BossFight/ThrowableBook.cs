@@ -20,6 +20,8 @@ namespace BossFight
         }
 
         [SerializeField]
+        private BossFightConfig config;
+        [SerializeField]
         private Material trailMaterial;
         [SerializeField]
         private Color glowColor = new Color(0.7f, 0.2f, 1f, 1f);
@@ -60,6 +62,10 @@ namespace BossFight
         {
             bookRenderer = GetComponentInChildren<Renderer>();
             bookCollider = GetComponent<Collider>();
+            BookThrowRules.ScaleAboutBase(transform.localPosition, transform.localScale, BossFightConfig.SettingsOf(config).bookScale,
+                out var scaledPosition, out var scaledScale);
+            transform.localPosition = scaledPosition;
+            transform.localScale = scaledScale;
             homeParent = transform.parent;
             homePosition = transform.localPosition;
             homeRotation = transform.localRotation;

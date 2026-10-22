@@ -32,11 +32,14 @@ namespace BossFight
         private LightTierRules rules;
         private MoneyManager money;
         private float fade = 1f;
+        private BlackoutRules blackout;
+        private EnvironmentLight originalEnvironment;
 
         private void Awake()
         {
             settings = BossFightConfig.SettingsOf(config);
             rules = new LightTierRules(settings);
+            blackout = new BlackoutRules(settings);
         }
 
         private void Start()
@@ -48,11 +51,13 @@ namespace BossFight
                 money.OnMoneyChanged += OnMoneyChanged;
                 Tier = rules.TierFor(money.CurrentMoney);
             }
+            originalEnvironment = ReadEnvironment();
             ApplyOutsideLight();
         }
 
         private void OnDestroy()
         {
+            WriteEnvironment(originalEnvironment);
             if (money != null) money.OnMoneyChanged -= OnMoneyChanged;
         }
 
@@ -120,6 +125,29 @@ namespace BossFight
                 e.light.enabled = e.light.intensity > 0.001f;
             }
             ApplyOutsideLight();
+            WriteEnvironment(blackout.Target(originalEnvironment, fade));
+        }
+
+        private static EnvironmentLight ReadEnvironment() => new EnvironmentLight
+        {
+            ambientIntensity = RenderSettings.ambientIntensity,
+            ambientLight = RenderSettings.ambientLight,
+            ambientSky = RenderSettings.ambientSkyColor,
+            ambientEquator = RenderSettings.ambientEquatorColor,
+            ambientGround = RenderSettings.ambientGroundColor,
+            reflectionIntensity = RenderSettings.reflectionIntensity,
+            fogColor = RenderSettings.fogColor,
+        };
+
+        private static void WriteEnvironment(EnvironmentLight e)
+        {
+            RenderSettings.ambientIntensity = e.ambientIntensity;
+            RenderSettings.ambientLight = e.ambientLight;
+            RenderSettings.ambientSkyColor = e.ambientSky;
+            RenderSettings.ambientEquatorColor = e.ambientEquator;
+            RenderSettings.ambientGroundColor = e.ambientGround;
+            RenderSettings.reflectionIntensity = e.reflectionIntensity;
+            RenderSettings.fogColor = e.fogColor;
         }
 
         private void ApplyOutsideLight()

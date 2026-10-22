@@ -100,8 +100,8 @@ public class MonsterAttackTests
     [Test]
     public void BoostedSpeedLadderMatchesSpec()
     {
-        Assert.AreEqual(0.8f, settings.monsterSpeedFactor);
-        Assert.AreEqual(1.25f, settings.boostedMonsterSpeedFactor);
+        Assert.AreEqual(0.95f, settings.monsterSpeedFactor);
+        Assert.AreEqual(1.4f, settings.boostedMonsterSpeedFactor);
         Assert.AreEqual(0.6f, settings.monsterWindupSeconds);
     }
 }

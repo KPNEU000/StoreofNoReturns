@@ -3704,6 +3704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -5359,6 +5360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -5697,6 +5699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -6859,6 +6862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -11801,6 +11805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -12192,6 +12197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -13014,6 +13020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -14817,6 +14824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -16031,6 +16039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -23237,6 +23246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -28644,6 +28654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -29105,6 +29116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -29331,6 +29343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -30308,6 +30321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -33682,6 +33696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -34119,6 +34134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -36632,6 +36648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -37694,6 +37711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -41005,6 +41023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -41202,6 +41221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -41368,6 +41388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -42355,6 +42376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -44521,6 +44543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -48149,6 +48172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -49163,6 +49187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -52400,6 +52425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -52966,6 +52992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -54047,6 +54074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -55155,6 +55183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -56021,6 +56050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -56279,6 +56309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -58408,6 +58439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -58611,6 +58643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -60584,6 +60617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -61101,6 +61135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3
@@ -61268,6 +61303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091d4b27d5d8540d582ed6eacf2f550b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.ThrowableBook
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   trailMaterial: {fileID: 2100000, guid: d156a45718acd4397b7353e80e72d74a, type: 2}
   glowColor: {r: 0.7, g: 0.2, b: 1, a: 1}
   glowIntensity: 3

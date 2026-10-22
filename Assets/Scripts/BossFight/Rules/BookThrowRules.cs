@@ -36,6 +36,13 @@ namespace BossFight.Rules
             timer = intervalSeconds;
         }
 
+        // A shelved book enlarged by `factor` while keeping its bottom edge where it was.
+        public static void ScaleAboutBase(Vector3 localPosition, Vector3 localScale, float factor, out Vector3 position, out Vector3 scale)
+        {
+            scale = localScale * factor;
+            position = localPosition + new Vector3(0f, (scale.y - localScale.y) * 0.5f, 0f);
+        }
+
         // True on the frame a throw should start. Outside Phase2 the interval restarts; while a throw is still
         // running (busy) a due throw waits for it to finish.
         public bool Tick(float deltaTime, bool phase2, bool busy)

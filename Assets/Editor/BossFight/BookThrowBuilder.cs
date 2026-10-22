@@ -78,6 +78,7 @@ namespace BossFight.Editor
                 foreach (var book in books)
                 {
                     var bookSo = new SerializedObject(book);
+                    changed |= BuilderUtil.SetReference(bookSo, "config", config);
                     changed |= BuilderUtil.SetReference(bookSo, "trailMaterial", magic);
                     changed |= bookSo.ApplyModifiedPropertiesWithoutUndo();
                 }

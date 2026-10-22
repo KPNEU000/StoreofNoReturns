@@ -45,6 +45,7 @@ namespace BossFight
                 beam.type = LightType.Spot;
                 beam.range = settings.flashlightRange;
                 beam.spotAngle = settings.flashlightSpotAngle;
+                beam.innerSpotAngle = Mathf.Min(settings.flashlightInnerSpotAngle, settings.flashlightSpotAngle);
             }
             if (visual != null) restPosition = visual.localPosition;
         }

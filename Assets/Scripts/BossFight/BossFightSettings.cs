@@ -20,7 +20,9 @@ namespace BossFight
         public float flickerIntervalMaxSeconds = 5f;
         [Range(0f, 1f)] public float mildFlickerMinIntensity = 0.6f;
         [Range(0f, 1f)] public float strongFlickerMinIntensity = 0.3f;
-        public float outsideLightIntensity = 0.2f;
+        public float outsideLightIntensity = 0.05f;
+        // Off tier: ambient/environment light, reflections and fog colour are scaled to this fraction of their original.
+        [Range(0f, 1f)] public float blackoutEnvironmentFactor = 0.03f;
         [Range(0f, 1f)] public float flickerFloorIntensity = 0.3f;
         public float flickerDipSecondsMin = 0.06f;
         public float flickerDipSecondsMax = 0.18f;
@@ -55,17 +57,18 @@ namespace BossFight
         public float flashlightRampUpSeconds = 0.5f;
         public float flashlightRampDownSeconds = 0.25f;
         [Range(0f, 1f)] public float flashlightFaintGlow = 0.1f;
-        public float flashlightFullIntensity = 3f;
-        public float flashlightRange = 25f;
-        public float flashlightSpotAngle = 55f;
+        public float flashlightFullIntensity = 8f;
+        public float flashlightRange = 35f;
+        public float flashlightSpotAngle = 75f;
+        public float flashlightInnerSpotAngle = 55f;
 
         [Header("Player movement")]
         public float moveAccelerationSeconds = 0.1f;
 
         [Header("Speed ladder (relative to player walk = 1)")]
-        public float clothingSpeedFactor = 0.6f;
-        public float monsterSpeedFactor = 0.8f;
-        public float boostedMonsterSpeedFactor = 1.25f;
+        public float clothingSpeedFactor = 0.85f;
+        public float monsterSpeedFactor = 0.95f;
+        public float boostedMonsterSpeedFactor = 1.4f;
 
         [Header("Enemies: clothing")]
         public float clothingHp = 10f;
@@ -94,7 +97,8 @@ namespace BossFight
         public float tetherIntervalSeconds = 12f;
         public float tetherDurationSeconds = 5f;
         public float bookThrowIntervalSeconds = 4f;
-        public float bookTelegraphSeconds = 0.5f;
+        public float bookTelegraphSeconds = 0.8f;
+        public float bookScale = 1.5f;
         public float bookArmSeconds = 0.4f;
         public float bookSweepSeconds = 0.3f;
         public float bookFlightSpeed = 12f;
