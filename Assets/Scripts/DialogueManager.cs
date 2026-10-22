@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TMP_Text dialogueText;
     [SerializeField] private Transform choicesContainer;
     [SerializeField] private Button choiceButtonPrefab;
+    [SerializeField] private MoneyManager moneyManager;
 
     private Story story;
 
@@ -158,8 +159,28 @@ public class DialogueManager : MonoBehaviour
 
     private void SelectChoice(int choiceIndex)
     {
-        if (story == null)
-            return;
+        if (story == null) return;
+
+        string choiceText = story.currentChoices[choiceIndex].text.Trim();
+
+        switch (choiceText)
+        {
+            case "Accuse of slight damage":
+                moneyManager.ReasoningCheck("SlightlyDamaged");
+                break;
+
+            case "Accuse of a stain":
+                moneyManager.ReasoningCheck("Stained");
+                break;
+
+            case "Accuse of missing accessories":
+                moneyManager.ReasoningCheck("MissingAccessories");
+                break;
+
+            case "Accuse of a missing receipt":
+                moneyManager.ReasoningCheck("NoReceipt");
+                break;
+        }
 
         story.ChooseChoiceIndex(choiceIndex);
         ContinueStory();

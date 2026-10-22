@@ -16488,6 +16488,7 @@ MonoBehaviour:
   dialogueText: {fileID: 1028523893}
   choicesContainer: {fileID: 1363493859}
   choiceButtonPrefab: {fileID: 1526757235828070683, guid: 5689d5b5eb799cb4da4a0f8fc3c2fd8e, type: 3}
+  moneyManager: {fileID: 133887730}
 --- !u!4 &720348086
 Transform:
   m_ObjectHideFlags: 0

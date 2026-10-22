@@ -136,7 +136,7 @@ public class MoneyManager : MonoBehaviour
 
     public void ReasoningCheck(string reasonSelected)
     {
-        if (customer == null)
+        if (customer != null)
         {
             if (Enum.TryParse(reasonSelected, out invalidReturnReason reason))
             {
