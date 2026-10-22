@@ -65,13 +65,15 @@ namespace BossFight
         public float Health => hp;
 
         // Called by the spawner right after Instantiate. The monster waits delay seconds before it starts moving.
-        public void Init(BossDirector owner, int index, float delay, float reputation)
+        public void Init(BossDirector owner, int index, float delay, float reputation, string customerName = null)
         {
             director = owner;
             flank = FlankRouting.Assign(index);
             spawnDelay = delay;
             hp = settings.monsterBaseHp * reputationScaling.MonsterHpMultiplier(reputation);
             if (director != null) director.RegisterMonster(this);
+            var drag = GetComponent<MonsterDrag>();
+            if (drag != null) drag.Begin(this, customerName);
         }
 
         private void Awake()

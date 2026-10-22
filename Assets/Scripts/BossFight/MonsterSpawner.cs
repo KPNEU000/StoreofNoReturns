@@ -39,12 +39,13 @@ namespace BossFight
             var reputationManager = FindFirstObjectByType<ReputationManager>();
             float reputation = reputationManager != null ? reputationManager.CurrentReputation : 50f;
             count = Mathf.Min(count, settings.maxMonsters);
+            var names = new System.Collections.Generic.List<string>(AngeredCustomerRegistry.Names);
             for (int i = 0; i < count; i++)
             {
                 var side = (i % 2 == 0 ? 1f : -1f) * Mathf.Ceil(i / 2f) * 0.8f;
                 var position = spawnPoint.position + spawnPoint.right * side;
                 var monster = Instantiate(prefab, position, spawnPoint.rotation);
-                monster.Init(director, i, i * settings.monsterSpawnStaggerSeconds, reputation);
+                monster.Init(director, i, i * settings.monsterSpawnStaggerSeconds, reputation, i < names.Count ? names[i] : null);
             }
         }
     }

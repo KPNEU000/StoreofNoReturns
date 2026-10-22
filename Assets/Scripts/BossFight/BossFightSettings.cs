@@ -102,6 +102,11 @@ namespace BossFight
         public float bookGlowFadeSeconds = 1f;
         public float winPauseSeconds = 2f;
 
+        [Header("Dragged body")]
+        public float bodyJoltImpulse = 2.5f;
+        public float fixedPoseSwayDegrees = 12f;
+        public float fixedPoseSwayHertz = 0.8f;
+
         [Header("Ceiling cave-in")]
         public float caveInMoney = 250f;
         [Range(3, 10)] public int caveInChunkCount = 5;
