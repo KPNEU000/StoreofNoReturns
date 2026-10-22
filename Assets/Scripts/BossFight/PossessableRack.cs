@@ -11,6 +11,12 @@ namespace BossFight
         private BossFightConfig config;
         [SerializeField]
         private Color possessedColor = new Color(0.6f, 0.1f, 0.9f, 1f);
+        // Each costume type hanging on this rack (a rack group can hold several) and its baked cloth garment,
+        // index-matched (GarmentClothBuilder); empty on racks without costumes.
+        [SerializeField]
+        private GameObject[] costumePrefabs = new GameObject[0];
+        [SerializeField]
+        private GameObject[] garmentPrefabs = new GameObject[0];
 
         private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
         private static readonly int ColorId = Shader.PropertyToID("_Color");
@@ -20,6 +26,26 @@ namespace BossFight
         private Vector3 releasePoint;
 
         public bool IsPossessed => possessed;
+        public GameObject[] CostumePrefabs => costumePrefabs;
+        public GameObject[] Garments => garmentPrefabs;
+
+        // First garment of the closest rack that has one (the tutorial costume comes from a real rack too).
+        public static GameObject NearestGarment(Vector3 position)
+        {
+            GameObject best = null;
+            float bestDistance = float.MaxValue;
+            foreach (var rack in FindObjectsByType<PossessableRack>(FindObjectsSortMode.None))
+            {
+                if (rack.garmentPrefabs == null || rack.garmentPrefabs.Length == 0 || rack.garmentPrefabs[0] == null) continue;
+                float d = (rack.transform.position - position).sqrMagnitude;
+                if (d < bestDistance)
+                {
+                    bestDistance = d;
+                    best = rack.garmentPrefabs[0];
+                }
+            }
+            return best;
+        }
         // Where costumes appear; stays valid after the frame is gone so the spot can be re-used.
         public Vector3 ReleasePoint => possessed ? releasePoint : CenterPoint();
 
@@ -75,7 +101,7 @@ namespace BossFight
             foreach (var c in GetComponentsInChildren<Collider>()) c.enabled = false;
             transform.localScale = startScale;
             onFaded?.Invoke();
-            if (spawner != null) spawner.Spawn(releasePoint, count);
+            if (spawner != null) spawner.Spawn(releasePoint, count, garmentPrefabs);
             Destroy(burst.gameObject, 3f);
         }
 

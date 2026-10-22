@@ -43,6 +43,12 @@ namespace BossFight
         // Returns how many were actually spawned (fewer than count when the cap is reached).
         public int Spawn(Vector3 position, int count)
         {
+            return Spawn(position, count, null);
+        }
+
+        // `garments` are the releasing rack's baked garments, worn in turn; null/empty keeps the prefab's fallback.
+        public int Spawn(Vector3 position, int count, GameObject[] garments)
+        {
             if (prefab == null) return 0;
             int spawned = 0;
             for (int i = 0; i < count && alive.Count < cap; i++)
@@ -50,6 +56,7 @@ namespace BossFight
                 var offset = Quaternion.Euler(0f, 360f * i / Mathf.Max(count, 1), 0f) * Vector3.forward * (i == 0 ? 0f : 1f);
                 var enemy = Instantiate(prefab, position + offset, Quaternion.identity);
                 enemy.Init(this, spawnIndex++);
+                if (garments != null && garments.Length > 0) enemy.Dress(garments[i % garments.Length]);
                 alive.Add(enemy);
                 spawned++;
             }
@@ -63,6 +70,7 @@ namespace BossFight
             var enemy = Instantiate(prefab, position, Quaternion.identity);
             enemy.Init(this, spawnIndex++);
             enemy.MakeHarmless(patrolFrom, patrolTo);
+            enemy.Dress(PossessableRack.NearestGarment(position));
             alive.Add(enemy);
             return enemy;
         }

@@ -87,6 +87,7 @@ namespace BossFight.Editor
                     MonsterEnemyBuilder.Validate(boss.Scene, errors);
                     DraggedBodyBuilder.Validate(errors);
                     ClothingWaveBuilder.Validate(boss.Scene, errors);
+                    GarmentClothBuilder.Validate(boss.Scene, errors);
                     BookThrowBuilder.Validate(boss.Scene, errors);
                     CaveInBuilder.Validate(boss.Scene, errors);
                     OpeningBuilder.Validate(boss.Scene, errors);

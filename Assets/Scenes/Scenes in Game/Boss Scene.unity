@@ -10045,6 +10045,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
+  garmentPrefabs:
+  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
 --- !u!1 &375142814
 GameObject:
   m_ObjectHideFlags: 0
@@ -10237,6 +10241,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
+  garmentPrefabs:
+  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
 --- !u!1 &377358532
 GameObject:
   m_ObjectHideFlags: 0
@@ -17111,6 +17119,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
+  garmentPrefabs:
+  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
 --- !u!1 &664165890
 GameObject:
   m_ObjectHideFlags: 0
@@ -31513,6 +31525,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
+  garmentPrefabs:
+  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
 --- !u!1 &1021193873
 GameObject:
   m_ObjectHideFlags: 0
@@ -31926,6 +31942,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 899621543398838884, guid: 092b62eb30990644f8e2063c332e7246, type: 3}
+  - {fileID: 8554172815481801290, guid: bccb528c814eb5349979e9a4d5406a37, type: 3}
+  garmentPrefabs:
+  - {fileID: 2286682023976722883, guid: cfe85e62e649e4fe0bfaa7e93c12ce64, type: 3}
+  - {fileID: 6812737689486625329, guid: 83776c3350d59405a873e0fdcf8c7ddc, type: 3}
 --- !u!1 &1043312601
 GameObject:
   m_ObjectHideFlags: 0
@@ -34779,6 +34801,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
+  garmentPrefabs:
+  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
 --- !u!4 &1175757085 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3260047126930880572, guid: 27b1ddcc42bd5cb4fbbc20b1d8109586, type: 3}
@@ -52755,6 +52781,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
+  garmentPrefabs:
+  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
 --- !u!1 &1761336320
 GameObject:
   m_ObjectHideFlags: 0
@@ -56751,6 +56781,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
+  garmentPrefabs:
+  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
 --- !u!1 &1897019261
 GameObject:
   m_ObjectHideFlags: 0
@@ -57642,6 +57676,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
+  garmentPrefabs:
+  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
 --- !u!1 &1904410430
 GameObject:
   m_ObjectHideFlags: 0
@@ -60049,6 +60087,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 2892068233996699481, guid: c01de2821c276f94bb2ba56c0129083f, type: 3}
+  - {fileID: 6754478548331413432, guid: 5c55ff89aeac635448e62cb073ef10a3, type: 3}
+  garmentPrefabs:
+  - {fileID: 8081653448326425463, guid: 5b0522a484afb4963852ad4e2c208d48, type: 3}
+  - {fileID: 2351980221827400068, guid: 8488c3aa8b5224890a4437b65d123214, type: 3}
 --- !u!1 &2017786791
 GameObject:
   m_ObjectHideFlags: 0
@@ -63465,6 +63509,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
+  garmentPrefabs:
+  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
 --- !u!1001 &2137066967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63715,6 +63763,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
+  garmentPrefabs:
+  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
 --- !u!33 &700849082779343622
 MeshFilter:
   m_ObjectHideFlags: 0

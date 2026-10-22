@@ -21,6 +21,7 @@ namespace BossFight.Editor
             ("Monster customers, spawner and tether", MonsterEnemyBuilder.Build),
             ("Dragged customer bodies", DraggedBodyBuilder.Build),
             ("Clothing waves and possessable racks", ClothingWaveBuilder.Build),
+            ("Rack garments as cloth", GarmentClothBuilder.Build),
             ("Witch book throw and bookshelves", BookThrowBuilder.Build),
             ("Ceiling cave-in", CaveInBuilder.Build),
             ("Opening sequence, text box and door barrier", OpeningBuilder.Build),

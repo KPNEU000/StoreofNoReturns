@@ -5,6 +5,8 @@ using UnityEngine.AI;
 namespace BossFight
 {
     // A possessed costume: hovers, paths on the runtime NavMesh, lunges at the player, then flops.
+    // This object is the invisible hanger; the garment (the releasing rack's own costume, baked by
+    // GarmentClothBuilder) is its child and hangs from it as Unity Cloth.
     [RequireComponent(typeof(NavMeshAgent))]
     public class PossessedClothing : MonoBehaviour, IDamageable, IBossMinion
     {
@@ -12,6 +14,9 @@ namespace BossFight
         private BossFightConfig config;
         [SerializeField]
         private GameObject costumePrefab;
+        // Baked cloth garment of costumePrefab; used when the spawner does not dress it in a rack's garment.
+        [SerializeField]
+        private GameObject garmentPrefab;
         [SerializeField]
         private float hoverHeight = 1f;
         [SerializeField]
@@ -44,11 +49,23 @@ namespace BossFight
         private bool patrolToB;
         private Vector3 patrolA;
         private Vector3 patrolB;
+        private BossFightSettings settings;
+        private GameObject dressedGarment;
+        private Cloth cloth;
 
         public bool IsAlive => !lifeless && brain != null && brain.IsAlive;
         public ClothingState State => brain != null ? brain.State : ClothingState.Dead;
 
         public bool Harmless => harmless;
+        // The garment prefab this costume wears (the rack's own, else the fallback).
+        public GameObject Garment => dressedGarment != null ? dressedGarment : garmentPrefab;
+        public Cloth Cloth => cloth;
+
+        // Call right after Instantiate (before Start): wear this rack's garment instead of the fallback.
+        public void Dress(GameObject garment)
+        {
+            if (garment != null) dressedGarment = garment;
+        }
 
         public void Init(ClothingSpawner owner, int index)
         {
@@ -67,7 +84,7 @@ namespace BossFight
 
         private void Awake()
         {
-            var settings = BossFightConfig.SettingsOf(config);
+            settings = BossFightConfig.SettingsOf(config);
             brain = new ClothingBrain(settings);
             routing = new FlankRouting(settings);
             agent = GetComponent<NavMeshAgent>();
@@ -78,24 +95,7 @@ namespace BossFight
             chaseSpeed = walk * settings.clothingSpeedFactor;
             agent.speed = chaseSpeed;
             agent.baseOffset = hoverHeight;
-
-            if (costumePrefab != null)
-            {
-                visual = Instantiate(costumePrefab, transform).transform;
-                visual.localPosition = Vector3.zero;
-                visual.localRotation = Quaternion.identity;
-                foreach (var collider in visual.GetComponentsInChildren<Collider>())
-                {
-                    Destroy(collider);
-                }
-            }
-            else
-            {
-                visual = transform;
-            }
-            renderers = GetComponentsInChildren<Renderer>();
             block = new MaterialPropertyBlock();
-            ApplyTint(possessedTint);
 
             // Hit detection (sword OverlapSphere) needs a collider; the agent drives movement.
             if (GetComponent<Collider>() == null)
@@ -111,11 +111,37 @@ namespace BossFight
         {
             player = movementTransform();
             receiver = FindFirstObjectByType<PlayerHitReceiver>();
+            BuildVisual();
             // The rig's NavMeshSurface builds in its Awake; place the agent on the mesh before it moves.
             if (!agent.isOnNavMesh && NavMesh.SamplePosition(transform.position, out var hit, 5f, NavMesh.AllAreas))
             {
                 agent.Warp(hit.position);
             }
+        }
+
+        // Built in Start so Dress (called right after Instantiate) picks the garment.
+        private void BuildVisual()
+        {
+            var garment = Garment;
+            var source = garment != null ? garment : costumePrefab;
+            if (source != null)
+            {
+                visual = Instantiate(source, transform).transform;
+                visual.localPosition = Vector3.zero;
+                visual.localRotation = Quaternion.identity;
+                foreach (var collider in visual.GetComponentsInChildren<Collider>())
+                {
+                    Destroy(collider);
+                }
+                var skin = garment != null ? visual.GetComponentInChildren<SkinnedMeshRenderer>() : null;
+                if (skin != null) cloth = GarmentCloth.Attach(skin, settings, GarmentCloth.PlayerCapsule(player));
+            }
+            else
+            {
+                visual = transform;
+            }
+            renderers = GetComponentsInChildren<Renderer>();
+            ApplyTint(possessedTint);
         }
 
         private Transform movementTransform()
@@ -268,6 +294,7 @@ namespace BossFight
         private void ApplyTint(Color color)
         {
             tinted = color != possessedTint;
+            if (renderers == null) return;
             RendererTint.Apply(renderers, block, color, color * 1.5f);
         }
 

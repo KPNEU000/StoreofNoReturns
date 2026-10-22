@@ -79,6 +79,20 @@ namespace BossFight
         public int maxClothingAlive = 15;
         public float rackFadeSeconds = 1f;
 
+        // Kept light for 15 alive: <= 400 welded particles per garment (baked by GarmentClothBuilder; delete the
+        // garment assets to re-bake), 60 Hz solver, no self-collision, no tethers/virtual particles, one player capsule.
+        [Header("Enemies: clothing cloth")]
+        [Range(0f, 1f)] public float clothPinBand = 0.15f;
+        public float clothFreeDistance = 0.35f;
+        public int clothMaxParticles = 400;
+        public float clothSolverFrequency = 60f;
+        [Range(0f, 1f)] public float clothStretchingStiffness = 0.8f;
+        [Range(0f, 1f)] public float clothBendingStiffness = 0.1f;
+        [Range(0f, 1f)] public float clothDamping = 0.15f;
+        public float clothWorldVelocityScale = 0.6f;
+        public float clothWorldAccelerationScale = 0.9f;
+        public float clothFlapAcceleration = 2f;
+
         [Header("Enemies: monster")]
         public float monsterBaseHp = 50f;
         public float monsterWindupSeconds = 0.6f;

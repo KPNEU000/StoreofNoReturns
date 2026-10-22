@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessedClothing
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   costumePrefab: {fileID: 2892068233996699481, guid: c01de2821c276f94bb2ba56c0129083f, type: 3}
+  garmentPrefab: {fileID: 8081653448326425463, guid: 5b0522a484afb4963852ad4e2c208d48, type: 3}
   hoverHeight: 1
   bobAmplitude: 0.1
   contactDistance: 1.2

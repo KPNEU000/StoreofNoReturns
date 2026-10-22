@@ -51,7 +51,7 @@ namespace BossFight
             }
             else
             {
-                spawner.Spawn(rack.ReleasePoint, wave.Value.Count);
+                spawner.Spawn(rack.ReleasePoint, wave.Value.Count, rack.Garments);
             }
         }
 
