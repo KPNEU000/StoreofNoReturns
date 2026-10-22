@@ -14690,11 +14690,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &660627085 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3182844165633929262, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-  m_PrefabInstance: {fileID: 6918292217704877988}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &663654032
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24353,11 +24348,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118686170}
   m_CullTransparentMesh: 1
---- !u!1 &1124057412 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3241430046518047113, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-  m_PrefabInstance: {fileID: 6918292217704877988}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1133856034
 GameObject:
   m_ObjectHideFlags: 0
@@ -34291,11 +34281,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1236554574474107283, guid: e23f852c04a70264ab78249f3099cf51, type: 3}
   m_PrefabInstance: {fileID: 7897078010548488193}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1330870782 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5854561481166520502, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-  m_PrefabInstance: {fileID: 6918292217704877988}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1336995473
 GameObject:
   m_ObjectHideFlags: 0
@@ -34523,11 +34508,6 @@ CanvasRenderer:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5555884417466791434, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
   m_PrefabInstance: {fileID: 1606051160}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1341880138 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8273140559133280649, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-  m_PrefabInstance: {fileID: 6918292217704877988}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1344121940
 GameObject:
@@ -35570,11 +35550,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5847103558883212510, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
   m_PrefabInstance: {fileID: 1394444936}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1397650263 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6328531825959454038, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-  m_PrefabInstance: {fileID: 6918292217704877988}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1399159654
 GameObject:
@@ -52854,11 +52829,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &2076548160 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5723624551235303046, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-  m_PrefabInstance: {fileID: 6918292217704877988}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2077609865
 GameObject:
   m_ObjectHideFlags: 0
@@ -55171,66 +55141,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: InspectionPrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[0].costumeName
-      value: superhero
-      objectReference: {fileID: 0}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[1].costumeName
-      value: wizard
-      objectReference: {fileID: 0}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[2].costumeName
-      value: zombie
-      objectReference: {fileID: 0}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[3].costumeName
-      value: cat
-      objectReference: {fileID: 0}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[4].costumeName
-      value: unknown
-      objectReference: {fileID: 0}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[5].costumeName
-      value: bird
-      objectReference: {fileID: 0}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[6].costumeName
-      value: unknown
-      objectReference: {fileID: 0}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[0].costumePrefab
-      value: 
-      objectReference: {fileID: 1341880138}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[1].costumePrefab
-      value: 
-      objectReference: {fileID: 660627085}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[2].costumePrefab
-      value: 
-      objectReference: {fileID: 1124057412}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[3].costumePrefab
-      value: 
-      objectReference: {fileID: 1397650263}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[4].costumePrefab
-      value: 
-      objectReference: {fileID: 1330870782}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[5].costumePrefab
-      value: 
-      objectReference: {fileID: 2076548160}
-    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
-      propertyPath: pairs.Array.data[6].costumePrefab
-      value: 
-      objectReference: {fileID: 1330870782}
     - target: {fileID: 9101934522101099128, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.153917
