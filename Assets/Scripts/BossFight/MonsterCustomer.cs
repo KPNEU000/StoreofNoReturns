@@ -86,7 +86,7 @@ namespace BossFight
             agent = GetComponent<NavMeshAgent>();
             agent.enabled = false;
             if (animator == null) animator = GetComponentInChildren<Animator>();
-            renderers = GetComponentsInChildren<Renderer>(true);
+            renderers = System.Array.FindAll(GetComponentsInChildren<Renderer>(true), r => !(r is ParticleSystemRenderer) && !r.name.StartsWith("Eye"));
             block = new MaterialPropertyBlock();
             var movement = FindFirstObjectByType<PlayerMovement>();
             if (movement != null)
@@ -239,15 +239,7 @@ namespace BossFight
         private void ApplyTint(Color color, bool emissive)
         {
             tinted = emissive;
-            foreach (var r in renderers)
-            {
-                if (r == null || r is ParticleSystemRenderer || r.name.StartsWith("Eye")) continue;
-                r.GetPropertyBlock(block);
-                block.SetColor("_BaseColor", color);
-                block.SetColor("_Color", color);
-                block.SetColor("_EmissionColor", emissive ? color * 1.5f : Color.black);
-                r.SetPropertyBlock(block);
-            }
+            RendererTint.Apply(renderers, block, color, emissive ? color * 1.5f : Color.black);
         }
 
         // Two small emissive spheres and a tiny point light parented to the head bone.

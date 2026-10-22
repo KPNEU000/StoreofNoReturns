@@ -215,15 +215,7 @@ namespace BossFight
         private void ApplyTint(Color color)
         {
             tinted = color != possessedTint;
-            foreach (var r in renderers)
-            {
-                if (r == null) continue;
-                r.GetPropertyBlock(block);
-                block.SetColor("_BaseColor", color);
-                block.SetColor("_Color", color);
-                block.SetColor("_EmissionColor", color * 1.5f);
-                r.SetPropertyBlock(block);
-            }
+            RendererTint.Apply(renderers, block, color, color * 1.5f);
         }
 
         private void OnDestroy()

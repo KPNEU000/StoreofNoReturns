@@ -115,14 +115,7 @@ namespace BossFight
         private void Tint(Color color)
         {
             flashing = true;
-            foreach (var r in renderers)
-            {
-                if (r == null) continue;
-                r.GetPropertyBlock(block);
-                block.SetColor("_BaseColor", color);
-                block.SetColor("_Color", color);
-                r.SetPropertyBlock(block);
-            }
+            RendererTint.Apply(renderers, block, color, null);
         }
     }
 }
