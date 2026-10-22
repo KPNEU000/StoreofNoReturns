@@ -16,6 +16,7 @@ namespace BossFight.Editor
             ("Player hit receiver", PlayerHitReceiverBuilder.Build),
             ("Player sword and flashlight", PlayerToolsBuilder.Build),
             ("Possessed clothing and spawner", ClothingEnemyBuilder.Build),
+            ("Witch, boss director and HUD", BossDirectorBuilder.Build),
             ("Build settings scenes", BuildSettingsBuilder.Build),
         };
 

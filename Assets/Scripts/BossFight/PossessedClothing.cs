@@ -6,7 +6,7 @@ namespace BossFight
 {
     // A possessed costume: hovers, paths on the runtime NavMesh, lunges at the player, then flops.
     [RequireComponent(typeof(NavMeshAgent))]
-    public class PossessedClothing : MonoBehaviour, IDamageable
+    public class PossessedClothing : MonoBehaviour, IDamageable, IBossMinion
     {
         [SerializeField]
         private BossFightConfig config;
@@ -39,8 +39,9 @@ namespace BossFight
         private float bobPhase;
         private float flashUntil;
         private bool tinted;
+        private bool lifeless;
 
-        public bool IsAlive => brain != null && brain.IsAlive;
+        public bool IsAlive => !lifeless && brain != null && brain.IsAlive;
         public ClothingState State => brain != null ? brain.State : ClothingState.Dead;
 
         public void Init(ClothingSpawner owner, int index)
@@ -177,7 +178,7 @@ namespace BossFight
 
         public void TakeDamage(float amount, Vector3 from)
         {
-            if (!brain.IsAlive) return;
+            if (!IsAlive) return;
             brain.TakeDamage(amount);
             if (!brain.IsAlive)
             {
@@ -186,6 +187,14 @@ namespace BossFight
             }
             flashUntil = Time.time + damageFlashSeconds;
             ApplyTint(Color.red);
+        }
+
+        // The Witch died: stop and fall wherever it is.
+        public void DropLifeless()
+        {
+            if (!IsAlive) return;
+            lifeless = true;
+            Die();
         }
 
         private void Die()

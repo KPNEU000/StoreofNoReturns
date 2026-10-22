@@ -51,7 +51,13 @@ public class MoneyManager : MonoBehaviour
 
     public void SubtractMoney(float amount)
     {
-        currentMoney -= amount;
+        SetMoney(currentMoney - amount);
+    }
+
+    // Used by the boss debug jump (P) to start from the test money value.
+    public void SetMoney(float amount)
+    {
+        currentMoney = amount;
         OnMoneyChanged?.Invoke(currentMoney);
         if (currentMoney <= 0 && !gameOver)
         {
