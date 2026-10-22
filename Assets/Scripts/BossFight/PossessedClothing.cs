@@ -228,15 +228,41 @@ namespace BossFight
         {
             if (spawner != null) spawner.Unregister(this);
             agent.enabled = false;
-            ApplyTint(Color.red);
-            var body = gameObject.AddComponent<Rigidbody>();
-            body.mass = 2f;
-            if (visual != null && visual != transform)
-            {
-                visual.localPosition = Vector3.zero;
-            }
             enabled = false;
-            Destroy(gameObject, 10f);
+            if (EnemyDeathRules.OutcomeFor(EnemyKind.PossessedClothing) == DeathOutcome.Vanish) SpawnPuff();
+            Destroy(gameObject);
+        }
+
+        // A short purple burst where the garment was; it cleans itself up.
+        private void SpawnPuff()
+        {
+            var puff = new GameObject("ClothingPuff");
+            puff.transform.position = transform.position;
+            var particles = puff.AddComponent<ParticleSystem>();
+            var main = particles.main;
+            main.duration = 0.5f;
+            main.loop = false;
+            main.startLifetime = 0.7f;
+            main.startSpeed = 2f;
+            main.startSize = 0.35f;
+            main.startColor = new Color(0.55f, 0.15f, 0.9f, 0.8f);
+            main.gravityModifier = -0.1f;
+            main.stopAction = ParticleSystemStopAction.Destroy;
+            var emission = particles.emission;
+            emission.rateOverTime = 0f;
+            emission.SetBursts(new[] { new ParticleSystem.Burst(0f, 30) });
+            var shape = particles.shape;
+            shape.shapeType = ParticleSystemShapeType.Sphere;
+            shape.radius = 0.4f;
+            var renderer = puff.GetComponent<ParticleSystemRenderer>();
+            var shader = Shader.Find("Universal Render Pipeline/Particles/Unlit");
+            if (shader != null)
+            {
+                var material = new Material(shader);
+                material.SetColor("_BaseColor", main.startColor.color);
+                renderer.sharedMaterial = material;
+            }
+            particles.Play();
         }
 
         private void ApplyTint(Color color)

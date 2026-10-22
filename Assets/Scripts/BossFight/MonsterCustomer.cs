@@ -11,7 +11,6 @@ namespace BossFight
         private const string RunState = "Run";
         private const string AttackState = "Attack";
         private const string HurtState = "Hurt";
-        private const string DeathState = "Death";
 
         [SerializeField]
         private BossFightConfig config;
@@ -58,7 +57,6 @@ namespace BossFight
         private bool active;
         private bool boosted;
         private bool dead;
-        private bool deathFrozen;
 
         public bool IsAlive => !dead;
         public bool Boosted => boosted;
@@ -104,11 +102,7 @@ namespace BossFight
 
         private void Update()
         {
-            if (dead)
-            {
-                FreezeAfterDeathClip();
-                return;
-            }
+            if (dead) return;
             if (!active)
             {
                 spawnDelay -= Time.deltaTime;
@@ -212,21 +206,24 @@ namespace BossFight
             ApplyTint(Color.white, false);
             var rigidbody = GetComponent<Rigidbody>();
             if (rigidbody != null) rigidbody.isKinematic = true;
-            Play(DeathState, true);
+            Ragdoll();
             if (deathSound != null) AudioSource.PlayClipAtPoint(deathSound, transform.position);
             if (director != null) director.MonsterDied(this);
         }
 
-        // The death clip plays once; hold its last frame so the corpse stays down.
-        private void FreezeAfterDeathClip()
+        // Animator off, alive colliders off, bones become a physics ragdoll that ignores the player and the live monsters.
+        private void Ragdoll()
         {
-            if (deathFrozen || animator == null) return;
-            var info = animator.GetCurrentAnimatorStateInfo(0);
-            if (info.IsName(DeathState) && info.normalizedTime >= 1f)
+            if (EnemyDeathRules.OutcomeFor(EnemyKind.Monster) != DeathOutcome.Ragdoll) return;
+            var ignore = new System.Collections.Generic.List<Collider>();
+            var movement = player != null ? player.GetComponentsInChildren<Collider>() : new Collider[0];
+            ignore.AddRange(movement);
+            foreach (var other in FindObjectsByType<MonsterCustomer>(FindObjectsSortMode.None))
             {
-                animator.speed = 0f;
-                deathFrozen = true;
+                if (other != this) ignore.AddRange(other.GetComponentsInChildren<Collider>());
             }
+            var ragdoll = gameObject.AddComponent<MonsterRagdoll>();
+            ragdoll.Activate(animator, GetComponentsInChildren<Collider>(), ignore.ToArray());
         }
 
         private void Play(string state, bool restart = false)
