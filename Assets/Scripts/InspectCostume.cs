@@ -46,6 +46,12 @@ public class InspectCostume : MonoBehaviour
         Rerender();
     }
 
+    public void setActiveCostume(string nextCostumeName)
+    {
+        activeCostumeName = nextCostumeName;
+        Rerender();
+    }
+
     [ContextMenu("re-Render")]
     public void Rerender()
     {

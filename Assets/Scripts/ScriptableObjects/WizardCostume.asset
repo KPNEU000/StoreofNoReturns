@@ -15,7 +15,7 @@ MonoBehaviour:
   costumeName: Evil Blood Wizard
   returnValue: 50
   costumeModel: {fileID: 2892068233996699481, guid: c01de2821c276f94bb2ba56c0129083f, type: 3}
-  dateOfPurchase: 10/15/2001
+  dateOfPurchase: 10/28/2002
   reasons: 
   computerViewSpriteFront: {fileID: 21300000, guid: db4aa1432446b3b49890b862eb8afe10, type: 3}
   computerViewSpriteBack: {fileID: 21300000, guid: ca2cbcd09b9fd0340b436e2bd8d1b3c7, type: 3}
