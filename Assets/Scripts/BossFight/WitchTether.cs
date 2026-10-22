@@ -25,7 +25,7 @@ namespace BossFight
 
         private void Awake()
         {
-            var settings = config != null ? config.ToSettings() : new BossFightSettings();
+            var settings = BossFightConfig.SettingsOf(config);
             schedule = new TetherSchedule(settings);
             line = GetComponent<LineRenderer>();
             line.positionCount = 2;

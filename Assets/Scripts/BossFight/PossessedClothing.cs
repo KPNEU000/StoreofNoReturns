@@ -52,7 +52,7 @@ namespace BossFight
 
         private void Awake()
         {
-            var settings = config != null ? config.ToSettings() : new BossFightSettings();
+            var settings = BossFightConfig.SettingsOf(config);
             brain = new ClothingBrain(settings);
             routing = new FlankRouting(settings);
             agent = GetComponent<NavMeshAgent>();

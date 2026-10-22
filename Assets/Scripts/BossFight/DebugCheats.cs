@@ -20,7 +20,7 @@ namespace BossFight
 
         private void Awake()
         {
-            settings = config != null ? config.ToSettings() : new BossFightSettings();
+            settings = BossFightConfig.SettingsOf(config);
             if (director == null) director = FindFirstObjectByType<BossDirector>();
             if (moneyManager == null) moneyManager = FindFirstObjectByType<MoneyManager>();
             if (reputationManager == null) reputationManager = FindFirstObjectByType<ReputationManager>();

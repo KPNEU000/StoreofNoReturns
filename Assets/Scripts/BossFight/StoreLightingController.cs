@@ -35,7 +35,7 @@ namespace BossFight
 
         private void Awake()
         {
-            settings = config != null ? config.ToSettings() : new BossFightSettings();
+            settings = BossFightConfig.SettingsOf(config);
             rules = new LightTierRules(settings);
         }
 

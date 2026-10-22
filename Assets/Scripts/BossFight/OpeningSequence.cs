@@ -79,7 +79,7 @@ namespace BossFight
 
         private void Awake()
         {
-            settings = config != null ? config.ToSettings() : new BossFightSettings();
+            settings = BossFightConfig.SettingsOf(config);
             steps = new OpeningSteps(settings);
             if (director == null) director = FindFirstObjectByType<BossDirector>();
             if (player == null) player = FindFirstObjectByType<PlayerMovement>();

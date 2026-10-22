@@ -57,7 +57,7 @@ namespace BossFight
 
         private void Awake()
         {
-            settings = config != null ? config.ToSettings() : new BossFightSettings();
+            settings = BossFightConfig.SettingsOf(config);
             trigger = new CaveInTrigger(settings);
             placement = new ChunkPlacement(settings);
             if (director == null) director = FindFirstObjectByType<BossDirector>();

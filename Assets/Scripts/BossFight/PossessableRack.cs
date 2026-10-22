@@ -44,7 +44,7 @@ namespace BossFight
 
         private IEnumerator FadeRoutine(ClothingSpawner spawner, int count, System.Action onFaded)
         {
-            var settings = config != null ? config.ToSettings() : new BossFightSettings();
+            var settings = BossFightConfig.SettingsOf(config);
             float seconds = Mathf.Max(settings.rackFadeSeconds, 0.01f);
             var renderers = GetComponentsInChildren<Renderer>();
             var block = new MaterialPropertyBlock();

@@ -34,7 +34,7 @@ namespace BossFight
         public void Begin(MonsterCustomer owner, string customerName)
         {
             monster = owner;
-            settings = config != null ? config.ToSettings() : new BossFightSettings();
+            settings = BossFightConfig.SettingsOf(config);
             hand = FindHand();
             if (bodyPrefab == null || hand == null) return;
 

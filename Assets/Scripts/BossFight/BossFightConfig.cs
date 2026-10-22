@@ -11,5 +11,8 @@ namespace BossFight
 
         // Returns a copy so rule classes can never write back into the asset.
         public BossFightSettings ToSettings() => settings.Clone();
+
+        // An unwired config falls back to the default tuning.
+        public static BossFightSettings SettingsOf(BossFightConfig config) => config != null ? config.ToSettings() : new BossFightSettings();
     }
 }

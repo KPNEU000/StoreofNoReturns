@@ -78,7 +78,7 @@ namespace BossFight
 
         private void Awake()
         {
-            settings = config != null ? config.ToSettings() : new BossFightSettings();
+            settings = BossFightConfig.SettingsOf(config);
             attack = new MonsterAttack(settings);
             routing = new FlankRouting(settings);
             reputationScaling = new ReputationScaling(settings);

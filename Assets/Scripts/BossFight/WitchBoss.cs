@@ -37,7 +37,7 @@ namespace BossFight
 
         private void Awake()
         {
-            var settings = config != null ? config.ToSettings() : new BossFightSettings();
+            var settings = BossFightConfig.SettingsOf(config);
             if (director == null) director = FindFirstObjectByType<BossDirector>();
             transform.localScale *= settings.witchHeightScale;
             transform.position += Vector3.up * settings.witchHoverHeight;

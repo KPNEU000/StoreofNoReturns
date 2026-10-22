@@ -25,7 +25,7 @@ namespace BossFight
 
         private void Awake()
         {
-            var settings = config != null ? config.ToSettings() : new BossFightSettings();
+            var settings = BossFightConfig.SettingsOf(config);
             hitCost = new HitCost(settings);
             invincibility = new InvincibilityTimer(settings.invincibilitySeconds);
             flashSeconds = settings.hitFlashSeconds;

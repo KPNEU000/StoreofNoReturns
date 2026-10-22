@@ -42,7 +42,7 @@ namespace BossFight
 
         private void Awake()
         {
-            settings = config != null ? config.ToSettings() : new BossFightSettings();
+            settings = BossFightConfig.SettingsOf(config);
             machine = new BossPhaseMachine(settings);
             if (moneyManager == null) moneyManager = FindFirstObjectByType<MoneyManager>();
             if (player == null) player = FindFirstObjectByType<PlayerMovement>();

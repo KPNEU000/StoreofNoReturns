@@ -43,7 +43,7 @@ namespace BossFight
 
         private void Awake()
         {
-            var settings = config != null ? config.ToSettings() : new BossFightSettings();
+            var settings = BossFightConfig.SettingsOf(config);
             rules = new BookThrowRules(settings);
             if (director == null) director = FindFirstObjectByType<BossDirector>();
             if (receiver == null) receiver = FindFirstObjectByType<PlayerHitReceiver>();
