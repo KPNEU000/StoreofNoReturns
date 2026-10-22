@@ -3,9 +3,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class InspectCostume : MonoBehaviour
 {
+
+    [System.Serializable]
+    struct CostumeKeyPair
+    {
+        public string costumeName;
+        public GameObject costumePrefab;
+
+    }
 
     float yaw, pitch, roll;
 
@@ -13,11 +22,15 @@ public class InspectCostume : MonoBehaviour
 
     [SerializeField] float sensitivity = 0.2f;
 
-    [SerializeField] Material Costume;
+    //[SerializeField] Material Costume;
 
     [SerializeField] float pitchMin, pitchMax;
 
-    MeshRenderer renderer;
+    [SerializeField] string activeCostumeName;
+
+    [SerializeField] CostumeKeyPair[] pairs;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,14 +41,28 @@ public class InspectCostume : MonoBehaviour
         pitch = e.x;
         roll = e.z;
 
-        renderer = GetComponent<MeshRenderer>();
+        //renderer = GetComponent<MeshRenderer>();
 
         Rerender();
     }
 
-    void Rerender()
+    [ContextMenu("re-Render")]
+    public void Rerender()
     {
-        renderer.material = Costume;
+        for(int i = 0; i < pairs.Length; i++)
+        {
+            if(pairs[i].costumePrefab)
+            {
+                if(pairs[i].costumeName == activeCostumeName)
+                {
+                    pairs[i].costumePrefab.SetActive(true);
+                }
+                else
+                {
+                    pairs[i].costumePrefab.SetActive(false);
+                }
+            }
+        }
     }
 
     // Update is called once per frame
