@@ -16,6 +16,16 @@ namespace BossFight
         [SerializeField]
         private TMP_Text objectiveText;
 
+        private string message = "";
+        private float messageUntil;
+
+        // Shows a line (e.g. the Witch speaking) in place of the objective for a few seconds.
+        public void ShowMessage(string line, float seconds)
+        {
+            message = line;
+            messageUntil = Time.time + seconds;
+        }
+
         private void Awake()
         {
             if (director == null) director = FindFirstObjectByType<BossDirector>();
@@ -28,7 +38,11 @@ namespace BossFight
             {
                 SetText(moneyText, BossHudText.Money(moneyManager.CurrentMoney));
             }
-            if (objectiveText != null && director != null)
+            if (objectiveText != null && Time.time < messageUntil)
+            {
+                SetText(objectiveText, message);
+            }
+            else if (objectiveText != null && director != null)
             {
                 SetText(objectiveText, BossHudText.Objective(director.Phase, director.MonstersAlive));
             }
