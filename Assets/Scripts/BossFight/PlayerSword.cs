@@ -20,6 +20,7 @@ namespace BossFight
         private AudioClip hitSound;
         [SerializeField]
         private Vector3 restEuler = new Vector3(0f, 0f, 0f);
+        // Kept so existing scene data still deserializes; the pose now comes from SwordPose.
         [SerializeField]
         private Vector3 windupEuler = new Vector3(0f, 0f, -80f);
         [SerializeField]
@@ -116,25 +117,13 @@ namespace BossFight
             }
         }
 
-        // Upright rest -> raised during windup -> fast horizontal right-to-left sweep -> eases back.
+        // Upright -> point forward (windup) -> right-to-left sweep around the hit -> upright; pose comes from SwordPose.
         private void Animate()
         {
             if (pivot == null) return;
-            Quaternion rest = Quaternion.Euler(restEuler);
-            if (elapsed < rules.HitTime)
-            {
-                float t = elapsed / Mathf.Max(rules.HitTime, 1e-4f);
-                pivot.localRotation = Quaternion.Slerp(rest, Quaternion.Euler(windupEuler), t);
-            }
-            else
-            {
-                float t = (elapsed - rules.HitTime) / Mathf.Max(rules.Duration - rules.HitTime, 1e-4f);
-                float sweep = Mathf.Clamp01(t * 4f);
-                float back = Mathf.Clamp01((t - 0.25f) / 0.75f);
-                var swept = Quaternion.Slerp(Quaternion.Euler(windupEuler), Quaternion.Euler(sweepEuler), sweep);
-                pivot.localRotation = Quaternion.Slerp(swept, rest, back);
-            }
-            pivot.localPosition = restPosition;
+            var pose = SwordPose.Evaluate(elapsed / Mathf.Max(rules.Duration, 1e-4f), rules.HitTime / Mathf.Max(rules.Duration, 1e-4f));
+            pivot.localRotation = Quaternion.Euler(restEuler) * pose.rotation;
+            pivot.localPosition = restPosition + pose.positionOffset;
         }
 
         // Procedural bob/sway while not slashing.
