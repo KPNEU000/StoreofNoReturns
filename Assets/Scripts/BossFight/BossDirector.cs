@@ -34,6 +34,11 @@ namespace BossFight
         public event Action Lost;
         // Raised by StartFight with the monster count; a spawner listening here spawns and calls RegisterMonster.
         public event Action<int> MonsterSpawnRequested;
+        // Raised by StartFight with the monster count when an OpeningSequence is listening; it calls BeginFight at the door blast.
+        public event Action<int> OpeningRequested;
+
+        private bool openingStarted;
+        public bool OpeningRunning => openingStarted && machine.Phase == BossPhase.Intro;
 
         private void Awake()
         {
@@ -53,8 +58,21 @@ namespace BossFight
             if (moneyManager != null) moneyManager.OnMoneyChanged -= HandleMoneyChanged;
         }
 
-        // The Intro (opening sequence) is not built yet, so this goes straight into the fight.
+        // Starts the opening cinematic (the Intro) when one is listening; otherwise goes straight into the fight.
         public bool StartFight(int monsterCount)
+        {
+            if (machine.Phase != BossPhase.Intro || openingStarted) return false;
+            if (OpeningRequested != null)
+            {
+                openingStarted = true;
+                OpeningRequested.Invoke(monsterCount);
+                return true;
+            }
+            return BeginFight(monsterCount);
+        }
+
+        // Leaves Intro: spawns the monsters, picks Phase1/Phase2 and hands movement back to the player.
+        public bool BeginFight(int monsterCount)
         {
             if (machine.Phase != BossPhase.Intro) return false;
             MonsterSpawnRequested?.Invoke(monsterCount);

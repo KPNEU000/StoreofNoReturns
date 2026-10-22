@@ -16,6 +16,7 @@ namespace BossFight
         [SerializeField]
         private TMP_Text objectiveText;
 
+        private CanvasGroup group;
         private string message = "";
         private float messageUntil;
 
@@ -24,6 +25,21 @@ namespace BossFight
         {
             message = line;
             messageUntil = Time.time + seconds;
+        }
+
+        // Hidden until the opening's screen crack appears.
+        public void SetVisible(bool visible)
+        {
+            if (group == null) group = GetComponent<CanvasGroup>() != null ? GetComponent<CanvasGroup>() : gameObject.AddComponent<CanvasGroup>();
+            group.alpha = visible ? 1f : 0f;
+        }
+
+        // Moves the money/objective labels into the crack frame, keeping their top-right anchoring.
+        public void AttachTo(RectTransform frame)
+        {
+            if (frame == null) return;
+            if (moneyText != null) moneyText.rectTransform.SetParent(frame, false);
+            if (objectiveText != null) objectiveText.rectTransform.SetParent(frame, false);
         }
 
         private void Awake()

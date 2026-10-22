@@ -51,7 +51,21 @@ public class PlayerMovement : MonoBehaviour
     public void enableMovement()
     {
         MovementEnabled = true;
+        MovementLocked = false;
     }
+
+    // Free look with WASD ignored (the opening cinematic).
+    public void EnableLookOnly()
+    {
+        MovementEnabled = true;
+        MovementLocked = true;
+    }
+
+    // WASD is ignored while locked; mouse look keeps working.
+    public bool MovementLocked { get; set; }
+
+    // A script is moving the player (the counter vault); physics and input movement are skipped.
+    public bool ScriptedMotion { get; set; }
 
     // Update is called once per frame
     void Update()
@@ -75,9 +89,16 @@ public class PlayerMovement : MonoBehaviour
             cameraTrans.localRotation = Quaternion.Euler(pitch, 0, 0);
         }
 
+        if (ScriptedMotion)
+        {
+            planarVelocity = Vector2.zero;
+            verticalVelocity = 0f;
+            return;
+        }
+
         //get input (raw keys, eased by MoveSmoothing)
         Vector2 keys = Vector2.zero;
-        if (kb != null)
+        if (kb != null && !MovementLocked)
         {
             keys.x = (kb.dKey.isPressed ? 1f : 0f) - (kb.aKey.isPressed ? 1f : 0f);
             keys.y = (kb.wKey.isPressed ? 1f : 0f) - (kb.sKey.isPressed ? 1f : 0f);

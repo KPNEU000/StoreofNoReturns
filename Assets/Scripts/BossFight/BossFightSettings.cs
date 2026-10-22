@@ -119,6 +119,19 @@ namespace BossFight
         public float caveInReachabilityDelaySeconds = 0.5f;
         public float caveInMoonlightIntensity = 12f;
 
+        [Header("Opening sequence")]
+        public float openingMagicSeconds = 3f;
+        public float openingShatterSeconds = 2f;
+        public float openingShardFlightSeconds = 0.6f;
+        public float openingCrackSeconds = 2f;
+        public float openingWitchLineSeconds = 4.5f;
+        public float openingMoveLineSeconds = 2.5f;
+        public float openingVaultSeconds = 0.6f;
+        public float openingVaultDistance = 2.5f;
+        public float openingVaultArcHeight = 0.7f;
+        public float openingFlashlightMultiplier = 2.5f;
+        public int openingWallCrackCount = 8;
+
         [Header("Debug (P = jump to boss start)")]
         public float debugStartMoney = 600f;
         public int debugReputation = 50;

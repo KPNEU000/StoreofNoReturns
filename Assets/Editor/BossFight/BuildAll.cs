@@ -22,6 +22,7 @@ namespace BossFight.Editor
             ("Clothing waves and possessable racks", ClothingWaveBuilder.Build),
             ("Witch book throw and bookshelves", BookThrowBuilder.Build),
             ("Ceiling cave-in", CaveInBuilder.Build),
+            ("Opening sequence, text box and door barrier", OpeningBuilder.Build),
             ("Costume return values", CostumeReturnValueBuilder.Build),
             ("Build settings scenes", BuildSettingsBuilder.Build),
         };
