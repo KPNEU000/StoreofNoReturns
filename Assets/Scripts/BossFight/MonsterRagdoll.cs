@@ -85,6 +85,7 @@ namespace BossFight
             {
                 if (spec.Parent == name && byName.TryGetValue(spec.Name, out var child)) { end = child; break; }
             }
+            float scale = Mathf.Max(bone.lossyScale.x, 1e-4f);
             Vector3 localEnd;
             if (end != null && name != "Hips")
             {
@@ -92,12 +93,11 @@ namespace BossFight
             }
             else
             {
-                float s = Mathf.Max(bone.lossyScale.x, 1e-4f);
-                localEnd = bone.InverseTransformDirection(name == "Head" ? Vector3.up : name == "Hips" ? Vector3.up : Vector3.down) * (name == "Head" ? 0.25f : 0.3f) / s;
+                var stub = name == "Head" || name == "Hips" ? Vector3.up : Vector3.down;
+                localEnd = bone.InverseTransformDirection(stub) * (name == "Head" ? 0.25f : 0.3f) / scale;
             }
             float length = localEnd.magnitude;
             if (length < 1e-4f) length = 0.1f;
-            float scale = Mathf.Max(bone.lossyScale.x, 1e-4f);
             var capsule = bone.gameObject.AddComponent<CapsuleCollider>();
             var axis = Mathf.Abs(localEnd.x) >= Mathf.Abs(localEnd.y) && Mathf.Abs(localEnd.x) >= Mathf.Abs(localEnd.z) ? 0
                 : Mathf.Abs(localEnd.y) >= Mathf.Abs(localEnd.z) ? 1 : 2;
