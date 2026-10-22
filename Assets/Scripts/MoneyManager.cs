@@ -7,9 +7,9 @@ public class MoneyManager : MonoBehaviour
     [SerializeField]
     private float startingMoney = 1000;
     [SerializeField]
-    private float heatingCutOff = 100;
+    private float heatingCutOff = 100; // unused
     [SerializeField]
-    private GameObject heatingCutOffAlert;
+    private GameObject heatingCutOffAlert; // unused
     [SerializeField]
     private float lightingCutOff = 500;
     [SerializeField]
@@ -20,12 +20,15 @@ public class MoneyManager : MonoBehaviour
     private ReputationManager reputationManager;
     
     bool lightingCut = false;
-    bool heatingCut = false;
+    bool gameOver = false;
     CustomerScript customer;
     CustomerBehaviour customerBehaviour;
     CostumeScriptData costume;
 
     private float currentMoney;
+
+    public float CurrentMoney => currentMoney;
+    public event Action<float> OnMoneyChanged;
 
     [Header("UI")]
     [SerializeField]
@@ -43,6 +46,25 @@ public class MoneyManager : MonoBehaviour
         lights = GameObject.FindObjectsByType<Light>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
         currentMoney = startingMoney;
         currentMoneyValue.text = "$"+ currentMoney.ToString();
+        OnMoneyChanged?.Invoke(currentMoney);
+    }
+
+    public void SubtractMoney(float amount)
+    {
+        currentMoney -= amount;
+        OnMoneyChanged?.Invoke(currentMoney);
+        if (currentMoney <= 0 && !gameOver)
+        {
+            gameOver = true;
+            if (SceneLoadingManager.Instance != null)
+            {
+                SceneLoadingManager.Instance.LoadSceneByName("Game Over Screen");
+            }
+            else
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Game Over Screen");
+            }
+        }
     }
 
     // Update is called once per frame
@@ -62,18 +84,6 @@ public class MoneyManager : MonoBehaviour
                 light.enabled = false;
             }
             lightingCutOffAlert.SetActive(true);
-        }
-
-        if (currentMoney <= heatingCutOff && !heatingCut)
-        {
-            heatingCut = true;
-            playerMovement.speed = playerMovement.speed * 0.5f;
-            heatingCutOffAlert.SetActive(true);
-        }
-
-        if (currentMoney == 0)
-        {
-            FindFirstObjectByType<SceneLoadingManager>().LoadSceneByName("Game Over");
         }
     }
 
@@ -108,7 +118,7 @@ public class MoneyManager : MonoBehaviour
             {
                 reputationManager.ProcessRefund(false, true);
             }
-            currentMoney -= costume.getReturnValue();
+            SubtractMoney(costume.getReturnValue());
             customerBehaviour.Respond(true);
         }
         else

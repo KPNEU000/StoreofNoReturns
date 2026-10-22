@@ -13,6 +13,7 @@ namespace BossFight.Editor
             ("Config asset", ConfigBuilder.Build),
             ("Rig prefab", RigPrefabBuilder.Build),
             ("Boss Scene rig instance", BossSceneRigBuilder.Build),
+            ("Player hit receiver", PlayerHitReceiverBuilder.Build),
             ("Build settings scenes", BuildSettingsBuilder.Build),
         };
 

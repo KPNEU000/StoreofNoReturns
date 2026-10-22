@@ -48,6 +48,24 @@ namespace BossFight.Editor
             {
                 using (var boss = new BossSceneScope())
                 {
+                    var player = PlayerHitReceiverBuilder.FindPlayer(boss.Scene);
+                    var receiver = player != null ? player.GetComponent<PlayerHitReceiver>() : null;
+                    if (receiver == null)
+                    {
+                        errors.Add("Boss Scene player has no PlayerHitReceiver");
+                    }
+                    else
+                    {
+                        var so = new SerializedObject(receiver);
+                        foreach (var field in new[] { "config", "moneyManager", "hitFlash" })
+                        {
+                            if (so.FindProperty(field).objectReferenceValue == null)
+                            {
+                                errors.Add($"Boss Scene PlayerHitReceiver: {field} reference is missing");
+                            }
+                        }
+                    }
+
                     var rigs = BossSceneRigBuilder.FindRigs(boss.Scene);
                     if (rigs.Count != 1)
                     {
