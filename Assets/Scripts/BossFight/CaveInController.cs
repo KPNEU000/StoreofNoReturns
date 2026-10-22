@@ -147,18 +147,36 @@ namespace BossFight
             }
         }
 
-        private void RemoveTileAbove(Vector3 position)
+        // Every tile the chunk's footprint overlaps, so the falling chunk never grazes a neighbouring tile.
+        private void RemoveTilesAbove(Vector3 position, float radius)
         {
-            GameObject best = null;
-            float bestDistance = float.MaxValue;
-            foreach (var tile in tiles)
+            for (int i = tiles.Count - 1; i >= 0; i--)
             {
+                var tile = tiles[i];
                 if (tile == null) continue;
                 var p = tile.transform.position;
-                float d = (p.x - position.x) * (p.x - position.x) + (p.z - position.z) * (p.z - position.z);
-                if (d < bestDistance) { bestDistance = d; best = tile; }
+                var half = tile.transform.localScale * 0.5f;
+                float dx = Mathf.Max(Mathf.Abs(p.x - position.x) - half.x, 0f);
+                float dz = Mathf.Max(Mathf.Abs(p.z - position.z) - half.z, 0f);
+                if (dx * dx + dz * dz > radius * radius) continue;
+                Destroy(tile);
+                tiles.RemoveAt(i);
             }
-            if (best != null) Destroy(best);
+        }
+
+        // The physical floor straight below `point` (ignoring triggers, enemies and the player); NavMesh height otherwise.
+        private static float GroundBelow(Vector3 point)
+        {
+            var hits = Physics.RaycastAll(point + Vector3.up * 1.5f, Vector3.down, 4f, ~0, QueryTriggerInteraction.Ignore);
+            float best = float.NegativeInfinity;
+            foreach (var hit in hits)
+            {
+                if (hit.collider.GetComponentInParent<UnityEngine.AI.NavMeshAgent>() != null) continue;
+                if (hit.collider.GetComponentInParent<CharacterController>() != null) continue;
+                if (hit.point.y > point.y + 0.5f) continue; // racks, the counter or shelves above the floor
+                best = Mathf.Max(best, hit.point.y);
+            }
+            return float.IsNegativeInfinity(best) ? point.y : best;
         }
 
         // The store floor is where the player's feet are on the NavMesh.
@@ -177,9 +195,12 @@ namespace BossFight
             {
                 // Sampled from just above the floor: the NavMesh also covers the ceiling top, which must never be hit.
                 var random = new Vector3(Random.Range(b.min.x, b.max.x), floorY + 0.1f, Random.Range(b.min.z, b.max.z));
+                // Open floor only: far enough from any NavMesh edge (racks, counter, walls) that the chunk lands on the floor.
                 if (NavMesh.SamplePosition(random, out var hit, 1f, NavMesh.AllAreas)
                     && ChunkPlacement.OnFloor(hit.position, floorY)
-                    && Mathf.Abs(hit.position.x - random.x) < 0.5f && Mathf.Abs(hit.position.z - random.z) < 0.5f)
+                    && Mathf.Abs(hit.position.x - random.x) < 0.5f && Mathf.Abs(hit.position.z - random.z) < 0.5f
+                    && NavMesh.FindClosestEdge(hit.position, out var edge, NavMesh.AllAreas)
+                    && edge.distance >= settings.caveInChunkRadius * ChunkPlacement.OpenFloorRadiusFraction)
                 {
                     points.Add(hit.position);
                 }
@@ -191,33 +212,29 @@ namespace BossFight
         {
             yield return new WaitForSeconds(spot.Delay);
 
-            float floorY = spot.Position.y;
+            float floorY = GroundBelow(spot.Position);
             float ceilingY = ceilingBounds.min.y;
             float restHeight = settings.caveInChunkRestHeight;
 
             yield return RaiseHand(spot.Position, ceilingY);
 
-            RemoveTileAbove(spot.Position);
+            RemoveTilesAbove(spot.Position, settings.caveInChunkRadius * 1.4f);
             SpawnDust(new Vector3(spot.Position.x, ceilingY, spot.Position.z), 4f);
             PlaySound(crackSound, spot.Position);
 
             var chunk = CreateChunk(spot, restHeight);
-            var body = chunk.GetComponent<Rigidbody>();
-            var landing = chunk.GetComponent<ChunkLanding>();
-            float dropFrom = ceilingY - restHeight - settings.caveInFallHeightPadding;
-            chunk.transform.position = new Vector3(spot.Position.x, Mathf.Max(dropFrom, floorY), spot.Position.z);
-            body.isKinematic = false;
+            float dropFrom = Mathf.Max(ceilingY - restHeight - settings.caveInFallHeightPadding, floorY);
             var column = SpawnDustColumn(chunk.transform);
 
-            float waited = 0f;
-            while (!landing.Landed && waited < 4f)
+            // A scripted free fall straight onto the floor: physics landings caught on tiles and racks and froze mid-air.
+            float fallSeconds = ChunkPlacement.FallSeconds(dropFrom - floorY);
+            for (float t = 0f; t < fallSeconds; t += Time.deltaTime)
             {
-                waited += Time.deltaTime;
+                float y = ChunkPlacement.FallHeight(dropFrom, floorY, t / fallSeconds);
+                chunk.transform.position = new Vector3(spot.Position.x, y, spot.Position.z);
                 yield return null;
             }
-
-            body.isKinematic = true;
-            chunk.transform.rotation = Quaternion.Euler(0f, spot.Yaw, 0f);
+            chunk.transform.position = new Vector3(spot.Position.x, floorY, spot.Position.z);
             if (column != null) column.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             SpawnDust(chunk.transform.position + Vector3.up * 0.2f, 4.5f);
             PlaySound(impactSound, chunk.transform.position);
@@ -271,7 +288,6 @@ namespace BossFight
             var body = go.AddComponent<Rigidbody>();
             body.isKinematic = true;
             body.mass = 400f;
-            go.AddComponent<ChunkLanding>();
             return go;
         }
 
@@ -404,17 +420,6 @@ namespace BossFight
             }
             // Only the newest shake puts the camera back, so overlapping shakes never strand it off-centre.
             if (token == shakeToken) shakeCamera.transform.localPosition = cameraRest;
-        }
-    }
-
-    // Reports the first real collision of a falling chunk.
-    public class ChunkLanding : MonoBehaviour
-    {
-        public bool Landed { get; private set; }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            Landed = true;
         }
     }
 }

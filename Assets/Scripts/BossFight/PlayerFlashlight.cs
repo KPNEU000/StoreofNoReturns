@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace BossFight
 {
-    // Held right mouse raises the beam; a faint glow is always on. Drives a Spot Light child of the camera.
+    // F toggles the beam; a faint glow is always on. Drives a Spot Light child of the camera.
     public class PlayerFlashlight : MonoBehaviour
     {
         [SerializeField]
@@ -24,6 +24,7 @@ namespace BossFight
         private FlashlightRules rules;
         private BossFightSettings settings;
         private float fraction;
+        private bool on;
         private Vector3 restPosition;
 
         // Tutorial sets this above 1 for the extra bright beam.
@@ -34,6 +35,7 @@ namespace BossFight
         }
 
         public float Fraction => fraction;
+        public bool IsOn => on;
 
         private void Awake()
         {
@@ -62,9 +64,10 @@ namespace BossFight
 
         private void Update()
         {
-            var mouse = Mouse.current;
-            bool held = mouse != null && mouse.rightButton.isPressed;
-            fraction = rules.Step(fraction, held, PlayerSword.IsSlashing, Time.deltaTime);
+            // F toggles the beam (round-2 playtest: easier than holding right-click); the ramp still eases it in and out.
+            var keyboard = Keyboard.current;
+            if (keyboard != null && keyboard.fKey.wasPressedThisFrame) on = !on;
+            fraction = rules.Step(fraction, on, PlayerSword.IsSlashing, Time.deltaTime);
             if (beam != null) beam.intensity = rules.Intensity(fraction);
 
             if (visual != null)

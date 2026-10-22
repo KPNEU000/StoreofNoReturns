@@ -11,9 +11,9 @@ namespace BossFight
     {
         private const string WitchLine = "I'm turning everyone who hates you into monsters…";
         private const string SwordPrompt = "Left-click: grab the sword";
-        private const string FlashlightPrompt = "Right-click: grab the flashlight";
+        private const string FlashlightPrompt = "F: grab the flashlight";
         private const string MovePrompt = "Get to the middle of the store…";
-        private const string LightPrompt = "What is that? Hold right-click to light it up.";
+        private const string LightPrompt = "What is that? Press F to turn on your flashlight.";
         private const string SlashPrompt = "Left-click to slash.";
 
         [SerializeField]
@@ -51,6 +51,8 @@ namespace BossFight
         [SerializeField]
         private Material wallCrackMaterial;
         [SerializeField]
+        private Material screenCrackMaterial;
+        [SerializeField]
         private AudioClip magicSound;
         [SerializeField]
         private AudioClip shatterSound;
@@ -70,6 +72,11 @@ namespace BossFight
         private int monsterCount;
         private bool costumeSpawned;
         private bool vaultDone;
+        // The Witch casts from the customer spot in front of the counter (in view), then glides back to her post.
+        private Vector3 witchPost;
+        private Quaternion witchPostRotation;
+        private Vector3 witchReturnFrom;
+        private float witchReturnElapsed = -1f;
         private bool vaulting;
         private float vaultElapsed;
         private Vector3 vaultStart;
@@ -130,12 +137,13 @@ namespace BossFight
             var signals = new OpeningSignals
             {
                 LeftClick = mouse != null && mouse.leftButton.wasPressedThisFrame,
-                RightClick = mouse != null && mouse.rightButton.wasPressedThisFrame,
-                RightHeld = mouse != null && mouse.rightButton.isPressed,
+                FlashlightPressed = Keyboard.current != null && Keyboard.current.fKey.wasPressedThisFrame,
+                FlashlightOn = flashlight != null && flashlight.isActiveAndEnabled && flashlight.IsOn,
                 VaultDone = vaultDone,
                 CostumeDead = costumeSpawned && (spawner == null || spawner.AliveCount == 0),
             };
             UpdateStep(steps.Current.Step);
+            UpdateWitchReturn();
             if (!steps.Advance(signals, Time.deltaTime)) return;
             if (steps.Finished)
             {
@@ -154,7 +162,10 @@ namespace BossFight
                 case OpeningStep.ShatterMonitor: ShatterMonitor(); break;
                 case OpeningStep.CrackScreen: CrackScreen(); break;
                 case OpeningStep.WitchLine: BossTextBox.Show(WitchLine, settings.openingWitchLineSeconds); break;
-                case OpeningStep.GrabSword: Prompt(SwordPrompt); break;
+                case OpeningStep.GrabSword:
+                    StartWitchReturn();
+                    Prompt(SwordPrompt);
+                    break;
                 case OpeningStep.GrabFlashlight:
                     if (swordObject != null) swordObject.SetActive(true);
                     Prompt(FlashlightPrompt);
@@ -188,12 +199,8 @@ namespace BossFight
         {
             switch (step)
             {
-                case OpeningStep.LockPlayer:
-                case OpeningStep.MagicToMonitor:
-                    LookAtCast();
-                    if (step == OpeningStep.MagicToMonitor) UpdateBeam();
-                    break;
-                case OpeningStep.ShatterMonitor: LookAtCast(); UpdateShard(); break;
+                case OpeningStep.MagicToMonitor: UpdateBeam(); break;
+                case OpeningStep.ShatterMonitor: UpdateShard(); break;
                 case OpeningStep.Vault: UpdateVault(); break;
             }
         }
@@ -207,19 +214,43 @@ namespace BossFight
             lighting = FindFirstObjectByType<StoreLightingController>();
             if (lighting != null) lighting.ForceNormal = true;
             rig = FindFirstObjectByType<BossFightRig>();
+            BringWitchToCounter();
         }
 
-        // Keeps the Witch (and the monitor she is blasting) in view while she casts; mouse look returns after the shatter.
-        private void LookAtCast()
+        // Round-2 playtest: from her post by the door she was lost in the fog, so she casts from right in front of the player.
+        private void BringWitchToCounter()
         {
-            if (player == null) return;
-            player.LookTarget = Vector3.Lerp(MonitorCenter(), WitchHand(), 0.65f);
-            player.LookTurnDegreesPerSecond = settings.openingLookTurnDegreesPerSecond;
+            if (witch == null || player == null) return;
+            witchPost = witch.position;
+            witchPostRotation = witch.rotation;
+            var forward = Planar.Direction(player.transform.forward);
+            var spot = player.transform.position + forward * settings.openingWitchCounterDistance;
+            spot = new Vector3(spot.x, witchPost.y, spot.z);
+            witch.position = spot;
+            witch.rotation = Quaternion.LookRotation(-forward);
+            Burst(WitchHand(), new Color(0.75f, 0.35f, 1f, 1f), 50, 0.6f, 3f);
         }
 
-        private void ReleaseLook()
+        private void StartWitchReturn()
         {
-            if (player != null) player.LookTarget = null;
+            if (witch == null || witchReturnElapsed != -1f || witchPost == Vector3.zero) return;
+            witchReturnFrom = witch.position;
+            witchReturnElapsed = 0f;
+        }
+
+        private void UpdateWitchReturn()
+        {
+            if (witch == null || witchReturnElapsed < 0f) return;
+            witchReturnElapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(witchReturnElapsed / Mathf.Max(settings.openingWitchReturnSeconds, 1e-3f));
+            float eased = t * t * (3f - 2f * t);
+            // Floats up and back, like she is drifting rather than walking.
+            witch.position = Vector3.Lerp(witchReturnFrom, witchPost, eased) + Vector3.up * Mathf.Sin(t * Mathf.PI) * 0.6f;
+            if (t >= 1f)
+            {
+                witch.rotation = witchPostRotation;
+                witchReturnElapsed = -2f; // done; never restarts
+            }
         }
 
         private Vector3 WitchHand()
@@ -269,8 +300,8 @@ namespace BossFight
         {
             if (beam != null) Destroy(beam.gameObject);
             var center = MonitorCenter();
-            // The computer stays; its screen turns to cracked glass.
-            if (monitorGlass != null) monitorGlass.gameObject.SetActive(true);
+            // The computer stays; its screen goes dark and cracked.
+            BreakScreen();
             Burst(center, new Color(0.8f, 0.85f, 1f, 1f), 80, 0.3f, 5f);
             Burst(center, new Color(0.75f, 0.35f, 1f, 1f), 40, 0.3f, 3f);
             if (shatterSound != null) AudioSource.PlayClipAtPoint(shatterSound, center);
@@ -304,10 +335,46 @@ namespace BossFight
             {
                 Destroy(shard.gameObject);
                 shard = null;
-                ReleaseLook();
                 if (crackOverlay != null) crackOverlay.Show();
                 if (hud != null) hud.SetVisible(true);
             }
+        }
+
+        // Swaps the monitor's UI canvas for a dark cracked screen covering the same rectangle.
+        private void BreakScreen()
+        {
+            var canvas = monitor != null ? monitor.GetComponentInChildren<Canvas>() : null;
+            if (canvas == null || screenCrackMaterial == null) return;
+            var corners = new Vector3[4];
+            ((RectTransform)canvas.transform).GetWorldCorners(corners); // bottom-left, top-left, top-right, bottom-right
+            canvas.enabled = false;
+            if (monitorGlass != null) monitorGlass.gameObject.SetActive(false);
+
+            var go = new GameObject("BrokenScreen", typeof(MeshFilter), typeof(MeshRenderer));
+            var mesh = new Mesh { name = "BrokenScreen", vertices = corners, uv = new[] { Vector2.zero, Vector2.up, Vector2.one, Vector2.right } };
+            // Face the player: a triangle's front is the side its (b - a) x (c - a) normal points to.
+            var camera = PlayerCamera();
+            var viewer = camera != null ? camera.transform.position : corners[0] - canvas.transform.forward;
+            var normal = Vector3.Cross(corners[1] - corners[0], corners[2] - corners[0]);
+            bool facesViewer = Vector3.Dot(normal, viewer - corners[0]) > 0f;
+            mesh.triangles = facesViewer ? new[] { 0, 1, 2, 0, 2, 3 } : new[] { 0, 2, 1, 0, 3, 2 };
+            mesh.RecalculateBounds();
+            go.GetComponent<MeshFilter>().sharedMesh = mesh;
+
+            var texture = new Texture2D(256, 256, TextureFormat.RGBA32, false);
+            var pixels = CrackPattern.Rasterize(256, CrackPattern.Generate(31, new Vector2(0.62f, 0.55f), 9, 7, 0.95f), new Color(0.85f, 0.9f, 1f, 1f));
+            var dark = new Color32(6, 7, 10, 245);
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                if (pixels[i].a < 40) pixels[i] = dark;
+            }
+            texture.SetPixels32(pixels);
+            texture.Apply();
+            var material = new Material(screenCrackMaterial);
+            material.SetTexture("_MainTex", texture);
+            var meshRenderer = go.GetComponent<MeshRenderer>();
+            meshRenderer.sharedMaterial = material;
+            meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
 
         private Rect HudGlassViewport()
@@ -322,7 +389,6 @@ namespace BossFight
         // Wall cracks appear from the player's eye outward, so they only ever mark the inside of the shop.
         private void CrackScreen()
         {
-            ReleaseLook();
             if (crackOverlay != null && !crackOverlay.Shown) crackOverlay.Show();
             if (hud != null) hud.SetVisible(true);
             if (wallCrackMaterial == null || player == null) return;

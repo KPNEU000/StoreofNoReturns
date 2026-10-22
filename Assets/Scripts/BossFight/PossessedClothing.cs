@@ -31,6 +31,7 @@ namespace BossFight
         private float damageFlashSeconds = 0.15f;
 
         private NavMeshAgent agent;
+        private readonly RepathGate repath = new RepathGate();
         private ClothingBrain brain;
         private FlankRouting routing;
         private Flank flank;
@@ -88,6 +89,8 @@ namespace BossFight
             brain = new ClothingBrain(settings);
             routing = new FlankRouting(settings);
             agent = GetComponent<NavMeshAgent>();
+            NavAgents.Configure(agent);
+            NavAgents.ExcludeFromNavMesh(gameObject);
             bobPhase = Random.value * Mathf.PI * 2f;
 
             var movement = FindFirstObjectByType<PlayerMovement>();
@@ -177,19 +180,19 @@ namespace BossFight
                 if (toGoal.magnitude < 0.8f) patrolToB = !patrolToB;
                 agent.isStopped = false;
                 agent.speed = chaseSpeed;
-                agent.SetDestination(goal);
+                NavAgents.Steer(agent, repath, goal);
                 return;
             }
 
             switch (brain.State)
             {
                 case ClothingState.Chase:
-                    agent.SetDestination(routing.Destination(player.position, transform.position, flank));
+                    NavAgents.Steer(agent, repath, routing.Destination(player.position, transform.position, flank));
                     if (toPlayer.magnitude <= contactDistance) brain.OnContact();
                     if (brain.State == ClothingState.Lunge) OnStateChanged(ClothingState.Chase, ClothingState.Lunge);
                     break;
                 case ClothingState.Lunge:
-                    agent.SetDestination(player.position);
+                    NavAgents.Steer(agent, repath, player.position);
                     if (receiver != null && TutorialRules.CanHurtPlayer(harmless) && toPlayer.magnitude <= contactDistance * 1.25f && brain.CanDealHit)
                     {
                         receiver.TryHit(HitKind.Clothing);
@@ -265,6 +268,8 @@ namespace BossFight
             var puff = new GameObject("ClothingPuff");
             puff.transform.position = transform.position;
             var particles = puff.AddComponent<ParticleSystem>();
+            // A new system starts playing; its duration can only be set once it is stopped.
+            particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             var main = particles.main;
             main.duration = 0.5f;
             main.loop = false;

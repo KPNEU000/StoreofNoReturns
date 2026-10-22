@@ -20,9 +20,9 @@ namespace BossFight
         public float flickerIntervalMaxSeconds = 5f;
         [Range(0f, 1f)] public float mildFlickerMinIntensity = 0.6f;
         [Range(0f, 1f)] public float strongFlickerMinIntensity = 0.3f;
-        public float outsideLightIntensity = 0.05f;
+        public float outsideLightIntensity = 0.12f;
         // Off tier: ambient/environment light, reflections and fog colour are scaled to this fraction of their original.
-        [Range(0f, 1f)] public float blackoutEnvironmentFactor = 0.03f;
+        [Range(0f, 1f)] public float blackoutEnvironmentFactor = 0.09f; // round-2 playtest: 0.03 was too dark to navigate
         [Range(0f, 1f)] public float flickerFloorIntensity = 0.3f;
         public float flickerDipSecondsMin = 0.06f;
         public float flickerDipSecondsMax = 0.18f;
@@ -130,7 +130,7 @@ namespace BossFight
         [Range(3, 10)] public int caveInChunkCount = 5;
         public float caveInDurationSeconds = 10f;
         public float caveInHandTelegraphSeconds = 2f;
-        public float caveInChunkRestHeight = 1.3f;
+        public float caveInChunkRestHeight = 1.6f; // playtest: 1.3 m looked small; with jagged lumps (+0.3) it still peaks under eye height (~2.07 m)
         public float caveInPlayerClearance = 3f;
         public float caveInChunkRadius = 1.6f;
         public float caveInFallHeightPadding = 0.1f;
@@ -162,8 +162,9 @@ namespace BossFight
         // Crack cells across the HUD shard and their line width (uv); more, finer cells read as smaller breaks.
         public float glassHudCrackScale = 10f;
         public float glassHudCrackWidth = 0.022f;
-        // How fast (degrees/second) the opening turns the view toward the Witch while she casts at the monitor.
-        public float openingLookTurnDegreesPerSecond = 120f;
+        // The Witch casts from the customer spot this far in front of the player, then glides back to her post.
+        public float openingWitchCounterDistance = 4.5f;
+        public float openingWitchReturnSeconds = 1.2f;
 
         [Header("Debug (P = jump to boss start)")]
         public float debugStartMoney = 600f;

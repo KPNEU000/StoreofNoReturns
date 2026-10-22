@@ -39,6 +39,7 @@ namespace BossFight
             if (bodyPrefab == null || hand == null) return;
 
             body = Instantiate(bodyPrefab, hand.position, hand.rotation);
+            NavAgents.ExcludeFromNavMesh(body);
             body.name = "DraggedCustomer";
             var costume = ResolveCostume(customerName);
             if (costume != null) DressBody(costume);

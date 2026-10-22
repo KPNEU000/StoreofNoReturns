@@ -110,6 +110,32 @@ namespace BossFight.Editor
             }
         }
 
+        // Round-2 playtest: the 0.9 m blade read as a dagger.
+        internal const float SwordBladeLength = 1.25f;
+
+        // Existing swords are kept, so the length is enforced on the blade and its trail tip every build.
+        private static void EnsureBladeLength(Transform pivot, float length, ref bool changed)
+        {
+            var blade = pivot.Find("Blade");
+            if (blade != null)
+            {
+                var scale = new Vector3(blade.localScale.x, length, blade.localScale.z);
+                var position = new Vector3(0f, length * 0.5f, 0f);
+                if ((blade.localScale - scale).sqrMagnitude > 1e-8f || (blade.localPosition - position).sqrMagnitude > 1e-8f)
+                {
+                    blade.localScale = scale;
+                    blade.localPosition = position;
+                    changed = true;
+                }
+            }
+            var tip = pivot.Find("BladeTip");
+            if (tip != null && (tip.localPosition - new Vector3(0f, length, 0f)).sqrMagnitude > 1e-8f)
+            {
+                tip.localPosition = new Vector3(0f, length, 0f);
+                changed = true;
+            }
+        }
+
         internal static void BuildSword(Transform camera, PlayerMovement player, BossFightConfig config, ref bool changed)
         {
             var sword = EnsureChild(camera, SwordName, ref changed);
@@ -134,6 +160,7 @@ namespace BossFight.Editor
                 trail.sharedMaterial = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Line.mat");
                 changed = true;
             }
+            EnsureBladeLength(pivot, SwordBladeLength, ref changed);
 
             var component = sword.GetComponent<PlayerSword>();
             if (component == null)

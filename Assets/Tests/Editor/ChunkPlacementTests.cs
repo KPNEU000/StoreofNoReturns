@@ -151,7 +151,7 @@ public class ChunkPlacementTests
         var mesh = ChunkMesh.Build(3, 1.8f, settings.caveInChunkRestHeight, 0.1f);
         Assert.AreEqual(0f, mesh.bounds.min.y, 1e-4f);
         Assert.Less(mesh.bounds.max.y, settings.caveInChunkRestHeight + 0.11f);
-        Assert.Less(mesh.bounds.max.y, 1.5f);
+        Assert.Less(mesh.bounds.max.y, 2f, "below the player's ~2.07 m eye height");
     }
 
     [Test]

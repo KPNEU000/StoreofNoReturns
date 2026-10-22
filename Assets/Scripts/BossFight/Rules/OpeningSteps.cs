@@ -23,8 +23,8 @@ namespace BossFight.Rules
         Immediate,
         Seconds,
         LeftClick,
-        RightClick,
-        RightHeld,
+        FlashlightPressed,
+        FlashlightOn,
         VaultDone,
         CostumeDead
     }
@@ -33,8 +33,8 @@ namespace BossFight.Rules
     public struct OpeningSignals
     {
         public bool LeftClick;
-        public bool RightClick;
-        public bool RightHeld;
+        public bool FlashlightPressed;
+        public bool FlashlightOn;
         public bool VaultDone;
         public bool CostumeDead;
     }
@@ -76,10 +76,10 @@ namespace BossFight.Rules
                 new OpeningStepInfo(OpeningStep.CrackScreen, OpeningCondition.Seconds, settings.openingCrackSeconds),
                 new OpeningStepInfo(OpeningStep.WitchLine, OpeningCondition.Seconds, settings.openingWitchLineSeconds),
                 new OpeningStepInfo(OpeningStep.GrabSword, OpeningCondition.LeftClick),
-                new OpeningStepInfo(OpeningStep.GrabFlashlight, OpeningCondition.RightClick),
+                new OpeningStepInfo(OpeningStep.GrabFlashlight, OpeningCondition.FlashlightPressed),
                 new OpeningStepInfo(OpeningStep.MoveLine, OpeningCondition.Seconds, settings.openingMoveLineSeconds),
                 new OpeningStepInfo(OpeningStep.Vault, OpeningCondition.VaultDone),
-                new OpeningStepInfo(OpeningStep.TutorialLight, OpeningCondition.RightHeld),
+                new OpeningStepInfo(OpeningStep.TutorialLight, OpeningCondition.FlashlightOn),
                 new OpeningStepInfo(OpeningStep.TutorialSlash, OpeningCondition.CostumeDead),
                 new OpeningStepInfo(OpeningStep.DoorBlast, OpeningCondition.Immediate),
             };
@@ -103,8 +103,8 @@ namespace BossFight.Rules
                 case OpeningCondition.Immediate: return true;
                 case OpeningCondition.Seconds: return elapsed >= info.Seconds;
                 case OpeningCondition.LeftClick: return s.LeftClick;
-                case OpeningCondition.RightClick: return s.RightClick;
-                case OpeningCondition.RightHeld: return s.RightHeld;
+                case OpeningCondition.FlashlightPressed: return s.FlashlightPressed;
+                case OpeningCondition.FlashlightOn: return s.FlashlightOn;
                 case OpeningCondition.VaultDone: return s.VaultDone;
                 case OpeningCondition.CostumeDead: return s.CostumeDead;
                 default: return false;

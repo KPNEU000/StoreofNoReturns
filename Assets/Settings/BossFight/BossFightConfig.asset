@@ -21,8 +21,8 @@ MonoBehaviour:
     flickerIntervalMaxSeconds: 5
     mildFlickerMinIntensity: 0.6
     strongFlickerMinIntensity: 0.3
-    outsideLightIntensity: 0.05
-    blackoutEnvironmentFactor: 0.03
+    outsideLightIntensity: 0.12
+    blackoutEnvironmentFactor: 0.09
     flickerFloorIntensity: 0.3
     flickerDipSecondsMin: 0.06
     flickerDipSecondsMax: 0.18
@@ -100,7 +100,7 @@ MonoBehaviour:
     caveInChunkCount: 5
     caveInDurationSeconds: 10
     caveInHandTelegraphSeconds: 2
-    caveInChunkRestHeight: 1.3
+    caveInChunkRestHeight: 1.6
     caveInPlayerClearance: 3
     caveInChunkRadius: 1.6
     caveInFallHeightPadding: 0.1
@@ -126,7 +126,8 @@ MonoBehaviour:
     glassHudSeed: 7
     glassHudCrackScale: 10
     glassHudCrackWidth: 0.022
-    openingLookTurnDegreesPerSecond: 120
+    openingWitchCounterDistance: 4.5
+    openingWitchReturnSeconds: 1.2
     debugStartMoney: 600
     debugReputation: 50
     debugAngeredCustomers: 3

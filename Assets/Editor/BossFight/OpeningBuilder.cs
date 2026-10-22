@@ -40,6 +40,8 @@ namespace BossFight.Editor
         public const string MonitorTag = "Computer";
         public const string MagicMaterial = BossFightPaths.SettingsFolder + "/OpeningMagic.mat";
         public const string WallCrackMaterial = BossFightPaths.SettingsFolder + "/OpeningWallCrack.mat";
+        public const string ScreenCrackMaterial = BossFightPaths.SettingsFolder + "/MonitorScreenCrack.mat";
+        public const string ScreenCrackShader = "BossFight/ScreenCrack";
         private const float BarrierPadding = 0.5f;
 
         public static void Build()
@@ -48,6 +50,7 @@ namespace BossFight.Editor
             EditorFolders.Ensure(BossFightPaths.SettingsFolder);
             var magic = BuilderUtil.EnsureTransparentMaterial(MagicMaterial, "Universal Render Pipeline/Unlit", new Color(0.7f, 0.3f, 1f, 0.9f));
             var wallCrack = BuilderUtil.EnsureTransparentMaterial(WallCrackMaterial, "Universal Render Pipeline/Unlit", Color.white);
+            var screenCrack = EnsureScreenCrackMaterial();
             var glassHud = EnsureGlassMaterial(GlassHudMaterial, CompareFunction.Always, (int)RenderQueue.Transparent + 100, 1f, 0f);
             var monitorGlassMaterial = EnsureGlassMaterial(MonitorGlassMaterial, CompareFunction.LessEqual, (int)RenderQueue.Transparent + 1, 0.65f, 1f);
             var shard = AssetDatabase.LoadAssetAtPath<Material>(BossDirectorBuilder.ShatterMaterial);
@@ -109,6 +112,7 @@ namespace BossFight.Editor
                 changed |= BuilderUtil.SetReference(so, "magicMaterial", magic);
                 changed |= BuilderUtil.SetReference(so, "shardMaterial", shard);
                 changed |= BuilderUtil.SetReference(so, "wallCrackMaterial", wallCrack);
+                changed |= BuilderUtil.SetReference(so, "screenCrackMaterial", screenCrack);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
                 if (changed) EditorSceneManager.MarkSceneDirty(scene);
@@ -216,6 +220,19 @@ namespace BossFight.Editor
             changed |= BuilderUtil.SetReference(so, "label", label);
             changed |= so.ApplyModifiedPropertiesWithoutUndo();
             return textBox;
+        }
+
+        // The broken-monitor material (texture is generated at runtime by OpeningSequence). Created once.
+        private static Material EnsureScreenCrackMaterial()
+        {
+            var existing = AssetDatabase.LoadAssetAtPath<Material>(ScreenCrackMaterial);
+            if (existing != null) return existing;
+            var shader = Shader.Find(ScreenCrackShader);
+            if (shader == null) throw new System.InvalidOperationException($"Shader '{ScreenCrackShader}' not found for {ScreenCrackMaterial}");
+            var material = new Material(shader);
+            AssetDatabase.CreateAsset(material, ScreenCrackMaterial);
+            AssetDatabase.SaveAssetIfDirty(material);
+            return material;
         }
 
         // Created once, like every other builder material; tune the look on the asset.
@@ -521,7 +538,7 @@ namespace BossFight.Editor
         // Called by BossRigValidator with the Boss Scene open.
         public static void Validate(UnityEngine.SceneManagement.Scene scene, List<string> errors)
         {
-            foreach (var path in new[] { MagicMaterial, WallCrackMaterial })
+            foreach (var path in new[] { MagicMaterial, WallCrackMaterial, ScreenCrackMaterial })
             {
                 if (AssetDatabase.LoadAssetAtPath<Material>(path) == null) errors.Add($"Material missing at {path}");
             }
@@ -536,7 +553,7 @@ namespace BossFight.Editor
                 foreach (var field in new[]
                 {
                     "config", "director", "player", "witch", "monitor", "monitorGlass", "door", "doorBarrier", "vaultTarget", "spawner", "hud", "crackOverlay",
-                    "swordObject", "flashlight", "magicMaterial", "shardMaterial", "wallCrackMaterial",
+                    "swordObject", "flashlight", "magicMaterial", "shardMaterial", "wallCrackMaterial", "screenCrackMaterial",
                 })
                 {
                     if (so.FindProperty(field).objectReferenceValue == null) errors.Add($"Boss Scene OpeningSequence: {field} reference is missing");

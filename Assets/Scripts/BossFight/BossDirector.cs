@@ -131,10 +131,11 @@ namespace BossFight
             PhaseChanged?.Invoke(machine.Phase);
             if (machine.Phase == BossPhase.Won)
             {
-                RunScore.Set(moneyManager != null ? moneyManager.CurrentMoney : 0f);
+                var reputation = FindFirstObjectByType<ReputationManager>();
+                RunScore.Set(moneyManager != null ? moneyManager.CurrentMoney : 0f, reputation != null ? reputation.CurrentReputation : 0);
                 DropAllMinions();
                 Won?.Invoke();
-                StartCoroutine(LoadWinScene());
+                StartCoroutine(ShowWinOverlay());
             }
             else if (machine.Phase == BossPhase.Lost)
             {
@@ -162,17 +163,11 @@ namespace BossFight
             }
         }
 
-        private IEnumerator LoadWinScene()
+        private IEnumerator ShowWinOverlay()
         {
             yield return new WaitForSecondsRealtime(settings.winPauseSeconds);
-            if (SceneLoadingManager.Instance != null)
-            {
-                SceneLoadingManager.Instance.LoadSceneByName(WinSceneName);
-            }
-            else
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(WinSceneName);
-            }
+            // Round-2 playtest: the separate You Win scene was an empty skybox; the result now shows over the store.
+            WinOverlay.Show(RunScore.Value, RunScore.Reputation);
         }
     }
 }

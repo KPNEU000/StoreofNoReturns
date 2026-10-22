@@ -72,6 +72,19 @@ namespace BossFight.Rules
         // A landed chunk that cuts the player off from the Witch crumbles away.
         public static bool Crumbles(NavMeshPathStatus status) => status != NavMeshPathStatus.PathComplete;
 
+        // A spot must be at least this fraction of the chunk radius from any NavMesh edge (racks, counter, walls).
+        public const float OpenFloorRadiusFraction = 0.6f;
+
+        // Seconds to free-fall `height` metres under normal gravity (minimum one frame's worth).
+        public static float FallSeconds(float height) => Mathf.Max(Mathf.Sqrt(2f * Mathf.Max(height, 0f) / 9.81f), 0.05f);
+
+        // Height during a free fall from `from` to `to`, t = 0..1 of the fall time (accelerating, lands exactly at t = 1).
+        public static float FallHeight(float from, float to, float t)
+        {
+            t = Mathf.Clamp01(t);
+            return Mathf.Lerp(from, to, t * t);
+        }
+
         private static float Planar(Vector3 a, Vector3 b)
         {
             float dx = a.x - b.x;

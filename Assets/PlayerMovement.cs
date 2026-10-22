@@ -67,24 +67,6 @@ public class PlayerMovement : MonoBehaviour
     // A script is moving the player (the counter vault); physics and input movement are skipped.
     public bool ScriptedMotion { get; set; }
 
-    // While set, the view turns toward this world point instead of following the mouse (the opening cinematic).
-    public Vector3? LookTarget { get; set; }
-    public float LookTurnDegreesPerSecond { get; set; } = 120f;
-
-    // Yaw on the body, pitch on the camera, each eased toward looking at `point`.
-    void TurnTowards(Vector3 point)
-    {
-        Vector3 to = point - cameraTrans.position;
-        float flat = new Vector2(to.x, to.z).magnitude;
-        if (flat < 1e-4f) return;
-        float step = LookTurnDegreesPerSecond * Time.deltaTime;
-        var yaw = Quaternion.LookRotation(new Vector3(to.x, 0f, to.z));
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, yaw, step);
-        float targetPitch = Mathf.Clamp(-Mathf.Atan2(to.y, flat) * Mathf.Rad2Deg, pitchMin, pitchMax);
-        pitch = Mathf.MoveTowardsAngle(pitch, targetPitch, step);
-        cameraTrans.localRotation = Quaternion.Euler(pitch, 0, 0);
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -93,11 +75,7 @@ public class PlayerMovement : MonoBehaviour
         var mouse = Mouse.current;
         var kb = Keyboard.current;
 
-        if (LookTarget.HasValue)
-        {
-            TurnTowards(LookTarget.Value);
-        }
-        else if (mouse != null)
+        if (mouse != null)
         {
             Vector2 look = MoveSmoothing.LookDelta(mouse.delta.ReadValue(), MoveSmoothing.NormalizeSensitivity(mouseSensitivity));
             //yaw at the player

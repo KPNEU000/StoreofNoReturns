@@ -52,10 +52,12 @@ public class TuningTests
         Assert.AreEqual(original.fogColor, lit.fogColor);
 
         var off = rules.Target(original, 0f);
-        Assert.Less(off.ambientIntensity, 0.05f);
-        Assert.Less(off.reflectionIntensity, 0.05f);
-        Assert.Less(off.fogColor.g, 0.05f);
-        Assert.Less(off.ambientLight.r, 0.05f);
+        // Dark enough that the flashlight matters, but (round-2 playtest) not so dark the store can't be navigated.
+        Assert.Less(off.ambientIntensity, 0.12f);
+        Assert.Greater(off.ambientIntensity, 0.05f);
+        Assert.Less(off.reflectionIntensity, 0.12f);
+        Assert.Less(off.fogColor.g, 0.12f);
+        Assert.Less(off.ambientLight.r, 0.12f);
 
         var mid = rules.Target(original, 0.5f);
         Assert.Greater(mid.ambientIntensity, off.ambientIntensity);

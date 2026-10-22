@@ -38,7 +38,7 @@ public class CaveInFixTests
     {
         Assert.AreEqual(1.6f, settings.caveInChunkRadius, 1e-4f);
         var mesh = ChunkMesh.Build(11, settings.caveInChunkRadius * 2f, settings.caveInChunkRestHeight, 0.3f);
-        Assert.Less(mesh.bounds.max.y, 1.7f);
+        Assert.Less(mesh.bounds.max.y, 2f, "the player (eye ~2.07 m) can still see over it");
         Assert.Greater(mesh.bounds.size.x, 3f);
     }
 
@@ -51,5 +51,23 @@ public class CaveInFixTests
         var xs = new HashSet<float>();
         foreach (var v in mesh.vertices) xs.Add(Mathf.Round(v.x * 100f));
         Assert.Greater(xs.Count, 40);
+    }
+
+    [Test]
+    public void ChunkFreeFallStartsAtTheTopAndLandsExactlyOnTheFloor()
+    {
+        Assert.AreEqual(5f, ChunkPlacement.FallHeight(5f, 0.6f, 0f), 1e-5f);
+        Assert.AreEqual(0.6f, ChunkPlacement.FallHeight(5f, 0.6f, 1f), 1e-5f);
+        Assert.Greater(ChunkPlacement.FallHeight(5f, 0.6f, 0.5f), Mathf.Lerp(5f, 0.6f, 0.5f), "accelerates: slower at the start");
+        Assert.AreEqual(Mathf.Sqrt(2f * 4.4f / 9.81f), ChunkPlacement.FallSeconds(4.4f), 1e-4f);
+    }
+
+    [Test]
+    public void ChunksStandTallerButBelowEyeHeight()
+    {
+        var s = new BossFightSettings();
+        Assert.GreaterOrEqual(s.caveInChunkRestHeight, 1.55f);
+        var mesh = ChunkMesh.Build(11, s.caveInChunkRadius * 2f, s.caveInChunkRestHeight, 0.3f);
+        Assert.Less(mesh.bounds.max.y, 2f, "player eye is ~2.07 m above the floor; they can still see over");
     }
 }

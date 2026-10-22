@@ -24,6 +24,16 @@ namespace BossFight
             {
                 navMeshSurface = GetComponent<NavMeshSurface>();
             }
+            // Boss Scene still carries MainScene's NavMeshSurfaces (two with bakes made with the door shut). Their
+            // separate, unlinked meshes trapped monsters outside the doorway, so only the rig's mesh may exist.
+            foreach (var surface in FindObjectsByType<NavMeshSurface>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (surface != navMeshSurface) surface.enabled = false;
+            }
+            var player = FindFirstObjectByType<PlayerMovement>();
+            if (player != null) NavAgents.ExcludeFromNavMesh(player.gameObject);
+            var witch = FindFirstObjectByType<WitchBoss>();
+            if (witch != null) NavAgents.ExcludeFromNavMesh(witch.gameObject);
             // No baked NavMesh asset is committed; the shop is built into a NavMesh at runtime.
             navMeshSurface.BuildNavMesh();
         }

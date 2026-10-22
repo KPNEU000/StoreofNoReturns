@@ -38,6 +38,7 @@ namespace BossFight
         private AudioClip deathSound;
 
         private NavMeshAgent agent;
+        private readonly RepathGate repath = new RepathGate();
         private MonsterAttack attack;
         private FlankRouting routing;
         private ReputationScaling reputationScaling;
@@ -82,6 +83,8 @@ namespace BossFight
             reputationScaling = new ReputationScaling(settings);
             hp = settings.monsterBaseHp;
             agent = GetComponent<NavMeshAgent>();
+            NavAgents.Configure(agent);
+            NavAgents.ExcludeFromNavMesh(gameObject);
             agent.enabled = false;
             if (animator == null) animator = GetComponentInChildren<Animator>();
             renderers = System.Array.FindAll(GetComponentsInChildren<Renderer>(true), r => !(r is ParticleSystemRenderer) && !r.name.StartsWith("Eye"));
@@ -131,7 +134,7 @@ namespace BossFight
             else
             {
                 agent.isStopped = false;
-                agent.SetDestination(routing.Destination(player.position, pos, flank));
+                NavAgents.Steer(agent, repath, routing.Destination(player.position, pos, flank));
                 if (attack.State == MonsterAttackState.Idle) Play(RunState);
                 RefreshSpeed();
             }
