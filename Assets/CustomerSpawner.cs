@@ -49,6 +49,10 @@ public class CustomerSpawner : MonoBehaviour
     
     public void WitchComes()
     {
+        foreach(GameObject customer in customerPrefabs)
+        {
+            customer.SetActive(false);
+        }
         CustomerBehaviour customerBehaviour = witch.GetComponent<CustomerBehaviour>();
         customerBehaviour.agent.SetDestination(linePositions[customerBehaviour.lineIndex].transform.position);
         customerBehaviour.agent.speed = 6;

@@ -100,7 +100,8 @@ public class TimeManager : MonoBehaviour
         if (CurrentHour == endHour && CurrentMinute == endMinute)
         {
             shopClosed = true;
-            FindFirstObjectByType<SceneLoadingManager>().GoToNextScene();
+            customerSpawner.WitchComes();
+            //FindFirstObjectByType<SceneLoadingManager>().GoToNextScene();
             //perform end of game boss battle thing
         }
     }

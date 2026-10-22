@@ -128,9 +128,10 @@ public class MoneyManager : MonoBehaviour
         {
             //Start boss battle
             print("boss battle starts");
-            customerBehaviour.gameObject.GetComponent<Enemy>().enabled = true;
-            customerBehaviour.gameObject.tag = "Enemy";
-            playerMovement.enableMovement();
+            //customerBehaviour.gameObject.GetComponent<Enemy>().enabled = true;
+            //customerBehaviour.gameObject.tag = "Enemy";
+            //playerMovement.enableMovement();
+            SceneLoadingManager.Instance.GoToNextScene();
         }
     }
 
