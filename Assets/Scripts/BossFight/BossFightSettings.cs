@@ -95,6 +95,11 @@ namespace BossFight
         public float tetherDurationSeconds = 5f;
         public float bookThrowIntervalSeconds = 4f;
         public float bookTelegraphSeconds = 0.5f;
+        public float bookArmSeconds = 0.4f;
+        public float bookSweepSeconds = 0.3f;
+        public float bookFlightSpeed = 12f;
+        public float bookHitRadius = 0.8f;
+        public float bookGlowFadeSeconds = 1f;
         public float winPauseSeconds = 2f;
 
         [Header("Ceiling cave-in")]

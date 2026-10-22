@@ -19,6 +19,7 @@ namespace BossFight.Editor
             ("Witch, boss director and HUD", BossDirectorBuilder.Build),
             ("Monster customers, spawner and tether", MonsterEnemyBuilder.Build),
             ("Clothing waves and possessable racks", ClothingWaveBuilder.Build),
+            ("Witch book throw and bookshelves", BookThrowBuilder.Build),
             ("Costume return values", CostumeReturnValueBuilder.Build),
             ("Build settings scenes", BuildSettingsBuilder.Build),
         };
