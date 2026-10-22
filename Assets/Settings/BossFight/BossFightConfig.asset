@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82536c362031c43198efe22c2df999be, type: 3}
+  m_Name: BossFightConfig
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.BossFightConfig
+  settings:
+    mildFlickerMoney: 700
+    strongFlickerMoney: 600
+    blackoutMoney: 500
+    blackoutFadeSeconds: 1
+    flickerIntervalMinSeconds: 2
+    flickerIntervalMaxSeconds: 5
+    mildFlickerMinIntensity: 0.6
+    strongFlickerMinIntensity: 0.3
+    outsideLightIntensity: 0.2
+    clothingHitCost: 25
+    monsterHitCostAtRep0: 100
+    monsterHitCostAtRep50: 75
+    monsterHitCostAtRep100: 50
+    bookHitCost: 50
+    invincibilitySeconds: 0.5
+    hitFlashSeconds: 0.25
+    monsterHpMultiplierAtRep0: 2
+    monsterHpMultiplierAtRep50: 1
+    monsterHpMultiplierAtRep100: 0.5
+    maxMonsters: 6
+    slashArcDegrees: 70
+    slashReach: 2.2
+    slashMaxTargets: 3
+    slashDamage: 10
+    slashWindupSeconds: 0.15
+    slashRecoverySeconds: 0.5
+    flashlightRampUpSeconds: 0.5
+    flashlightRampDownSeconds: 0.25
+    flashlightFaintGlow: 0.1
+    moveAccelerationSeconds: 0.1
+    clothingSpeedFactor: 0.6
+    monsterSpeedFactor: 0.8
+    boostedMonsterSpeedFactor: 1.25
+    clothingHp: 10
+    clothingFlopSeconds: 1.5
+    waveIntervalSeconds: 20
+    waveMinCostumes: 4
+    waveMaxCostumes: 6
+    maxClothingAlive: 15
+    rackFadeSeconds: 1
+    monsterBaseHp: 50
+    monsterWindupSeconds: 0.6
+    flankDirectRadius: 4
+    witchHp: 100
+    witchHeightScale: 1.15
+    tetherIntervalSeconds: 12
+    tetherDurationSeconds: 5
+    bookThrowIntervalSeconds: 4
+    bookTelegraphSeconds: 0.5
+    winPauseSeconds: 2
+    caveInMoney: 250
+    caveInChunkCount: 5
+    caveInDurationSeconds: 10
+    caveInHandTelegraphSeconds: 2
+    caveInChunkRestHeight: 1.3
+    caveInPlayerClearance: 3
+    debugStartMoney: 600
+    debugReputation: 50
+    debugAngeredCustomers: 3
+    debugLoseMoneyLarge: 100
+    debugLoseMoneySmall: 25
