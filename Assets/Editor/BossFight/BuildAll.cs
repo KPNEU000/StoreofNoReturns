@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BossFight.Editor
 {
     // Entry point for every boss-fight scene/prefab/asset change.
-    // Headless: unity run . -- -executeMethod BossFight.Editor.BuildAll.Run -quit
+    // Headless: unity run . -- -executeMethod BossFight.Editor.BuildAll.Run  (the CLI adds -quit itself and rejects it after --)
     public static class BuildAll
     {
         // Ordered builder steps. Later issues add one line here. Every step must be idempotent.
