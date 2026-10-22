@@ -87,7 +87,7 @@ public class CustomerBehaviour : MonoBehaviour
         }
 
         customerSpawner.NewCustomer();
-        customerSpawner.UpdateLinePosition();
+        //customerSpawner.UpdateLinePosition();
     }
 
     public void StopWalking()
