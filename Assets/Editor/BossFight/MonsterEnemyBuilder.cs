@@ -24,21 +24,21 @@ namespace BossFight.Editor
             EditorFolders.Ensure(BossFightPaths.PrefabsFolder);
             EditorFolders.Ensure(BossFightPaths.SettingsFolder);
             var prefab = EnsurePrefab(config);
-            var tetherMaterial = BossDirectorBuilder.EnsureTransparentMaterial(TetherMaterial, "Universal Render Pipeline/Unlit", new Color(0.7f, 0.25f, 1f, 0.8f));
+            var tetherMaterial = BuilderUtil.EnsureTransparentMaterial(TetherMaterial, "Universal Render Pipeline/Unlit", new Color(0.7f, 0.25f, 1f, 0.8f));
 
             using (var boss = new BossSceneScope())
             {
-                var player = PlayerHitReceiverBuilder.FindPlayer(boss.Scene);
-                var door = BossDirectorBuilder.FindByName(boss.Scene, BossDirectorBuilder.DoorName);
-                var director = PlayerHitReceiverBuilder.FindInScene<BossDirector>(boss.Scene);
-                var witch = PlayerHitReceiverBuilder.FindInScene<WitchBoss>(boss.Scene);
+                var player = BuilderUtil.FindPlayer(boss.Scene);
+                var door = BuilderUtil.FindByName(boss.Scene, BossDirectorBuilder.DoorName);
+                var director = BuilderUtil.FindInScene<BossDirector>(boss.Scene);
+                var witch = BuilderUtil.FindInScene<WitchBoss>(boss.Scene);
                 if (player == null || door == null || director == null || witch == null)
                 {
                     throw new System.InvalidOperationException($"Monster builder needs the player, '{BossDirectorBuilder.DoorName}', BossDirector and Witch in Boss Scene");
                 }
 
                 bool changed = false;
-                var spawner = PlayerHitReceiverBuilder.FindInScene<MonsterSpawner>(boss.Scene);
+                var spawner = BuilderUtil.FindInScene<MonsterSpawner>(boss.Scene);
                 if (spawner == null)
                 {
                     var go = new GameObject(SpawnerName);
@@ -64,13 +64,13 @@ namespace BossFight.Editor
                 }
 
                 var so = new SerializedObject(spawner);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "director", director);
-                changed |= RigPrefabBuilder.SetReference(so, "prefab", prefab.GetComponent<MonsterCustomer>());
-                changed |= RigPrefabBuilder.SetReference(so, "spawnPoint", point);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "director", director);
+                changed |= BuilderUtil.SetReference(so, "prefab", prefab.GetComponent<MonsterCustomer>());
+                changed |= BuilderUtil.SetReference(so, "spawnPoint", point);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
-                var tether = PlayerHitReceiverBuilder.FindInScene<WitchTether>(boss.Scene);
+                var tether = BuilderUtil.FindInScene<WitchTether>(boss.Scene);
                 if (tether == null)
                 {
                     var go = new GameObject(TetherName);
@@ -91,9 +91,9 @@ namespace BossFight.Editor
                     changed = true;
                 }
                 so = new SerializedObject(tether);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "director", director);
-                changed |= RigPrefabBuilder.SetReference(so, "witch", witch.transform);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "director", director);
+                changed |= BuilderUtil.SetReference(so, "witch", witch.transform);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
                 if (changed)
@@ -121,7 +121,7 @@ namespace BossFight.Editor
                 }
                 else
                 {
-                    RequireFields(monster, "MonsterCustomer prefab", new[] { "config", "animator" }, errors);
+                    BuilderUtil.RequireFields(monster, "MonsterCustomer prefab", new[] { "config", "animator" }, errors);
                 }
                 if (prefab.GetComponent<NavMeshAgent>() == null)
                 {
@@ -141,36 +141,23 @@ namespace BossFight.Editor
                 errors.Add($"Material missing at {TetherMaterial}");
             }
 
-            var spawner = PlayerHitReceiverBuilder.FindInScene<MonsterSpawner>(scene);
+            var spawner = BuilderUtil.FindInScene<MonsterSpawner>(scene);
             if (spawner == null)
             {
                 errors.Add($"Boss Scene has no {SpawnerName} with a MonsterSpawner component");
             }
             else
             {
-                RequireFields(spawner, "Boss Scene MonsterSpawner", new[] { "config", "director", "prefab", "spawnPoint" }, errors);
+                BuilderUtil.RequireFields(spawner, "Boss Scene MonsterSpawner", new[] { "config", "director", "prefab", "spawnPoint" }, errors);
             }
-            var tether = PlayerHitReceiverBuilder.FindInScene<WitchTether>(scene);
+            var tether = BuilderUtil.FindInScene<WitchTether>(scene);
             if (tether == null)
             {
                 errors.Add($"Boss Scene has no {TetherName} with a WitchTether component");
             }
             else
             {
-                RequireFields(tether, "Boss Scene WitchTether", new[] { "config", "director", "witch" }, errors);
-            }
-        }
-
-        private static void RequireFields(Component component, string label, string[] fields, List<string> errors)
-        {
-            var so = new SerializedObject(component);
-            foreach (var field in fields)
-            {
-                var property = so.FindProperty(field);
-                if (property == null || property.objectReferenceValue == null)
-                {
-                    errors.Add($"{label}: {field} reference is missing");
-                }
+                BuilderUtil.RequireFields(tether, "Boss Scene WitchTether", new[] { "config", "director", "witch" }, errors);
             }
         }
 
@@ -215,8 +202,8 @@ namespace BossFight.Editor
             {
                 var monster = contents.GetComponent<MonsterCustomer>();
                 var so = new SerializedObject(monster);
-                bool changed = RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "animator", contents.GetComponentInChildren<Animator>(true));
+                bool changed = BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "animator", contents.GetComponentInChildren<Animator>(true));
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
                 if (changed)
                 {

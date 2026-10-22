@@ -29,24 +29,24 @@ namespace BossFight.Editor
         public static void Build()
         {
             var config = ConfigBuilder.Load();
-            var magic = BossDirectorBuilder.EnsureTransparentMaterial(MagicMaterial, "Universal Render Pipeline/Unlit", new Color(0.7f, 0.25f, 1f, 0.85f));
-            var shelfMaterial = EnsureLitMaterial(ShelfMaterial, new Color(0.35f, 0.22f, 0.12f));
+            var magic = BuilderUtil.EnsureTransparentMaterial(MagicMaterial, "Universal Render Pipeline/Unlit", new Color(0.7f, 0.25f, 1f, 0.85f));
+            var shelfMaterial = BuilderUtil.EnsureLitMaterial(ShelfMaterial, new Color(0.35f, 0.22f, 0.12f));
             var bookMaterials = new Material[BookColors.Length];
-            for (int i = 0; i < BookColors.Length; i++) bookMaterials[i] = EnsureLitMaterial($"{BookMaterialPrefix}{i}.mat", BookColors[i]);
+            for (int i = 0; i < BookColors.Length; i++) bookMaterials[i] = BuilderUtil.EnsureLitMaterial($"{BookMaterialPrefix}{i}.mat", BookColors[i]);
 
             using (var boss = new BossSceneScope())
             {
-                var player = PlayerHitReceiverBuilder.FindPlayer(boss.Scene);
-                var receiver = PlayerHitReceiverBuilder.FindInScene<PlayerHitReceiver>(boss.Scene);
-                var director = PlayerHitReceiverBuilder.FindInScene<BossDirector>(boss.Scene);
-                var witch = PlayerHitReceiverBuilder.FindInScene<WitchBoss>(boss.Scene);
+                var player = BuilderUtil.FindPlayer(boss.Scene);
+                var receiver = BuilderUtil.FindInScene<PlayerHitReceiver>(boss.Scene);
+                var director = BuilderUtil.FindInScene<BossDirector>(boss.Scene);
+                var witch = BuilderUtil.FindInScene<WitchBoss>(boss.Scene);
                 if (player == null || receiver == null || director == null || witch == null)
                 {
                     throw new System.InvalidOperationException("Book throw builder needs the player, PlayerHitReceiver, BossDirector and Witch in Boss Scene");
                 }
 
                 bool changed = false;
-                var root = BossDirectorBuilder.FindByName(boss.Scene, ShelvesRootName);
+                var root = BuilderUtil.FindByName(boss.Scene, ShelvesRootName);
                 if (root == null)
                 {
                     var go = new GameObject(ShelvesRootName);
@@ -61,7 +61,7 @@ namespace BossFight.Editor
                     : player.transform.position.y - 1f;
                 for (int i = 0; i < WallNames.Length; i++)
                 {
-                    var wall = BossDirectorBuilder.FindByName(boss.Scene, WallNames[i]);
+                    var wall = BuilderUtil.FindByName(boss.Scene, WallNames[i]);
                     if (wall == null)
                     {
                         throw new System.InvalidOperationException($"Boss Scene has no '{WallNames[i]}' to place a bookshelf against");
@@ -78,11 +78,11 @@ namespace BossFight.Editor
                 foreach (var book in books)
                 {
                     var bookSo = new SerializedObject(book);
-                    changed |= RigPrefabBuilder.SetReference(bookSo, "trailMaterial", magic);
+                    changed |= BuilderUtil.SetReference(bookSo, "trailMaterial", magic);
                     changed |= bookSo.ApplyModifiedPropertiesWithoutUndo();
                 }
 
-                var attack = PlayerHitReceiverBuilder.FindInScene<WitchBookAttack>(boss.Scene);
+                var attack = BuilderUtil.FindInScene<WitchBookAttack>(boss.Scene);
                 if (attack == null)
                 {
                     var go = new GameObject(AttackName);
@@ -91,11 +91,11 @@ namespace BossFight.Editor
                     changed = true;
                 }
                 var so = new SerializedObject(attack);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "director", director);
-                changed |= RigPrefabBuilder.SetReference(so, "witch", witch.transform);
-                changed |= RigPrefabBuilder.SetReference(so, "receiver", receiver);
-                changed |= RigPrefabBuilder.SetReference(so, "magicMaterial", magic);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "director", director);
+                changed |= BuilderUtil.SetReference(so, "witch", witch.transform);
+                changed |= BuilderUtil.SetReference(so, "receiver", receiver);
+                changed |= BuilderUtil.SetReference(so, "magicMaterial", magic);
                 changed |= SetArray(so.FindProperty("books"), books);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
@@ -178,23 +178,10 @@ namespace BossFight.Editor
             return box;
         }
 
-        private static Material EnsureLitMaterial(string path, Color color)
-        {
-            var existing = AssetDatabase.LoadAssetAtPath<Material>(path);
-            if (existing != null) return existing;
-            var shader = Shader.Find("Universal Render Pipeline/Lit");
-            if (shader == null) throw new System.InvalidOperationException($"Shader 'Universal Render Pipeline/Lit' not found for {path}");
-            var material = new Material(shader);
-            material.SetColor("_BaseColor", color);
-            AssetDatabase.CreateAsset(material, path);
-            AssetDatabase.SaveAssetIfDirty(material);
-            return material;
-        }
-
         public static void Validate(UnityEngine.SceneManagement.Scene scene, List<string> errors)
         {
             if (AssetDatabase.LoadAssetAtPath<Material>(MagicMaterial) == null) errors.Add($"Material missing at {MagicMaterial}");
-            var root = BossDirectorBuilder.FindByName(scene, ShelvesRootName);
+            var root = BuilderUtil.FindByName(scene, ShelvesRootName);
             if (root == null)
             {
                 errors.Add($"Boss Scene has no '{ShelvesRootName}' object");
@@ -210,7 +197,7 @@ namespace BossFight.Editor
                     if (book.GetComponent<Renderer>() == null) errors.Add($"Book '{book.name}' has no renderer");
                 }
             }
-            var attack = PlayerHitReceiverBuilder.FindInScene<WitchBookAttack>(scene);
+            var attack = BuilderUtil.FindInScene<WitchBookAttack>(scene);
             if (attack == null)
             {
                 errors.Add($"Boss Scene has no {AttackName} with a WitchBookAttack component");

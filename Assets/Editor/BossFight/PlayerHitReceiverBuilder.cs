@@ -16,13 +16,13 @@ namespace BossFight.Editor
             var config = ConfigBuilder.Load();
             using (var boss = new BossSceneScope())
             {
-                var player = FindPlayer(boss.Scene);
+                var player = BuilderUtil.FindPlayer(boss.Scene);
                 if (player == null)
                 {
                     throw new System.InvalidOperationException("Boss Scene has no PlayerMovement object to receive hits");
                 }
-                var moneyManager = FindInScene<MoneyManager>(boss.Scene);
-                var reputationManager = FindInScene<ReputationManager>(boss.Scene);
+                var moneyManager = BuilderUtil.FindInScene<MoneyManager>(boss.Scene);
+                var reputationManager = BuilderUtil.FindInScene<ReputationManager>(boss.Scene);
                 if (moneyManager == null)
                 {
                     throw new System.InvalidOperationException("Boss Scene has no MoneyManager");
@@ -51,24 +51,6 @@ namespace BossFight.Editor
                 }
                 boss.SaveIfDirty();
             }
-        }
-
-        public static PlayerMovement FindPlayer(UnityEngine.SceneManagement.Scene scene)
-        {
-            return FindInScene<PlayerMovement>(scene);
-        }
-
-        public static T FindInScene<T>(UnityEngine.SceneManagement.Scene scene) where T : Component
-        {
-            foreach (var root in scene.GetRootGameObjects())
-            {
-                var found = root.GetComponentInChildren<T>(true);
-                if (found != null)
-                {
-                    return found;
-                }
-            }
-            return null;
         }
 
         private static Image EnsureFlash(UnityEngine.SceneManagement.Scene scene, ref bool changed)

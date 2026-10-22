@@ -28,24 +28,24 @@ namespace BossFight.Editor
         {
             var config = ConfigBuilder.Load();
             EditorFolders.Ensure(BossFightPaths.SettingsFolder);
-            var magic = BossDirectorBuilder.EnsureTransparentMaterial(MagicMaterial, "Universal Render Pipeline/Unlit", new Color(0.7f, 0.3f, 1f, 0.9f));
-            var wallCrack = BossDirectorBuilder.EnsureTransparentMaterial(WallCrackMaterial, "Universal Render Pipeline/Unlit", Color.white);
+            var magic = BuilderUtil.EnsureTransparentMaterial(MagicMaterial, "Universal Render Pipeline/Unlit", new Color(0.7f, 0.3f, 1f, 0.9f));
+            var wallCrack = BuilderUtil.EnsureTransparentMaterial(WallCrackMaterial, "Universal Render Pipeline/Unlit", Color.white);
             var shard = AssetDatabase.LoadAssetAtPath<Material>(BossDirectorBuilder.ShatterMaterial);
             if (shard == null) throw new System.InvalidOperationException($"Shatter material missing at {BossDirectorBuilder.ShatterMaterial}");
 
             using (var boss = new BossSceneScope())
             {
                 var scene = boss.Scene;
-                var player = PlayerHitReceiverBuilder.FindPlayer(scene);
-                var director = PlayerHitReceiverBuilder.FindInScene<BossDirector>(scene);
-                var witch = PlayerHitReceiverBuilder.FindInScene<WitchBoss>(scene);
-                var spawner = PlayerHitReceiverBuilder.FindInScene<ClothingSpawner>(scene);
-                var hud = PlayerHitReceiverBuilder.FindInScene<BossHud>(scene);
+                var player = BuilderUtil.FindPlayer(scene);
+                var director = BuilderUtil.FindInScene<BossDirector>(scene);
+                var witch = BuilderUtil.FindInScene<WitchBoss>(scene);
+                var spawner = BuilderUtil.FindInScene<ClothingSpawner>(scene);
+                var hud = BuilderUtil.FindInScene<BossHud>(scene);
                 if (player == null || director == null || witch == null || spawner == null || hud == null)
                 {
                     throw new System.InvalidOperationException("Opening builder needs the player, BossDirector, Witch, ClothingSpawner and BossHud in Boss Scene");
                 }
-                var door = BossDirectorBuilder.FindByName(scene, BossDirectorBuilder.DoorName);
+                var door = BuilderUtil.FindByName(scene, BossDirectorBuilder.DoorName);
                 if (door == null) throw new System.InvalidOperationException($"Boss Scene has no '{BossDirectorBuilder.DoorName}' object to blast");
                 var monitor = FindMonitor(scene);
                 if (monitor == null) throw new System.InvalidOperationException($"Boss Scene has no object tagged '{MonitorTag}' with a renderer for the monitor");
@@ -59,7 +59,7 @@ namespace BossFight.Editor
                 var crack = EnsureCrackFrame(hud, ref changed);
                 var barrier = EnsureBarrier(scene, door, ref changed);
 
-                var sequence = PlayerHitReceiverBuilder.FindInScene<OpeningSequence>(scene);
+                var sequence = BuilderUtil.FindInScene<OpeningSequence>(scene);
                 if (sequence == null)
                 {
                     var go = new GameObject(ObjectName);
@@ -68,21 +68,21 @@ namespace BossFight.Editor
                     changed = true;
                 }
                 var so = new SerializedObject(sequence);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "director", director);
-                changed |= RigPrefabBuilder.SetReference(so, "player", player);
-                changed |= RigPrefabBuilder.SetReference(so, "witch", witch.transform);
-                changed |= RigPrefabBuilder.SetReference(so, "monitor", monitor);
-                changed |= RigPrefabBuilder.SetReference(so, "door", door);
-                changed |= RigPrefabBuilder.SetReference(so, "doorBarrier", barrier);
-                changed |= RigPrefabBuilder.SetReference(so, "spawner", spawner);
-                changed |= RigPrefabBuilder.SetReference(so, "hud", hud);
-                changed |= RigPrefabBuilder.SetReference(so, "crackOverlay", crack);
-                changed |= RigPrefabBuilder.SetReference(so, "swordObject", sword.gameObject);
-                changed |= RigPrefabBuilder.SetReference(so, "flashlight", flashlight);
-                changed |= RigPrefabBuilder.SetReference(so, "magicMaterial", magic);
-                changed |= RigPrefabBuilder.SetReference(so, "shardMaterial", shard);
-                changed |= RigPrefabBuilder.SetReference(so, "wallCrackMaterial", wallCrack);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "director", director);
+                changed |= BuilderUtil.SetReference(so, "player", player);
+                changed |= BuilderUtil.SetReference(so, "witch", witch.transform);
+                changed |= BuilderUtil.SetReference(so, "monitor", monitor);
+                changed |= BuilderUtil.SetReference(so, "door", door);
+                changed |= BuilderUtil.SetReference(so, "doorBarrier", barrier);
+                changed |= BuilderUtil.SetReference(so, "spawner", spawner);
+                changed |= BuilderUtil.SetReference(so, "hud", hud);
+                changed |= BuilderUtil.SetReference(so, "crackOverlay", crack);
+                changed |= BuilderUtil.SetReference(so, "swordObject", sword.gameObject);
+                changed |= BuilderUtil.SetReference(so, "flashlight", flashlight);
+                changed |= BuilderUtil.SetReference(so, "magicMaterial", magic);
+                changed |= BuilderUtil.SetReference(so, "shardMaterial", shard);
+                changed |= BuilderUtil.SetReference(so, "wallCrackMaterial", wallCrack);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
                 if (changed) EditorSceneManager.MarkSceneDirty(scene);
@@ -105,7 +105,7 @@ namespace BossFight.Editor
 
         private static BossTextBox EnsureTextBox(UnityEngine.SceneManagement.Scene scene, ref bool changed)
         {
-            var textBox = PlayerHitReceiverBuilder.FindInScene<BossTextBox>(scene);
+            var textBox = BuilderUtil.FindInScene<BossTextBox>(scene);
             if (textBox == null)
             {
                 var canvasGo = new GameObject(TextCanvasName, typeof(Canvas), typeof(CanvasScaler));
@@ -159,8 +159,8 @@ namespace BossFight.Editor
                 changed = true;
             }
             var so = new SerializedObject(textBox);
-            changed |= RigPrefabBuilder.SetReference(so, "panel", panel.gameObject);
-            changed |= RigPrefabBuilder.SetReference(so, "label", label);
+            changed |= BuilderUtil.SetReference(so, "panel", panel.gameObject);
+            changed |= BuilderUtil.SetReference(so, "label", label);
             changed |= so.ApplyModifiedPropertiesWithoutUndo();
             return textBox;
         }
@@ -201,7 +201,7 @@ namespace BossFight.Editor
                 changed = true;
             }
             var so = new SerializedObject(overlay);
-            changed |= RigPrefabBuilder.SetReference(so, "crackImage", image);
+            changed |= BuilderUtil.SetReference(so, "crackImage", image);
             changed |= so.ApplyModifiedPropertiesWithoutUndo();
             return overlay;
         }
@@ -209,7 +209,7 @@ namespace BossFight.Editor
         // Invisible blocker across the doorway, off until the blast. NavMesh builds ignore it so monsters can still path in.
         private static Collider EnsureBarrier(UnityEngine.SceneManagement.Scene scene, Transform door, ref bool changed)
         {
-            var existing = BossDirectorBuilder.FindByName(scene, BarrierName);
+            var existing = BuilderUtil.FindByName(scene, BarrierName);
             if (existing != null && existing.GetComponent<BoxCollider>() != null) return existing.GetComponent<BoxCollider>();
 
             var bounds = DoorBounds(door);
@@ -269,7 +269,7 @@ namespace BossFight.Editor
             {
                 if (AssetDatabase.LoadAssetAtPath<Material>(path) == null) errors.Add($"Material missing at {path}");
             }
-            var sequence = PlayerHitReceiverBuilder.FindInScene<OpeningSequence>(scene);
+            var sequence = BuilderUtil.FindInScene<OpeningSequence>(scene);
             if (sequence == null)
             {
                 errors.Add($"Boss Scene has no {ObjectName} with an OpeningSequence component");
@@ -289,7 +289,7 @@ namespace BossFight.Editor
                 if (barrier != null && (barrier.isTrigger || barrier.enabled)) errors.Add("Boss Scene DoorBarrier must be a solid collider that starts disabled");
             }
 
-            var textBox = PlayerHitReceiverBuilder.FindInScene<BossTextBox>(scene);
+            var textBox = BuilderUtil.FindInScene<BossTextBox>(scene);
             if (textBox == null)
             {
                 errors.Add($"Boss Scene has no {TextCanvasName} with a BossTextBox component");
@@ -307,7 +307,7 @@ namespace BossFight.Editor
                 }
             }
 
-            var overlay = PlayerHitReceiverBuilder.FindInScene<ScreenCrackOverlay>(scene);
+            var overlay = BuilderUtil.FindInScene<ScreenCrackOverlay>(scene);
             if (overlay == null)
             {
                 errors.Add($"Boss Scene has no {CrackFrameName} with a ScreenCrackOverlay component");

@@ -23,7 +23,7 @@ namespace BossFight.Editor
 
             using (var boss = new BossSceneScope())
             {
-                var player = PlayerHitReceiverBuilder.FindPlayer(boss.Scene);
+                var player = BuilderUtil.FindPlayer(boss.Scene);
                 if (player == null)
                 {
                     throw new System.InvalidOperationException("Boss Scene has no PlayerMovement object for the sword/flashlight");
@@ -64,7 +64,7 @@ namespace BossFight.Editor
                 errors.Add($"Boss Scene has no {DummyName} with a TrainingDummy component");
             }
 
-            var player = PlayerHitReceiverBuilder.FindPlayer(scene);
+            var player = BuilderUtil.FindPlayer(scene);
             var sword = player != null ? player.GetComponentInChildren<PlayerSword>(true) : null;
             var flashlight = player != null ? player.GetComponentInChildren<PlayerFlashlight>(true) : null;
             if (sword == null)
@@ -73,7 +73,7 @@ namespace BossFight.Editor
             }
             else
             {
-                RequireFields(sword, new[] { "config", "movement", "pivot" }, errors);
+                BuilderUtil.RequireFields(sword, new[] { "config", "movement", "pivot" }, errors);
             }
             if (flashlight == null)
             {
@@ -81,20 +81,7 @@ namespace BossFight.Editor
             }
             else
             {
-                RequireFields(flashlight, new[] { "config", "beam", "visual" }, errors);
-            }
-        }
-
-        private static void RequireFields(Component component, string[] fields, System.Collections.Generic.List<string> errors)
-        {
-            var so = new SerializedObject(component);
-            foreach (var field in fields)
-            {
-                var property = so.FindProperty(field);
-                if (property == null || property.objectReferenceValue == null)
-                {
-                    errors.Add($"Boss Scene {component.GetType().Name}: {field} reference is missing");
-                }
+                BuilderUtil.RequireFields(flashlight, new[] { "config", "beam", "visual" }, errors);
             }
         }
 

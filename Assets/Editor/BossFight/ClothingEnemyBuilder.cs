@@ -22,7 +22,7 @@ namespace BossFight.Editor
 
             using (var boss = new BossSceneScope())
             {
-                var player = PlayerHitReceiverBuilder.FindPlayer(boss.Scene);
+                var player = BuilderUtil.FindPlayer(boss.Scene);
                 if (player == null)
                 {
                     throw new System.InvalidOperationException("Boss Scene has no PlayerMovement object to place the clothing spawn point near");
@@ -46,9 +46,9 @@ namespace BossFight.Editor
                 }
 
                 var so = new SerializedObject(spawner);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "prefab", prefab.GetComponent<PossessedClothing>());
-                changed |= RigPrefabBuilder.SetReference(so, "spawnPoint", point);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "prefab", prefab.GetComponent<PossessedClothing>());
+                changed |= BuilderUtil.SetReference(so, "spawnPoint", point);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
                 if (changed)
@@ -89,7 +89,7 @@ namespace BossFight.Editor
                 }
                 else
                 {
-                    RequireFields(clothing, "PossessedClothing prefab", new[] { "config", "costumePrefab" }, errors);
+                    BuilderUtil.RequireFields(clothing, "PossessedClothing prefab", new[] { "config", "costumePrefab" }, errors);
                 }
                 if (prefab.GetComponent<NavMeshAgent>() == null)
                 {
@@ -104,20 +104,7 @@ namespace BossFight.Editor
             }
             else
             {
-                RequireFields(spawner, "Boss Scene ClothingSpawner", new[] { "config", "prefab", "spawnPoint" }, errors);
-            }
-        }
-
-        private static void RequireFields(Component component, string label, string[] fields, List<string> errors)
-        {
-            var so = new SerializedObject(component);
-            foreach (var field in fields)
-            {
-                var property = so.FindProperty(field);
-                if (property == null || property.objectReferenceValue == null)
-                {
-                    errors.Add($"{label}: {field} reference is missing");
-                }
+                BuilderUtil.RequireFields(spawner, "Boss Scene ClothingSpawner", new[] { "config", "prefab", "spawnPoint" }, errors);
             }
         }
 
@@ -151,8 +138,8 @@ namespace BossFight.Editor
                     changed = true;
                 }
                 var so = new SerializedObject(clothing);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "costumePrefab", costume);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "costumePrefab", costume);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
                 if (changed)
                 {

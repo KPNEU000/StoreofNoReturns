@@ -21,7 +21,7 @@ namespace BossFight.Editor
                 {
                     throw new System.InvalidOperationException("Boss Scene has no ClothingSpawner to drive waves");
                 }
-                var director = PlayerHitReceiverBuilder.FindInScene<BossDirector>(boss.Scene);
+                var director = BuilderUtil.FindInScene<BossDirector>(boss.Scene);
                 if (director == null)
                 {
                     throw new System.InvalidOperationException("Boss Scene has no BossDirector to drive waves");
@@ -42,7 +42,7 @@ namespace BossFight.Editor
                         changed = true;
                     }
                     var rackSo = new SerializedObject(possessable);
-                    changed |= RigPrefabBuilder.SetReference(rackSo, "config", config);
+                    changed |= BuilderUtil.SetReference(rackSo, "config", config);
                     changed |= rackSo.ApplyModifiedPropertiesWithoutUndo();
                 }
 
@@ -53,11 +53,11 @@ namespace BossFight.Editor
                     changed = true;
                 }
                 var so = new SerializedObject(driver);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "director", director);
-                changed |= RigPrefabBuilder.SetReference(so, "spawner", spawner);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "director", director);
+                changed |= BuilderUtil.SetReference(so, "spawner", spawner);
                 var rig = BossSceneRigBuilder.FindRigs(boss.Scene);
-                if (rig.Count > 0) changed |= RigPrefabBuilder.SetReference(so, "rig", rig[0]);
+                if (rig.Count > 0) changed |= BuilderUtil.SetReference(so, "rig", rig[0]);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
                 // The director drives spawning now, so the testing auto-spawn goes off.
@@ -87,7 +87,7 @@ namespace BossFight.Editor
             }
             foreach (var wallName in WallNames)
             {
-                var wall = BossDirectorBuilder.FindByName(scene, wallName);
+                var wall = BuilderUtil.FindByName(scene, wallName);
                 if (wall == null) continue;
                 foreach (Transform child in wall)
                 {

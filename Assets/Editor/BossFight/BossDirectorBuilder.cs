@@ -30,8 +30,8 @@ namespace BossFight.Editor
         {
             var config = ConfigBuilder.Load();
             EditorFolders.Ensure(BossFightPaths.SettingsFolder);
-            var shieldMat = EnsureTransparentMaterial(ShieldMaterial, "Universal Render Pipeline/Unlit", ShieldColor);
-            var shatterMat = EnsureTransparentMaterial(ShatterMaterial, "Universal Render Pipeline/Particles/Unlit", ShatterColor);
+            var shieldMat = BuilderUtil.EnsureTransparentMaterial(ShieldMaterial, "Universal Render Pipeline/Unlit", ShieldColor);
+            var shatterMat = BuilderUtil.EnsureTransparentMaterial(ShatterMaterial, "Universal Render Pipeline/Particles/Unlit", ShatterColor);
             var witchPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(WitchPrefab);
             if (witchPrefab == null)
             {
@@ -40,18 +40,18 @@ namespace BossFight.Editor
 
             using (var boss = new BossSceneScope())
             {
-                var player = PlayerHitReceiverBuilder.FindPlayer(boss.Scene);
+                var player = BuilderUtil.FindPlayer(boss.Scene);
                 if (player == null)
                 {
                     throw new System.InvalidOperationException("Boss Scene has no PlayerMovement object");
                 }
-                var moneyManager = PlayerHitReceiverBuilder.FindInScene<MoneyManager>(boss.Scene);
+                var moneyManager = BuilderUtil.FindInScene<MoneyManager>(boss.Scene);
                 if (moneyManager == null)
                 {
                     throw new System.InvalidOperationException("Boss Scene has no MoneyManager");
                 }
-                var reputationManager = PlayerHitReceiverBuilder.FindInScene<ReputationManager>(boss.Scene);
-                var door = FindByName(boss.Scene, DoorName);
+                var reputationManager = BuilderUtil.FindInScene<ReputationManager>(boss.Scene);
+                var door = BuilderUtil.FindByName(boss.Scene, DoorName);
                 if (door == null)
                 {
                     throw new System.InvalidOperationException($"Boss Scene has no object named '{DoorName}' to place the Witch by");
@@ -72,30 +72,30 @@ namespace BossFight.Editor
                 var hud = EnsureHud(boss.Scene, ref changed, out var moneyText, out var objectiveText);
 
                 var so = new SerializedObject(director);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "moneyManager", moneyManager);
-                changed |= RigPrefabBuilder.SetReference(so, "player", player);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "moneyManager", moneyManager);
+                changed |= BuilderUtil.SetReference(so, "player", player);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
                 so = new SerializedObject(cheats);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "director", director);
-                changed |= RigPrefabBuilder.SetReference(so, "moneyManager", moneyManager);
-                changed |= RigPrefabBuilder.SetReference(so, "reputationManager", reputationManager);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "director", director);
+                changed |= BuilderUtil.SetReference(so, "moneyManager", moneyManager);
+                changed |= BuilderUtil.SetReference(so, "reputationManager", reputationManager);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
                 so = new SerializedObject(witch);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "director", director);
-                changed |= RigPrefabBuilder.SetReference(so, "shield", shield);
-                changed |= RigPrefabBuilder.SetReference(so, "shatterBurst", burst);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "director", director);
+                changed |= BuilderUtil.SetReference(so, "shield", shield);
+                changed |= BuilderUtil.SetReference(so, "shatterBurst", burst);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
                 so = new SerializedObject(hud);
-                changed |= RigPrefabBuilder.SetReference(so, "director", director);
-                changed |= RigPrefabBuilder.SetReference(so, "moneyManager", moneyManager);
-                changed |= RigPrefabBuilder.SetReference(so, "moneyText", moneyText);
-                changed |= RigPrefabBuilder.SetReference(so, "objectiveText", objectiveText);
+                changed |= BuilderUtil.SetReference(so, "director", director);
+                changed |= BuilderUtil.SetReference(so, "moneyManager", moneyManager);
+                changed |= BuilderUtil.SetReference(so, "moneyText", moneyText);
+                changed |= BuilderUtil.SetReference(so, "objectiveText", objectiveText);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
                 if (changed)
@@ -117,14 +117,14 @@ namespace BossFight.Editor
                 }
             }
 
-            var director = PlayerHitReceiverBuilder.FindInScene<BossDirector>(scene);
+            var director = BuilderUtil.FindInScene<BossDirector>(scene);
             if (director == null)
             {
                 errors.Add($"Boss Scene has no {DirectorName} with a BossDirector component");
             }
             else
             {
-                RequireFields(director, new[] { "config", "moneyManager", "player" }, errors);
+                BuilderUtil.RequireFields(director, new[] { "config", "moneyManager", "player" }, errors);
                 var cheats = director.GetComponent<DebugCheats>();
                 if (cheats == null)
                 {
@@ -132,18 +132,18 @@ namespace BossFight.Editor
                 }
                 else
                 {
-                    RequireFields(cheats, new[] { "config", "director", "moneyManager" }, errors);
+                    BuilderUtil.RequireFields(cheats, new[] { "config", "director", "moneyManager" }, errors);
                 }
             }
 
-            var witch = PlayerHitReceiverBuilder.FindInScene<WitchBoss>(scene);
+            var witch = BuilderUtil.FindInScene<WitchBoss>(scene);
             if (witch == null)
             {
                 errors.Add("Boss Scene has no WitchBoss");
             }
             else
             {
-                RequireFields(witch, new[] { "config", "director", "shield", "shatterBurst" }, errors);
+                BuilderUtil.RequireFields(witch, new[] { "config", "director", "shield", "shatterBurst" }, errors);
                 if (PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(witch.gameObject) != WitchPrefab)
                 {
                     errors.Add($"Boss Scene WitchBoss is not an instance of {WitchPrefab}");
@@ -160,14 +160,14 @@ namespace BossFight.Editor
                 }
             }
 
-            var hud = PlayerHitReceiverBuilder.FindInScene<BossHud>(scene);
+            var hud = BuilderUtil.FindInScene<BossHud>(scene);
             if (hud == null)
             {
                 errors.Add($"Boss Scene has no {HudName} with a BossHud component");
             }
             else
             {
-                RequireFields(hud, new[] { "director", "moneyManager", "moneyText", "objectiveText" }, errors);
+                BuilderUtil.RequireFields(hud, new[] { "director", "moneyManager", "moneyText", "objectiveText" }, errors);
                 foreach (var label in hud.GetComponentsInChildren<TMP_Text>(true))
                 {
                     if (label.font == null)
@@ -178,37 +178,9 @@ namespace BossFight.Editor
             }
         }
 
-        private static void RequireFields(Component component, string[] fields, List<string> errors)
-        {
-            var so = new SerializedObject(component);
-            foreach (var field in fields)
-            {
-                var property = so.FindProperty(field);
-                if (property == null || property.objectReferenceValue == null)
-                {
-                    errors.Add($"Boss Scene {component.GetType().Name}: {field} reference is missing");
-                }
-            }
-        }
-
-        internal static Transform FindByName(UnityEngine.SceneManagement.Scene scene, string name)
-        {
-            foreach (var root in scene.GetRootGameObjects())
-            {
-                foreach (var t in root.GetComponentsInChildren<Transform>(true))
-                {
-                    if (t.name == name)
-                    {
-                        return t;
-                    }
-                }
-            }
-            return null;
-        }
-
         private static T EnsureRootComponent<T>(UnityEngine.SceneManagement.Scene scene, string name, ref bool changed) where T : Component
         {
-            var existing = PlayerHitReceiverBuilder.FindInScene<T>(scene);
+            var existing = BuilderUtil.FindInScene<T>(scene);
             if (existing != null)
             {
                 return existing;
@@ -223,7 +195,7 @@ namespace BossFight.Editor
         // WitchBoss lifts it to hover height and applies the height scale at runtime.
         private static WitchBoss EnsureWitch(UnityEngine.SceneManagement.Scene scene, GameObject prefab, Transform door, PlayerMovement player, ref bool changed)
         {
-            var existing = PlayerHitReceiverBuilder.FindInScene<WitchBoss>(scene);
+            var existing = BuilderUtil.FindInScene<WitchBoss>(scene);
             if (existing != null)
             {
                 return existing;
@@ -315,7 +287,7 @@ namespace BossFight.Editor
 
         private static BossHud EnsureHud(UnityEngine.SceneManagement.Scene scene, ref bool changed, out TMP_Text moneyText, out TMP_Text objectiveText)
         {
-            var hud = PlayerHitReceiverBuilder.FindInScene<BossHud>(scene);
+            var hud = BuilderUtil.FindInScene<BossHud>(scene);
             if (hud == null)
             {
                 var canvasGo = new GameObject(HudName, typeof(Canvas), typeof(CanvasScaler));
@@ -358,35 +330,6 @@ namespace BossFight.Editor
             label.text = "";
             changed = true;
             return label;
-        }
-
-        internal static Material EnsureTransparentMaterial(string path, string shaderName, Color color)
-        {
-            var existing = AssetDatabase.LoadAssetAtPath<Material>(path);
-            if (existing != null)
-            {
-                return existing;
-            }
-            var shader = Shader.Find(shaderName);
-            if (shader == null)
-            {
-                throw new System.InvalidOperationException($"Shader '{shaderName}' not found for {path}");
-            }
-            var material = new Material(shader);
-            material.SetFloat("_Surface", 1f);
-            material.SetFloat("_Blend", 0f);
-            material.SetFloat("_SrcBlend", (float)BlendMode.SrcAlpha);
-            material.SetFloat("_DstBlend", (float)BlendMode.OneMinusSrcAlpha);
-            material.SetFloat("_SrcBlendAlpha", (float)BlendMode.One);
-            material.SetFloat("_DstBlendAlpha", (float)BlendMode.OneMinusSrcAlpha);
-            material.SetFloat("_ZWrite", 0f);
-            material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-            material.SetOverrideTag("RenderType", "Transparent");
-            material.renderQueue = (int)RenderQueue.Transparent;
-            material.SetColor("_BaseColor", color);
-            AssetDatabase.CreateAsset(material, path);
-            AssetDatabase.SaveAssetIfDirty(material);
-            return material;
         }
     }
 }

@@ -78,8 +78,8 @@ namespace BossFight.Editor
                 changed = true;
             }
             var so = new SerializedObject(rig);
-            changed |= SetReference(so, "config", config);
-            changed |= SetReference(so, "navMeshSurface", surface);
+            changed |= BuilderUtil.SetReference(so, "config", config);
+            changed |= BuilderUtil.SetReference(so, "navMeshSurface", surface);
             so.ApplyModifiedPropertiesWithoutUndo();
 
             changed |= ConfigureLighting(root, config);
@@ -118,25 +118,10 @@ namespace BossFight.Editor
                 changed = true;
             }
             var so = new SerializedObject(controller);
-            changed |= SetReference(so, "config", config);
-            changed |= SetReference(so, "outsideLight", light);
+            changed |= BuilderUtil.SetReference(so, "config", config);
+            changed |= BuilderUtil.SetReference(so, "outsideLight", light);
             so.ApplyModifiedPropertiesWithoutUndo();
             return changed;
-        }
-
-        internal static bool SetReference(SerializedObject so, string field, Object value)
-        {
-            var prop = so.FindProperty(field);
-            if (prop == null)
-            {
-                throw new System.InvalidOperationException($"{so.targetObject.GetType().Name} has no serialized field '{field}'");
-            }
-            if (prop.objectReferenceValue == value)
-            {
-                return false;
-            }
-            prop.objectReferenceValue = value;
-            return true;
         }
     }
 }

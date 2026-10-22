@@ -62,7 +62,7 @@ namespace BossFight.Editor
             {
                 using (var boss = new BossSceneScope())
                 {
-                    var player = PlayerHitReceiverBuilder.FindPlayer(boss.Scene);
+                    var player = BuilderUtil.FindPlayer(boss.Scene);
                     var receiver = player != null ? player.GetComponent<PlayerHitReceiver>() : null;
                     if (receiver == null)
                     {

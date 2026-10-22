@@ -22,24 +22,24 @@ namespace BossFight.Editor
         {
             var config = ConfigBuilder.Load();
             var concrete = EnsureConcreteMaterial();
-            var hand = BossDirectorBuilder.EnsureTransparentMaterial(HandMaterial, "Universal Render Pipeline/Unlit", new Color(0.55f, 0.15f, 0.8f, 0.95f));
-            var dust = BossDirectorBuilder.EnsureTransparentMaterial(DustMaterial, "Universal Render Pipeline/Particles/Unlit", new Color(0.6f, 0.6f, 0.6f, 0.6f));
+            var hand = BuilderUtil.EnsureTransparentMaterial(HandMaterial, "Universal Render Pipeline/Unlit", new Color(0.55f, 0.15f, 0.8f, 0.95f));
+            var dust = BuilderUtil.EnsureTransparentMaterial(DustMaterial, "Universal Render Pipeline/Particles/Unlit", new Color(0.6f, 0.6f, 0.6f, 0.6f));
 
             using (var boss = new BossSceneScope())
             {
-                var ceiling = BossDirectorBuilder.FindByName(boss.Scene, CeilingName);
+                var ceiling = BuilderUtil.FindByName(boss.Scene, CeilingName);
                 if (ceiling == null) throw new System.InvalidOperationException($"Boss Scene has no '{CeilingName}' object for the cave-in");
-                var director = PlayerHitReceiverBuilder.FindInScene<BossDirector>(boss.Scene);
-                var money = PlayerHitReceiverBuilder.FindInScene<MoneyManager>(boss.Scene);
-                var witch = PlayerHitReceiverBuilder.FindInScene<WitchBoss>(boss.Scene);
-                var player = PlayerHitReceiverBuilder.FindPlayer(boss.Scene);
+                var director = BuilderUtil.FindInScene<BossDirector>(boss.Scene);
+                var money = BuilderUtil.FindInScene<MoneyManager>(boss.Scene);
+                var witch = BuilderUtil.FindInScene<WitchBoss>(boss.Scene);
+                var player = BuilderUtil.FindPlayer(boss.Scene);
                 if (director == null || money == null || witch == null || player == null)
                 {
                     throw new System.InvalidOperationException("Cave-in builder needs the BossDirector, MoneyManager, Witch and player in Boss Scene");
                 }
 
                 bool changed = false;
-                var controller = PlayerHitReceiverBuilder.FindInScene<CaveInController>(boss.Scene);
+                var controller = BuilderUtil.FindInScene<CaveInController>(boss.Scene);
                 if (controller == null)
                 {
                     var go = new GameObject(ObjectName);
@@ -48,15 +48,15 @@ namespace BossFight.Editor
                     changed = true;
                 }
                 var so = new SerializedObject(controller);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "director", director);
-                changed |= RigPrefabBuilder.SetReference(so, "moneyManager", money);
-                changed |= RigPrefabBuilder.SetReference(so, "player", player.GetComponent<PlayerMovement>());
-                changed |= RigPrefabBuilder.SetReference(so, "witch", witch.transform);
-                changed |= RigPrefabBuilder.SetReference(so, "ceiling", ceiling);
-                changed |= RigPrefabBuilder.SetReference(so, "chunkMaterial", concrete);
-                changed |= RigPrefabBuilder.SetReference(so, "handMaterial", hand);
-                changed |= RigPrefabBuilder.SetReference(so, "dustMaterial", dust);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "director", director);
+                changed |= BuilderUtil.SetReference(so, "moneyManager", money);
+                changed |= BuilderUtil.SetReference(so, "player", player.GetComponent<PlayerMovement>());
+                changed |= BuilderUtil.SetReference(so, "witch", witch.transform);
+                changed |= BuilderUtil.SetReference(so, "ceiling", ceiling);
+                changed |= BuilderUtil.SetReference(so, "chunkMaterial", concrete);
+                changed |= BuilderUtil.SetReference(so, "handMaterial", hand);
+                changed |= BuilderUtil.SetReference(so, "dustMaterial", dust);
                 changed |= so.ApplyModifiedPropertiesWithoutUndo();
 
                 if (changed) EditorSceneManager.MarkSceneDirty(boss.Scene);
@@ -66,18 +66,11 @@ namespace BossFight.Editor
 
         private static Material EnsureConcreteMaterial()
         {
-            var existing = AssetDatabase.LoadAssetAtPath<Material>(ConcreteMaterial);
-            if (existing != null) return existing;
-            var texture = EnsureNoiseTexture();
-            var shader = Shader.Find("Universal Render Pipeline/Lit");
-            if (shader == null) throw new System.InvalidOperationException($"Shader 'Universal Render Pipeline/Lit' not found for {ConcreteMaterial}");
-            var material = new Material(shader);
-            material.SetColor("_BaseColor", new Color(0.62f, 0.62f, 0.64f));
-            material.SetTexture("_BaseMap", texture);
-            material.SetFloat("_Smoothness", 0.1f);
-            AssetDatabase.CreateAsset(material, ConcreteMaterial);
-            AssetDatabase.SaveAssetIfDirty(material);
-            return material;
+            return BuilderUtil.EnsureLitMaterial(ConcreteMaterial, new Color(0.62f, 0.62f, 0.64f), material =>
+            {
+                material.SetTexture("_BaseMap", EnsureNoiseTexture());
+                material.SetFloat("_Smoothness", 0.1f);
+            });
         }
 
         // Seeded value noise in greys, written once and imported as a normal texture.
@@ -122,7 +115,7 @@ namespace BossFight.Editor
                 if (AssetDatabase.LoadAssetAtPath<Material>(path) == null) errors.Add($"Material missing at {path}");
             }
             if (AssetDatabase.LoadAssetAtPath<Texture2D>(ConcreteTexture) == null) errors.Add($"Texture missing at {ConcreteTexture}");
-            var controller = PlayerHitReceiverBuilder.FindInScene<CaveInController>(scene);
+            var controller = BuilderUtil.FindInScene<CaveInController>(scene);
             if (controller == null)
             {
                 errors.Add($"Boss Scene has no {ObjectName} with a CaveInController component");

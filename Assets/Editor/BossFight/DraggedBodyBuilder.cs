@@ -83,8 +83,8 @@ namespace BossFight.Editor
                     changed = true;
                 }
                 var so = new SerializedObject(drag);
-                changed |= RigPrefabBuilder.SetReference(so, "config", config);
-                changed |= RigPrefabBuilder.SetReference(so, "bodyPrefab", body);
+                changed |= BuilderUtil.SetReference(so, "config", config);
+                changed |= BuilderUtil.SetReference(so, "bodyPrefab", body);
                 var array = so.FindProperty("costumePrefabs");
                 if (array.arraySize != costumes.Count) changed = true;
                 array.arraySize = costumes.Count;
