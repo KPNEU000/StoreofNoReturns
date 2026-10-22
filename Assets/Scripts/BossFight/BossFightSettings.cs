@@ -75,6 +75,10 @@ namespace BossFight
         [Header("Enemies: monster")]
         public float monsterBaseHp = 50f;
         public float monsterWindupSeconds = 0.6f;
+        public float monsterAttackReach = 1.8f;
+        public float monsterAttackConeDegrees = 90f;
+        public float monsterAttackCooldownSeconds = 1.2f;
+        public float monsterSpawnStaggerSeconds = 1.5f;
 
         [Header("Enemies: routing")]
         public float flankDirectRadius = 4f;

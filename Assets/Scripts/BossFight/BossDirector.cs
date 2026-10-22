@@ -27,6 +27,7 @@ namespace BossFight
         public int MonstersAlive => machine.MonstersAlive;
         public float WitchHp => machine.WitchHp;
         public bool WitchDamageable => machine.WitchDamageable;
+        public IReadOnlyList<IDamageable> Monsters => monsters;
 
         public event Action<BossPhase> PhaseChanged;
         public event Action Won;

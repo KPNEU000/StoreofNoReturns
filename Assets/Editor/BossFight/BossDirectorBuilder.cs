@@ -191,7 +191,7 @@ namespace BossFight.Editor
             }
         }
 
-        private static Transform FindByName(UnityEngine.SceneManagement.Scene scene, string name)
+        internal static Transform FindByName(UnityEngine.SceneManagement.Scene scene, string name)
         {
             foreach (var root in scene.GetRootGameObjects())
             {
@@ -360,7 +360,7 @@ namespace BossFight.Editor
             return label;
         }
 
-        private static Material EnsureTransparentMaterial(string path, string shaderName, Color color)
+        internal static Material EnsureTransparentMaterial(string path, string shaderName, Color color)
         {
             var existing = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (existing != null)
