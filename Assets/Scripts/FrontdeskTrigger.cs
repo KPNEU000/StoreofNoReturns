@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class FrontdeskTrigger : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class FrontdeskTrigger : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] TextMeshProUGUI accessoriesText;
     [SerializeField] TextMeshProUGUI priceText;
+    [SerializeField] InspectCostume inspectCostume;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,6 +48,7 @@ public class FrontdeskTrigger : MonoBehaviour
             nameText.text = "Name: " + data.getName();
             accessoriesText.text = "Accessories: \n" + data.getAccessories();
             priceText.text = "$" + data.getReturnValue().ToString();
+            inspectCostume.setActiveCostume(data.getName());
         }
     } 
 }

@@ -4034,6 +4034,7 @@ MonoBehaviour:
   nameText: {fileID: 1904410432}
   accessoriesText: {fileID: 1294236541}
   priceText: {fileID: 1493845058}
+  inspectCostume: {fileID: 729595418}
 --- !u!1 &164234455
 GameObject:
   m_ObjectHideFlags: 0
@@ -16773,6 +16774,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8554318409624552680, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
   m_PrefabInstance: {fileID: 6918292217704877988}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &729595418 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
+  m_PrefabInstance: {fileID: 6918292217704877988}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bfd344653ee8074c9c597c969153944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &739067536
 GameObject:
   m_ObjectHideFlags: 0
@@ -55376,13 +55388,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: InspectionPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 3975349812276449787, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 524b2713a6f2c834f96d53bef69f46a8, type: 2}
+    - target: {fileID: 5350110149836153187, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ca51d5d6ff0f4c34f9b1d92c27b7cf69, type: 2}
     - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
       propertyPath: activeCostumeName
-      value: Mr. ExtraOrdinary
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
+      propertyPath: pairs.Array.data[0].costumeName
+      value: Bird
+      objectReference: {fileID: 0}
+    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
+      propertyPath: pairs.Array.data[1].costumeName
+      value: Cat
       objectReference: {fileID: 0}
     - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
       propertyPath: pairs.Array.data[3].costumeName
       value: Mr. ExtraOrdinary
+      objectReference: {fileID: 0}
+    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
+      propertyPath: pairs.Array.data[4].costumeName
+      value: UNKNOWN COSTUME
+      objectReference: {fileID: 0}
+    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
+      propertyPath: pairs.Array.data[5].costumeName
+      value: Evil Blood Wizard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
+      propertyPath: pairs.Array.data[6].costumeName
+      value: Zombie
       objectReference: {fileID: 0}
     - target: {fileID: 7958333717965272704, guid: 31ea261ea6a78c94e9e462f62c355473, type: 3}
       propertyPath: pairs.Array.data[3].costumePrefab

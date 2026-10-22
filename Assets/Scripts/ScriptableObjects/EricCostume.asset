@@ -15,7 +15,8 @@ MonoBehaviour:
   costumeName: Mr. ExtraOrdinary
   returnValue: 100
   costumeModel: {fileID: 7556573222276401112, guid: 7113aa6a97ab4134dba1afff5bc2d5bd, type: 3}
-  dateOfPurchase: 10/30/2001
-  reasons: 02000000
+  dateOfPurchase: 10/30/2002
+  reasons: 
   computerViewSpriteFront: {fileID: 21300000, guid: 24f02967c109f524183f7b898f5c3375, type: 3}
   computerViewSpriteBack: {fileID: 21300000, guid: de5889f559521ba4cbadf5cec8fbdd6c, type: 3}
+  accessories: 

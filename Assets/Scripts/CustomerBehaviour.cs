@@ -49,6 +49,10 @@ public class CustomerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(done)
+        {
+            customerSpawner.activeCustomers.Remove(this);
+        }
         if (agent.velocity.magnitude > 0)
         {
             animator.SetBool("Walking", true);
