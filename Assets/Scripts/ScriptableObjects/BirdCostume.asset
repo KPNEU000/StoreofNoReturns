@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BirdCostume
   m_EditorClassIdentifier: Assembly-CSharp::CostumeScriptData
   costumeName: BirdCostume
-  returnValue: 150
+  returnValue: 100
   costumeModel: {fileID: 8554172815481801290, guid: bccb528c814eb5349979e9a4d5406a37, type: 3}
   dateOfPurchase: 10/27/2001
   reasons: 

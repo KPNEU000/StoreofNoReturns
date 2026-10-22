@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using System;
+using BossFight;
 public class MoneyManager : MonoBehaviour
 {
     [Header("GameData")]
@@ -24,6 +25,7 @@ public class MoneyManager : MonoBehaviour
     CustomerScript customer;
     CustomerBehaviour customerBehaviour;
     CostumeScriptData costume;
+    int reputationAtInteractionStart;
 
     private float currentMoney;
 
@@ -43,6 +45,7 @@ public class MoneyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        AngeredCustomerRegistry.Reset();
         lights = GameObject.FindObjectsByType<Light>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
         currentMoney = startingMoney;
         currentMoneyValue.text = "$"+ currentMoney.ToString();
@@ -97,6 +100,7 @@ public class MoneyManager : MonoBehaviour
     {
         customer = currentCustomer;
         customerBehaviour = customer.GetComponent<CustomerBehaviour>();
+        reputationAtInteractionStart = reputationManager != null ? reputationManager.CurrentReputation : 0;
     }
 
     public void GetCurrentCostume(CostumeScriptData currentCustomer)
@@ -140,19 +144,34 @@ public class MoneyManager : MonoBehaviour
             customerBehaviour.Respond(false);
         }
 
-        if(customerBehaviour.gameObject.name == "Witch")
+        bool isWitch = customerBehaviour.gameObject.name == "Witch";
+        // The Witch is the boss, not one of the monsters she brings.
+        if (!isWitch && reputationManager != null)
+        {
+            AngeredCustomerRegistry.Record(customerBehaviour.gameObject.name, reputationAtInteractionStart, reputationManager.CurrentReputation);
+        }
+
+        if(isWitch)
         {
             //Start boss battle
             print("boss battle starts");
-            customerBehaviour.gameObject.GetComponent<Enemy>().enabled = true;
-            customerBehaviour.gameObject.tag = "Enemy";
-            playerMovement.enableMovement();
+            var director = FindFirstObjectByType<BossDirector>();
+            if (director != null)
+            {
+                director.StartFight(AngeredCustomerRegistry.Count);
+            }
+            else
+            {
+                customerBehaviour.gameObject.GetComponent<Enemy>().enabled = true;
+                customerBehaviour.gameObject.tag = "Enemy";
+                playerMovement.enableMovement();
+            }
         }
     }
 
     public void ReasoningCheck(string reasonSelected)
     {
-        if (customer == null)
+        if (customer != null)
         {
             if (Enum.TryParse(reasonSelected, out invalidReturnReason reason))
             {

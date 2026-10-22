@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: KatherineCostume
   m_EditorClassIdentifier: Assembly-CSharp::CostumeScriptData
   costumeName: Cat
-  returnValue: 200
+  returnValue: 100
   costumeModel: {fileID: 5469550793840556797, guid: 5e1dd68ab1a282247bc8fe06a356279e, type: 3}
   dateOfPurchase: 10/28/2001
   reasons: 0700000005000000
