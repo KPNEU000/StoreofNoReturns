@@ -9283,13 +9283,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 373486185}
   m_SourcePrefab: {fileID: 100100000, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
 --- !u!4 &373486183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5227233361597593098, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
   m_PrefabInstance: {fileID: 373486182}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &373486184 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+  m_PrefabInstance: {fileID: 373486182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &373486185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373486184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!1 &375142814
 GameObject:
   m_ObjectHideFlags: 0
@@ -9453,13 +9475,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 376727716}
   m_SourcePrefab: {fileID: 100100000, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
 --- !u!4 &376727714 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5227233361597593098, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
   m_PrefabInstance: {fileID: 376727713}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &376727715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+  m_PrefabInstance: {fileID: 376727713}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &376727716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376727715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!1 &377358532
 GameObject:
   m_ObjectHideFlags: 0
@@ -15244,13 +15288,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 663654035}
   m_SourcePrefab: {fileID: 100100000, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
 --- !u!4 &663654033 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5227233361597593098, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
   m_PrefabInstance: {fileID: 663654032}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &663654034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+  m_PrefabInstance: {fileID: 663654032}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &663654035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663654034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!1 &664165890
 GameObject:
   m_ObjectHideFlags: 0
@@ -24349,6 +24415,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d9c3e3b5b7014971adac715c96f1e9a, type: 3}
+--- !u!114 &816525622 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5587495541394507519, guid: 2d9c3e3b5b7014971adac715c96f1e9a, type: 3}
+  m_PrefabInstance: {fileID: 816525621}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a124d2f4d8d314acca62ae6169beee75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.BossFightRig
 --- !u!1 &820659965
 GameObject:
   m_ObjectHideFlags: 0
@@ -24946,6 +25023,7 @@ GameObject:
   m_Component:
   - component: {fileID: 862484919}
   - component: {fileID: 862484918}
+  - component: {fileID: 862484920}
   m_Layer: 0
   m_Name: ClothingSpawner
   m_TagString: Untagged
@@ -24968,7 +25046,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   prefab: {fileID: 882657629664856267, guid: 814bdd9b521b247978e32c7222cd568f, type: 3}
   spawnPoint: {fileID: 1397179681}
-  autoSpawnForTesting: 1
+  autoSpawnForTesting: 0
   autoSpawnCount: 3
 --- !u!4 &862484919
 Transform:
@@ -24986,6 +25064,22 @@ Transform:
   - {fileID: 1397179681}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &862484920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862484917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f47ded5686a644763b36faa261bd658f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.ClothingWaveDriver
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  director: {fileID: 514971802}
+  spawner: {fileID: 862484918}
+  rig: {fileID: 816525622}
 --- !u!1 &865086656
 GameObject:
   m_ObjectHideFlags: 0
@@ -28226,13 +28320,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1013783557}
   m_SourcePrefab: {fileID: 100100000, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
 --- !u!4 &1013783555 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5227233361597593098, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
   m_PrefabInstance: {fileID: 1013783554}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1013783556 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+  m_PrefabInstance: {fileID: 1013783554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1013783557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013783556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!1 &1021193873
 GameObject:
   m_ObjectHideFlags: 0
@@ -28607,6 +28723,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1042491605}
+  - component: {fileID: 1042491606}
   m_Layer: 0
   m_Name: ClothingRackPockets_Left
   m_TagString: Untagged
@@ -28631,6 +28748,20 @@ Transform:
   - {fileID: 1877955913}
   m_Father: {fileID: 1838009690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1042491606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042491604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!1 &1043312601
 GameObject:
   m_ObjectHideFlags: 0
@@ -30797,13 +30928,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1173034035}
   m_SourcePrefab: {fileID: 100100000, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
 --- !u!4 &1173034033 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5227233361597593098, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
   m_PrefabInstance: {fileID: 1173034032}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1173034034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+  m_PrefabInstance: {fileID: 1173034032}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1173034035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173034034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!4 &1175757085 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3260047126930880572, guid: 27b1ddcc42bd5cb4fbbc20b1d8109586, type: 3}
@@ -46783,13 +46936,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1757381723}
   m_SourcePrefab: {fileID: 100100000, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
 --- !u!4 &1757381721 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5227233361597593098, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
   m_PrefabInstance: {fileID: 1757381720}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1757381722 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+  m_PrefabInstance: {fileID: 1757381720}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1757381723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757381722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!1 &1761336320
 GameObject:
   m_ObjectHideFlags: 0
@@ -49989,13 +50164,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1894735183}
   m_SourcePrefab: {fileID: 100100000, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
 --- !u!4 &1894735181 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5227233361597593098, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
   m_PrefabInstance: {fileID: 1894735180}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1894735182 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+  m_PrefabInstance: {fileID: 1894735180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1894735183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894735182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!1 &1897019261
 GameObject:
   m_ObjectHideFlags: 0
@@ -50854,13 +51051,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1904341076}
   m_SourcePrefab: {fileID: 100100000, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
 --- !u!4 &1904341074 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5227233361597593098, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
   m_PrefabInstance: {fileID: 1904341073}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1904341075 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+  m_PrefabInstance: {fileID: 1904341073}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1904341076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904341075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!1 &1904410430
 GameObject:
   m_ObjectHideFlags: 0
@@ -52957,6 +53176,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2014338326}
+  - component: {fileID: 2014338327}
   m_Layer: 0
   m_Name: ClothingRackPockets_Right
   m_TagString: Untagged
@@ -52981,6 +53201,20 @@ Transform:
   - {fileID: 1599254348}
   m_Father: {fileID: 1838009690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2014338327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014338325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!1 &2017786791
 GameObject:
   m_ObjectHideFlags: 0
@@ -55612,13 +55846,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2130664869}
   m_SourcePrefab: {fileID: 100100000, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
 --- !u!4 &2130664867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5227233361597593098, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
   m_PrefabInstance: {fileID: 2130664866}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2130664868 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+  m_PrefabInstance: {fileID: 2130664866}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2130664869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130664868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!1001 &2137066967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55845,8 +56101,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 225272059985753766}
   m_SourcePrefab: {fileID: 100100000, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+--- !u!1 &225272059985753765 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4882198454151425200, guid: d2df2b1addf9e7848a7afc102a2164b1, type: 3}
+  m_PrefabInstance: {fileID: 225272059985753764}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &225272059985753766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225272059985753765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
 --- !u!33 &700849082779343622
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -71,6 +71,7 @@ namespace BossFight.Editor
                     ClothingEnemyBuilder.Validate(boss.Scene, errors);
                     BossDirectorBuilder.Validate(boss.Scene, errors);
                     MonsterEnemyBuilder.Validate(boss.Scene, errors);
+                    ClothingWaveBuilder.Validate(boss.Scene, errors);
 
                     var rigs = BossSceneRigBuilder.FindRigs(boss.Scene);
                     if (rigs.Count != 1)
