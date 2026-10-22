@@ -16267,7 +16267,7 @@ MonoBehaviour:
   monitor: {fileID: 969668210}
   door: {fileID: 1223093398}
   doorBarrier: {fileID: 1272452097}
-  vaultTarget: {fileID: 0}
+  vaultTarget: {fileID: 1762027141}
   spawner: {fileID: 862484918}
   hud: {fileID: 1295429181}
   crackOverlay: {fileID: 1693142528}
@@ -52687,6 +52687,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1761336320}
   m_CullTransparentMesh: 1
+--- !u!1 &1762027140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1762027141}
+  m_Layer: 0
+  m_Name: VaultTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1762027141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762027140}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.093, y: 1.59, z: 7.089799}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1768686221
 GameObject:
   m_ObjectHideFlags: 0
@@ -64358,3 +64389,4 @@ SceneRoots:
   - {fileID: 2073020659}
   - {fileID: 1272452099}
   - {fileID: 611488440}
+  - {fileID: 1762027141}

@@ -55,6 +55,9 @@ namespace BossFight
         [SerializeField]
         private AudioClip doorBlastSound;
 
+        private const float TutorialPassAhead = 3.5f;
+        private const float TutorialPassHalfWidth = 3f;
+
         private BossFightSettings settings;
         private OpeningSteps steps;
         private StoreLightingController lighting;
@@ -375,12 +378,17 @@ namespace BossFight
         private void SummonCostume()
         {
             BossTextBox.Show(LightPrompt, 0f);
-            if (spawner == null || player == null || witch == null) return;
-            var toPlayer = player.transform.position - witch.position;
-            toPlayer.y = 0f;
-            var position = witch.position + toPlayer.normalized * 1.5f;
-            if (NavMesh.SamplePosition(position, out var hit, 4f, NavMesh.AllAreas)) position = hit.position;
-            costumeSpawned = spawner.Spawn(position, 1) > 0;
+            if (spawner == null || player == null) return;
+            // Starts off to one side of the player and floats back and forth across their view; it cannot hurt them.
+            TutorialRules.PassEndpoints(player.transform.position, player.transform.forward, TutorialPassAhead, TutorialPassHalfWidth, out var from, out var to);
+            from = OnNavMesh(from);
+            to = OnNavMesh(to);
+            costumeSpawned = spawner.SpawnHarmless(from, from, to) != null;
+        }
+
+        private static Vector3 OnNavMesh(Vector3 point)
+        {
+            return NavMesh.SamplePosition(point, out var hit, 4f, NavMesh.AllAreas) ? hit.position : point;
         }
 
         private void BlastDoor()

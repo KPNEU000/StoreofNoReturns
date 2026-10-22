@@ -1,3 +1,4 @@
+using BossFight.Rules;
 using System.Collections.Generic;
 using TMPro;
 using Unity.AI.Navigation;
@@ -19,6 +20,9 @@ namespace BossFight.Editor
         public const string CrackFrameName = "ScreenCrackFrame";
         public const string CrackImageName = "CrackImage";
         public const string BarrierName = "DoorBarrier";
+        public const string VaultTargetName = "VaultTarget";
+        public const string DeskName = "Front Desk";
+        internal const float VaultClearance = 1.2f;
         public const string MonitorTag = "Computer";
         public const string MagicMaterial = BossFightPaths.SettingsFolder + "/OpeningMagic.mat";
         public const string WallCrackMaterial = BossFightPaths.SettingsFolder + "/OpeningWallCrack.mat";
@@ -58,6 +62,7 @@ namespace BossFight.Editor
                 var textBox = EnsureTextBox(scene, ref changed);
                 var crack = EnsureCrackFrame(hud, ref changed);
                 var barrier = EnsureBarrier(scene, door, ref changed);
+                var vaultTarget = EnsureVaultTarget(scene, player, ref changed);
 
                 var sequence = BuilderUtil.FindInScene<OpeningSequence>(scene);
                 if (sequence == null)
@@ -75,6 +80,7 @@ namespace BossFight.Editor
                 changed |= BuilderUtil.SetReference(so, "monitor", monitor);
                 changed |= BuilderUtil.SetReference(so, "door", door);
                 changed |= BuilderUtil.SetReference(so, "doorBarrier", barrier);
+                changed |= BuilderUtil.SetReference(so, "vaultTarget", vaultTarget);
                 changed |= BuilderUtil.SetReference(so, "spawner", spawner);
                 changed |= BuilderUtil.SetReference(so, "hud", hud);
                 changed |= BuilderUtil.SetReference(so, "crackOverlay", crack);
@@ -88,6 +94,33 @@ namespace BossFight.Editor
                 if (changed) EditorSceneManager.MarkSceneDirty(scene);
                 boss.SaveIfDirty();
             }
+        }
+
+        // A marker on the store floor just past the far edge of the front desk, straight ahead of the player.
+        private static Transform EnsureVaultTarget(UnityEngine.SceneManagement.Scene scene, PlayerMovement player, ref bool changed)
+        {
+            var desk = BuilderUtil.FindByName(scene, DeskName);
+            if (desk == null) throw new System.InvalidOperationException($"Boss Scene has no '{DeskName}' object to vault over");
+            var renderers = desk.GetComponentsInChildren<Renderer>(true);
+            if (renderers.Length == 0) throw new System.InvalidOperationException($"'{DeskName}' has no renderer to measure");
+            var bounds = renderers[0].bounds;
+            foreach (var r in renderers) bounds.Encapsulate(r.bounds);
+
+            var position = TutorialRules.VaultTarget(player.transform.position, player.transform.forward, bounds, VaultClearance);
+            var target = BuilderUtil.FindByName(scene, VaultTargetName);
+            if (target == null)
+            {
+                var go = new GameObject(VaultTargetName);
+                UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(go, scene);
+                target = go.transform;
+                changed = true;
+            }
+            if ((target.position - position).sqrMagnitude > 1e-6f)
+            {
+                target.position = position;
+                changed = true;
+            }
+            return target;
         }
 
         // The first object tagged Computer that actually has a mesh (the tagged root of the computer model has none).
@@ -295,7 +328,7 @@ namespace BossFight.Editor
                 var so = new SerializedObject(sequence);
                 foreach (var field in new[]
                 {
-                    "config", "director", "player", "witch", "monitor", "door", "doorBarrier", "spawner", "hud", "crackOverlay",
+                    "config", "director", "player", "witch", "monitor", "door", "doorBarrier", "vaultTarget", "spawner", "hud", "crackOverlay",
                     "swordObject", "flashlight", "magicMaterial", "shardMaterial", "wallCrackMaterial",
                 })
                 {

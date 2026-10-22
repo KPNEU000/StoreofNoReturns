@@ -40,14 +40,29 @@ namespace BossFight
         private float flashUntil;
         private bool tinted;
         private bool lifeless;
+        private bool harmless;
+        private bool patrolToB;
+        private Vector3 patrolA;
+        private Vector3 patrolB;
 
         public bool IsAlive => !lifeless && brain != null && brain.IsAlive;
         public ClothingState State => brain != null ? brain.State : ClothingState.Dead;
+
+        public bool Harmless => harmless;
 
         public void Init(ClothingSpawner owner, int index)
         {
             spawner = owner;
             flank = FlankRouting.Assign(index);
+        }
+
+        // Tutorial costume: never hits the player, floats back and forth between two points instead of chasing.
+        public void MakeHarmless(Vector3 from, Vector3 to)
+        {
+            harmless = true;
+            patrolA = from;
+            patrolB = to;
+            patrolToB = true;
         }
 
         private void Awake()
@@ -128,6 +143,18 @@ namespace BossFight
             var toPlayer = player.position - transform.position;
             toPlayer.y = 0f;
 
+            if (harmless)
+            {
+                var goal = patrolToB ? patrolB : patrolA;
+                var toGoal = goal - transform.position;
+                toGoal.y = 0f;
+                if (toGoal.magnitude < 0.8f) patrolToB = !patrolToB;
+                agent.isStopped = false;
+                agent.speed = chaseSpeed;
+                agent.SetDestination(goal);
+                return;
+            }
+
             switch (brain.State)
             {
                 case ClothingState.Chase:
@@ -137,7 +164,7 @@ namespace BossFight
                     break;
                 case ClothingState.Lunge:
                     agent.SetDestination(player.position);
-                    if (receiver != null && toPlayer.magnitude <= contactDistance * 1.25f && brain.CanDealHit)
+                    if (receiver != null && TutorialRules.CanHurtPlayer(harmless) && toPlayer.magnitude <= contactDistance * 1.25f && brain.CanDealHit)
                     {
                         receiver.TryHit(HitKind.Clothing);
                     }

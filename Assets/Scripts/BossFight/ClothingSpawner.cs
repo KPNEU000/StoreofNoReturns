@@ -56,6 +56,17 @@ namespace BossFight
             return spawned;
         }
 
+        // One costume that cannot hurt the player and patrols between two points; null when the cap is reached.
+        public PossessedClothing SpawnHarmless(Vector3 position, Vector3 patrolFrom, Vector3 patrolTo)
+        {
+            if (prefab == null || alive.Count >= cap) return null;
+            var enemy = Instantiate(prefab, position, Quaternion.identity);
+            enemy.Init(this, spawnIndex++);
+            enemy.MakeHarmless(patrolFrom, patrolTo);
+            alive.Add(enemy);
+            return enemy;
+        }
+
         public void Unregister(PossessedClothing enemy)
         {
             alive.Remove(enemy);
