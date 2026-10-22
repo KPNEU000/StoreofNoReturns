@@ -82,6 +82,45 @@ namespace BossFight.Editor
             changed |= SetReference(so, "navMeshSurface", surface);
             so.ApplyModifiedPropertiesWithoutUndo();
 
+            changed |= ConfigureLighting(root, config);
+
+            return changed;
+        }
+
+        internal const string OutsideLightName = "OutsideLight";
+
+        private static bool ConfigureLighting(GameObject root, BossFightConfig config)
+        {
+            bool changed = false;
+            var outside = root.transform.Find(OutsideLightName);
+            if (outside == null)
+            {
+                outside = new GameObject(OutsideLightName).transform;
+                outside.SetParent(root.transform, false);
+                outside.localRotation = Quaternion.Euler(50f, -30f, 0f);
+                changed = true;
+            }
+            var light = outside.GetComponent<Light>();
+            if (light == null)
+            {
+                light = outside.gameObject.AddComponent<Light>();
+                light.type = LightType.Directional;
+                light.color = new Color(0.35f, 0.5f, 1f);
+                light.shadows = LightShadows.None;
+                light.enabled = false;
+                changed = true;
+            }
+
+            var controller = root.GetComponent<StoreLightingController>();
+            if (controller == null)
+            {
+                controller = root.AddComponent<StoreLightingController>();
+                changed = true;
+            }
+            var so = new SerializedObject(controller);
+            changed |= SetReference(so, "config", config);
+            changed |= SetReference(so, "outsideLight", light);
+            so.ApplyModifiedPropertiesWithoutUndo();
             return changed;
         }
 

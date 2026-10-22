@@ -38,6 +38,19 @@ namespace BossFight.Editor
                     {
                         errors.Add("BossFightRig prefab: config reference is not the BossFightConfig asset");
                     }
+                    var lighting = prefab.GetComponent<StoreLightingController>();
+                    if (lighting == null)
+                    {
+                        errors.Add("BossFightRig prefab: StoreLightingController missing");
+                    }
+                    else
+                    {
+                        var lso = new UnityEditor.SerializedObject(lighting);
+                        if (lso.FindProperty("config").objectReferenceValue != config || lso.FindProperty("outsideLight").objectReferenceValue == null)
+                        {
+                            errors.Add("BossFightRig prefab: StoreLightingController config/outsideLight reference is missing");
+                        }
+                    }
                     if (rig.NavMeshSurface == null || rig.NavMeshSurface != prefab.GetComponent<NavMeshSurface>())
                     {
                         errors.Add("BossFightRig prefab: navMeshSurface reference is missing");

@@ -12,15 +12,15 @@ public class MoneyManager : MonoBehaviour
     [SerializeField]
     private GameObject heatingCutOffAlert; // unused
     [SerializeField]
-    private float lightingCutOff = 500;
+    private float lightingCutOff = 500; // unused (StoreLightingController owns lighting)
     [SerializeField]
-    private GameObject lightingCutOffAlert;
+    private GameObject lightingCutOffAlert; // unused
 
     [Header("Reputation")]
     [SerializeField]
     private ReputationManager reputationManager;
     
-    bool lightingCut = false;
+    bool lightingCut = false; // unused
     bool gameOver = false;
     CustomerScript customer;
     CustomerBehaviour customerBehaviour;
@@ -82,17 +82,6 @@ public class MoneyManager : MonoBehaviour
         if (currentMoney.ToString() != currentMoneyValue.text)
         {
             currentMoneyValue.text = "$" + currentMoney.ToString();
-        }
-
-        if (currentMoney <= lightingCutOff && !lightingCut)
-        {
-            lightingCut = true;
-            flashlight.SetActive(true);
-            foreach (Light light in lights)
-            {
-                light.enabled = false;
-            }
-            lightingCutOffAlert.SetActive(true);
         }
     }
 
