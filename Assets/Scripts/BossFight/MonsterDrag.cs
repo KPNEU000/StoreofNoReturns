@@ -95,13 +95,13 @@ namespace BossFight
             // Kinematic anchor on the hand bone; the body hangs from it by the wrist.
             var anchor = new GameObject("DragAnchor");
             anchor.transform.SetParent(hand, false);
-            anchor.transform.position = wrist.position;
+            anchor.transform.position = WristPoint(wrist);
             var anchorBody = anchor.AddComponent<Rigidbody>();
             anchorBody.isKinematic = true;
             var characterJoint = wrist.gameObject.AddComponent<CharacterJoint>();
             characterJoint.connectedBody = anchorBody;
             characterJoint.autoConfigureConnectedAnchor = false;
-            characterJoint.anchor = Vector3.zero;
+            characterJoint.anchor = wrist.transform.InverseTransformPoint(anchor.transform.position);
             characterJoint.connectedAnchor = Vector3.zero;
             characterJoint.enableProjection = true;
             joint = characterJoint;
@@ -183,9 +183,24 @@ namespace BossFight
             return fallback;
         }
 
+        // The rigged body has no hand rigidbody: it hangs from the right forearm's far end, where the hand bone starts.
+        private static Vector3 WristPoint(Rigidbody forearm)
+        {
+            foreach (var t in forearm.GetComponentsInChildren<Transform>(true))
+            {
+                if (t != forearm.transform && t.name.ToLowerInvariant().EndsWith("hand")) return t.position;
+            }
+            return forearm.position;
+        }
+
         private static Rigidbody FindWrist(Rigidbody[] bodies)
         {
             Rigidbody fallback = null;
+            foreach (var rb in bodies)
+            {
+                var lower = rb.name.ToLowerInvariant();
+                if (lower.Contains("forearm") && lower.Contains("right")) return rb;
+            }
             foreach (var rb in bodies)
             {
                 var lower = rb.name.ToLowerInvariant();

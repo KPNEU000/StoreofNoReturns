@@ -113,4 +113,36 @@ public class DraggedBodyTests
     {
         Assert.AreEqual(expected, MonsterDrag.NamesMatch(costume, customer));
     }
+
+    [Test]
+    public void BuilderMakesRiggedRagdollFromCustomerModel()
+    {
+        var source = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(BossFight.Editor.DraggedBodyBuilder.CharacterPrefab);
+        Assert.IsNotNull(source);
+        var root = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(source);
+        try
+        {
+            UnityEditor.PrefabUtility.UnpackPrefabInstance(root, UnityEditor.PrefabUnpackMode.Completely, UnityEditor.InteractionMode.AutomatedAction);
+            BossFight.Editor.DraggedBodyBuilder.MakeBody(root);
+            Assert.IsTrue(BossFight.Editor.DraggedBodyBuilder.IsRiggedBody(root));
+            Assert.IsNull(root.GetComponentInChildren<Animator>(true));
+            var bodies = root.GetComponentsInChildren<Rigidbody>(true);
+            Assert.AreEqual(EnemyDeathRules.Bones.Count, bodies.Length);
+            foreach (var body in bodies) Assert.IsNotNull(body.GetComponent<BodyHitbox>(), body.name);
+            Assert.AreEqual(EnemyDeathRules.Bones.Count - 1, root.GetComponentsInChildren<CharacterJoint>(true).Length);
+        }
+        finally
+        {
+            Object.DestroyImmediate(root);
+        }
+    }
+
+    [Test]
+    public void SavedBodyPrefabIsRiggedAndOldPartsAssetIsGone()
+    {
+        BossFight.Editor.DraggedBodyBuilder.Build();
+        var body = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(BossFight.Editor.DraggedBodyBuilder.BodyPrefab);
+        Assert.IsTrue(BossFight.Editor.DraggedBodyBuilder.IsRiggedBody(body));
+        Assert.IsNull(UnityEditor.AssetDatabase.LoadAssetAtPath<Object>("Assets/Settings/BossFight/DraggedCustomerParts.asset"));
+    }
 }

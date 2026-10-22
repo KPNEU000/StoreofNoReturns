@@ -26,7 +26,7 @@ namespace BossFight
             {
                 if (collider != null) collider.enabled = false;
             }
-            Build();
+            BuildBodies(transform, bodies);
             // The corpse never blocks the player or the live monsters.
             var corpseColliders = new List<Collider>();
             foreach (var body in bodies) corpseColliders.AddRange(body.GetComponents<Collider>());
@@ -38,12 +38,13 @@ namespace BossFight
             startedAt = Time.time;
         }
 
-        private void Build()
+        // Shared with the dragged-body prefab builder: rigid bodies, capsules and joints on the mixamorig bones under root.
+        public static void BuildBodies(Transform root, List<Rigidbody> bodies)
         {
             var byName = new Dictionary<string, Transform>();
             foreach (var spec in EnemyDeathRules.Bones)
             {
-                foreach (var t in GetComponentsInChildren<Transform>(true))
+                foreach (var t in root.GetComponentsInChildren<Transform>(true))
                 {
                     if (EnemyDeathRules.IsBone(t.name, spec.Name)) { byName[spec.Name] = t; break; }
                 }
