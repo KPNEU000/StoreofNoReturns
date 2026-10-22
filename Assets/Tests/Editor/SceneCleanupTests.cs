@@ -158,9 +158,10 @@ public class SceneCleanupTests
 
             var crack = BuilderUtil.FindInScene<ScreenCrackOverlay>(boss.Scene);
             Assert.IsNotNull(crack);
-            var image = crack.GetComponentInChildren<RawImage>(true);
-            Assert.IsNotNull(image);
-            Assert.IsFalse(image.gameObject.activeSelf, "the untextured crack image draws as a white box until Show");
+            Assert.IsNull(crack.GetComponentInChildren<RawImage>(true), "the white crack image is replaced by the glass shard");
+            var glass = BuilderUtil.FindInScene<GlassShard>(boss.Scene);
+            Assert.IsNotNull(glass);
+            Assert.IsFalse(glass.gameObject.activeSelf, "the glass shard only appears when the crack does");
         }
     }
 }

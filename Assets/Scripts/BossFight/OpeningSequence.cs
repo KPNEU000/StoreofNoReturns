@@ -27,6 +27,8 @@ namespace BossFight
         [SerializeField]
         private Transform monitor;
         [SerializeField]
+        private GlassShard monitorGlass;
+        [SerializeField]
         private Transform door;
         [SerializeField]
         private Collider doorBarrier;
@@ -99,6 +101,7 @@ namespace BossFight
             // Both tools are handed over during the tutorial.
             if (swordObject != null) swordObject.SetActive(false);
             if (flashlight != null) flashlight.gameObject.SetActive(false);
+            if (monitorGlass != null) monitorGlass.gameObject.SetActive(false);
         }
 
         private void OnEnable()
@@ -151,20 +154,34 @@ namespace BossFight
                 case OpeningStep.ShatterMonitor: ShatterMonitor(); break;
                 case OpeningStep.CrackScreen: CrackScreen(); break;
                 case OpeningStep.WitchLine: BossTextBox.Show(WitchLine, settings.openingWitchLineSeconds); break;
-                case OpeningStep.GrabSword: BossTextBox.Show(SwordPrompt, 0f); break;
+                case OpeningStep.GrabSword: Prompt(SwordPrompt); break;
                 case OpeningStep.GrabFlashlight:
                     if (swordObject != null) swordObject.SetActive(true);
-                    BossTextBox.Show(FlashlightPrompt, 0f);
+                    Prompt(FlashlightPrompt);
                     break;
                 case OpeningStep.MoveLine:
                     GiveFlashlight();
-                    BossTextBox.Show(MovePrompt, settings.openingMoveLineSeconds);
+                    Prompt(MovePrompt);
                     break;
                 case OpeningStep.Vault: StartVault(); break;
                 case OpeningStep.TutorialLight: SummonCostume(); break;
-                case OpeningStep.TutorialSlash: BossTextBox.Show(SlashPrompt, 0f); break;
+                case OpeningStep.TutorialSlash: Prompt(SlashPrompt); break;
                 case OpeningStep.DoorBlast: BlastDoor(); break;
             }
+        }
+
+        // Tutorial prompts live on the glass HUD; only the Witch speaks in the bottom text box.
+        private void Prompt(string text)
+        {
+            BossTextBox.Hide();
+            if (hud != null) hud.ShowPrompt(text);
+            else BossTextBox.Show(text, 0f);
+        }
+
+        private void ClearPrompt()
+        {
+            BossTextBox.Hide();
+            if (hud != null) hud.HidePrompt();
         }
 
         private void UpdateStep(OpeningStep step)
@@ -235,11 +252,8 @@ namespace BossFight
         {
             if (beam != null) Destroy(beam.gameObject);
             var center = MonitorCenter();
-            if (monitor != null)
-            {
-                foreach (var r in monitor.GetComponentsInChildren<Renderer>()) r.enabled = false;
-                foreach (var c in monitor.GetComponentsInChildren<Collider>()) c.enabled = false;
-            }
+            // The computer stays; its screen turns to cracked glass.
+            if (monitorGlass != null) monitorGlass.gameObject.SetActive(true);
             Burst(center, new Color(0.8f, 0.85f, 1f, 1f), 80, 0.3f, 5f);
             Burst(center, new Color(0.75f, 0.35f, 1f, 1f), 40, 0.3f, 3f);
             if (shatterSound != null) AudioSource.PlayClipAtPoint(shatterSound, center);
@@ -272,11 +286,7 @@ namespace BossFight
                 Destroy(shard.gameObject);
                 shard = null;
                 if (crackOverlay != null) crackOverlay.Show();
-                if (hud != null)
-                {
-                    hud.AttachTo(crackOverlay != null ? crackOverlay.Frame : null);
-                    hud.SetVisible(true);
-                }
+                if (hud != null) hud.SetVisible(true);
             }
         }
 
@@ -284,11 +294,7 @@ namespace BossFight
         private void CrackScreen()
         {
             if (crackOverlay != null && !crackOverlay.Shown) crackOverlay.Show();
-            if (hud != null)
-            {
-                hud.AttachTo(crackOverlay != null ? crackOverlay.Frame : null);
-                hud.SetVisible(true);
-            }
+            if (hud != null) hud.SetVisible(true);
             if (wallCrackMaterial == null || player == null) return;
             var eye = player.transform.position + Vector3.up * 1.5f;
             int count = Mathf.Max(0, settings.openingWallCrackCount);
@@ -330,7 +336,7 @@ namespace BossFight
 
         private void StartVault()
         {
-            BossTextBox.Hide();
+            ClearPrompt();
             if (player == null)
             {
                 vaultDone = true;
@@ -377,7 +383,7 @@ namespace BossFight
 
         private void SummonCostume()
         {
-            BossTextBox.Show(LightPrompt, 0f);
+            Prompt(LightPrompt);
             if (spawner == null || player == null) return;
             // Starts off to one side of the player and floats back and forth across their view; it cannot hurt them.
             TutorialRules.PassEndpoints(player.transform.position, player.transform.forward, TutorialPassAhead, TutorialPassHalfWidth, out var from, out var to);
@@ -393,7 +399,7 @@ namespace BossFight
 
         private void BlastDoor()
         {
-            BossTextBox.Hide();
+            ClearPrompt();
             var center = door != null ? door.position + Vector3.up * 1.2f : transform.position;
             if (door != null)
             {

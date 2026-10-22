@@ -136,6 +136,16 @@ namespace BossFight
         public float openingFlashlightMultiplier = 2.5f;
         public int openingWallCrackCount = 8;
 
+        [Header("Glass HUD (viewport fractions, top-right)")]
+        [Range(0f, 1f)] public float glassHudWidth = 0.46f;
+        [Range(0f, 1f)] public float glassHudHeight = 0.46f;
+        [Range(0f, 0.5f)] public float glassHudMargin = 0.01f;
+        public int glassHudOutlinePoints = 14;
+        [Range(0f, 0.6f)] public float glassHudJaggedness = 0.22f;
+        // Edge weight = (distance from centre)^exponent, so refraction and blur pile up at the jagged edge.
+        public float glassEdgeFalloffExponent = 2.5f;
+        public int glassHudSeed = 7;
+
         [Header("Debug (P = jump to boss start)")]
         public float debugStartMoney = 600f;
         public int debugReputation = 50;

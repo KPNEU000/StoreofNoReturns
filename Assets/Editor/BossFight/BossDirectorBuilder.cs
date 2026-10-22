@@ -389,10 +389,10 @@ namespace BossFight.Editor
 
         private static TMP_Text EnsureLabel(Transform parent, string name, Vector2 offset, float size, ref bool changed)
         {
-            var existing = parent.Find(name);
-            if (existing != null && existing.GetComponent<TMP_Text>() != null)
+            // Anywhere under the HUD: OpeningBuilder moves the labels into the glass frame.
+            foreach (var existing in parent.GetComponentsInChildren<TMP_Text>(true))
             {
-                return existing.GetComponent<TMP_Text>();
+                if (existing.name == name) return existing;
             }
             var go = new GameObject(name, typeof(RectTransform));
             go.transform.SetParent(parent, false);

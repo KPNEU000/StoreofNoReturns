@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace BossFight
 {
-    // Top-right fight HUD: money and the current objective. The glass-crack frame comes later.
+    // Top-right fight HUD on the glass shard: money, the current objective and tutorial prompts.
+    // The Witch's spoken lines go to the bottom BossTextBox instead.
     public class BossHud : MonoBehaviour
     {
         [SerializeField]
@@ -15,6 +16,8 @@ namespace BossFight
         private TMP_Text moneyText;
         [SerializeField]
         private TMP_Text objectiveText;
+        [SerializeField]
+        private TMP_Text promptText;
 
         private CanvasGroup group;
         private string message = "";
@@ -34,18 +37,24 @@ namespace BossFight
             group.alpha = visible ? 1f : 0f;
         }
 
-        // Moves the money/objective labels into the crack frame, keeping their top-right anchoring.
-        public void AttachTo(RectTransform frame)
+        // Tutorial prompt under the objective; it stays until HidePrompt or the next ShowPrompt.
+        public void ShowPrompt(string text)
         {
-            if (frame == null) return;
-            if (moneyText != null) moneyText.rectTransform.SetParent(frame, false);
-            if (objectiveText != null) objectiveText.rectTransform.SetParent(frame, false);
+            if (promptText == null) return;
+            promptText.text = text;
+            promptText.gameObject.SetActive(true);
+        }
+
+        public void HidePrompt()
+        {
+            if (promptText != null) promptText.gameObject.SetActive(false);
         }
 
         private void Awake()
         {
             if (director == null) director = FindFirstObjectByType<BossDirector>();
             if (moneyManager == null) moneyManager = FindFirstObjectByType<MoneyManager>();
+            HidePrompt();
         }
 
         private void Update()

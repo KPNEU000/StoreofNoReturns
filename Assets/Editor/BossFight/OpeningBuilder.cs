@@ -5,11 +5,13 @@ using Unity.AI.Navigation;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace BossFight.Editor
 {
-    // The OpeningSequence object on the Boss Scene plus its text box, screen-crack frame and invisible door barrier.
+    // The OpeningSequence object on the Boss Scene plus its text box, glass HUD shard, cracked monitor glass and
+    // invisible door barrier.
     // Scene references are found by exact name or tag and a missing monitor/door fails loudly.
     public static class OpeningBuilder
     {
@@ -19,6 +21,18 @@ namespace BossFight.Editor
         public const string TextLabelName = "BossTextLabel";
         public const string CrackFrameName = "ScreenCrackFrame";
         public const string CrackImageName = "CrackImage";
+        public const string GlassHudName = "GlassHudShard";
+        public const string MonitorGlassName = "MonitorGlass";
+        public const string HudPromptName = "BossPromptText";
+        public const string GlassShader = "BossFight/GlassShard";
+        public const string GlassHudMaterial = BossFightPaths.SettingsFolder + "/GlassHud.mat";
+        public const string MonitorGlassMaterial = BossFightPaths.SettingsFolder + "/MonitorGlass.mat";
+        // In front of the monitor's world-space canvas, in metres.
+        internal const float MonitorGlassLift = 0.004f;
+        // Text sits in the middle of the shard, clear of its jagged edge (fractions of the frame).
+        internal static readonly Vector4 MoneyArea = new Vector4(0.16f, 0.6f, 0.84f, 0.82f);
+        internal static readonly Vector4 ObjectiveArea = new Vector4(0.16f, 0.42f, 0.84f, 0.6f);
+        internal static readonly Vector4 PromptArea = new Vector4(0.16f, 0.18f, 0.84f, 0.42f);
         public const string BarrierName = "DoorBarrier";
         public const string VaultTargetName = "VaultTarget";
         public const string DeskName = "Front Desk";
@@ -34,6 +48,8 @@ namespace BossFight.Editor
             EditorFolders.Ensure(BossFightPaths.SettingsFolder);
             var magic = BuilderUtil.EnsureTransparentMaterial(MagicMaterial, "Universal Render Pipeline/Unlit", new Color(0.7f, 0.3f, 1f, 0.9f));
             var wallCrack = BuilderUtil.EnsureTransparentMaterial(WallCrackMaterial, "Universal Render Pipeline/Unlit", Color.white);
+            var glassHud = EnsureGlassMaterial(GlassHudMaterial, CompareFunction.Always, (int)RenderQueue.Transparent + 100, 1f, 0f);
+            var monitorGlassMaterial = EnsureGlassMaterial(MonitorGlassMaterial, CompareFunction.LessEqual, (int)RenderQueue.Transparent + 1, 0.65f, 1f);
             var shard = AssetDatabase.LoadAssetAtPath<Material>(BossDirectorBuilder.ShatterMaterial);
             if (shard == null) throw new System.InvalidOperationException($"Shatter material missing at {BossDirectorBuilder.ShatterMaterial}");
 
@@ -57,10 +73,13 @@ namespace BossFight.Editor
                 var sword = camera != null ? camera.Find(PlayerToolsBuilder.SwordName) : null;
                 var flashlight = player.GetComponentInChildren<PlayerFlashlight>(true);
                 if (sword == null || flashlight == null) throw new System.InvalidOperationException("Opening builder needs the sword and flashlight on the player camera");
+                var viewCamera = camera.GetComponent<Camera>();
+                if (viewCamera == null) throw new System.InvalidOperationException("Boss Scene player cameraTrans has no Camera for the glass HUD");
 
                 bool changed = false;
                 var textBox = EnsureTextBox(scene, ref changed);
-                var crack = EnsureCrackFrame(hud, ref changed);
+                var crack = EnsureCrackFrame(hud, viewCamera, config, glassHud, ref changed);
+                var monitorGlass = EnsureMonitorGlass(monitor, viewCamera, config, monitorGlassMaterial, ref changed);
                 var barrier = EnsureBarrier(scene, door, ref changed);
                 var vaultTarget = EnsureVaultTarget(scene, player, ref changed);
 
@@ -78,6 +97,7 @@ namespace BossFight.Editor
                 changed |= BuilderUtil.SetReference(so, "player", player);
                 changed |= BuilderUtil.SetReference(so, "witch", witch.transform);
                 changed |= BuilderUtil.SetReference(so, "monitor", monitor);
+                changed |= BuilderUtil.SetReference(so, "monitorGlass", monitorGlass);
                 changed |= BuilderUtil.SetReference(so, "door", door);
                 changed |= BuilderUtil.SetReference(so, "doorBarrier", barrier);
                 changed |= BuilderUtil.SetReference(so, "vaultTarget", vaultTarget);
@@ -198,51 +218,199 @@ namespace BossFight.Editor
             return textBox;
         }
 
-        // A top-right frame under the HUD canvas; the crack image is its first child so moved HUD labels draw on top.
-        private static ScreenCrackOverlay EnsureCrackFrame(BossHud hud, ref bool changed)
+        // Created once, like every other builder material; tune the look on the asset.
+        private static Material EnsureGlassMaterial(string path, CompareFunction zTest, int queue, float opacity, float crackCoverage)
         {
-            var existing = hud.GetComponentInChildren<ScreenCrackOverlay>(true);
-            ScreenCrackOverlay overlay = existing;
+            var existing = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (existing != null) return existing;
+            var shader = Shader.Find(GlassShader);
+            if (shader == null) throw new System.InvalidOperationException($"Shader '{GlassShader}' not found for {path}");
+            var material = new Material(shader);
+            material.SetFloat("_ZTest", (float)zTest);
+            material.SetFloat("_Opacity", opacity);
+            material.SetFloat("_CrackCoverage", crackCoverage);
+            material.renderQueue = queue;
+            AssetDatabase.CreateAsset(material, path);
+            AssetDatabase.SaveAssetIfDirty(material);
+            return material;
+        }
+
+        // The top-right frame under the HUD canvas covers the same viewport rect as the camera-parented glass shard;
+        // the money, objective and prompt labels live inside it, drawn over the shard by the overlay canvas.
+        private static ScreenCrackOverlay EnsureCrackFrame(BossHud hud, Camera viewCamera, BossFightConfig config, Material material, ref bool changed)
+        {
+            var settings = BossFightConfig.SettingsOf(config);
+            var overlay = hud.GetComponentInChildren<ScreenCrackOverlay>(true);
             if (overlay == null)
             {
                 var go = new GameObject(CrackFrameName, typeof(RectTransform));
                 go.transform.SetParent(hud.transform, false);
                 go.transform.SetAsFirstSibling();
-                var rect = (RectTransform)go.transform;
-                rect.anchorMin = Vector2.one;
-                rect.anchorMax = Vector2.one;
-                rect.pivot = Vector2.one;
-                rect.anchoredPosition = Vector2.zero;
-                rect.sizeDelta = new Vector2(820f, 420f);
                 overlay = go.AddComponent<ScreenCrackOverlay>();
                 changed = true;
             }
-            var imageTransform = overlay.transform.Find(CrackImageName);
-            RawImage image = imageTransform != null ? imageTransform.GetComponent<RawImage>() : null;
-            if (image == null)
+            var viewport = GlassShardRules.ScreenRect(settings.glassHudWidth, settings.glassHudHeight, settings.glassHudMargin);
+            changed |= SetArea(overlay.Frame, new Vector4(viewport.xMin, viewport.yMin, viewport.xMax, viewport.yMax));
+
+            // The old white line-drawn crack.
+            var oldImage = overlay.transform.Find(CrackImageName);
+            if (oldImage != null)
             {
-                var go = new GameObject(CrackImageName, typeof(RectTransform), typeof(RawImage));
-                go.transform.SetParent(overlay.transform, false);
-                go.transform.SetAsFirstSibling();
-                var rect = (RectTransform)go.transform;
-                rect.anchorMin = Vector2.zero;
-                rect.anchorMax = Vector2.one;
-                rect.offsetMin = Vector2.zero;
-                rect.offsetMax = Vector2.zero;
-                image = go.GetComponent<RawImage>();
-                image.raycastTarget = false;
+                Object.DestroyImmediate(oldImage.gameObject);
                 changed = true;
             }
-            // Untextured until ScreenCrackOverlay.Show, so saved active it draws as a white box in edit mode.
-            if (image.gameObject.activeSelf)
+
+            var hudSo = new SerializedObject(hud);
+            var money = hudSo.FindProperty("moneyText").objectReferenceValue as TMP_Text;
+            var objective = hudSo.FindProperty("objectiveText").objectReferenceValue as TMP_Text;
+            if (money == null || objective == null) throw new System.InvalidOperationException("Boss Scene BossHud has no money/objective labels to put on the glass");
+            var prompt = FindLabel(overlay.transform, HudPromptName);
+            if (prompt == null)
             {
-                image.gameObject.SetActive(false);
+                var go = new GameObject(HudPromptName, typeof(RectTransform));
+                go.transform.SetParent(overlay.transform, false);
+                var text = go.AddComponent<TextMeshProUGUI>();
+                text.font = TMP_Settings.defaultFontAsset;
+                text.color = new Color(1f, 0.93f, 0.7f, 1f);
+                text.raycastTarget = false;
+                text.textWrappingMode = TextWrappingModes.Normal;
+                text.text = "";
+                prompt = text;
+                changed = true;
+            }
+            changed |= PlaceLabel(money, overlay.transform, MoneyArea, 64f);
+            changed |= PlaceLabel(objective, overlay.transform, ObjectiveArea, 32f);
+            changed |= PlaceLabel(prompt, overlay.transform, PromptArea, 30f);
+            hudSo.Update();
+            changed |= BuilderUtil.SetReference(hudSo, "promptText", prompt);
+            changed |= hudSo.ApplyModifiedPropertiesWithoutUndo();
+
+            var glass = EnsureGlass(viewCamera.transform, GlassHudName, config, viewCamera, true, material, ref changed);
+            if (glass.transform.localPosition == Vector3.zero)
+            {
+                // A sensible edit-mode spot; GlassShard.Place fits it to the real camera at runtime.
+                glass.transform.localPosition = new Vector3(0.1f, 0.06f, viewCamera.nearClipPlane + 0.02f);
+                glass.transform.localScale = new Vector3(0.12f, 0.07f, 1f);
                 changed = true;
             }
             var so = new SerializedObject(overlay);
-            changed |= BuilderUtil.SetReference(so, "crackImage", image);
+            changed |= BuilderUtil.SetReference(so, "glass", glass);
             changed |= so.ApplyModifiedPropertiesWithoutUndo();
             return overlay;
+        }
+
+        // A rectangle of the same cracked glass over the monitor's world-space canvas, off until the shatter.
+        private static GlassShard EnsureMonitorGlass(Transform monitor, Camera viewCamera, BossFightConfig config, Material material, ref bool changed)
+        {
+            var canvas = monitor.GetComponentInChildren<Canvas>(true);
+            if (canvas == null || canvas.renderMode != RenderMode.WorldSpace)
+            {
+                throw new System.InvalidOperationException($"Monitor '{monitor.name}' has no world-space screen Canvas to crack");
+            }
+            var glass = EnsureGlass(canvas.transform, MonitorGlassName, config, viewCamera, false, material, ref changed);
+            var rect = ((RectTransform)canvas.transform).rect;
+            float scale = Mathf.Max(Mathf.Abs(canvas.transform.lossyScale.z), 1e-6f);
+            // UI faces the viewer along the canvas's -z, so the glass sits on that side.
+            var position = new Vector3(rect.center.x, rect.center.y, -MonitorGlassLift / scale);
+            var size = new Vector3(rect.width, rect.height, 1f);
+            var t = glass.transform;
+            if ((t.localPosition - position).sqrMagnitude > 1e-8f || (t.localScale - size).sqrMagnitude > 1e-8f || t.localRotation != Quaternion.identity)
+            {
+                t.localPosition = position;
+                t.localRotation = Quaternion.identity;
+                t.localScale = size;
+                changed = true;
+            }
+            return glass;
+        }
+
+        private static GlassShard EnsureGlass(Transform parent, string name, BossFightConfig config, Camera viewCamera, bool followCamera, Material material, ref bool changed)
+        {
+            var existing = parent.Find(name);
+            GlassShard glass = existing != null ? existing.GetComponent<GlassShard>() : null;
+            if (glass == null)
+            {
+                if (existing != null) Object.DestroyImmediate(existing.gameObject);
+                var go = new GameObject(name, typeof(MeshFilter), typeof(MeshRenderer));
+                go.transform.SetParent(parent, false);
+                glass = go.AddComponent<GlassShard>();
+                var meshRenderer = go.GetComponent<MeshRenderer>();
+                meshRenderer.shadowCastingMode = ShadowCastingMode.Off;
+                meshRenderer.receiveShadows = false;
+                changed = true;
+            }
+            var renderer = glass.GetComponent<MeshRenderer>();
+            if (renderer.sharedMaterial != material)
+            {
+                renderer.sharedMaterial = material;
+                changed = true;
+            }
+            // Shown by the opening; saved off so it never draws in edit mode or before the shatter.
+            if (glass.gameObject.activeSelf)
+            {
+                glass.gameObject.SetActive(false);
+                changed = true;
+            }
+            var so = new SerializedObject(glass);
+            changed |= BuilderUtil.SetReference(so, "config", config);
+            changed |= BuilderUtil.SetReference(so, "viewCamera", viewCamera);
+            var follow = so.FindProperty("followCamera");
+            if (follow.boolValue != followCamera)
+            {
+                follow.boolValue = followCamera;
+                changed = true;
+            }
+            changed |= so.ApplyModifiedPropertiesWithoutUndo();
+            return glass;
+        }
+
+        private static TMP_Text FindLabel(Transform root, string name)
+        {
+            foreach (var label in root.GetComponentsInChildren<TMP_Text>(true))
+            {
+                if (label.name == name) return label;
+            }
+            return null;
+        }
+
+        // Parents the label under the frame, stretched over `area` (xMin, yMin, xMax, yMax as frame fractions), centred.
+        private static bool PlaceLabel(TMP_Text label, Transform frame, Vector4 area, float size)
+        {
+            bool changed = false;
+            if (label.transform.parent != frame)
+            {
+                label.transform.SetParent(frame, false);
+                changed = true;
+            }
+            changed |= SetArea(label.rectTransform, area);
+            if (!Mathf.Approximately(label.fontSize, size))
+            {
+                label.fontSize = size;
+                changed = true;
+            }
+            if (label.alignment != TextAlignmentOptions.Center)
+            {
+                label.alignment = TextAlignmentOptions.Center;
+                changed = true;
+            }
+            return changed;
+        }
+
+        private static bool SetArea(RectTransform rect, Vector4 area)
+        {
+            var min = new Vector2(area.x, area.y);
+            var max = new Vector2(area.z, area.w);
+            var pivot = new Vector2(0.5f, 0.5f);
+            if (rect.anchorMin == min && rect.anchorMax == max && rect.offsetMin == Vector2.zero && rect.offsetMax == Vector2.zero && rect.pivot == pivot)
+            {
+                return false;
+            }
+            rect.anchorMin = min;
+            rect.anchorMax = max;
+            rect.pivot = pivot;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            return true;
         }
 
         // Invisible blocker across the doorway, off until the blast. NavMesh builds ignore it so monsters can still path in.
@@ -311,6 +479,54 @@ namespace BossFight.Editor
             }
         }
 
+        private static void ValidateGlass(UnityEngine.SceneManagement.Scene scene, List<string> errors)
+        {
+            foreach (var path in new[] { GlassHudMaterial, MonitorGlassMaterial })
+            {
+                var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+                if (material == null) errors.Add($"Material missing at {path}");
+                else if (material.shader == null || material.shader.name != GlassShader) errors.Add($"{path} does not use the {GlassShader} shader");
+            }
+            var overlay = BuilderUtil.FindInScene<ScreenCrackOverlay>(scene);
+            var hud = BuilderUtil.FindInScene<BossHud>(scene);
+            if (overlay == null || hud == null)
+            {
+                errors.Add($"Boss Scene has no {CrackFrameName} with a ScreenCrackOverlay component under the BossHud");
+                return;
+            }
+            if (overlay.transform.Find(CrackImageName) != null) errors.Add("Boss Scene ScreenCrackOverlay still holds the old white CrackImage");
+            var glass = new SerializedObject(overlay).FindProperty("glass").objectReferenceValue as GlassShard;
+            var player = BuilderUtil.FindPlayer(scene);
+            var camera = player != null ? new SerializedObject(player).FindProperty("cameraTrans").objectReferenceValue as Transform : null;
+            CheckGlass(glass, "HUD glass shard", GlassHudMaterial, camera, errors);
+            var sequence = BuilderUtil.FindInScene<OpeningSequence>(scene);
+            var monitorGlass = sequence != null ? new SerializedObject(sequence).FindProperty("monitorGlass").objectReferenceValue as GlassShard : null;
+            CheckGlass(monitorGlass, "monitor glass", MonitorGlassMaterial, null, errors);
+
+            var hudSo = new SerializedObject(hud);
+            foreach (var field in new[] { "moneyText", "objectiveText", "promptText" })
+            {
+                var label = hudSo.FindProperty(field).objectReferenceValue as TMP_Text;
+                if (label == null) errors.Add($"Boss Scene BossHud: {field} reference is missing");
+                else if (label.transform.parent != overlay.transform) errors.Add($"Boss Scene BossHud: {field} must sit inside the glass frame {CrackFrameName}");
+                else if (label.font == null) errors.Add($"Boss Scene HUD label {label.name} has no font");
+            }
+        }
+
+        private static void CheckGlass(GlassShard glass, string label, string materialPath, Transform parent, List<string> errors)
+        {
+            if (glass == null)
+            {
+                errors.Add($"Boss Scene {label} reference is missing");
+                return;
+            }
+            if (glass.gameObject.activeSelf) errors.Add($"Boss Scene {label} must be saved inactive (it appears when the monitor shatters)");
+            var renderer = glass.GetComponent<MeshRenderer>();
+            if (renderer == null || renderer.sharedMaterial != AssetDatabase.LoadAssetAtPath<Material>(materialPath)) errors.Add($"Boss Scene {label} does not use {materialPath}");
+            if (parent != null && glass.transform.parent != parent) errors.Add($"Boss Scene {label} must be a child of the player camera");
+            BuilderUtil.RequireFields(glass, $"Boss Scene {label}", new[] { "config", "viewCamera" }, errors);
+        }
+
         // Called by BossRigValidator with the Boss Scene open.
         public static void Validate(UnityEngine.SceneManagement.Scene scene, List<string> errors)
         {
@@ -328,7 +544,7 @@ namespace BossFight.Editor
                 var so = new SerializedObject(sequence);
                 foreach (var field in new[]
                 {
-                    "config", "director", "player", "witch", "monitor", "door", "doorBarrier", "vaultTarget", "spawner", "hud", "crackOverlay",
+                    "config", "director", "player", "witch", "monitor", "monitorGlass", "door", "doorBarrier", "vaultTarget", "spawner", "hud", "crackOverlay",
                     "swordObject", "flashlight", "magicMaterial", "shardMaterial", "wallCrackMaterial",
                 })
                 {
@@ -356,17 +572,7 @@ namespace BossFight.Editor
                 }
             }
 
-            var overlay = BuilderUtil.FindInScene<ScreenCrackOverlay>(scene);
-            if (overlay == null)
-            {
-                errors.Add($"Boss Scene has no {CrackFrameName} with a ScreenCrackOverlay component");
-            }
-            else
-            {
-                var image = new SerializedObject(overlay).FindProperty("crackImage").objectReferenceValue as RawImage;
-                if (image == null) errors.Add("Boss Scene ScreenCrackOverlay: crackImage reference is missing");
-                else if (image.gameObject.activeSelf) errors.Add("Boss Scene ScreenCrackOverlay: crackImage must be saved inactive (it is a white box until the crack appears)");
-            }
+            ValidateGlass(scene, errors);
         }
     }
 }
