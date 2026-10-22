@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace BossFight.Editor
 {
-    // Adds the sword, flashlight and a TrainingDummy to the Boss Scene player camera / floor.
+    // Adds the sword and flashlight to the Boss Scene player camera. The old TrainingDummy sat in the camera's
+    // face on the front desk; it is removed (the tutorial costume replaces it).
     public static class PlayerToolsBuilder
     {
         public const string SwordName = "Sword";
@@ -18,8 +19,6 @@ namespace BossFight.Editor
         public static void Build()
         {
             var config = ConfigBuilder.Load();
-            EditorFolders.Ensure(BossFightPaths.PrefabsFolder);
-            var dummyPrefab = EnsureDummyPrefab();
 
             using (var boss = new BossSceneScope())
             {
@@ -37,7 +36,7 @@ namespace BossFight.Editor
                 bool changed = false;
                 BuildSword(camera, player, config, ref changed);
                 BuildFlashlight(camera, config, ref changed);
-                EnsureDummyInstance(boss.Scene, player.transform, dummyPrefab, ref changed);
+                RemoveDummyInstances(boss.Scene, ref changed);
 
                 if (changed)
                 {
@@ -45,23 +44,23 @@ namespace BossFight.Editor
                 }
                 boss.SaveIfDirty();
             }
+            // After the instance is gone: deleting the prefab first leaves a missing-prefab placeholder in the scene.
+            RemoveDummyPrefab();
         }
 
         // Called by BossRigValidator with the Boss Scene open; appends one message per missing object/reference.
         public static void Validate(UnityEngine.SceneManagement.Scene scene, System.Collections.Generic.List<string> errors)
         {
-            if (AssetDatabase.LoadAssetAtPath<GameObject>(DummyPrefab) == null)
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(DummyPrefab) != null)
             {
-                errors.Add($"TrainingDummy prefab missing at {DummyPrefab}");
+                errors.Add($"TrainingDummy prefab should be removed from {DummyPrefab}");
             }
-            bool hasDummy = false;
             foreach (var root in scene.GetRootGameObjects())
             {
-                hasDummy |= root.name == DummyName && root.GetComponent<TrainingDummy>() != null;
-            }
-            if (!hasDummy)
-            {
-                errors.Add($"Boss Scene has no {DummyName} with a TrainingDummy component");
+                if (IsDummy(root))
+                {
+                    errors.Add($"Boss Scene still contains a {DummyName} ({root.name})");
+                }
             }
 
             var player = BuilderUtil.FindPlayer(scene);
@@ -85,36 +84,30 @@ namespace BossFight.Editor
             }
         }
 
-        private static GameObject EnsureDummyPrefab()
+        private static void RemoveDummyPrefab()
         {
-            var existing = AssetDatabase.LoadAssetAtPath<GameObject>(DummyPrefab);
-            if (existing != null)
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(DummyPrefab) != null)
             {
-                return existing;
+                AssetDatabase.DeleteAsset(DummyPrefab);
             }
-            var go = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-            go.name = DummyName;
-            var dummy = go.AddComponent<TrainingDummy>();
-            var so = new SerializedObject(dummy);
-            so.FindProperty("flashRenderer").objectReferenceValue = go.GetComponent<Renderer>();
-            so.ApplyModifiedPropertiesWithoutUndo();
-            var prefab = PrefabUtility.SaveAsPrefabAsset(go, DummyPrefab);
-            Object.DestroyImmediate(go);
-            return prefab;
         }
 
-        private static void EnsureDummyInstance(UnityEngine.SceneManagement.Scene scene, Transform player, GameObject prefab, ref bool changed)
+        // Also matches a "TrainingDummy (Missing Prefab ...)" placeholder.
+        private static bool IsDummy(GameObject root)
+        {
+            return root.name.StartsWith(DummyName) || root.GetComponentInChildren<TrainingDummy>(true) != null;
+        }
+
+        private static void RemoveDummyInstances(UnityEngine.SceneManagement.Scene scene, ref bool changed)
         {
             foreach (var root in scene.GetRootGameObjects())
             {
-                if (root.name == DummyName)
+                if (IsDummy(root))
                 {
-                    return;
+                    Object.DestroyImmediate(root);
+                    changed = true;
                 }
             }
-            var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, scene);
-            instance.transform.position = player.position + player.forward * 2f;
-            changed = true;
         }
 
         private static void BuildSword(Transform camera, PlayerMovement player, BossFightConfig config, ref bool changed)

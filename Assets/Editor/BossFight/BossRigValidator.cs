@@ -80,6 +80,7 @@ namespace BossFight.Editor
                         }
                     }
 
+                    SceneCleanupBuilder.Validate(boss.Scene, errors);
                     PlayerToolsBuilder.Validate(boss.Scene, errors);
                     ClothingEnemyBuilder.Validate(boss.Scene, errors);
                     BossDirectorBuilder.Validate(boss.Scene, errors);

@@ -13,6 +13,7 @@ namespace BossFight.Editor
             ("Config asset", ConfigBuilder.Build),
             ("Rig prefab", RigPrefabBuilder.Build),
             ("Boss Scene rig instance", BossSceneRigBuilder.Build),
+            ("Shop customers and clock off", SceneCleanupBuilder.Build),
             ("Player hit receiver", PlayerHitReceiverBuilder.Build),
             ("Player sword and flashlight", PlayerToolsBuilder.Build),
             ("Possessed clothing and spawner", ClothingEnemyBuilder.Build),

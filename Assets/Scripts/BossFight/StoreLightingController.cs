@@ -65,9 +65,9 @@ namespace BossFight
         {
             entries.Clear();
             int seed = 17;
-            foreach (var light in FindObjectsByType<Light>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID))
+            var lights = FindObjectsByType<Light>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
+            foreach (var light in PrepareStoreLights(lights, outsideLight, transform))
             {
-                if (!IsStoreCeilingLight(light)) continue;
                 entries.Add(new Entry
                 {
                     light = light,
@@ -77,14 +77,28 @@ namespace BossFight
             }
         }
 
+        // The store ceiling lights among candidates, with their shadows switched off (18 realtime shadow maps
+        // were the main frame cost). Lights that are not store lights, the flashlight above all, keep theirs.
+        public static List<Light> PrepareStoreLights(IEnumerable<Light> candidates, Light outsideLight, Transform rig)
+        {
+            var result = new List<Light>();
+            foreach (var light in candidates)
+            {
+                if (light == null || !IsStoreCeilingLight(light, outsideLight, rig)) continue;
+                light.shadows = LightShadows.None;
+                result.Add(light);
+            }
+            return result;
+        }
+
         // Excludes the outside light, directional lights, and anything carried by the player's camera or flashlight.
-        private bool IsStoreCeilingLight(Light light)
+        public static bool IsStoreCeilingLight(Light light, Light outsideLight, Transform rig)
         {
             if (light == outsideLight || light.type == LightType.Directional) return false;
             if (light.GetComponentInParent<PlayerFlashlight>() != null) return false;
             if (light.GetComponentInParent<Camera>() != null) return false;
             if (light.GetComponentInParent<Canvas>() != null) return false;
-            if (light.transform.IsChildOf(transform)) return false;
+            if (rig != null && light.transform.IsChildOf(rig)) return false;
             return true;
         }
 

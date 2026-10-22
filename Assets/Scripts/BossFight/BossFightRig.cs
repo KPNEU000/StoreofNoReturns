@@ -18,6 +18,8 @@ namespace BossFight
 
         private void Awake()
         {
+            // Before any Start: CustomerSpawner.Start would otherwise send in the first shop customer.
+            ShopShutdown.Apply(gameObject.scene);
             if (navMeshSurface == null)
             {
                 navMeshSurface = GetComponent<NavMeshSurface>();

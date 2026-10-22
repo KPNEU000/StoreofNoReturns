@@ -200,6 +200,12 @@ namespace BossFight.Editor
                 image.raycastTarget = false;
                 changed = true;
             }
+            // Untextured until ScreenCrackOverlay.Show, so saved active it draws as a white box in edit mode.
+            if (image.gameObject.activeSelf)
+            {
+                image.gameObject.SetActive(false);
+                changed = true;
+            }
             var so = new SerializedObject(overlay);
             changed |= BuilderUtil.SetReference(so, "crackImage", image);
             changed |= so.ApplyModifiedPropertiesWithoutUndo();
@@ -312,9 +318,11 @@ namespace BossFight.Editor
             {
                 errors.Add($"Boss Scene has no {CrackFrameName} with a ScreenCrackOverlay component");
             }
-            else if (new SerializedObject(overlay).FindProperty("crackImage").objectReferenceValue == null)
+            else
             {
-                errors.Add("Boss Scene ScreenCrackOverlay: crackImage reference is missing");
+                var image = new SerializedObject(overlay).FindProperty("crackImage").objectReferenceValue as RawImage;
+                if (image == null) errors.Add("Boss Scene ScreenCrackOverlay: crackImage reference is missing");
+                else if (image.gameObject.activeSelf) errors.Add("Boss Scene ScreenCrackOverlay: crackImage must be saved inactive (it is a white box until the crack appears)");
             }
         }
     }
