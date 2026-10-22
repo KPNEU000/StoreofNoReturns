@@ -47,6 +47,57 @@ namespace BossFight.Editor
             }
         }
 
+        // Called by BossRigValidator with the Boss Scene open; appends one message per missing object/reference.
+        public static void Validate(UnityEngine.SceneManagement.Scene scene, System.Collections.Generic.List<string> errors)
+        {
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(DummyPrefab) == null)
+            {
+                errors.Add($"TrainingDummy prefab missing at {DummyPrefab}");
+            }
+            bool hasDummy = false;
+            foreach (var root in scene.GetRootGameObjects())
+            {
+                hasDummy |= root.name == DummyName && root.GetComponent<TrainingDummy>() != null;
+            }
+            if (!hasDummy)
+            {
+                errors.Add($"Boss Scene has no {DummyName} with a TrainingDummy component");
+            }
+
+            var player = PlayerHitReceiverBuilder.FindPlayer(scene);
+            var sword = player != null ? player.GetComponentInChildren<PlayerSword>(true) : null;
+            var flashlight = player != null ? player.GetComponentInChildren<PlayerFlashlight>(true) : null;
+            if (sword == null)
+            {
+                errors.Add("Boss Scene player camera has no PlayerSword");
+            }
+            else
+            {
+                RequireFields(sword, new[] { "config", "movement", "pivot" }, errors);
+            }
+            if (flashlight == null)
+            {
+                errors.Add("Boss Scene player camera has no PlayerFlashlight");
+            }
+            else
+            {
+                RequireFields(flashlight, new[] { "config", "beam", "visual" }, errors);
+            }
+        }
+
+        private static void RequireFields(Component component, string[] fields, System.Collections.Generic.List<string> errors)
+        {
+            var so = new SerializedObject(component);
+            foreach (var field in fields)
+            {
+                var property = so.FindProperty(field);
+                if (property == null || property.objectReferenceValue == null)
+                {
+                    errors.Add($"Boss Scene {component.GetType().Name}: {field} reference is missing");
+                }
+            }
+        }
+
         private static GameObject EnsureDummyPrefab()
         {
             var existing = AssetDatabase.LoadAssetAtPath<GameObject>(DummyPrefab);
