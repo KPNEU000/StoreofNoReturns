@@ -52,18 +52,35 @@ public class SwordPoseTests
         Assert.That(Mathf.DeltaAngle(0f, yawEnd), Is.LessThan(-45f));
     }
 
-    // Camera-space blade tip (pivot rest from PlayerToolsBuilder.BuildSword, blade length 0.9): the trail follows this.
-    private static Vector3 Tip(float t)
+    // Builds the real sword with PlayerToolsBuilder and returns the TrailRenderer's emitter position in camera space.
+    private static Vector3 Tip(GameObject camera, Transform pivot, Transform tip, Vector3 rest, float t)
     {
-        var pose = SwordPose.Evaluate(t, Hit);
-        return new Vector3(0.35f, -0.4f, 0.6f) + pose.positionOffset + pose.rotation * new Vector3(0f, 0.9f, 0f);
+        PlayerSword.ApplyPose(pivot, rest, Vector3.zero, t, Hit);
+        return camera.transform.InverseTransformPoint(tip.position);
     }
 
     [Test]
     public void TipArcsInFrontOfPlayerFromRightToLeft()
     {
+        var camera = new GameObject("TestCamera");
+        try
+        {
+            bool changed = false;
+            BossFight.Editor.PlayerToolsBuilder.BuildSword(camera.transform, null, null, ref changed);
+            var pivot = camera.transform.Find(BossFight.Editor.PlayerToolsBuilder.SwordName + "/" + BossFight.Editor.PlayerToolsBuilder.SwordPivotName);
+            var trail = pivot.GetComponentInChildren<TrailRenderer>();
+            Assert.That(trail, Is.Not.Null, "builder puts the trail on the blade tip");
+            AssertArc(camera, pivot, trail.transform);
+        }
+        finally { Object.DestroyImmediate(camera); }
+    }
+
+    private static void AssertArc(GameObject camera, Transform pivot, Transform tipTransform)
+    {
+        Vector3 rest = pivot.localPosition;
         float start = Hit * 0.7f;
         float end = Hit + (1f - Hit) * 0.2f;
+        System.Func<float, Vector3> Tip = t => SwordPoseTests.Tip(camera, pivot, tipTransform, rest, t);
         float previousX = float.MaxValue;
         for (int i = 0; i <= 10; i++)
         {

@@ -121,7 +121,12 @@ namespace BossFight
         private void Animate()
         {
             if (pivot == null) return;
-            var pose = SwordPose.Evaluate(elapsed / Mathf.Max(rules.Duration, 1e-4f), rules.HitTime / Mathf.Max(rules.Duration, 1e-4f));
+            ApplyPose(pivot, restPosition, restEuler, elapsed / Mathf.Max(rules.Duration, 1e-4f), rules.HitTime / Mathf.Max(rules.Duration, 1e-4f));
+        }
+
+        public static void ApplyPose(Transform pivot, Vector3 restPosition, Vector3 restEuler, float t, float hitFraction)
+        {
+            var pose = SwordPose.Evaluate(t, hitFraction);
             pivot.localRotation = Quaternion.Euler(restEuler) * pose.rotation;
             pivot.localPosition = restPosition + pose.positionOffset;
         }

@@ -110,7 +110,7 @@ namespace BossFight.Editor
             }
         }
 
-        private static void BuildSword(Transform camera, PlayerMovement player, BossFightConfig config, ref bool changed)
+        internal static void BuildSword(Transform camera, PlayerMovement player, BossFightConfig config, ref bool changed)
         {
             var sword = EnsureChild(camera, SwordName, ref changed);
             var pivot = EnsureChild(sword, SwordPivotName, ref changed);
