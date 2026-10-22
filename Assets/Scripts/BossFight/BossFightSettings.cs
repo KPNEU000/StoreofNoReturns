@@ -51,6 +51,9 @@ namespace BossFight
         public float flashlightRampUpSeconds = 0.5f;
         public float flashlightRampDownSeconds = 0.25f;
         [Range(0f, 1f)] public float flashlightFaintGlow = 0.1f;
+        public float flashlightFullIntensity = 3f;
+        public float flashlightRange = 25f;
+        public float flashlightSpotAngle = 55f;
 
         [Header("Player movement")]
         public float moveAccelerationSeconds = 0.1f;

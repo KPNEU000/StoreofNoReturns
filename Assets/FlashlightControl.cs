@@ -10,6 +10,8 @@ public class FlashlightControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // The boss flashlight (right mouse) replaces the F toggle.
+        if(BossFight.PlayerFlashlight.ActiveCount > 0) return;
         if(Input.GetKeyDown(KeyCode.F))
         {
             light.enabled = !light.enabled;
