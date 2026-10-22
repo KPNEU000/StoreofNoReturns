@@ -30,8 +30,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         PathTrail = transform.position;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
         BossBattleTest.BossFight += enableMovement;
         controller = GetComponent<CharacterController>();
     }

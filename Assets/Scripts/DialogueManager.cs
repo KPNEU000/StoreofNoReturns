@@ -25,7 +25,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-        StartDialogue();
+        dialoguePanel.SetActive(false);
     }
 
     public void StartDialogue()
@@ -210,7 +210,7 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowDecisionResponse(string path)
     {
-        if (!awaitingDecision || story == null)
+        if (story == null || showingDecisionResponse)
         {
             Debug.LogWarning(
                 "No customer is awaiting a refund decision."

@@ -9,6 +9,7 @@ public class FrontdeskTrigger : MonoBehaviour
 
     [SerializeField]
     private MoneyManager gameManager;
+    [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] Image frontSprite;
     [SerializeField] Image backSprite;
     [SerializeField] TextMeshProUGUI dopText;
@@ -35,6 +36,7 @@ public class FrontdeskTrigger : MonoBehaviour
         {
             col.GetComponent<CustomerBehaviour>().StopWalking();
             CustomerInService?.Invoke();
+            dialogueManager.StartDialogue();
             gameManager.GetCurrentCustomer(col.GetComponent<CustomerScript>());
             gameManager.GetCurrentCostume(col.GetComponent<CustomerScript>().getCostume());
             CostumeScriptData data = col.GetComponent<CustomerScript>().getCostume();

@@ -56,7 +56,7 @@ public class TimeManager : MonoBehaviour
             timer -= realSecondsPerInGameMinute;
             AdvanceMinute();
             UpdateTimeText();
-            CheckEndOfTime();
+            // CheckEndOfTime(); // TEMP: disabled for dialogue testing
         }
     }
 
