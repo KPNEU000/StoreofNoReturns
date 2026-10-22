@@ -19861,6 +19861,10 @@ PrefabInstance:
       value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
+      propertyPath: inkFile
+      value: 
+      objectReference: {fileID: 6231892579173505729, guid: 44ef7e5cd8ab44c24afbc0c6b2237308, type: 3}
+    - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
       propertyPath: repManager
       value: 
       objectReference: {fileID: 133887734}
@@ -19910,7 +19914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5555884417466791434, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
       propertyPath: m_Name
-      value: Kelly Darkson
+      value: Shelly Darkson
       objectReference: {fileID: 0}
     - target: {fileID: 5555884417466791434, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
       propertyPath: m_IsActive
@@ -41707,6 +41711,10 @@ PrefabInstance:
       value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
+      propertyPath: inkFile
+      value: 
+      objectReference: {fileID: 6231892579173505729, guid: 8ee324181039b42c2a6fcdd86faa0c07, type: 3}
+    - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
       propertyPath: repManager
       value: 
       objectReference: {fileID: 133887734}
@@ -46171,6 +46179,10 @@ PrefabInstance:
       value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
+      propertyPath: inkFile
+      value: 
+      objectReference: {fileID: 6231892579173505729, guid: e730506ec4f924ebca644ff11c355429, type: 3}
+    - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
       propertyPath: repManager
       value: 
       objectReference: {fileID: 133887734}
@@ -46220,7 +46232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5555884417466791434, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
       propertyPath: m_Name
-      value: Katherine
+      value: Katie
       objectReference: {fileID: 0}
     - target: {fileID: 5555884417466791434, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
       propertyPath: m_IsActive
@@ -48353,6 +48365,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -8.176917
       objectReference: {fileID: 0}
+    - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
+      propertyPath: inkFile
+      value: 
+      objectReference: {fileID: 6231892579173505729, guid: 0a8aebdc9c9684460838210135e36b61, type: 3}
     - target: {fileID: 2034042888372049543, guid: 272c95f0dbfa62049a4c6ee062f4cb63, type: 3}
       propertyPath: repManager
       value: 
