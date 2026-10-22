@@ -9,14 +9,15 @@ namespace BossFight.Rules
         public const string LayerName = "DraggedBody";
         private const int LayerCount = 32;
 
-        // Every layer the body layer must ignore: all of them except the ground (the body's own layer included,
-        // so its limbs do not fight each other).
-        public static List<int> LayersToIgnore(int bodyLayer, int groundLayer, int layerCount = LayerCount)
+        // Every layer the body layer must ignore: all of them except its own. The ground the body rests on is a
+        // floor proxy placed on the body layer itself, so walls, shelves, monsters and the player (all on Default,
+        // like the real floor) cannot touch it.
+        public static List<int> LayersToIgnore(int bodyLayer, int layerCount = LayerCount)
         {
             var ignored = new List<int>();
             for (int layer = 0; layer < layerCount; layer++)
             {
-                if (layer != groundLayer) ignored.Add(layer);
+                if (layer != bodyLayer) ignored.Add(layer);
             }
             return ignored;
         }
@@ -33,13 +34,16 @@ namespace BossFight.Rules
             return 0;
         }
 
-        public static void ConfigureCollisionMatrix(int bodyLayer, int groundLayer = 0)
+        public static void ConfigureCollisionMatrix(int bodyLayer)
         {
-            foreach (var layer in LayersToIgnore(bodyLayer, groundLayer))
-            {
-                Physics.IgnoreLayerCollision(bodyLayer, layer, true);
-            }
-            Physics.IgnoreLayerCollision(bodyLayer, groundLayer, false);
+            foreach (var layer in LayersToIgnore(bodyLayer)) Physics.IgnoreLayerCollision(bodyLayer, layer, true);
+            Physics.IgnoreLayerCollision(bodyLayer, bodyLayer, false);
+        }
+
+        // Height of the floor proxy: where a downward ray from the monster lands, else the monster's own feet.
+        public static float FloorHeight(bool hitGround, float groundY, float fallbackY)
+        {
+            return hitGround ? groundY : fallbackY;
         }
 
         // Damage dealt to the body is dealt, unchanged, to its monster. Returns false when there is nobody to hurt.

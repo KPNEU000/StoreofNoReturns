@@ -106,17 +106,28 @@ namespace BossFight
             characterJoint.enableProjection = true;
             joint = characterJoint;
 
-            // Layers cannot express "not the player or the monster" when those sit on Default with the ground.
-            var ignoreThese = new List<Collider>();
-            foreach (var controller in FindObjectsByType<CharacterController>(FindObjectsSortMode.None)) ignoreThese.Add(controller);
-            ignoreThese.AddRange(GetComponentsInChildren<Collider>(true));
-            foreach (var own in body.GetComponentsInChildren<Collider>(true))
+            EnsureFloor(layer);
+        }
+
+        // The body rests on a thin proxy slab on its own layer at floor height, so it touches the ground and nothing
+        // else on Default (walls, shelves, monsters, player).
+        private static Collider floor;
+
+        private void EnsureFloor(int layer)
+        {
+            var origin = transform.position + Vector3.up * 0.5f;
+            bool hit = Physics.Raycast(origin, Vector3.down, out var info, 5f, ~(1 << layer), QueryTriggerInteraction.Ignore);
+            float y = DraggedBodyRules.FloorHeight(hit, info.point.y, transform.position.y);
+            if (floor == null)
             {
-                foreach (var other in ignoreThese)
-                {
-                    if (other != null) Physics.IgnoreCollision(own, other, true);
-                }
+                var slab = new GameObject("DraggedBodyFloor") { layer = layer };
+                var box = slab.AddComponent<BoxCollider>();
+                box.size = new Vector3(200f, 1f, 200f);
+                floor = box;
+                var navModifier = slab.AddComponent<Unity.AI.Navigation.NavMeshModifier>();
+                navModifier.ignoreFromBuild = true;
             }
+            floor.transform.position = new Vector3(0f, y - 0.5f, 0f);
         }
 
         private void AttachFixedPose()

@@ -58,29 +58,26 @@ public class DraggedBodyTests
         }
     }
 
-    [TestCase(31, 0)]
-    [TestCase(9, 0)]
-    [TestCase(30, 3)]
-    public void IgnoresEveryLayerExceptGround(int bodyLayer, int groundLayer)
+    [TestCase(31)]
+    [TestCase(9)]
+    [TestCase(30)]
+    public void IgnoresEveryLayerExceptItsOwn(int bodyLayer)
     {
-        var ignored = DraggedBodyRules.LayersToIgnore(bodyLayer, groundLayer);
-        Assert.IsFalse(ignored.Contains(groundLayer));
+        var ignored = DraggedBodyRules.LayersToIgnore(bodyLayer);
+        Assert.IsFalse(ignored.Contains(bodyLayer));
         Assert.AreEqual(31, ignored.Count);
-        for (int layer = 0; layer < 32; layer++)
-        {
-            if (layer != groundLayer) Assert.IsTrue(ignored.Contains(layer), $"layer {layer} should be ignored");
-        }
+        Assert.IsTrue(ignored.Contains(0), "Default holds walls, shelves, monsters and the player");
     }
 
     [Test]
-    public void CollisionMatrixSetupIgnoresAllButGround()
+    public void CollisionMatrixSetupIgnoresEverythingButItself()
     {
         const int bodyLayer = 31;
-        DraggedBodyRules.ConfigureCollisionMatrix(bodyLayer, 0);
+        DraggedBodyRules.ConfigureCollisionMatrix(bodyLayer);
         try
         {
-            Assert.IsFalse(Physics.GetIgnoreLayerCollision(bodyLayer, 0));
-            for (int layer = 1; layer < 32; layer++)
+            Assert.IsFalse(Physics.GetIgnoreLayerCollision(bodyLayer, bodyLayer));
+            for (int layer = 0; layer < 31; layer++)
             {
                 Assert.IsTrue(Physics.GetIgnoreLayerCollision(bodyLayer, layer), $"layer {layer}");
             }
@@ -89,6 +86,13 @@ public class DraggedBodyTests
         {
             for (int layer = 0; layer < 32; layer++) Physics.IgnoreLayerCollision(bodyLayer, layer, false);
         }
+    }
+
+    [Test]
+    public void FloorHeightUsesGroundHitElseFallback()
+    {
+        Assert.AreEqual(0.2f, DraggedBodyRules.FloorHeight(true, 0.2f, 1f));
+        Assert.AreEqual(1f, DraggedBodyRules.FloorHeight(false, 0.2f, 1f));
     }
 
     [Test]
