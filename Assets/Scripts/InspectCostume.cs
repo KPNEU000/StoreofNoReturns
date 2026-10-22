@@ -105,7 +105,7 @@ public class InspectCostume : MonoBehaviour
     {
         Vector2 delta = Mouse.current.delta.ReadValue();
             yaw -= delta.x * sensitivity;
-            pitch -= delta.y * sensitivity;
+            pitch += delta.y * sensitivity;
             pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);
             transform.rotation = Quaternion.Euler(pitch, yaw, roll);
     }
