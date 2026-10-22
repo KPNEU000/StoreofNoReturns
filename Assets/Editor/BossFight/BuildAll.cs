@@ -15,6 +15,7 @@ namespace BossFight.Editor
             ("Boss Scene rig instance", BossSceneRigBuilder.Build),
             ("Player hit receiver", PlayerHitReceiverBuilder.Build),
             ("Player sword and flashlight", PlayerToolsBuilder.Build),
+            ("Possessed clothing and spawner", ClothingEnemyBuilder.Build),
             ("Build settings scenes", BuildSettingsBuilder.Build),
         };
 
