@@ -45,7 +45,10 @@ public class MoneyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        AngeredCustomerRegistry.Reset();
+        if (!BossRunState.HasData)
+        {
+            AngeredCustomerRegistry.Reset();
+        }
         lights = GameObject.FindObjectsByType<Light>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
         currentMoney = startingMoney;
         currentMoneyValue.text = "$"+ currentMoney.ToString();
@@ -142,15 +145,6 @@ public class MoneyManager : MonoBehaviour
             AngeredCustomerRegistry.Record(customerBehaviour.gameObject.name, reputationAtInteractionStart, reputationManager.CurrentReputation);
         }
 
-        if(isWitch)
-        {
-            //Start boss battle
-            print("boss battle starts");
-            //customerBehaviour.gameObject.GetComponent<Enemy>().enabled = true;
-            //customerBehaviour.gameObject.tag = "Enemy";
-            //playerMovement.enableMovement();
-            SceneLoadingManager.Instance.GoToNextScene();
-        }
     }
 
     public void ReasoningCheck(string reasonSelected)

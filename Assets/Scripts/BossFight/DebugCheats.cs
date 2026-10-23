@@ -35,6 +35,48 @@ namespace BossFight
             if (kb.rightBracketKey.wasPressedThisFrame && moneyManager != null) moneyManager.SubtractMoney(settings.debugLoseMoneySmall);
         }
 
+        private void Start()
+        {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "Boss Scene")
+                return;
+
+            StartCoroutine(StartBossAutomatically());
+        }
+
+        private System.Collections.IEnumerator StartBossAutomatically()
+        {
+            yield return null;
+
+            var cameraBehaviour = FindFirstObjectByType<CameraBehaviour>();
+            if (cameraBehaviour != null)
+                cameraBehaviour.DisableForBoss();
+
+            if (director == null || director.Phase != BossPhase.Intro)
+                yield break;
+
+            if (BossRunState.HasData)
+            {
+                if (moneyManager != null)
+                    moneyManager.SetMoney(BossRunState.Money);
+
+                if (reputationManager != null)
+                {
+                    reputationManager.ChangeReputation(
+                        BossRunState.Reputation - reputationManager.CurrentReputation
+                    );
+                }
+
+                int angeredCount = BossRunState.AngeredCustomers;
+                BossRunState.Clear();
+
+                director.StartFight(angeredCount);
+            }
+            else
+            {
+                JumpToBossStart();
+            }
+        }
+
         private void JumpToBossStart()
         {
             if (director == null || director.Phase != BossPhase.Intro) return;

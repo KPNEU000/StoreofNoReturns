@@ -102,8 +102,8 @@ public class TimeManager : MonoBehaviour
             shopClosed = true;
             if (customerSpawner != null) customerSpawner.WitchComes();
             // Boss Scene has no SceneLoadingManager; don't throw there.
-            var sceneLoader = FindFirstObjectByType<SceneLoadingManager>();
-            if (sceneLoader != null) sceneLoader.GoToNextScene();
+            // var sceneLoader = FindFirstObjectByType<SceneLoadingManager>();
+            // if (sceneLoader != null) sceneLoader.GoToNextScene();
             //perform end of game boss battle thing
         }
     }

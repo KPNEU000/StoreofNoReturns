@@ -99,12 +99,18 @@ public class CameraBehaviour : MonoBehaviour
         Vector2 viewportFactor = new Vector2((float)cam.pixelWidth / Screen.width, (float)cam.pixelHeight / Screen.height);
         ray = cam.ScreenPointToRay(mousePos * viewportFactor);
         RaycastHit hit;
-        outlineMaterial.SetFloat("_Scale", 0f);
+        if (outlineMaterial != null)
+        {
+            outlineMaterial.SetFloat("_Scale", 0f);
+        }
         if(Physics.Raycast(ray, out hit, 50f))
         {
             if(hit.transform.CompareTag("Computer") && active)
             {
-                outlineMaterial.SetFloat("_Scale", 1.1f);
+                if (outlineMaterial != null)
+                {
+                    outlineMaterial.SetFloat("_Scale", 1.1f);
+                }
             }
 
             if (mouse.leftButton.wasPressedThisFrame && active)

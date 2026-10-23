@@ -1,8 +1,10 @@
+
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Video;
 using System.Collections;
+using BossFight;
 
 public class CustomerSpawner : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class CustomerSpawner : MonoBehaviour
     [Header("Opening Cutscene")]
     [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] private Ink.UnityIntegration.InkFile openingInkFile;
+
     int customerIndex = -1;
 
     [Header("Witch Cutscene")]
@@ -40,6 +43,7 @@ public class CustomerSpawner : MonoBehaviour
     public void NewCustomer()
     {
         customerIndex++;
+
         if (customerIndex >= customerPrefabs.Count)
         {
             if (!witchCutsceneStarted)
@@ -50,48 +54,74 @@ public class CustomerSpawner : MonoBehaviour
 
             return;
         }
+
         var customer = customerPrefabs[customerIndex];
         print(customer.name);
+
         customer.gameObject.SetActive(true);
         customer.transform.position = transform.position;
-        CustomerBehaviour customerBehaviour = customer.GetComponent<CustomerBehaviour>();
+
+        CustomerBehaviour customerBehaviour =
+            customer.GetComponent<CustomerBehaviour>();
+
         customerBehaviour.lineIndex = activeCustomers.Count;
         activeCustomers.Add(customerBehaviour);
+
         print(customerBehaviour.lineIndex);
         print(linePositions[customerBehaviour.lineIndex].transform);
-        customerBehaviour.agent.SetDestination(linePositions[customerBehaviour.lineIndex].transform.position);
+
+        customerBehaviour.agent.SetDestination(
+            linePositions[customerBehaviour.lineIndex].transform.position
+        );
+
         customerBehaviour.agent.speed = 6;
     }
 
     public void UpdateLinePosition()
     {
         print("Moving forward in line");
+
         foreach (CustomerBehaviour customerBehaviour in activeCustomers)
         {
             if (!customerBehaviour.done)
             {
-                print(customerBehaviour.gameObject.name + "moved forward in line");
+                print(
+                    customerBehaviour.gameObject.name +
+                    "moved forward in line"
+                );
+
                 customerBehaviour.lineIndex--;
+
                 if (customerBehaviour.lineIndex >= 0)
                 {
-                    customerBehaviour.SetTarget(linePositions[customerBehaviour.lineIndex].transform);
+                    customerBehaviour.SetTarget(
+                        linePositions[customerBehaviour.lineIndex].transform
+                    );
                 }
                 else
                 {
-                    customerBehaviour.SetTarget(linePositions[0].transform);
+                    customerBehaviour.SetTarget(
+                        linePositions[0].transform
+                    );
                 }
             }
         }
     }
-    
+
     public void WitchComes()
     {
-        foreach(GameObject customer in customerPrefabs)
+        foreach (GameObject customer in customerPrefabs)
         {
             customer.SetActive(false);
         }
-        CustomerBehaviour customerBehaviour = witch.GetComponent<CustomerBehaviour>();
-        customerBehaviour.agent.SetDestination(linePositions[customerBehaviour.lineIndex].transform.position);
+
+        CustomerBehaviour customerBehaviour =
+            witch.GetComponent<CustomerBehaviour>();
+
+        customerBehaviour.agent.SetDestination(
+            linePositions[customerBehaviour.lineIndex].transform.position
+        );
+
         customerBehaviour.agent.speed = 6;
     }
 
@@ -101,7 +131,7 @@ public class CustomerSpawner : MonoBehaviour
             customerPrefabs[customerPrefabs.Count - 1]
                 .GetComponent<CustomerBehaviour>();
 
-        // Wait until Shelly has reached her exit and been deactivated.
+        // Wait until the final customer has exited.
         yield return new WaitUntil(
             () => !lastCustomer.gameObject.activeInHierarchy
         );
@@ -114,9 +144,47 @@ public class CustomerSpawner : MonoBehaviour
 
         dialogueManager.StartCutscene(
             witchInkFile,
-            () => SceneLoadingManager.Instance.LoadSceneByName("Boss Scene")
+            () =>
+            {
+                MoneyManager money =
+                    FindFirstObjectByType<MoneyManager>();
+
+                ReputationManager reputation =
+                    FindFirstObjectByType<ReputationManager>();
+
+                if (money == null || reputation == null)
+                {
+                    Debug.LogError(
+                        "Cannot enter Boss Scene: missing money or reputation manager."
+                    );
+                    return;
+                }
+
+                // Preserve MainScene values for the boss fight.
+                BossRunState.Save(
+                    money.CurrentMoney,
+                    reputation.CurrentReputation,
+                    AngeredCustomerRegistry.Count
+                );
+
+                Debug.Log(
+                    $"Witch cutscene finished. Loading Boss Scene. " +
+                    $"Money: {money.CurrentMoney}, " +
+                    $"Reputation: {reputation.CurrentReputation}, " +
+                    $"Angered customers: {AngeredCustomerRegistry.Count}"
+                );
+
+                if (SceneLoadingManager.Instance != null)
+                {
+                    SceneLoadingManager.Instance.LoadSceneByName("Boss Scene");
+                }
+                else
+                {
+                    Debug.LogError(
+                        "SceneLoadingManager instance is NULL!"
+                    );
+                }
+            }
         );
     }
-
-
 }
