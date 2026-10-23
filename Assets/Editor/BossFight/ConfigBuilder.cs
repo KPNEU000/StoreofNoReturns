@@ -14,7 +14,7 @@ namespace BossFight.Editor
             "flashlightFullIntensity", "flashlightRange", "flashlightSpotAngle", "monsterBaseHp", "monsterWindupSeconds",
             "monsterAttackReach", "monsterAttackCooldownSeconds",
             "outsideLightIntensity", "blackoutEnvironmentFactor",
-            "bookScale", "bookTelegraphSeconds", "witchHoverHeight", "caveInChunkRadius", "bookFlightSpeed",
+            "bookScale", "bookTelegraphSeconds", "witchHoverHeight", "caveInChunkRadius", "bookFlightSpeed", "clothingHitCost", "monsterHitCostAtRep100", "maxClothingAlive",
             "glassHudWidth", "glassHudHeight", "caveInChunkRestHeight",
             "invincibilitySeconds", "slashReach", "bookThrowIntervalSeconds", "slashArcDegrees",
             "flashlightInnerSpotAngle",
@@ -43,7 +43,9 @@ namespace BossFight.Editor
                 var property = so.FindProperty("settings." + name);
                 var field = typeof(BossFightSettings).GetField(name, BindingFlags.Public | BindingFlags.Instance);
                 if (property == null || field == null) throw new System.InvalidOperationException($"Tuned setting '{name}' not found");
-                property.floatValue = (float)field.GetValue(defaults);
+                var value = field.GetValue(defaults);
+                if (property.propertyType == SerializedPropertyType.Integer) property.intValue = (int)value;
+                else property.floatValue = (float)value;
             }
             so.ApplyModifiedPropertiesWithoutUndo();
         }

@@ -77,11 +77,11 @@ public class SlashRulesTests
     }
 
     [Test]
-    public void SlashMoveSpeedIsNinetyFivePercentOfClothingSpeed()
+    public void SlashMoveSpeedIsFivePercentFasterThanTheClothes()
     {
         var settings = new BossFightSettings();
         float walk = 10f;
         float clothing = walk * settings.clothingSpeedFactor;
-        Assert.AreEqual(0.95f * clothing, rules.MoveSpeed(walk), 1e-4f);
+        Assert.AreEqual(1.05f * clothing, rules.MoveSpeed(walk), 1e-4f);
     }
 }

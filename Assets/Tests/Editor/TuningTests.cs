@@ -13,7 +13,7 @@ public class TuningTests
         Assert.AreEqual(0.51f, s.clothingSpeedFactor);
         Assert.AreEqual(0.95f, s.monsterSpeedFactor);
         Assert.AreEqual(1.4f, s.boostedMonsterSpeedFactor);
-        Assert.AreEqual(0.95f * 0.51f, s.SlashMoveSpeedFactor, 1e-4f);
+        Assert.AreEqual(1.05f * 0.51f, s.SlashMoveSpeedFactor, 1e-4f);
     }
 
     [Test]

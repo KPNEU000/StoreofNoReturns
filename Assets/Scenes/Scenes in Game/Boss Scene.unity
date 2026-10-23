@@ -41266,6 +41266,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1599254348}
     m_Modifications:
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Size.x
+      value: 0.04399598
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Size.y
+      value: 0.021794468
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Size.z
+      value: 0.036828663
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Center.x
+      value: 0.012109036
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Center.y
+      value: 0.0000000023283064
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Center.z
+      value: 0.017772207
+      objectReference: {fileID: 0}
     - target: {fileID: 5780545432128395158, guid: 7072af222025b304f86031b217c88c4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.13931
@@ -47167,6 +47191,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1877955913}
     m_Modifications:
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Size.x
+      value: 0.043995984
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Size.y
+      value: 0.021794468
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Size.z
+      value: 0.036828663
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Center.x
+      value: 0.012109026
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Center.y
+      value: 0.0000000027939677
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Center.z
+      value: 0.017772207
+      objectReference: {fileID: 0}
     - target: {fileID: 5838476206827598536, guid: a94bb7a322befd7459017401780328fc, type: 3}
       propertyPath: m_Name
       value: BirdRack (1)
@@ -47689,6 +47737,30 @@ PrefabInstance:
     - target: {fileID: 5441036658065609901, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
       propertyPath: m_Name
       value: WizardRack (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Size.x
+      value: 0.043995984
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Size.y
+      value: 0.021794468
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Size.z
+      value: 0.036828663
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Center.x
+      value: 0.012109016
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Center.y
+      value: 0.0000000023283064
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Center.z
+      value: 0.017772207
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -48335,6 +48407,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1322606753}
     m_Modifications:
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Size.x
+      value: 0.043996
+      objectReference: {fileID: 0}
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Size.y
+      value: 0.021794468
+      objectReference: {fileID: 0}
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Size.z
+      value: 0.036828663
+      objectReference: {fileID: 0}
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Center.x
+      value: 0.012109015
+      objectReference: {fileID: 0}
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Center.y
+      value: 0.0000000027939677
+      objectReference: {fileID: 0}
     - target: {fileID: 5847103558883212510, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.1393108
@@ -54491,6 +54583,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1322606753}
     m_Modifications:
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Size.x
+      value: 0.043996003
+      objectReference: {fileID: 0}
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Size.y
+      value: 0.021794468
+      objectReference: {fileID: 0}
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Size.z
+      value: 0.036828663
+      objectReference: {fileID: 0}
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Center.x
+      value: 0.012109017
+      objectReference: {fileID: 0}
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Center.y
+      value: 0.0000000027939677
+      objectReference: {fileID: 0}
+    - target: {fileID: 5336223593387375744, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
+      propertyPath: m_Center.z
+      value: 0.017772207
+      objectReference: {fileID: 0}
     - target: {fileID: 5847103558883212510, guid: aafcd31136730dd47bc4f1d172b08135, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.1393108
@@ -72561,6 +72677,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1599254348}
     m_Modifications:
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Size.x
+      value: 0.04399593
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Size.y
+      value: 0.02179448
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Size.z
+      value: 0.036828663
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Center.x
+      value: -0.012108937
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Center.y
+      value: -0.0000000088475645
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409836702204909512, guid: 7072af222025b304f86031b217c88c4a, type: 3}
+      propertyPath: m_Center.z
+      value: 0.017772207
+      objectReference: {fileID: 0}
     - target: {fileID: 5780545432128395158, guid: 7072af222025b304f86031b217c88c4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.1393137
@@ -74184,6 +74324,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClothingRack_BothSideFull Variant (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Size.x
+      value: 0.043995984
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Size.y
+      value: 0.021794468
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Size.z
+      value: 0.03682866
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Center.x
+      value: 0.012109015
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Center.y
+      value: 0.0000000023283064
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621034788308323913, guid: 1363cc28dd01eee4ebb87e0495651ad4, type: 3}
+      propertyPath: m_Center.z
+      value: 0.017772205
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -74230,6 +74394,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1877955913}
     m_Modifications:
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Size.x
+      value: 0.043995954
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Size.y
+      value: 0.021794472
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Size.z
+      value: 0.036828663
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Center.x
+      value: -0.012108937
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Center.y
+      value: -0.000000009778887
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712657613202483244, guid: a94bb7a322befd7459017401780328fc, type: 3}
+      propertyPath: m_Center.z
+      value: 0.017772207
+      objectReference: {fileID: 0}
     - target: {fileID: 5838476206827598536, guid: a94bb7a322befd7459017401780328fc, type: 3}
       propertyPath: m_Name
       value: ClothingRack_BothSideFull Variant (2)

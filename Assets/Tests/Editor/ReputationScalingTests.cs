@@ -25,8 +25,8 @@ public class ReputationScalingTests
     [TestCase(0f, 100f)]
     [TestCase(25f, 87.5f)]
     [TestCase(50f, 75f)]
-    [TestCase(75f, 62.5f)]
-    [TestCase(100f, 50f)]
+    [TestCase(75f, 70f)]
+    [TestCase(100f, 65f)]
     public void MonsterHitCostFollowsCurve(float reputation, float expected)
     {
         Assert.AreEqual(expected, scaling.MonsterHitCost(reputation), 1e-4f);
@@ -34,8 +34,8 @@ public class ReputationScalingTests
 
     [TestCase(-10f, 2f, 100f)]
     [TestCase(-1000f, 2f, 100f)]
-    [TestCase(110f, 0.5f, 50f)]
-    [TestCase(1000f, 0.5f, 50f)]
+    [TestCase(110f, 0.5f, 65f)]
+    [TestCase(1000f, 0.5f, 65f)]
     public void OutOfRangeReputationIsClamped(float reputation, float expectedHp, float expectedCost)
     {
         Assert.AreEqual(expectedHp, scaling.MonsterHpMultiplier(reputation), 1e-4f);
@@ -53,7 +53,7 @@ public class ReputationScalingTests
     public void SlashSpeedIsDerivedFromClothingSpeed()
     {
         var settings = new BossFightSettings { clothingSpeedFactor = 0.6f };
-        Assert.AreEqual(0.95f * 0.6f, settings.SlashMoveSpeedFactor, 1e-4f);
+        Assert.AreEqual(1.05f * 0.6f, settings.SlashMoveSpeedFactor, 1e-4f);
     }
 
     [Test]

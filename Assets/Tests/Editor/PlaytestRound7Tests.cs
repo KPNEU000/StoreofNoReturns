@@ -19,7 +19,7 @@ public class PlaytestRound7Tests
         var s = new BossFightSettings();
         Assert.AreEqual(0.75f, s.invincibilitySeconds, 1e-5f); // round 8
         Assert.AreEqual(6f, s.waveNextDelaySeconds, 1e-5f);
-        Assert.AreEqual(3f, s.rackTelegraphSeconds, 1e-5f);
+        Assert.AreEqual(3.9f, s.rackTelegraphSeconds, 1e-5f); // round 9: 30% longer
         Assert.AreEqual(8.4f, s.bookFlightSpeed, 1e-4f);
         Assert.AreEqual(45f * 1.05f, s.flashlightSpotAngle, 1e-4f);
         Assert.AreEqual(6, BossFight.Rules.WaveScheduler.SwarmSize(s, 50), "six costumes at medium reputation");

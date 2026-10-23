@@ -23,30 +23,14 @@ public class PlaytestRound8Tests
     }
 
     [Test]
-    public void IfNothingDiesTheNextRackStartsAnywayAndTheOldWaveStays()
+    public void OnlyKillsMoveTheSwarmOnNoStallTimer()
     {
+        // Round 9 removed the stall timer: it stacked waves into a flood.
         var s = new BossFightSettings();
         var scheduler = new WaveScheduler(s, 50);
-        scheduler.Tick(s.waveFirstDelaySeconds + 0.1f, 0, 0, 22, 5);
-        int size = scheduler.Tick(s.rackTelegraphSeconds + 0.1f, 0, 0, 22, 5).Value.Count;
-        Assert.IsNull(scheduler.Tick(s.waveStallSeconds - 0.5f, size, size, 22, 5));
-        Assert.AreEqual(WaveScheduler.Stage.WaitingForClear, scheduler.Current);
-        Assert.IsNull(scheduler.Tick(1f, size, size, 22, 5), "stalled: countdown starts at zero");
-        Assert.AreEqual(WaveScheduler.Stage.Countdown, scheduler.Current);
-        var next = scheduler.Tick(0.01f, size, size, 22, 5);
-        Assert.AreEqual(WaveScheduler.WaveEvent.Telegraph, next.Value.Event);
-    }
-
-    [Test]
-    public void AKillResetsTheStallTimer()
-    {
-        var s = new BossFightSettings();
-        var scheduler = new WaveScheduler(s, 50);
-        scheduler.Tick(s.waveFirstDelaySeconds + 0.1f, 0, 0, 22, 5);
-        int size = scheduler.Tick(s.rackTelegraphSeconds + 0.1f, 0, 0, 22, 5).Value.Count; // 6
-        scheduler.Tick(s.waveStallSeconds - 1f, size, size, 22, 5);
-        scheduler.Tick(0.1f, size - 1, size - 1, 22, 5); // one kill
-        scheduler.Tick(s.waveStallSeconds - 1f, size - 1, size - 1, 22, 5);
-        Assert.AreEqual(WaveScheduler.Stage.WaitingForClear, scheduler.Current, "the kill reset the stall timer");
+        scheduler.Tick(s.waveFirstDelaySeconds + 0.1f, 0, 0, 8, 5);
+        int size = scheduler.Tick(s.rackTelegraphSeconds + 0.1f, 0, 0, 8, 5).Value.Count;
+        Assert.IsNull(scheduler.Tick(600f, size, size, 8, 5));
+        Assert.AreEqual(WaveScheduler.Stage.WaitingForClear, scheduler.Current, "ten minutes without a kill still waits");
     }
 }

@@ -27,10 +27,10 @@ MonoBehaviour:
     flickerDipSecondsMin: 0.06
     flickerDipSecondsMax: 0.18
     strongFlickerIntervalScale: 0.5
-    clothingHitCost: 25
+    clothingHitCost: 20
     monsterHitCostAtRep0: 100
     monsterHitCostAtRep50: 75
-    monsterHitCostAtRep100: 50
+    monsterHitCostAtRep100: 65
     bookHitCost: 50
     debrisHitCost: 50
     invincibilitySeconds: 0.75
@@ -73,7 +73,8 @@ MonoBehaviour:
     swarmMultiplierAtRep50: 1.5
     swarmMultiplierAtRep0: 2
     clothingDoubleHpReputation: 15
-    maxClothingAlive: 15
+    waveMaxPerRack: 6
+    maxClothingAlive: 8
     rackFadeSeconds: 1
     clothPinBand: 0.15
     clothFreeDistance: 0.35

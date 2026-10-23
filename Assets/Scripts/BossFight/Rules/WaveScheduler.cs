@@ -36,8 +36,6 @@ namespace BossFight.Rules
         private readonly int plannedCount;
         private float timer;
         private int lastWaveSize;
-        private int lastAliveSeen;
-        private float sinceKill;
 
         public Stage Current { get; private set; } = Stage.Countdown;
         public bool Stopped { get; private set; }
@@ -45,7 +43,7 @@ namespace BossFight.Rules
         public WaveScheduler(BossFightSettings settings, int reputation)
         {
             this.settings = settings;
-            plannedCount = SwarmSize(settings, reputation);
+            plannedCount = Math.Min(SwarmSize(settings, reputation), Math.Max(1, settings.waveMaxPerRack));
             timer = settings.waveFirstDelaySeconds;
         }
 
@@ -62,19 +60,11 @@ namespace BossFight.Rules
             switch (Current)
             {
                 case Stage.WaitingForClear:
-                    if (lastWaveAlive < lastAliveSeen) sinceKill = 0f;
-                    else sinceKill += deltaTime;
-                    lastAliveSeen = lastWaveAlive;
+                    // Round 9: only kills move the swarm on (the stall timer stacked waves into a flood).
                     if (Cleared(lastWaveSize, lastWaveAlive, settings.waveClearFraction))
                     {
                         Current = Stage.Countdown;
                         timer = settings.waveNextDelaySeconds;
-                    }
-                    else if (sinceKill >= settings.waveStallSeconds)
-                    {
-                        // Nobody has died for a while: start the next rack now; the old wave stays.
-                        Current = Stage.Countdown;
-                        timer = 0f;
                     }
                     return null;
                 case Stage.Countdown:
@@ -89,8 +79,6 @@ namespace BossFight.Rules
                     int room = cap - aliveCount;
                     if (room <= 0) return null;
                     lastWaveSize = Math.Min(plannedCount, room);
-                    lastAliveSeen = lastWaveSize;
-                    sinceKill = 0f;
                     Current = Stage.WaitingForClear;
                     return new Wave { Event = WaveEvent.Release, FreshRack = remainingRacks > 0, Count = lastWaveSize };
             }

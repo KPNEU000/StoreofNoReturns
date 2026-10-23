@@ -170,10 +170,11 @@ namespace BossFight
             Play(RunState);
         }
 
+        // Half its normal run while swinging, even when the Witch's tether has it boosted (round 9: boosted
+        // monsters still closed in too fast mid-swing).
         private void SwingSpeed()
         {
-            RefreshSpeed();
-            agent.speed *= settings.monsterAttackMoveFactor;
+            agent.speed = walkSpeed * settings.monsterSpeedFactor * settings.monsterAttackMoveFactor;
         }
 
         private void RefreshSpeed()

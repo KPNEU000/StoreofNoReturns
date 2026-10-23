@@ -9,7 +9,7 @@ namespace BossFight
     public class BossFightSettings
     {
         // Slash move speed is always derived from clothing speed, never stored.
-        public const float SlashSpeedOfClothing = 0.95f; // playtest round 5: back to 5% slower than the clothes
+        public const float SlashSpeedOfClothing = 1.05f; // round 9: 5% faster than the clothes, so slashing never traps you
 
         [Header("Economy: light tiers (money thresholds)")]
         public float mildFlickerMoney = 700f;
@@ -29,10 +29,10 @@ namespace BossFight
         public float strongFlickerIntervalScale = 0.5f;
 
         [Header("Economy: hits")]
-        public float clothingHitCost = 25f;
+        public float clothingHitCost = 20f; // round 9
         public float monsterHitCostAtRep0 = 100f;
         public float monsterHitCostAtRep50 = 75f;
-        public float monsterHitCostAtRep100 = 50f;
+        public float monsterHitCostAtRep100 = 65f; // round 9 (rep 50 stays 75, rep 0 stays 100)
         public float bookHitCost = 50f;
         // A falling ceiling chunk landing on the player: charged once per chunk, never while standing in it.
         public float debrisHitCost = 50f;
@@ -84,19 +84,21 @@ namespace BossFight
         public float waveNextDelaySeconds = 6f; // playtest round 7 (was 5)
         // Safety net (round 8): if nothing from the current wave dies for this long, the next rack starts anyway
         // and the old wave stays alive (covers costumes stuck somewhere unreachable).
-        public float waveStallSeconds = 6f;
-        [Range(0f, 1f)] public float waveClearFraction = 0.75f;
-        public float rackTelegraphSeconds = 3f; // longer, so it can be spotted from across the store
+        public float waveStallSeconds = 6f; // unused since round 9 (removed: it stacked waves into a flood)
+        [Range(0f, 1f)] public float waveClearFraction = 4f / 6f; // round 9: the next rack once 4 of 6 are dead
+        public float rackTelegraphSeconds = 3.9f; // round 9: 30% longer (was 3)
         public float rackLiftMeters = 1.6f; // unused since round 8: the lift clears the neighbouring racks (RackLift)
         public float waveRingMinRadius = 1.4f;
         public float waveRingMaxRadius = 2.6f;
         // Costumes per wave at 100 reputation; worse reputation multiplies the swarm (not its HP).
-        public int waveBaseCostumes = 4; // round 7: 6 at medium reputation (50), 8 at zero, 4 at a perfect 100
+        public int waveBaseCostumes = 4; // 4 at reputation 100, 6 at 50; capped at waveMaxPerRack
         public float swarmMultiplierAtRep50 = 1.5f;
         public float swarmMultiplierAtRep0 = 2f;
         // At or below this reputation the swarm needs two slashes each.
         public int clothingDoubleHpReputation = 15;
-        public int maxClothingAlive = 22; // bigger waves; cloth settings keep 22 affordable
+        // Round 9: no rack ever releases more than this, whatever the reputation.
+        public int waveMaxPerRack = 6;
+        public int maxClothingAlive = 8; // round 9: at most 2 left over plus a fresh 6
         public float rackFadeSeconds = 1f;
 
         // Kept light for 15 alive: <= 400 welded particles per garment (baked by GarmentClothBuilder; delete the
