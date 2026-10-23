@@ -36,6 +36,8 @@ public class CameraBehaviour : MonoBehaviour
     [SerializeField] private GameObject customerCanvas;
 
     [SerializeField] Material outlineMaterial;
+    [SerializeField] GameObject posterCanvas;
+    [SerializeField] GameObject computerCanvas;
     bool active = true;
 
     public bool cameraBehaviourEnabled { get; private set; } = true;
@@ -152,6 +154,7 @@ public class CameraBehaviour : MonoBehaviour
 
     private void EnterComputerInteraction()
     {
+        posterCanvas.SetActive(false);
         cam.enabled = false;
         comCam.enabled = true;
         Cursor.lockState = CursorLockMode.None;
@@ -163,6 +166,7 @@ public class CameraBehaviour : MonoBehaviour
 
     public void ExitComputerInteraction()
     {
+        posterCanvas.SetActive(true);
         cam.enabled = true;
         comCam.enabled = false;
         //Cursor.lockState = CursorLockMode.Locked;
@@ -174,6 +178,7 @@ public class CameraBehaviour : MonoBehaviour
 
     private void EnterPosterDisplay()
     {
+        computerCanvas.SetActive(false);
         cam.enabled = false;
         polCam.enabled = true;
         Cursor.lockState = CursorLockMode.None;
@@ -186,6 +191,7 @@ public class CameraBehaviour : MonoBehaviour
 
     public void ExitPosterDisplay()
     {
+        computerCanvas.SetActive(true);
         cam.enabled = true;
         polCam.enabled = false;
         //Cursor.lockState = CursorLockMode.Locked;

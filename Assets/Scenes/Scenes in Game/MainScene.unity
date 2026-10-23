@@ -5158,7 +5158,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: -1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 27
+  m_SortingOrder: 13
   m_TargetDisplay: 0
 --- !u!1 &209467538
 GameObject:
@@ -9971,6 +9971,8 @@ MonoBehaviour:
   pixelationFilter: {fileID: 1246531821}
   customerCanvas: {fileID: 0}
   outlineMaterial: {fileID: 2100000, guid: d3f1795f4b9df144fa5defec62d7ca09, type: 2}
+  posterCanvas: {fileID: 205097844}
+  computerCanvas: {fileID: 146491311}
 --- !u!114 &394936254
 MonoBehaviour:
   m_ObjectHideFlags: 0
