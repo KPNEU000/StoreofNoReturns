@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BossFight
 {
     // Stays in the player's pocket while the store lights are on. When they go out (money <= $500) it is pulled up
-    // into view and switched on, and stays on; slashing dims it to a faint glow. Drives a Spot Light that shines
+    // into view and switched on, and stays on at full brightness, even mid-swing. Drives a Spot Light that shines
     // from the flashlight model's lens along the view.
     public class PlayerFlashlight : MonoBehaviour
     {
@@ -106,7 +106,8 @@ namespace BossFight
             on = money != null && rules.ShouldBeOn(money.CurrentMoney);
             drawn = Mathf.MoveTowards(drawn, on ? 1f : 0f, Time.deltaTime / PullSeconds);
             // The beam only comes on once the torch is fully in hand.
-            if (on && drawn >= 1f) fraction = rules.Step(Mathf.Max(fraction, rules.Faint), true, PlayerSword.IsSlashing, Time.deltaTime);
+            // Round 11: the beam stays at full brightness through a swing.
+            if (on && drawn >= 1f) fraction = rules.Step(Mathf.Max(fraction, rules.Faint), true, false, Time.deltaTime);
             else fraction = 0f;
             if (beam != null) beam.intensity = rules.Intensity(fraction);
 

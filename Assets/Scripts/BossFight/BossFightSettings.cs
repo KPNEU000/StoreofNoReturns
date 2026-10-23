@@ -29,7 +29,7 @@ namespace BossFight
         public float strongFlickerIntervalScale = 0.5f;
 
         [Header("Economy: hits")]
-        public float clothingHitCost = 25f; // back to 25 in round 10
+        public float clothingHitCost = 20f; // round 11
         public float monsterHitCostAtRep0 = 100f;
         public float monsterHitCostAtRep50 = 75f;
         public float monsterHitCostAtRep100 = 65f; // round 9 (rep 50 stays 75, rep 0 stays 100)
@@ -49,7 +49,7 @@ namespace BossFight
 
         [Header("Player combat: slash")]
         public float slashArcDegrees = 120f; // playtest round 5 (was 70)
-        public float slashReach = 2.75f;
+        public float slashReach = 2.85f; // round 11: +0.1
         public int slashMaxTargets = 3;
         public float slashDamage = 10f;
         public float slashWindupSeconds = 0.15f;
@@ -81,11 +81,11 @@ namespace BossFight
         // Round 6 waves: a rack shakes (telegraph), releases a ring of costumes, and the next rack starts shaking
         // waveNextDelaySeconds after waveClearFraction of that wave is dead.
         public float waveFirstDelaySeconds = 3f;
-        public float waveNextDelaySeconds = 4f; // round 10 (was 6)
+        public float waveNextDelaySeconds = 5f; // round 11
         // Safety net (round 8): if nothing from the current wave dies for this long, the next rack starts anyway
         // and the old wave stays alive (covers costumes stuck somewhere unreachable).
         public float waveStallSeconds = 6f; // unused since round 9 (removed: it stacked waves into a flood)
-        [Range(0f, 1f)] public float waveClearFraction = 5f / 6f; // round 10: a lane brings its next rack once 5 of 6 are dead
+        [Range(0f, 1f)] public float waveClearFraction = 4f / 6f; // round 11: a lane brings its next rack once 4 of 6 are dead
         public float rackTelegraphSeconds = 4.5f; // round 10
         public float rackLiftMeters = 1.6f; // unused since round 8: the lift clears the neighbouring racks (RackLift)
         public float waveRingMinRadius = 1.4f;
@@ -125,7 +125,7 @@ namespace BossFight
         // Length of the Mixamo attack clip (Attack.anim: 79 frames at 30 fps); the swing always plays all of it.
         public float monsterAttackClipSeconds = 2.63f;
         // Speed while swinging, as a fraction of its run: it lunges at the player through the whole clip.
-        public float monsterAttackMoveFactor = 0.5f;
+        public float monsterAttackMoveFactor = 0.25f; // round 11
         public float monsterAttackReach = 2.3f; // wider to make up for the later strike
         public float monsterAttackConeDegrees = 90f;
         public float monsterAttackCooldownSeconds = 0.4f; // the full clip is now most of the gap between swings

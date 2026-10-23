@@ -84,7 +84,7 @@ public class PlaytestRound5Tests
     {
         var s = new BossFightSettings();
         Assert.AreEqual(120f, s.slashArcDegrees);
-        Assert.AreEqual(2.75f, s.slashReach, 1e-5f);
+        Assert.AreEqual(2.85f, s.slashReach, 1e-5f); // round 11
         Assert.AreEqual(1.05f * s.clothingSpeedFactor, s.SlashMoveSpeedFactor, 1e-5f); // round 9
         Assert.AreEqual(0.75f, s.invincibilitySeconds, 1e-5f); // changed again in rounds 6, 7 and 8
         Assert.AreEqual(7f, s.bookThrowIntervalSeconds, 1e-5f);

@@ -27,7 +27,7 @@ MonoBehaviour:
     flickerDipSecondsMin: 0.06
     flickerDipSecondsMax: 0.18
     strongFlickerIntervalScale: 0.5
-    clothingHitCost: 25
+    clothingHitCost: 20
     monsterHitCostAtRep0: 100
     monsterHitCostAtRep50: 75
     monsterHitCostAtRep100: 65
@@ -40,7 +40,7 @@ MonoBehaviour:
     monsterHpMultiplierAtRep100: 0.5
     maxMonsters: 6
     slashArcDegrees: 120
-    slashReach: 2.75
+    slashReach: 2.85
     slashMaxTargets: 3
     slashDamage: 10
     slashWindupSeconds: 0.15
@@ -62,9 +62,9 @@ MonoBehaviour:
     waveMinCostumes: 4
     waveMaxCostumes: 6
     waveFirstDelaySeconds: 3
-    waveNextDelaySeconds: 4
+    waveNextDelaySeconds: 5
     waveStallSeconds: 6
-    waveClearFraction: 0.8333333
+    waveClearFraction: 0.6666667
     rackTelegraphSeconds: 4.5
     rackLiftMeters: 0.8
     waveRingMinRadius: 1.4
@@ -91,7 +91,7 @@ MonoBehaviour:
     monsterBaseHp: 70
     monsterWindupSeconds: 1.1
     monsterAttackClipSeconds: 2.63
-    monsterAttackMoveFactor: 0.5
+    monsterAttackMoveFactor: 0.25
     monsterAttackReach: 2.3
     monsterAttackConeDegrees: 90
     monsterAttackCooldownSeconds: 0.4

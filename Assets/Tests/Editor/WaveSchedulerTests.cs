@@ -41,7 +41,7 @@ public class WaveSchedulerTests
         Assert.IsNull(Tick(s, 1f, size), "nobody died: no countdown");
         Assert.IsNull(Tick(s, 1f, 3), "one dead is not enough");
         Assert.AreEqual(WaveScheduler.Stage.WaitingForClear, s.Current);
-        Assert.IsNull(Tick(s, 0f, 0), "the whole wave (4 at rep 100; 5/6 rounds up to all 4) starts the countdown");
+        Assert.IsNull(Tick(s, 0f, 0), "most of the wave dead starts the countdown");
         Assert.AreEqual(WaveScheduler.Stage.Countdown, s.Current);
         Assert.IsNull(Tick(s, settings.waveNextDelaySeconds - 0.1f, 0));
         Assert.AreEqual(WaveScheduler.WaveEvent.Telegraph, Tick(s, 0.2f, 0).Value.Event);
