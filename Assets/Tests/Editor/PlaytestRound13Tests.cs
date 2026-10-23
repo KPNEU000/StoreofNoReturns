@@ -25,4 +25,13 @@ public class PlaytestRound13Tests
         var lookingDown = new Vector3(0f, -0.9f, 0.3f);
         Assert.AreEqual(2, rules.SelectTargets(Vector3.zero, lookingDown, targets).Count);
     }
+
+    [Test]
+    public void TheSavedConfigHasNoPierceCapEither()
+    {
+        // The game reads the config asset, not the code defaults; a capped asset would keep the old limit of 3.
+        BossFight.Editor.ConfigBuilder.Build();
+        var settings = BossFight.Editor.ConfigBuilder.Load().ToSettings();
+        Assert.GreaterOrEqual(settings.slashMaxTargets, 100);
+    }
 }

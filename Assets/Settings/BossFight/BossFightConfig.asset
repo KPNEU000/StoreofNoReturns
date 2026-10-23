@@ -41,7 +41,7 @@ MonoBehaviour:
     maxMonsters: 6
     slashArcDegrees: 120
     slashReach: 2.85
-    slashMaxTargets: 3
+    slashMaxTargets: 999
     slashDamage: 10
     slashWindupSeconds: 0.15
     slashRecoverySeconds: 0.5
