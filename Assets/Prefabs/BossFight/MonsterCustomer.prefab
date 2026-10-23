@@ -748,6 +748,7 @@ MonoBehaviour:
   boostTint: {r: 0.6, g: 0.15, b: 1, a: 1}
   hurtSound: {fileID: 0}
   deathSound: {fileID: 0}
+  windupSound: {fileID: 8300000, guid: 811f9d48eb65f4616916ebedf4d48e62, type: 3}
 --- !u!114 &6897592742875303797
 MonoBehaviour:
   m_ObjectHideFlags: 0

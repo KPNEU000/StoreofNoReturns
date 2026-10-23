@@ -86,7 +86,7 @@ namespace BossFight
             IsSlashing = true;
             if (movement == null) movement = GetComponentInParent<PlayerMovement>();
             if (movement != null) movement.SpeedMultiplier = rules.MoveSpeed(movement.speed) / movement.speed;
-            if (swooshSound != null) AudioSource.PlayClipAtPoint(swooshSound, transform.position);
+            if (swooshSound != null) Sfx.Play(swooshSound, transform.position, 0.7f, 1f, 0.12f, 0f);
         }
 
         private void EndSlash()
@@ -132,7 +132,7 @@ namespace BossFight
             foreach (int i in rules.SelectTargets(origin, forward, positions))
             {
                 found[i].TakeDamage(settings.slashDamage, origin);
-                if (hitSound != null) AudioSource.PlayClipAtPoint(hitSound, positions[i]);
+                if (hitSound != null) Sfx.Play(hitSound, positions[i]);
             }
         }
 

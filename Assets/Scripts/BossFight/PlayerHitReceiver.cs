@@ -52,7 +52,7 @@ namespace BossFight
             flashStart = Time.unscaledTime;
             if (hitSound != null)
             {
-                AudioSource.PlayClipAtPoint(hitSound, transform.position);
+                Sfx.Play(hitSound, transform.position, 0.9f, 1f, Sfx.DefaultPitchJitter, 0f);
             }
             return true;
         }

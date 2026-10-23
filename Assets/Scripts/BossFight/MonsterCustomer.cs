@@ -39,6 +39,8 @@ namespace BossFight
 
         private NavMeshAgent agent;
         private readonly RepathGate repath = new RepathGate();
+        [SerializeField]
+        private AudioClip windupSound;
         private bool indoors;
         private MonsterAttack attack;
         private FlankRouting routing;
@@ -140,6 +142,7 @@ namespace BossFight
                 NavAgents.Steer(agent, repath, player.position);
                 SwingSpeed();
                 Play(AttackState, true);
+                Sfx.Play(windupSound, pos + Vector3.up * 1.5f, 0.8f, 0.75f);
             }
             else
             {
@@ -202,7 +205,7 @@ namespace BossFight
             flashUntil = Time.time + damageFlashSeconds;
             ApplyTint(Color.red, true);
             FlashRed();
-            if (hurtSound != null) AudioSource.PlayClipAtPoint(hurtSound, transform.position);
+            if (hurtSound != null) Sfx.Play(hurtSound, transform.position);
             // Playtest: hits used to cancel the wind-up, so spam-slashing a monster made it harmless. A swing in
             // progress now always finishes; the flinch only plays when it is not attacking.
             if (attack.State != MonsterAttackState.Idle) return;
@@ -231,7 +234,7 @@ namespace BossFight
             var rigidbody = GetComponent<Rigidbody>();
             if (rigidbody != null) rigidbody.isKinematic = true;
             Ragdoll();
-            if (deathSound != null) AudioSource.PlayClipAtPoint(deathSound, transform.position);
+            if (deathSound != null) Sfx.Play(deathSound, transform.position);
             if (director != null) director.MonsterDied(this);
         }
 

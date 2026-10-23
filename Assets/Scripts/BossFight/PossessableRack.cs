@@ -148,6 +148,14 @@ namespace BossFight
             return glowMaterial;
         }
         private Coroutine telegraph;
+        // Telegraph: a rising hum plus creaks while it shakes; a metal slam when it comes down.
+        [SerializeField]
+        private AudioClip telegraphHum;
+        [SerializeField]
+        private AudioClip telegraphCreak;
+        [SerializeField]
+        private AudioClip slamSound;
+        private AudioSource hum;
         private ParticleSystem aura;
         private Light auraLight;
         private Vector3 restPosition;
@@ -179,6 +187,19 @@ namespace BossFight
             auraLight.shadows = LightShadows.None;
             auraLight.transform.position = releasePoint + Vector3.up * 1.2f;
             seconds = Mathf.Max(seconds, 0.01f);
+            if (telegraphHum != null)
+            {
+                hum = auraLight.gameObject.AddComponent<AudioSource>();
+                hum.clip = telegraphHum;
+                hum.loop = true;
+                hum.spatialBlend = 1f;
+                hum.minDistance = 4f;
+                hum.maxDistance = 45f;
+                hum.rolloffMode = AudioRolloffMode.Linear;
+                hum.volume = 0f;
+                hum.Play();
+            }
+            float nextCreak = 0f;
             var glowSwap = GlowMaterial();
             bool swapped = false;
             for (float t = 0f; t < seconds; t += Time.deltaTime)
@@ -202,6 +223,16 @@ namespace BossFight
                 shake.y *= 0.4f;
                 transform.position = restPosition + Vector3.up * lift + shake;
                 auraLight.intensity = Mathf.Lerp(6f, 18f, k) * (0.85f + 0.15f * Mathf.Sin(t * 30f));
+                if (hum != null)
+                {
+                    hum.volume = Mathf.Lerp(0.15f, 0.6f, k);
+                    hum.pitch = Mathf.Lerp(0.8f, 1.25f, k);
+                }
+                if (t >= nextCreak)
+                {
+                    Sfx.Play(telegraphCreak, transform.position, 0.55f, 0.9f, 0.15f);
+                    nextCreak = t + Random.Range(0.5f, 0.9f);
+                }
                 yield return null;
             }
             telegraph = null;
@@ -215,6 +246,8 @@ namespace BossFight
             if (telegraph != null) StopCoroutine(telegraph);
             telegraph = null;
             transform.position = restPosition;
+            if (hum != null) hum.Stop();
+            Sfx.Play(slamSound, releasePoint, 1f, 0.9f);
             var burst = CreateBurst();
             burst.transform.position = releasePoint + Vector3.up * 0.8f;
             var main = burst.main;

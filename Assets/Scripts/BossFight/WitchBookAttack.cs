@@ -147,7 +147,7 @@ namespace BossFight
                 yield break;
             }
             current.Claim();
-            if (castSound != null) AudioSource.PlayClipAtPoint(castSound, witch.position);
+            if (castSound != null) Sfx.Play(castSound, witch.position, 0.4f);
 
             // The arm extends from the witch's hand to the book.
             arm.enabled = true;

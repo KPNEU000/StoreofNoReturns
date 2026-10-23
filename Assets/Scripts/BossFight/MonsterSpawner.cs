@@ -14,6 +14,10 @@ namespace BossFight
         private MonsterCustomer prefab;
         [SerializeField]
         private Transform spawnPoint;
+        // All the monsters scream in the same instant as they appear outside the door (one voice each, pitched
+        // differently so it reads as a crowd, not a queue of screams).
+        [SerializeField]
+        private AudioClip[] screamSounds = new AudioClip[0];
 
         private BossFightSettings settings;
 
@@ -48,6 +52,10 @@ namespace BossFight
                 var position = spawnPoint.position + spawnPoint.right * side;
                 var monster = Instantiate(prefab, position, spawnPoint.rotation);
                 monster.Init(director, i, i * settings.monsterSpawnStaggerSeconds, reputation, i < names.Count ? names[i] : null);
+                if (screamSounds.Length > 0)
+                {
+                    Sfx.Play(screamSounds[i % screamSounds.Length], position, 0.9f, 0.72f + 0.07f * (i % 4), 0.03f);
+                }
             }
         }
     }

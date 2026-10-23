@@ -104,6 +104,7 @@ namespace BossFight
             float walk = movement != null ? movement.speed : 10f;
             chaseSpeed = walk * settings.clothingSpeedFactor;
             agent.speed = chaseSpeed;
+            hoverHeight = settings.clothingHoverHeight;
             agent.baseOffset = hoverHeight;
             block = new MaterialPropertyBlock();
 

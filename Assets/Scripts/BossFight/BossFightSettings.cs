@@ -74,6 +74,8 @@ namespace BossFight
 
         [Header("Enemies: clothing")]
         public float clothingHp = 10f;
+        // How high a possessed garment's hanger floats above the floor (round 14: raised from 1.0).
+        public float clothingHoverHeight = 1.35f;
         public float clothingFlopSeconds = 1.5f;
         public float waveIntervalSeconds = 20f; // unused since playtest round 6 (waves follow kills, see WaveScheduler)
         public int waveMinCostumes = 4; // unused
@@ -81,11 +83,11 @@ namespace BossFight
         // Round 6 waves: a rack shakes (telegraph), releases a ring of costumes, and the next rack starts shaking
         // waveNextDelaySeconds after waveClearFraction of that wave is dead.
         public float waveFirstDelaySeconds = 3f;
-        public float waveNextDelaySeconds = 5f; // round 13
+        public float waveNextDelaySeconds = 4f; // round 14
         // Safety net (round 8): if nothing from the current wave dies for this long, the next rack starts anyway
         // and the old wave stays alive (covers costumes stuck somewhere unreachable).
         public float waveStallSeconds = 6f; // unused since round 9 (removed: it stacked waves into a flood)
-        [Range(0f, 1f)] public float waveClearFraction = 5f / 6f; // round 13: a lane brings its next rack once 5 of 6 are dead
+        [Range(0f, 1f)] public float waveClearFraction = 4f / 6f; // round 14: a lane brings its next rack once 4 of 6 are dead
         public float rackTelegraphSeconds = 4.5f; // round 10
         public float rackLiftMeters = 1.6f; // unused since round 8: the lift clears the neighbouring racks (RackLift)
         public float waveRingMinRadius = 1.4f;

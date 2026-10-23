@@ -27,6 +27,7 @@ namespace BossFight.Editor
             ("Ceiling cave-in", CaveInBuilder.Build),
             ("Opening sequence, text box and door barrier", OpeningBuilder.Build),
             ("Costume return values", CostumeReturnValueBuilder.Build),
+            ("Sound effects and music", SoundBuilder.Build),
             ("Build settings scenes", BuildSettingsBuilder.Build),
         };
 

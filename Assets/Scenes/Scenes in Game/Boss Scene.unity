@@ -4376,8 +4376,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &141672556
 GameObject:
   m_ObjectHideFlags: 0
@@ -6625,8 +6625,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &191645299
 GameObject:
   m_ObjectHideFlags: 0
@@ -6967,8 +6967,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &202061298
 GameObject:
   m_ObjectHideFlags: 0
@@ -8583,8 +8583,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!4 &246918597 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3260047126930880572, guid: 27b1ddcc42bd5cb4fbbc20b1d8109586, type: 3}
@@ -12488,6 +12488,9 @@ MonoBehaviour:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
   - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &375142814
 GameObject:
   m_ObjectHideFlags: 0
@@ -12684,6 +12687,9 @@ MonoBehaviour:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
   - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &377358532
 GameObject:
   m_ObjectHideFlags: 0
@@ -14356,8 +14362,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &432844535
 GameObject:
   m_ObjectHideFlags: 0
@@ -14931,8 +14937,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &452082840
 GameObject:
   m_ObjectHideFlags: 0
@@ -15417,6 +15423,10 @@ MonoBehaviour:
   director: {fileID: 514971802}
   prefab: {fileID: 10961835108297996, guid: 43ba6872e1a934dfab3e1da389559e93, type: 3}
   spawnPoint: {fileID: 648182676}
+  screamSounds:
+  - {fileID: 8300000, guid: 691cdb4a5d4c149d7851b2cc138b4060, type: 3}
+  - {fileID: 8300000, guid: 96ff2b1461d1b4d8ba034cd4aed05bf2, type: 3}
+  - {fileID: 8300000, guid: 6ae1d9d3c01cb413085e9e35c1971c12, type: 3}
 --- !u!4 &464854727
 Transform:
   m_ObjectHideFlags: 0
@@ -16027,8 +16037,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &496015199
 GameObject:
   m_ObjectHideFlags: 0
@@ -17852,8 +17862,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &556836554
 GameObject:
   m_ObjectHideFlags: 0
@@ -19340,8 +19350,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &606111485
 GameObject:
   m_ObjectHideFlags: 0
@@ -19570,9 +19580,9 @@ MonoBehaviour:
   shardMaterial: {fileID: 2100000, guid: b74dfb33aaecd4e5a98c34ccdca8919f, type: 2}
   wallCrackMaterial: {fileID: 2100000, guid: 82034406960c140f8b825e7cf49ee82f, type: 2}
   screenCrackMaterial: {fileID: 2100000, guid: cb2efce13824143efa704b4f64675340, type: 2}
-  magicSound: {fileID: 0}
-  shatterSound: {fileID: 0}
-  doorBlastSound: {fileID: 0}
+  magicSound: {fileID: 8300000, guid: 3ad5408877bc0471389175a07cffbd9c, type: 3}
+  shatterSound: {fileID: 8300000, guid: 552d9297ae2dc4c1e99f9ea84d42cca0, type: 3}
+  doorBlastSound: {fileID: 8300000, guid: 9b597c2362615484d9948b628eb64301, type: 3}
 --- !u!4 &611488440
 Transform:
   m_ObjectHideFlags: 0
@@ -20149,7 +20159,7 @@ MonoBehaviour:
   arcDistance: 1.5
   arcSweepDegrees: 120
   hangRiseMeters: 0.3
-  castSound: {fileID: 0}
+  castSound: {fileID: 8300000, guid: 0da11595ffec74a6a981294f96b20034, type: 3}
 --- !u!4 &634522980
 Transform:
   m_ObjectHideFlags: 0
@@ -20748,6 +20758,9 @@ MonoBehaviour:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
   - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &664165890
 GameObject:
   m_ObjectHideFlags: 0
@@ -27045,8 +27058,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &701175850
 GameObject:
   m_ObjectHideFlags: 0
@@ -30957,8 +30970,8 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
   movement: {fileID: 1001882434}
   pivot: {fileID: 1491881853}
-  swooshSound: {fileID: 0}
-  hitSound: {fileID: 0}
+  swooshSound: {fileID: 8300000, guid: c956a7dbdf0654616b85cc4db279869d, type: 3}
+  hitSound: {fileID: 8300000, guid: 0b97afca2a31e44109d8346836699fa0, type: 3}
   restEuler: {x: 0, y: 0, z: 0}
   windupEuler: {x: 0, y: 0, z: -80}
   sweepEuler: {x: 0, y: 0, z: 80}
@@ -33961,8 +33974,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &928482650
 GameObject:
   m_ObjectHideFlags: 0
@@ -34606,8 +34619,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &951879014
 GameObject:
   m_ObjectHideFlags: 0
@@ -34836,8 +34849,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &954825313
 GameObject:
   m_ObjectHideFlags: 0
@@ -35957,8 +35970,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1001 &993994818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36366,6 +36379,7 @@ GameObject:
   - component: {fileID: 1001882434}
   - component: {fileID: 1001882439}
   - component: {fileID: 1001882440}
+  - component: {fileID: 1001882441}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -36511,7 +36525,27 @@ MonoBehaviour:
   moneyManager: {fileID: 133887730}
   reputationManager: {fileID: 133887734}
   hitFlash: {fileID: 330534770}
-  hitSound: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: d3b9991891a3c44d387464d46f72bbe2, type: 3}
+--- !u!114 &1001882441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001882433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba499c2103ca4c74b7169252f6e571e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PlayerFootsteps
+  steps:
+  - {fileID: 8300000, guid: 9a9e384e3f20f4a6f8a5571244c3d006, type: 3}
+  - {fileID: 8300000, guid: d7c770bc9e32c4640bfb9c6e61211b53, type: 3}
+  - {fileID: 8300000, guid: 057d0d11279ef4d0dabac9fd3742d763, type: 3}
+  - {fileID: 8300000, guid: 1ab9af67822f843e1b3c935fcde46642, type: 3}
+  - {fileID: 8300000, guid: f408c91fcf7c743b09003c7e027ccfad, type: 3}
+  volume: 0.22
+  strideSeconds: 0.42
 --- !u!1 &1002508114
 GameObject:
   m_ObjectHideFlags: 0
@@ -37197,6 +37231,9 @@ MonoBehaviour:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
   - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &1019106718
 GameObject:
   m_ObjectHideFlags: 0
@@ -40224,8 +40261,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1137205194
 GameObject:
   m_ObjectHideFlags: 0
@@ -40665,8 +40702,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1147861753
 GameObject:
   m_ObjectHideFlags: 0
@@ -41538,6 +41575,9 @@ MonoBehaviour:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
   - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!4 &1175757085 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3260047126930880572, guid: 27b1ddcc42bd5cb4fbbc20b1d8109586, type: 3}
@@ -43675,6 +43715,9 @@ MonoBehaviour:
   - {fileID: 2892068233996699481, guid: c01de2821c276f94bb2ba56c0129083f, type: 3}
   garmentPrefabs:
   - {fileID: 8081653448326425463, guid: 5b0522a484afb4963852ad4e2c208d48, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &1245773078
 GameObject:
   m_ObjectHideFlags: 0
@@ -44055,8 +44098,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1256710576
 GameObject:
   m_ObjectHideFlags: 0
@@ -45118,8 +45161,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!23 &1290692225
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46860,6 +46903,9 @@ MonoBehaviour:
   - {fileID: 899621543398838884, guid: 092b62eb30990644f8e2063c332e7246, type: 3}
   garmentPrefabs:
   - {fileID: 2286682023976722883, guid: cfe85e62e649e4fe0bfaa7e93c12ce64, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1001 &1325894992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48682,8 +48728,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1001 &1394444936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48903,8 +48949,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1397179680
 GameObject:
   m_ObjectHideFlags: 0
@@ -49073,8 +49119,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1399159654
 GameObject:
   m_ObjectHideFlags: 0
@@ -50154,8 +50200,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1431748993
 GameObject:
   m_ObjectHideFlags: 0
@@ -52643,8 +52689,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1496460198
 GameObject:
   m_ObjectHideFlags: 0
@@ -53453,7 +53499,7 @@ MonoBehaviour:
   director: {fileID: 514971802}
   shield: {fileID: 1343199476}
   shatterBurst: {fileID: 682656913}
-  shatterSound: {fileID: 0}
+  shatterSound: {fileID: 8300000, guid: 8a9a0a49e1b144d498339864357b7f4b, type: 3}
   hurtSound: {fileID: 0}
   shieldTexture: {fileID: 0}
   bobAmplitude: 0.08
@@ -56542,6 +56588,9 @@ MonoBehaviour:
   - {fileID: 6754478548331413432, guid: 5c55ff89aeac635448e62cb073ef10a3, type: 3}
   garmentPrefabs:
   - {fileID: 2351980221827400068, guid: 8488c3aa8b5224890a4437b65d123214, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &1604357802
 GameObject:
   m_ObjectHideFlags: 0
@@ -56679,8 +56728,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1001 &1606051160
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57787,8 +57836,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1631030446
 GameObject:
   m_ObjectHideFlags: 0
@@ -61299,8 +61348,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1755465771
 GameObject:
   m_ObjectHideFlags: 0
@@ -61480,6 +61529,9 @@ MonoBehaviour:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
   - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &1761336320
 GameObject:
   m_ObjectHideFlags: 0
@@ -61904,8 +61956,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1776671718
 GameObject:
   m_ObjectHideFlags: 0
@@ -63439,8 +63491,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1825111771
 GameObject:
   m_ObjectHideFlags: 0
@@ -64551,8 +64603,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1862206867
 GameObject:
   m_ObjectHideFlags: 0
@@ -65601,8 +65653,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1877248796
 GameObject:
   m_ObjectHideFlags: 0
@@ -65642,9 +65694,9 @@ MonoBehaviour:
   handMaterial: {fileID: 2100000, guid: 7790187cf18ee451b9efd3fcfd1d2ca3, type: 2}
   dustMaterial: {fileID: 2100000, guid: 2b35fadc2a2704744b14ec315c1d6c31, type: 2}
   moonlightColor: {r: 0.65, g: 0.78, b: 1, a: 1}
-  crackSound: {fileID: 0}
-  rumbleSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  crackSound: {fileID: 8300000, guid: 713a399e03b4646ea8a22984bfc2504a, type: 3}
+  rumbleSound: {fileID: 8300000, guid: b223030899a0e4c288a8bd84c524b429, type: 3}
+  impactSound: {fileID: 8300000, guid: c0e6bcce171b1420594b1aa79898355c, type: 3}
 --- !u!4 &1877248798
 Transform:
   m_ObjectHideFlags: 0
@@ -65713,6 +65765,9 @@ MonoBehaviour:
   - {fileID: 8554172815481801290, guid: bccb528c814eb5349979e9a4d5406a37, type: 3}
   garmentPrefabs:
   - {fileID: 6812737689486625329, guid: 83776c3350d59405a873e0fdcf8c7ddc, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &1883330439
 GameObject:
   m_ObjectHideFlags: 0
@@ -65882,8 +65937,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1886388027
 GameObject:
   m_ObjectHideFlags: 0
@@ -66144,6 +66199,9 @@ MonoBehaviour:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
   - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &1897019261
 GameObject:
   m_ObjectHideFlags: 0
@@ -67039,6 +67097,9 @@ MonoBehaviour:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
   - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &1904410430
 GameObject:
   m_ObjectHideFlags: 0
@@ -68203,8 +68264,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1948894502
 GameObject:
   m_ObjectHideFlags: 0
@@ -68410,8 +68471,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &1959181911
 GameObject:
   m_ObjectHideFlags: 0
@@ -69135,6 +69196,151 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1984663530
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1984663533}
+  - component: {fileID: 1984663532}
+  - component: {fileID: 1984663531}
+  m_Layer: 0
+  m_Name: BossMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1984663531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984663530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 738f61e0524b94f80b3c18b96dc7233c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.BossMusic
+  director: {fileID: 514971802}
+  volume: 0.25
+  fadeSeconds: 2.5
+--- !u!82 &1984663532
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984663530}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 93b8bf56b888947438b72a3cb23d42d8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1984663533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984663530}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1989988893
 GameObject:
   m_ObjectHideFlags: 0
@@ -70739,8 +70945,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1001 &2045953337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71440,8 +71646,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &2062830134
 GameObject:
   m_ObjectHideFlags: 0
@@ -71701,8 +71907,8 @@ MonoBehaviour:
   spinDegreesPerSecond: 540
   settleMaxSeconds: 6
   settleSpeed: 0.1
-  whooshSound: {fileID: 0}
-  impactSound: {fileID: 0}
+  whooshSound: {fileID: 8300000, guid: 45a06916e2d7640408636bc5e6d90a0b, type: 3}
+  impactSound: {fileID: 8300000, guid: aa9f456e584b64b028d84da6c485f05d, type: 3}
 --- !u!1 &2073020655
 GameObject:
   m_ObjectHideFlags: 0
@@ -73799,6 +74005,9 @@ MonoBehaviour:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
   - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!1 &2135000192
 GameObject:
   m_ObjectHideFlags: 0
@@ -74233,6 +74442,9 @@ MonoBehaviour:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
   - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
+  telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
+  slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
 --- !u!33 &700849082779343622
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -75237,3 +75449,4 @@ SceneRoots:
   - {fileID: 611488440}
   - {fileID: 1762027141}
   - {fileID: 698184483}
+  - {fileID: 1984663533}

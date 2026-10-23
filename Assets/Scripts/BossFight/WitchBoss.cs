@@ -114,7 +114,7 @@ namespace BossFight
             if (!director.DamageWitch(amount)) return;
             flashUntil = Time.time + damageFlashSeconds;
             Tint(Color.red);
-            if (hurtSound != null) AudioSource.PlayClipAtPoint(hurtSound, transform.position);
+            if (hurtSound != null) Sfx.Play(hurtSound, transform.position);
         }
 
         private void OnPhaseChanged(BossPhase phase)
@@ -128,7 +128,7 @@ namespace BossFight
             if (shield == null || !shield.activeSelf) return;
             shield.SetActive(false);
             if (shatterBurst != null) shatterBurst.Play();
-            if (shatterSound != null) AudioSource.PlayClipAtPoint(shatterSound, transform.position);
+            if (shatterSound != null) Sfx.Play(shatterSound, transform.position);
         }
 
         // Falls out of the air; the director handles the score and scene change.

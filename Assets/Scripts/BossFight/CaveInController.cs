@@ -446,7 +446,7 @@ namespace BossFight
 
         private void PlaySound(AudioClip clip, Vector3 position)
         {
-            if (clip != null) AudioSource.PlayClipAtPoint(clip, position);
+            if (clip != null) Sfx.Play(clip, position);
         }
 
         private void Shake(float distance)

@@ -359,7 +359,7 @@ namespace BossFight
                 handSparks.transform.position = WitchHand();
                 MakeEmitter(handSparks.transform, new Color(0.65f, 0.25f, 1f, 1f));
             }
-            if (magicSound != null) AudioSource.PlayClipAtPoint(magicSound, WitchHand());
+            if (magicSound != null) Sfx.Play(magicSound, WitchHand());
             UpdateBeam();
         }
 
@@ -386,7 +386,7 @@ namespace BossFight
             BreakScreen();
             Burst(center, new Color(0.8f, 0.85f, 1f, 1f), 80, 0.3f, 5f);
             Burst(center, new Color(0.75f, 0.35f, 1f, 1f), 160, 0.45f, 3.5f);
-            if (shatterSound != null) AudioSource.PlayClipAtPoint(shatterSound, center);
+            if (shatterSound != null) Sfx.Play(shatterSound, center);
 
             // A jagged piece of the same cracked, glossy glass as the HUD shard it becomes.
             var go = new GameObject("MonitorShard", typeof(MeshFilter), typeof(MeshRenderer));
@@ -601,7 +601,7 @@ namespace BossFight
             }
             Burst(center, new Color(0.8f, 0.9f, 1f, 1f), 160, 1f, 7f);
             Burst(center, new Color(0.75f, 0.35f, 1f, 1f), 60, 1f, 4f);
-            if (doorBlastSound != null) AudioSource.PlayClipAtPoint(doorBlastSound, center);
+            if (doorBlastSound != null) Sfx.Play(doorBlastSound, center);
 
             if (rig == null) rig = FindFirstObjectByType<BossFightRig>();
             if (rig != null && rig.NavMeshSurface != null) rig.NavMeshSurface.BuildNavMesh();

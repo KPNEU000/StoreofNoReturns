@@ -51,6 +51,8 @@ namespace BossFight
         private Light glowLight;
         private TrailRenderer trail;
         private ParticleSystem sparks;
+        // Books are background noise (playtest request): quiet, but there.
+        private const float BackgroundVolume = 0.35f;
         private const float SparkRate = 90f;
         private Vector3 homePosition;
         private Quaternion homeRotation;
@@ -141,7 +143,7 @@ namespace BossFight
             if (bookCollider != null) bookCollider.isTrigger = true;
             trail.Clear();
             trail.emitting = true;
-            if (whooshSound != null) AudioSource.PlayClipAtPoint(whooshSound, transform.position);
+            if (whooshSound != null) Sfx.Play(whooshSound, transform.position, BackgroundVolume);
 
             var direction = BookThrowRules.FlightDirection(transform.position, target);
             bool hit = false;
@@ -158,7 +160,7 @@ namespace BossFight
                 if (BookThrowRules.ReachedTarget(transform.position, direction, target)) break;
                 yield return null;
             }
-            if (impactSound != null) AudioSource.PlayClipAtPoint(impactSound, transform.position);
+            if (impactSound != null) Sfx.Play(impactSound, transform.position, BackgroundVolume);
             trail.emitting = false;
             routine = StartCoroutine(TumbleRoutine(rules, hit ? -direction * 2f : direction * 3f, receiver));
         }

@@ -57,14 +57,15 @@ MonoBehaviour:
     monsterSpeedFactor: 0.95
     boostedMonsterSpeedFactor: 1.4
     clothingHp: 10
+    clothingHoverHeight: 1.35
     clothingFlopSeconds: 1.5
     waveIntervalSeconds: 20
     waveMinCostumes: 4
     waveMaxCostumes: 6
     waveFirstDelaySeconds: 3
-    waveNextDelaySeconds: 5
+    waveNextDelaySeconds: 4
     waveStallSeconds: 6
-    waveClearFraction: 0.8333333
+    waveClearFraction: 0.6666667
     rackTelegraphSeconds: 4.5
     rackLiftMeters: 0.8
     waveRingMinRadius: 1.4
