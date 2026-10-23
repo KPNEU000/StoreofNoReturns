@@ -34,6 +34,8 @@ public class CameraBehaviour : MonoBehaviour
     [SerializeField] private Transform basePosition;
     [SerializeField] private GameObject pixelationFilter;
     [SerializeField] private GameObject customerCanvas;
+
+    [SerializeField] Material outlineMaterial;
     bool active = true;
 
     public bool cameraBehaviourEnabled { get; private set; } = true;
@@ -85,21 +87,27 @@ public class CameraBehaviour : MonoBehaviour
         //cam.ScreenToViewportPoint(Mouse.current.position.ReadValue()
         //this returns a normalized (0-1) unsigned vector2 about the position of mouse on screen
 
-        if (mouse.leftButton.wasPressedThisFrame && active)
+        Vector2 mousePos = Mouse.current.position.ReadValue(); // scaled to 780 x 440
+        Vector2 viewportFactor = new Vector2((float)cam.pixelWidth / Screen.width, (float)cam.pixelHeight / Screen.height);
+        ray = cam.ScreenPointToRay(mousePos * viewportFactor);
+        RaycastHit hit;
+        outlineMaterial.SetFloat("_Scale", 0f);
+        if(Physics.Raycast(ray, out hit, 50f))
         {
-            Debug.Log("mouse clicked");
-            Vector2 mousePos = Mouse.current.position.ReadValue(); // scaled to 780 x 440
-            Vector2 viewportFactor = new Vector2((float)cam.pixelWidth / Screen.width, (float)cam.pixelHeight / Screen.height);
-            ray = cam.ScreenPointToRay(mousePos * viewportFactor);
-            RaycastHit hit;
-
-            print(mousePos + " " + viewportFactor);
-            if (Physics.Raycast(ray, out hit, 50f))
+            if(hit.transform.CompareTag("Computer") && active)
             {
+                outlineMaterial.SetFloat("_Scale", 1.1f);
+            }
 
-                if (hit.transform.CompareTag("Computer")
-                //&& zoomedIn
-                )
+            if (mouse.leftButton.wasPressedThisFrame && active)
+            {
+                Debug.Log("mouse clicked");
+                
+
+                print(mousePos + " " + viewportFactor);
+
+
+                if (hit.transform.CompareTag("Computer"))
                 {
                     Debug.Log("computer clicked");
                     EnterComputerInteraction();
@@ -115,8 +123,12 @@ public class CameraBehaviour : MonoBehaviour
                     Debug.Log("button clicked");
                 }
 
+                
             }
+
         }
+        
+        
     }
 
     void OnDrawGizmos()
