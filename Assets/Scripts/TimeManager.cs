@@ -56,7 +56,7 @@ public class TimeManager : MonoBehaviour
             timer -= realSecondsPerInGameMinute;
             AdvanceMinute();
             UpdateTimeText();
-            // CheckEndOfTime(); // TEMP: disabled for dialogue testing
+            CheckEndOfTime(); // TEMP: disabled for dialogue testing
         }
     }
 
@@ -101,7 +101,7 @@ public class TimeManager : MonoBehaviour
         {
             shopClosed = true;
             customerSpawner.WitchComes();
-            //FindFirstObjectByType<SceneLoadingManager>().GoToNextScene();
+            FindFirstObjectByType<SceneLoadingManager>().GoToNextScene();
             //perform end of game boss battle thing
         }
     }
