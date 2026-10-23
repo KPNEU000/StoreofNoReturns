@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BossFight
 {
     // Comes on by itself when the store lights go out (money <= $500) and stays on; slashing dims it to a faint
-    // glow. Drives a Spot Light child of the camera, set back behind the eye so its falloff is even.
+    // glow. Drives a Spot Light that shines from the flashlight model's lens along the view.
     public class PlayerFlashlight : MonoBehaviour
     {
         [SerializeField]
@@ -26,9 +26,8 @@ namespace BossFight
         private float fraction;
         private bool on;
         private MoneyManager money;
-        // URP spot lights fall off with the square of distance, so a light at the eye made close surfaces glare
-        // and the floor ahead dim. Moving the source back evens the pool out (playtest round 5).
-        private const float BeamSetback = 1.2f;
+        // How far in front of the flashlight model's centre its lens is.
+        private const float LensOffset = 0.15f;
         private Vector3 restPosition;
 
         // Tutorial sets this above 1 for the extra bright beam.
@@ -54,7 +53,7 @@ namespace BossFight
                 beam.innerSpotAngle = Mathf.Min(settings.flashlightInnerSpotAngle, settings.flashlightSpotAngle);
             }
             if (visual != null) restPosition = visual.localPosition;
-            SetBackBeam();
+            AimFromLens();
         }
 
         private void Start()
@@ -64,14 +63,16 @@ namespace BossFight
             if (beam != null) beam.intensity = 0f;
         }
 
-        private void SetBackBeam()
+        // Playtest round 6: a source set back behind the eye lit up the sword instead of coming out of the torch.
+        private void AimFromLens()
         {
             var eye = GetComponentInParent<Camera>();
             if (beam == null || eye == null) return;
-            beam.transform.position = eye.transform.position - eye.transform.forward * BeamSetback;
+            var origin = visual != null ? visual.position : transform.position;
+            beam.transform.position = origin + eye.transform.forward * LensOffset;
             beam.transform.rotation = eye.transform.rotation;
-            beam.range = settings.flashlightRange + BeamSetback;
-            // The player's own body, sword and torch now sit inside the cone; they must not shadow it.
+            beam.range = settings.flashlightRange;
+            // The player's own body, sword and torch must never shadow the beam.
             var root = eye.transform.root;
             foreach (var r in root.GetComponentsInChildren<Renderer>(true))
             {

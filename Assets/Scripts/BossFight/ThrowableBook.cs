@@ -45,6 +45,8 @@ namespace BossFight
         private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
 
         private Renderer bookRenderer;
+        // The page block and its cover plates/spine; they all glow together.
+        private MeshRenderer[] glowRenderers;
         private Collider bookCollider;
         private Light glowLight;
         private TrailRenderer trail;
@@ -63,6 +65,7 @@ namespace BossFight
         private void Awake()
         {
             bookRenderer = GetComponentInChildren<Renderer>();
+            glowRenderers = GetComponentsInChildren<MeshRenderer>(true);
             bookCollider = GetComponent<Collider>();
             EnemyContact.IgnorePlayer(gameObject);
             BookThrowRules.ScaleAboutBase(transform.localPosition, transform.localScale, BossFightConfig.SettingsOf(config).bookScale,
@@ -73,11 +76,8 @@ namespace BossFight
             homePosition = transform.localPosition;
             homeRotation = transform.localRotation;
 
-            if (bookRenderer != null)
-            {
-                bookRenderer.material.EnableKeyword("_EMISSION");
-                SetGlow(0f);
-            }
+            foreach (var r in glowRenderers) r.material.EnableKeyword("_EMISSION");
+            SetGlow(0f);
             var lightObject = new GameObject("BookGlow");
             lightObject.transform.SetParent(transform, false);
             glowLight = lightObject.AddComponent<Light>();
@@ -256,7 +256,13 @@ namespace BossFight
                 var emission = sparks.emission;
                 emission.rateOverTime = SparkRate * amount;
             }
-            if (bookRenderer != null) bookRenderer.material.SetColor(EmissionColorId, glowColor * (glowIntensity * amount));
+            if (glowRenderers != null)
+            {
+                foreach (var r in glowRenderers)
+                {
+                    if (r != null) r.material.SetColor(EmissionColorId, glowColor * (glowIntensity * amount));
+                }
+            }
             if (glowLight != null)
             {
                 glowLight.intensity = lightIntensity * amount;

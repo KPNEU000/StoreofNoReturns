@@ -39,15 +39,15 @@ public class MonsterAttackTests
         var player = new Vector3(0f, 0f, 1f);
         attack.TryBegin(Origin, player);
         Assert.IsTrue(attack.Tick(settings.monsterWindupSeconds + 0.01f, Origin, Forward, player));
-        Assert.AreEqual(MonsterAttackState.Cooldown, attack.State);
+        Assert.AreEqual(MonsterAttackState.Recovery, attack.State, "the clip keeps playing after the strike");
     }
 
     [Test]
     public void WhiffsWhenPlayerBacksOutOfReach()
     {
         attack.TryBegin(Origin, new Vector3(0f, 0f, 1f));
-        Assert.IsFalse(attack.Tick(settings.monsterWindupSeconds + 0.01f, Origin, Forward, new Vector3(0f, 0f, 3f)));
-        Assert.AreEqual(MonsterAttackState.Cooldown, attack.State);
+        Assert.IsFalse(attack.Tick(settings.monsterWindupSeconds + 0.01f, Origin, Forward, new Vector3(0f, 0f, settings.monsterAttackReach + 0.5f)));
+        Assert.AreEqual(MonsterAttackState.Recovery, attack.State, "a whiff still finishes its swing");
     }
 
     [Test]
@@ -73,6 +73,9 @@ public class MonsterAttackTests
         var player = new Vector3(0f, 0f, 1f);
         attack.TryBegin(Origin, player);
         attack.Tick(settings.monsterWindupSeconds + 0.01f, Origin, Forward, player);
+        Assert.IsFalse(attack.TryBegin(Origin, player));
+        attack.Tick(attack.RecoverySeconds + 0.01f, Origin, Forward, player);
+        Assert.AreEqual(MonsterAttackState.Cooldown, attack.State);
         Assert.IsFalse(attack.TryBegin(Origin, player));
         attack.Tick(settings.monsterAttackCooldownSeconds + 0.01f, Origin, Forward, player);
         Assert.AreEqual(MonsterAttackState.Idle, attack.State);
@@ -102,6 +105,23 @@ public class MonsterAttackTests
     {
         Assert.AreEqual(0.95f, settings.monsterSpeedFactor);
         Assert.AreEqual(1.4f, settings.boostedMonsterSpeedFactor);
-        Assert.AreEqual(0.6f, settings.monsterWindupSeconds);
+        Assert.AreEqual(1.1f, settings.monsterWindupSeconds);
+    }
+
+    [Test]
+    public void TheSwingPlaysTheWholeAttackClipAndIsCommittedThroughout()
+    {
+        var player = new Vector3(0f, 0f, 1f);
+        Assert.IsTrue(attack.TryBegin(Origin, player));
+        Assert.IsTrue(attack.Committed);
+        Assert.AreEqual(settings.monsterAttackClipSeconds, attack.WindupSeconds + attack.RecoverySeconds, 1e-4f);
+        // Walking away mid-swing does not end it early.
+        var away = new Vector3(0f, 0f, 20f);
+        attack.Tick(settings.monsterWindupSeconds + 0.01f, Origin, Forward, away);
+        Assert.IsTrue(attack.Committed);
+        attack.Tick(attack.RecoverySeconds - 0.05f, Origin, Forward, away);
+        Assert.IsTrue(attack.Committed);
+        attack.Tick(0.1f, Origin, Forward, away);
+        Assert.IsFalse(attack.Committed);
     }
 }

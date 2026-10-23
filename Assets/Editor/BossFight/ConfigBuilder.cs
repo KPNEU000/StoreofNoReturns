@@ -11,7 +11,8 @@ namespace BossFight.Editor
         private static readonly string[] TunedFields =
         {
             "clothingSpeedFactor", "monsterSpeedFactor", "boostedMonsterSpeedFactor",
-            "flashlightFullIntensity", "flashlightRange", "flashlightSpotAngle", "flashlightInnerSpotAngle",
+            "flashlightFullIntensity", "flashlightRange", "flashlightSpotAngle", "monsterBaseHp", "monsterWindupSeconds",
+            "monsterAttackReach", "monsterAttackCooldownSeconds",
             "outsideLightIntensity", "blackoutEnvironmentFactor",
             "bookScale", "bookTelegraphSeconds", "witchHoverHeight", "caveInChunkRadius",
             "glassHudWidth", "glassHudHeight", "caveInChunkRestHeight",

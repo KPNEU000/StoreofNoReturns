@@ -75,6 +75,11 @@ namespace BossFight
             flank = FlankRouting.Assign(index);
         }
 
+        public void ScaleHealth(float multiplier)
+        {
+            if (brain != null) brain.ScaleHealth(multiplier);
+        }
+
         // Tutorial costume: never hits the player, floats back and forth between two points instead of chasing.
         public void MakeHarmless(Vector3 from, Vector3 to)
         {

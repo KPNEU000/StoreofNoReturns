@@ -17,12 +17,13 @@ public class TuningTests
     }
 
     [Test]
-    public void FlashlightIsBrighterAndWider()
+    public void FlashlightIsBrightWithANarrowCone()
     {
         var s = new BossFightSettings();
         Assert.GreaterOrEqual(s.flashlightRange, 30f);
-        Assert.Greater(s.flashlightFullIntensity, 3f);
-        Assert.Greater(s.flashlightSpotAngle, 55f);
+        Assert.Greater(s.flashlightFullIntensity, 8f, "round-4 look with a slightly brighter centre");
+        Assert.LessOrEqual(s.flashlightSpotAngle, 50f, "playtest round 6: the wide cone lit everything");
+        Assert.Less(s.flashlightInnerSpotAngle, s.flashlightSpotAngle);
         Assert.AreEqual(0.1f, s.flashlightFaintGlow);
     }
 
@@ -30,7 +31,7 @@ public class TuningTests
     public void BookTuning()
     {
         var s = new BossFightSettings();
-        Assert.AreEqual(2.25f, s.bookScale);
+        Assert.AreEqual(1.6f, s.bookScale);
         Assert.AreEqual(0.8f, new BookThrowRules(s).TelegraphSeconds);
         BookThrowRules.ScaleAboutBase(new Vector3(1f, 2f, 3f), new Vector3(0.1f, 0.4f, 0.2f), 1.5f, out var pos, out var scale);
         Assert.AreEqual(new Vector3(0.15f, 0.6f, 0.3f), scale);
@@ -75,7 +76,7 @@ public class TuningTests
         Assert.AreEqual(0.95f, s.monsterSpeedFactor);
         Assert.AreEqual(1.4f, s.boostedMonsterSpeedFactor);
         Assert.GreaterOrEqual(s.flashlightRange, 30f);
-        Assert.AreEqual(2.25f, s.bookScale);
+        Assert.AreEqual(1.6f, s.bookScale);
         Assert.AreEqual(0.8f, s.bookTelegraphSeconds);
     }
 }

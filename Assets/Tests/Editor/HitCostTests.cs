@@ -57,9 +57,9 @@ public class HitCostTests
     }
 
     [Test]
-    public void DefaultInvincibilityIsThreeQuartersOfASecond()
+    public void DefaultInvincibilityIsAQuarterSecond()
     {
-        Assert.AreEqual(0.75f, new BossFightSettings().invincibilitySeconds, 1e-4f);
+        Assert.AreEqual(0.25f, new BossFightSettings().invincibilitySeconds, 1e-4f);
     }
 
     [Test]

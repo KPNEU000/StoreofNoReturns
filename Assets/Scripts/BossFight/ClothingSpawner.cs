@@ -63,6 +63,29 @@ namespace BossFight
             return spawned;
         }
 
+        // A wave all around `center` (a possessed rack), each costume placed on the NavMesh at a random spot on the
+        // ring, with `hpMultiplier` applied. Returns the costumes spawned (fewer than count at the alive cap).
+        public System.Collections.Generic.List<PossessedClothing> SpawnRing(Vector3 center, int count, GameObject[] garments,
+            float minRadius, float maxRadius, float hpMultiplier)
+        {
+            var spawned = new System.Collections.Generic.List<PossessedClothing>();
+            if (prefab == null) return spawned;
+            float start = Random.Range(0f, 360f);
+            for (int i = 0; i < count && alive.Count < cap; i++)
+            {
+                float angle = start + 360f * i / Mathf.Max(count, 1) + Random.Range(-12f, 12f);
+                var point = center + Quaternion.Euler(0f, angle, 0f) * Vector3.forward * Random.Range(minRadius, maxRadius);
+                if (UnityEngine.AI.NavMesh.SamplePosition(point, out var hit, 2f, UnityEngine.AI.NavMesh.AllAreas)) point = hit.position;
+                var enemy = Instantiate(prefab, point, Quaternion.identity);
+                enemy.Init(this, spawnIndex++);
+                enemy.ScaleHealth(hpMultiplier);
+                if (garments != null && garments.Length > 0) enemy.Dress(garments[i % garments.Length]);
+                alive.Add(enemy);
+                spawned.Add(enemy);
+            }
+            return spawned;
+        }
+
         // One costume that cannot hurt the player and patrols between two points; null when the cap is reached.
         public PossessedClothing SpawnHarmless(Vector3 position, Vector3 patrolFrom, Vector3 patrolTo)
         {

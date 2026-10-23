@@ -31,6 +31,7 @@ namespace BossFight.Editor
             var config = ConfigBuilder.Load();
             var magic = BuilderUtil.EnsureTransparentMaterial(MagicMaterial, "Universal Render Pipeline/Unlit", new Color(0.7f, 0.25f, 1f, 0.85f));
             var shelfMaterial = BuilderUtil.EnsureLitMaterial(ShelfMaterial, new Color(0.35f, 0.22f, 0.12f));
+            var pagesMaterial = BuilderUtil.EnsureLitMaterial(BossFightPaths.SettingsFolder + "/BookPages.mat", new Color(0.93f, 0.91f, 0.84f));
             var bookMaterials = new Material[BookColors.Length];
             for (int i = 0; i < BookColors.Length; i++) bookMaterials[i] = BuilderUtil.EnsureLitMaterial($"{BookMaterialPrefix}{i}.mat", BookColors[i]);
 
@@ -70,6 +71,7 @@ namespace BossFight.Editor
                         changed = true;
                     }
                     changed |= EnsureShelfScale(root.Find(shelfName));
+                    changed |= EnsureStorybooks(root.Find(shelfName), pagesMaterial);
                 }
 
                 var books = root.GetComponentsInChildren<ThrowableBook>(true);
@@ -128,6 +130,56 @@ namespace BossFight.Editor
             shelf.localScale = Vector3.one * ShelfScale;
             shelf.position += -shelf.forward * (ShelfDepth * (ShelfScale - previous) * 0.5f);
             return true;
+        }
+
+        // Playtest round 6: thin storybooks, not bricks. The book object becomes the white page block (it keeps the
+        // collider, the ThrowableBook and the glow), between two coloured cover plates and a coloured spine that
+        // overhang it, so white pages show along the top, bottom and fore-edge. Idempotent: skips built books.
+        private const string CoverName = "Cover";
+
+        private static bool EnsureStorybooks(Transform shelf, Material pages)
+        {
+            if (shelf == null) return false;
+            bool changed = false;
+            int n = 0;
+            foreach (var book in shelf.GetComponentsInChildren<ThrowableBook>(true))
+            {
+                int index = n++;
+                if (book.transform.Find(CoverName + "A") != null) continue;
+                var renderer = book.GetComponent<MeshRenderer>();
+                var cover = renderer.sharedMaterial;
+                var old = book.transform.localScale;
+                float thickness = 0.035f + 0.008f * ((index * 7) % 3);
+                float height = 0.27f + 0.025f * ((index * 5) % 3);
+                const float depth = 0.22f;
+                // Page block, standing on the same plank as before.
+                var block = new Vector3(thickness, height * 0.94f, depth * 0.95f);
+                var p = book.transform.localPosition;
+                book.transform.localPosition = new Vector3(p.x, p.y - old.y * 0.5f + height * 0.5f, p.z);
+                book.transform.localScale = block;
+                renderer.sharedMaterial = pages;
+                // Child scales are relative to the page block.
+                float coverThickness = 0.2f;
+                AddCoverPart(book.transform, CoverName + "A", new Vector3(-0.5f - coverThickness * 0.5f, 0f, 0f),
+                    new Vector3(coverThickness, 1f / 0.94f, 1f / 0.95f), cover);
+                AddCoverPart(book.transform, CoverName + "B", new Vector3(0.5f + coverThickness * 0.5f, 0f, 0f),
+                    new Vector3(coverThickness, 1f / 0.94f, 1f / 0.95f), cover);
+                AddCoverPart(book.transform, "Spine", new Vector3(0f, 0f, -0.5f - 0.03f),
+                    new Vector3(1f + coverThickness * 2f, 1f / 0.94f, 0.06f), cover);
+                changed = true;
+            }
+            return changed;
+        }
+
+        private static void AddCoverPart(Transform book, string name, Vector3 localPosition, Vector3 localScale, Material material)
+        {
+            var part = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            part.name = name;
+            Object.DestroyImmediate(part.GetComponent<Collider>());
+            part.transform.SetParent(book, false);
+            part.transform.localPosition = localPosition;
+            part.transform.localScale = localScale;
+            part.GetComponent<MeshRenderer>().sharedMaterial = material;
         }
 
         private static void CreateShelf(Transform root, string name, Transform wall, Vector3 playerPosition, float floorY, Material shelfMaterial, Material[] bookMaterials)
@@ -207,6 +259,8 @@ namespace BossFight.Editor
                 {
                     if (book.GetComponent<Collider>() == null) errors.Add($"Book '{book.name}' has no collider");
                     if (book.GetComponent<Renderer>() == null) errors.Add($"Book '{book.name}' has no renderer");
+                    if (book.transform.Find(CoverName + "A") == null) errors.Add($"Book '{book.name}' is not a storybook (no covers)");
+                    if (book.transform.localScale.x > 0.08f) errors.Add($"Book '{book.name}' is thicker than a storybook");
                 }
             }
             var attack = BuilderUtil.FindInScene<WitchBookAttack>(scene);

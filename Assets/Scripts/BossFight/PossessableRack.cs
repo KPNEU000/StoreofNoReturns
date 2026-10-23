@@ -1,10 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BossFight
 {
-    // A shop clothing rack the Witch can possess: the frame fades out in purple, then its renderers and
-    // colliders go away and the costumes lift off from that spot.
+    // A shop clothing rack the Witch can possess. Round 6: it lifts into the air, shakes inside a purple aura (the
+    // telegraph), then slams down, bursts, and releases a ring of its own costumes before vanishing.
+    // The older Possess (fade, then release at its centre) is kept for anything still calling it.
     public class PossessableRack : MonoBehaviour
     {
         [SerializeField]
@@ -103,6 +105,116 @@ namespace BossFight
             onFaded?.Invoke();
             if (spawner != null) spawner.Spawn(releasePoint, count, garmentPrefabs);
             Destroy(burst.gameObject, 3f);
+        }
+
+        private Coroutine telegraph;
+        private ParticleSystem aura;
+        private Light auraLight;
+        private Vector3 restPosition;
+
+        // Starts the lift-and-shake telegraph. Returns false when already possessed.
+        public bool BeginTelegraph(float seconds)
+        {
+            if (possessed) return false;
+            possessed = true;
+            releasePoint = CenterPoint();
+            restPosition = transform.position;
+            telegraph = StartCoroutine(TelegraphRoutine(seconds));
+            return true;
+        }
+
+        private IEnumerator TelegraphRoutine(float seconds)
+        {
+            var settings = BossFightConfig.SettingsOf(config);
+            var renderers = GetComponentsInChildren<Renderer>();
+            var block = new MaterialPropertyBlock();
+            aura = CreateAura();
+            aura.transform.position = releasePoint + Vector3.up * 1f;
+            auraLight = new GameObject("RackAuraLight").AddComponent<Light>();
+            auraLight.type = LightType.Point;
+            auraLight.color = possessedColor;
+            auraLight.range = 5f;
+            auraLight.shadows = LightShadows.None;
+            auraLight.transform.position = releasePoint + Vector3.up * 1.2f;
+            seconds = Mathf.Max(seconds, 0.01f);
+            for (float t = 0f; t < seconds; t += Time.deltaTime)
+            {
+                float k = Mathf.Clamp01(t / seconds);
+                var color = Color.Lerp(Color.white, possessedColor, Mathf.Min(1f, k * 1.5f));
+                foreach (var r in renderers)
+                {
+                    if (r == null) continue;
+                    r.GetPropertyBlock(block);
+                    block.SetColor(BaseColorId, color);
+                    block.SetColor(ColorId, color);
+                    block.SetColor(EmissionColorId, possessedColor * (k * 1.5f));
+                    r.SetPropertyBlock(block);
+                }
+                // Rises quickly, then hangs and shakes harder and harder.
+                float lift = settings.rackLiftMeters * Mathf.SmoothStep(0f, 1f, Mathf.Min(1f, k * 2.5f));
+                var shake = Random.insideUnitSphere * (0.03f + 0.12f * k);
+                shake.y *= 0.4f;
+                transform.position = restPosition + Vector3.up * lift + shake;
+                auraLight.intensity = Mathf.Lerp(1f, 6f, k) * (0.85f + 0.15f * Mathf.Sin(t * 30f));
+                yield return null;
+            }
+            telegraph = null;
+        }
+
+        // Slams the rack down, bursts and releases the wave around it, then the rack is gone. onGone runs once its
+        // colliders are off (the NavMesh can be updated then). Returns the costumes that were spawned.
+        public List<PossessedClothing> Release(ClothingSpawner spawner, int count, float hpMultiplier, System.Action onGone = null)
+        {
+            var settings = BossFightConfig.SettingsOf(config);
+            if (telegraph != null) StopCoroutine(telegraph);
+            telegraph = null;
+            transform.position = restPosition;
+            var burst = CreateBurst();
+            burst.transform.position = releasePoint + Vector3.up * 0.8f;
+            var main = burst.main;
+            main.startSpeed = 5f;
+            var emission = burst.emission;
+            emission.SetBursts(new[] { new ParticleSystem.Burst(0f, 160) });
+            burst.Play();
+            Destroy(burst.gameObject, 3f);
+            if (aura != null) Destroy(aura.gameObject);
+            if (auraLight != null) Destroy(auraLight.gameObject, 0.15f);
+            foreach (var r in GetComponentsInChildren<Renderer>())
+            {
+                r.SetPropertyBlock(null);
+                r.enabled = false;
+            }
+            foreach (var c in GetComponentsInChildren<Collider>()) c.enabled = false;
+            onGone?.Invoke();
+            return spawner != null
+                ? spawner.SpawnRing(releasePoint, count, garmentPrefabs, settings.waveRingMinRadius, settings.waveRingMaxRadius, hpMultiplier)
+                : new List<PossessedClothing>();
+        }
+
+        private ParticleSystem CreateAura()
+        {
+            var go = new GameObject("RackAura");
+            var ps = go.AddComponent<ParticleSystem>();
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            var main = ps.main;
+            main.loop = true;
+            main.startColor = possessedColor;
+            main.startLifetime = 1.1f;
+            main.startSpeed = 0.6f;
+            main.startSize = new ParticleSystem.MinMaxCurve(0.08f, 0.2f);
+            main.gravityModifier = -0.35f;
+            main.maxParticles = 500;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            var emission = ps.emission;
+            emission.rateOverTime = 160f;
+            var shape = ps.shape;
+            shape.shapeType = ParticleSystemShapeType.Box;
+            shape.scale = new Vector3(2.2f, 1.6f, 1.2f);
+            var renderer = go.GetComponent<ParticleSystemRenderer>();
+            var shader = Shader.Find("Universal Render Pipeline/Particles/Unlit");
+            if (shader != null) renderer.material = new Material(shader);
+            ps.Play();
+            return ps;
         }
 
         // Procedural purple particle burst; no particle assets needed.

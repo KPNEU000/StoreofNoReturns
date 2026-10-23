@@ -36,7 +36,7 @@ namespace BossFight
         public float bookHitCost = 50f;
         // A falling ceiling chunk landing on the player: charged once per chunk, never while standing in it.
         public float debrisHitCost = 50f;
-        public float invincibilitySeconds = 0.75f; // playtest: 0.5 drained too fast, 1 felt too safe
+        public float invincibilitySeconds = 0.25f; // playtest round 6: 0.75 made the fight too easy
         public float hitFlashSeconds = 0.25f;
 
         [Header("Economy: reputation -> monster HP multiplier")]
@@ -59,10 +59,10 @@ namespace BossFight
         public float flashlightRampUpSeconds = 0.5f;
         public float flashlightRampDownSeconds = 0.25f;
         [Range(0f, 1f)] public float flashlightFaintGlow = 0.1f;
-        public float flashlightFullIntensity = 14f; // brighter for the darker blackout; light sits behind the eye (see PlayerFlashlight)
+        public float flashlightFullIntensity = 9.5f; // round-4 look (8) with a slightly brighter centre
         public float flashlightRange = 35f;
-        public float flashlightSpotAngle = 75f;
-        public float flashlightInnerSpotAngle = 65f; // wide inner cone for an even pool rather than a hot centre
+        public float flashlightSpotAngle = 45f; // playtest round 6: the 75 degree cone lit almost everything
+        public float flashlightInnerSpotAngle = 28f;
 
         [Header("Player movement")]
         public float moveAccelerationSeconds = 0.1f;
@@ -75,10 +75,25 @@ namespace BossFight
         [Header("Enemies: clothing")]
         public float clothingHp = 10f;
         public float clothingFlopSeconds = 1.5f;
-        public float waveIntervalSeconds = 20f;
-        public int waveMinCostumes = 4;
-        public int waveMaxCostumes = 6;
-        public int maxClothingAlive = 15;
+        public float waveIntervalSeconds = 20f; // unused since playtest round 6 (waves follow kills, see WaveScheduler)
+        public int waveMinCostumes = 4; // unused
+        public int waveMaxCostumes = 6; // unused
+        // Round 6 waves: a rack shakes (telegraph), releases a ring of costumes, and the next rack starts shaking
+        // waveNextDelaySeconds after waveClearFraction of that wave is dead.
+        public float waveFirstDelaySeconds = 3f;
+        public float waveNextDelaySeconds = 5f;
+        [Range(0f, 1f)] public float waveClearFraction = 0.75f;
+        public float rackTelegraphSeconds = 2.2f;
+        public float rackLiftMeters = 0.8f;
+        public float waveRingMinRadius = 1.4f;
+        public float waveRingMaxRadius = 2.6f;
+        // Costumes per wave at 100 reputation; worse reputation multiplies the swarm (not its HP).
+        public int waveBaseCostumes = 6;
+        public float swarmMultiplierAtRep50 = 1.5f;
+        public float swarmMultiplierAtRep0 = 2f;
+        // At or below this reputation the swarm needs two slashes each.
+        public int clothingDoubleHpReputation = 15;
+        public int maxClothingAlive = 22; // bigger waves; cloth settings keep 22 affordable
         public float rackFadeSeconds = 1f;
 
         // Kept light for 15 alive: <= 400 welded particles per garment (baked by GarmentClothBuilder; delete the
@@ -96,11 +111,15 @@ namespace BossFight
         public float clothFlapAcceleration = 2f;
 
         [Header("Enemies: monster")]
-        public float monsterBaseHp = 50f;
-        public float monsterWindupSeconds = 0.6f;
-        public float monsterAttackReach = 1.8f;
+        public float monsterBaseHp = 70f; // playtest round 6: 50 died too quickly
+        public float monsterWindupSeconds = 1.1f; // to the strike in the attack clip
+        // Length of the Mixamo attack clip (Attack.anim: 79 frames at 30 fps); the swing always plays all of it.
+        public float monsterAttackClipSeconds = 2.63f;
+        // Speed while swinging, as a fraction of its run: it lunges at the player through the whole clip.
+        public float monsterAttackMoveFactor = 0.5f;
+        public float monsterAttackReach = 2.3f; // wider to make up for the later strike
         public float monsterAttackConeDegrees = 90f;
-        public float monsterAttackCooldownSeconds = 1.2f;
+        public float monsterAttackCooldownSeconds = 0.4f; // the full clip is now most of the gap between swings
         public float monsterSpawnStaggerSeconds = 1.5f;
 
         [Header("Enemies: routing")]
@@ -114,7 +133,7 @@ namespace BossFight
         public float tetherDurationSeconds = 5f;
         public float bookThrowIntervalSeconds = 7f; // playtest: throws came too often
         public float bookTelegraphSeconds = 0.8f;
-        public float bookScale = 2.25f; // 1.5x the first playtest size, twice
+        public float bookScale = 1.6f; // round 6: storybook proportions (thin), slightly larger than the shelf size
         public float bookArmSeconds = 0.4f;
         public float bookSweepSeconds = 0.3f;
         public float bookFlightSpeed = 12f;

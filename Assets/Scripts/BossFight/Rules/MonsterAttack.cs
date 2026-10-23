@@ -6,17 +6,20 @@ namespace BossFight.Rules
     {
         Idle,
         Windup,
+        Recovery,
         Cooldown,
     }
 
-    // A monster swing: it commits to a windup, and the hit is only checked at the very end of it,
-    // so a player who backs out of reach (or around behind it) makes it whiff.
+    // A monster swing plays its whole attack clip: a windup to the strike (where the hit is checked, so backing out
+    // of reach or around behind it makes it whiff), then the follow-through to the end of the clip, then a cooldown.
+    // Playtest round 6: the swing used to end at the strike, which cut the 2.6 s clip off and sent it running again.
     public class MonsterAttack
     {
         private readonly float windupSeconds;
         private readonly float reach;
         private readonly float coneDegrees;
         private readonly float cooldownSeconds;
+        private readonly float recoverySeconds;
         private float timer;
 
         public MonsterAttack(BossFightSettings settings)
@@ -25,10 +28,15 @@ namespace BossFight.Rules
             reach = settings.monsterAttackReach;
             coneDegrees = settings.monsterAttackConeDegrees;
             cooldownSeconds = settings.monsterAttackCooldownSeconds;
+            recoverySeconds = Mathf.Max(0f, settings.monsterAttackClipSeconds - windupSeconds);
         }
 
         public MonsterAttackState State { get; private set; } = MonsterAttackState.Idle;
         public float WindupSeconds => windupSeconds;
+        public float RecoverySeconds => recoverySeconds;
+
+        // Mid-swing (windup or follow-through): the attack animation must keep playing.
+        public bool Committed => State == MonsterAttackState.Windup || State == MonsterAttackState.Recovery;
 
         public bool InReach(Vector3 monsterPosition, Vector3 playerPosition)
         {
@@ -65,9 +73,15 @@ namespace BossFight.Rules
                     timer -= deltaTime;
                     if (timer > 0f) return false;
                     bool hit = InReach(monsterPosition, playerPosition) && InFront(monsterPosition, monsterForward, playerPosition);
+                    State = MonsterAttackState.Recovery;
+                    timer = recoverySeconds;
+                    return hit;
+                case MonsterAttackState.Recovery:
+                    timer -= deltaTime;
+                    if (timer > 0f) return false;
                     State = MonsterAttackState.Cooldown;
                     timer = cooldownSeconds;
-                    return hit;
+                    return false;
                 case MonsterAttackState.Cooldown:
                     timer -= deltaTime;
                     if (timer <= 0f) State = MonsterAttackState.Idle;

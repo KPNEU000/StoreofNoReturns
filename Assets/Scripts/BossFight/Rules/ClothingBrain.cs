@@ -25,6 +25,12 @@ namespace BossFight.Rules
         }
 
         public ClothingState State { get; private set; } = ClothingState.Chase;
+
+        // Rock-bottom reputation doubles the swarm's health (two slashes each).
+        public void ScaleHealth(float multiplier)
+        {
+            if (multiplier > 0f) Health *= multiplier;
+        }
         public float Health { get; private set; }
         public float LungeSeconds { get; }
         public bool IsAlive => State != ClothingState.Dead;

@@ -124,18 +124,20 @@ namespace BossFight
             }
 
             var pos = transform.position;
-            // Playtest round 5: a swing in progress keeps coming at the player instead of planting its feet, so
-            // walking away no longer cancels the threat; backing off still only works if they outpace it.
-            if (attack.State == MonsterAttackState.Windup)
+            // A swing in progress plays its whole clip while lunging at the player at reduced speed; walking away
+            // never cancels it back into a run.
+            if (attack.Committed)
             {
                 agent.isStopped = false;
                 NavAgents.Steer(agent, repath, player.position);
+                SwingSpeed();
             }
             else if (attack.TryBegin(pos, player.position))
             {
                 agent.isStopped = false;
                 NavAgents.Steer(agent, repath, player.position);
-                Play(AttackState);
+                SwingSpeed();
+                Play(AttackState, true);
             }
             else
             {
@@ -164,6 +166,12 @@ namespace BossFight
             agent.angularSpeed = turnSpeed;
             RefreshSpeed();
             Play(RunState);
+        }
+
+        private void SwingSpeed()
+        {
+            RefreshSpeed();
+            agent.speed *= settings.monsterAttackMoveFactor;
         }
 
         private void RefreshSpeed()
