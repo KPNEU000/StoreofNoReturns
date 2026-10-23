@@ -41,6 +41,7 @@ public class CameraBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        cameraBehaviourEnabled = true;
         Debug.Log(Screen.width + ", " + Screen.height);
 
         cam = GetComponent<Camera>();
