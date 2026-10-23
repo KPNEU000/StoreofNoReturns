@@ -25,6 +25,7 @@ public static class ShopSceneTweaks
     public static void Run()
     {
         TweakTitleScreen();
+        TweakCredits();
         TweakAssets();
         var scene = EditorSceneManager.OpenScene(MainScenePath, OpenSceneMode.Single);
         bool changed = false;
@@ -109,6 +110,45 @@ public static class ShopSceneTweaks
         scaler.screenMatchMode = UnityEngine.UI.CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
         scaler.matchWidthOrHeight = 0.5f;
         EditorUtility.SetDirty(scaler);
+        EditorSceneManager.MarkSceneDirty(scene);
+        EditorSceneManager.SaveScene(scene);
+    }
+
+    // Enzo's surname is Markarian (the credits had "Marcarian").
+    private static readonly string[] CreditsScenePaths =
+    {
+        "Assets/Scenes/Scenes in Game/Just Credits.unity",
+        "Assets/Scenes/Scenes in Game/You WIn Screen.unity",
+    };
+
+    private static void TweakCredits()
+    {
+        foreach (var path in CreditsScenePaths) TweakCredits(path);
+    }
+
+    private static void TweakCredits(string path)
+    {
+        var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+        bool changed = false;
+        foreach (var root in scene.GetRootGameObjects())
+        {
+            foreach (var behaviour in root.GetComponentsInChildren<MonoBehaviour>(true))
+            {
+                if (behaviour == null) continue;
+                var so = new SerializedObject(behaviour);
+                var list = so.FindProperty("credits");
+                if (list == null || !list.isArray) continue;
+                for (int i = 0; i < list.arraySize; i++)
+                {
+                    var line = list.GetArrayElementAtIndex(i);
+                    if (line.propertyType != SerializedPropertyType.String || !line.stringValue.Contains("Enzo Marcarian")) continue;
+                    line.stringValue = line.stringValue.Replace("Enzo Marcarian", "Enzo Markarian");
+                    changed = true;
+                }
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
+        }
+        if (!changed) return;
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
     }

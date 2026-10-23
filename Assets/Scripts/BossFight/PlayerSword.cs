@@ -86,7 +86,7 @@ namespace BossFight
             IsSlashing = true;
             if (movement == null) movement = GetComponentInParent<PlayerMovement>();
             if (movement != null) movement.SpeedMultiplier = rules.MoveSpeed(movement.speed) / movement.speed;
-            if (swooshSound != null) Sfx.Play(swooshSound, transform.position, 0.2625f / Sfx.Master, 1f, 0.12f, 0f); // 2026-10-23: 25% under 0.35
+            if (swooshSound != null) Sfx.Play(swooshSound, transform.position, 0.197f / Sfx.Master, 1f, 0.12f, 0f); // 2026-10-23: two 25% cuts from 0.35
         }
 
         private void EndSlash()

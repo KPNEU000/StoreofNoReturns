@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scenes in Game/You WIn Screen.unity
     guid: 0c7627f472851ef40846d029b22e1540
+  - enabled: 1
+    path: Assets/Scenes/Scenes in Game/Just Credits.unity
+    guid: 69a942a8fb242634a8d6e531ee8b6460
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

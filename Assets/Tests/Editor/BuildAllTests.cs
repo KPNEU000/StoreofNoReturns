@@ -81,7 +81,7 @@ public class BuildAllTests
     {
         BuildAll.Run();
         Assert.IsTrue(BuildSettingsBuilder.Matches());
-        Assert.AreEqual(5, UnityEditor.EditorBuildSettings.scenes.Length);
+        Assert.AreEqual(6, UnityEditor.EditorBuildSettings.scenes.Length); // + Just Credits (Game Over's CREDITS)
     }
 
     private static string[] Snapshot()

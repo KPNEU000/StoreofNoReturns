@@ -8,12 +8,16 @@ public class SceneLoadingManager : MonoBehaviour
 
     bool isPaused;
     GameObject panel;
+    // A scene's own copy when the Title Screen's one is already alive. It stays (not destroyed) because that
+    // scene's buttons call LoadSceneByName on it (Game Over's RESTART/CREDITS did nothing after the copy
+    // destroyed itself), but it leaves pausing to the real Instance.
+    bool duplicate;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            duplicate = true;
             return;
         }
         Instance = this;
@@ -23,6 +27,7 @@ public class SceneLoadingManager : MonoBehaviour
 
     void Update()
     {
+        if (duplicate) return;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
@@ -48,12 +53,12 @@ public class SceneLoadingManager : MonoBehaviour
 
     void OnEnable()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        if (!duplicate) SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void OnDisable()
     {
-        
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

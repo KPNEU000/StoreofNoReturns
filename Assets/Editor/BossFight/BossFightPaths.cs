@@ -21,6 +21,7 @@ namespace BossFight.Editor
             BossScene,
             ScenesFolder + "/Game Over Screen.unity",
             ScenesFolder + "/You WIn Screen.unity",
+            ScenesFolder + "/Just Credits.unity", // Game Over's CREDITS button loads it by name
         };
     }
 }
