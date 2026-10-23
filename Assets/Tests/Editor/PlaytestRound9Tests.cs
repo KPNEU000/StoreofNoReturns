@@ -31,7 +31,7 @@ public class PlaytestRound9Tests
     public void RoundNineTuning()
     {
         var s = new BossFightSettings();
-        Assert.AreEqual(20f, s.clothingHitCost); // round 11
+        Assert.AreEqual(25f, s.clothingHitCost); // round 12
         Assert.AreEqual(65f, new ReputationScaling(s).MonsterHitCost(100f), 1e-4f);
         Assert.AreEqual(75f, new ReputationScaling(s).MonsterHitCost(50f), 1e-4f);
         Assert.AreEqual(1.05f * s.clothingSpeedFactor, s.SlashMoveSpeedFactor, 1e-5f);

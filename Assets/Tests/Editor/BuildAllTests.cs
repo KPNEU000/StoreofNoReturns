@@ -69,7 +69,7 @@ public class BuildAllTests
     {
         BuildAll.Run();
         var settings = ConfigBuilder.Load().ToSettings();
-        Assert.AreEqual(20f, settings.clothingHitCost);
+        Assert.AreEqual(25f, settings.clothingHitCost);
         Assert.AreEqual(50f, settings.bookHitCost);
         Assert.AreEqual(100f, settings.witchHp);
         Assert.AreEqual(5, settings.caveInChunkCount);

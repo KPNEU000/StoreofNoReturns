@@ -29,7 +29,7 @@ namespace BossFight
         public float strongFlickerIntervalScale = 0.5f;
 
         [Header("Economy: hits")]
-        public float clothingHitCost = 20f; // round 11
+        public float clothingHitCost = 25f; // round 12
         public float monsterHitCostAtRep0 = 100f;
         public float monsterHitCostAtRep50 = 75f;
         public float monsterHitCostAtRep100 = 65f; // round 9 (rep 50 stays 75, rep 0 stays 100)
@@ -81,7 +81,7 @@ namespace BossFight
         // Round 6 waves: a rack shakes (telegraph), releases a ring of costumes, and the next rack starts shaking
         // waveNextDelaySeconds after waveClearFraction of that wave is dead.
         public float waveFirstDelaySeconds = 3f;
-        public float waveNextDelaySeconds = 5f; // round 11
+        public float waveNextDelaySeconds = 3f; // round 12
         // Safety net (round 8): if nothing from the current wave dies for this long, the next rack starts anyway
         // and the old wave stays alive (covers costumes stuck somewhere unreachable).
         public float waveStallSeconds = 6f; // unused since round 9 (removed: it stacked waves into a flood)

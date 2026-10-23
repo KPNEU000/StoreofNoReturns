@@ -27,7 +27,7 @@ MonoBehaviour:
     flickerDipSecondsMin: 0.06
     flickerDipSecondsMax: 0.18
     strongFlickerIntervalScale: 0.5
-    clothingHitCost: 20
+    clothingHitCost: 25
     monsterHitCostAtRep0: 100
     monsterHitCostAtRep50: 75
     monsterHitCostAtRep100: 65
@@ -62,7 +62,7 @@ MonoBehaviour:
     waveMinCostumes: 4
     waveMaxCostumes: 6
     waveFirstDelaySeconds: 3
-    waveNextDelaySeconds: 5
+    waveNextDelaySeconds: 3
     waveStallSeconds: 6
     waveClearFraction: 0.6666667
     rackTelegraphSeconds: 4.5
