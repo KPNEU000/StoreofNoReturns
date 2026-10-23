@@ -5147,7 +5147,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 558779370}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -5158,7 +5158,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: -1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 13
+  m_SortingOrder: 27
   m_TargetDisplay: 0
 --- !u!1 &209467538
 GameObject:
@@ -5720,7 +5720,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 394936253}
         m_TargetAssemblyTypeName: CameraBehaviour, Assembly-CSharp
         m_MethodName: ExitPosterDisplay
         m_Mode: 1
