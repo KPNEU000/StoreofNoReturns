@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Video;
+using System.Collections;
 
 public class CustomerSpawner : MonoBehaviour
 {
@@ -9,15 +10,44 @@ public class CustomerSpawner : MonoBehaviour
     [SerializeField] List<GameObject> linePositions;
     [SerializeField] public List<CustomerBehaviour> activeCustomers;
     [SerializeField] GameObject witch;
+
+    [Header("Opening Cutscene")]
+    [SerializeField] private DialogueManager dialogueManager;
+    [SerializeField] private Ink.UnityIntegration.InkFile openingInkFile;
     int customerIndex = -1;
-    private void Start() {
-        NewCustomer();
+
+    [Header("Witch Cutscene")]
+    [SerializeField] private Ink.UnityIntegration.InkFile witchInkFile;
+
+    private bool witchCutsceneStarted = false;
+
+    private void Start()
+    {
+        if (dialogueManager != null && openingInkFile != null)
+        {
+            dialogueManager.StartCutscene(openingInkFile, NewCustomer);
+        }
+        else
+        {
+            Debug.LogWarning(
+                "Opening cutscene not configured. Spawning first customer normally."
+            );
+
+            NewCustomer();
+        }
     }
+
     public void NewCustomer()
     {
         customerIndex++;
-        if(customerIndex >= customerPrefabs.Count)
+        if (customerIndex >= customerPrefabs.Count)
         {
+            if (!witchCutsceneStarted)
+            {
+                witchCutsceneStarted = true;
+                StartCoroutine(WaitForLastCustomer());
+            }
+
             return;
         }
         var customer = customerPrefabs[customerIndex];
@@ -63,6 +93,29 @@ public class CustomerSpawner : MonoBehaviour
         CustomerBehaviour customerBehaviour = witch.GetComponent<CustomerBehaviour>();
         customerBehaviour.agent.SetDestination(linePositions[customerBehaviour.lineIndex].transform.position);
         customerBehaviour.agent.speed = 6;
+    }
+
+    private IEnumerator WaitForLastCustomer()
+    {
+        CustomerBehaviour lastCustomer =
+            customerPrefabs[customerPrefabs.Count - 1]
+                .GetComponent<CustomerBehaviour>();
+
+        // Wait until Shelly has reached her exit and been deactivated.
+        yield return new WaitUntil(
+            () => !lastCustomer.gameObject.activeInHierarchy
+        );
+
+        if (dialogueManager == null || witchInkFile == null)
+        {
+            Debug.LogError("Witch cutscene references are missing.");
+            yield break;
+        }
+
+        dialogueManager.StartCutscene(
+            witchInkFile,
+            () => SceneLoadingManager.Instance.LoadSceneByName("Boss Scene")
+        );
     }
 
 

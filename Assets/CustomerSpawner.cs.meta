@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: ef70d76b9d4fcdd46b1b47854d5f2f5a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - witch: {instanceID: 0}
+  - dialogueManager: {instanceID: 0}
+  - openingInkFile: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

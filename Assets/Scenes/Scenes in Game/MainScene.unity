@@ -45008,6 +45008,9 @@ MonoBehaviour:
   - {fileID: 27374928}
   activeCustomers: []
   witch: {fileID: 1898725736}
+  dialogueManager: {fileID: 720348085}
+  openingInkFile: {fileID: 6231892579173505729, guid: af82baa66e4d14463bd02656ec7b60f8, type: 3}
+  witchInkFile: {fileID: 6231892579173505729, guid: 1010f2003cf7d4bc6b5b3689567a5994, type: 3}
 --- !u!4 &1739026499
 Transform:
   m_ObjectHideFlags: 0
