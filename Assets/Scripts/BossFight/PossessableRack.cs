@@ -256,9 +256,7 @@ namespace BossFight
             var shape = ps.shape;
             shape.shapeType = ParticleSystemShapeType.Box;
             shape.scale = new Vector3(2.2f, 1.6f, 1.2f);
-            var renderer = go.GetComponent<ParticleSystemRenderer>();
-            var shader = Shader.Find("Universal Render Pipeline/Particles/Unlit");
-            if (shader != null) renderer.material = new Material(shader);
+            ParticleLook.Apply(ps);
             ps.Play();
             return ps;
         }
@@ -282,9 +280,7 @@ namespace BossFight
             var shape = ps.shape;
             shape.shapeType = ParticleSystemShapeType.Sphere;
             shape.radius = 0.6f;
-            var renderer = go.GetComponent<ParticleSystemRenderer>();
-            var shader = Shader.Find("Universal Render Pipeline/Particles/Unlit");
-            if (shader != null) renderer.material = new Material(shader);
+            ParticleLook.Apply(ps);
             return ps;
         }
     }

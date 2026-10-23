@@ -87,6 +87,7 @@ namespace BossFight
         private Vector3 vaultEnd;
         private LineRenderer beam;
         private Transform shard;
+        private GameObject handSparks;
         private float shardElapsed;
         private Vector3 shardStart;
 
@@ -350,12 +351,13 @@ namespace BossFight
             beam.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             MakeEmitter(go.transform, new Color(0.75f, 0.4f, 1f, 1f));
             // Playtest: more purple — a second swirl at the Witch's hand while she casts.
+            // Not parented to the beam: the beam's root is moved to the monitor every frame, which dragged these
+            // sparks far out into the store behind the computer (the stray purple cloud of rounds 4-11).
             if (witch != null)
             {
-                var hand = new GameObject("WitchHandSparks").transform;
-                hand.SetParent(go.transform, false);
-                hand.position = WitchHand();
-                MakeEmitter(hand, new Color(0.65f, 0.25f, 1f, 1f));
+                handSparks = new GameObject("WitchHandSparks");
+                handSparks.transform.position = WitchHand();
+                MakeEmitter(handSparks.transform, new Color(0.65f, 0.25f, 1f, 1f));
             }
             if (magicSound != null) AudioSource.PlayClipAtPoint(magicSound, WitchHand());
             UpdateBeam();
@@ -378,6 +380,7 @@ namespace BossFight
         private void ShatterMonitor()
         {
             if (beam != null) Destroy(beam.gameObject);
+            if (handSparks != null) Destroy(handSparks);
             var center = MonitorCenter();
             // The computer stays; its screen goes dark and cracked.
             BreakScreen();
@@ -654,7 +657,7 @@ namespace BossFight
             var shape = ps.shape;
             shape.shapeType = ParticleSystemShapeType.Sphere;
             shape.radius = radius;
-            if (shardMaterial != null) go.GetComponent<ParticleSystemRenderer>().sharedMaterial = shardMaterial;
+            ParticleLook.Apply(ps);
             ps.Play();
             Destroy(go, 4f);
         }
@@ -678,7 +681,7 @@ namespace BossFight
             var shape = ps.shape;
             shape.shapeType = ParticleSystemShapeType.Sphere;
             shape.radius = 0.35f;
-            if (shardMaterial != null) go.GetComponent<ParticleSystemRenderer>().sharedMaterial = shardMaterial;
+            ParticleLook.Apply(ps);
             ps.Play();
         }
     }

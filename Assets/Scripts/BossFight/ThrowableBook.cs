@@ -243,8 +243,7 @@ namespace BossFight
             var shape = ps.shape;
             shape.shapeType = ParticleSystemShapeType.Sphere;
             shape.radius = 0.25f;
-            var renderer = go.GetComponent<ParticleSystemRenderer>();
-            renderer.sharedMaterial = trail != null ? trail.sharedMaterial : null;
+            ParticleLook.Apply(ps);
             ps.Play();
             return ps;
         }

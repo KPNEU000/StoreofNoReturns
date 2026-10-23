@@ -293,14 +293,7 @@ namespace BossFight
             var shape = particles.shape;
             shape.shapeType = ParticleSystemShapeType.Sphere;
             shape.radius = 0.4f;
-            var renderer = puff.GetComponent<ParticleSystemRenderer>();
-            var shader = Shader.Find("Universal Render Pipeline/Particles/Unlit");
-            if (shader != null)
-            {
-                var material = new Material(shader);
-                material.SetColor("_BaseColor", main.startColor.color);
-                renderer.sharedMaterial = material;
-            }
+            ParticleLook.Apply(particles);
             particles.Play();
         }
 
