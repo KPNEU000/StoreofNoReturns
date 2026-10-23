@@ -147,7 +147,7 @@ public class ClothPinTests
                     garments.Add(rack.Garments[i]);
                 }
             }
-            foreach (var expected in new[] { "SuperheroSuit", "CatCostume_untorn", "ZombieRags", "WizardRobe", "BirdCostume" })
+            foreach (var expected in new[] { "Mr ExtraOrdinary", "CatCostume_untorn", "Zombie", "Evil Blood Wizard", "Bird" } /* renamed on main */)
             {
                 Assert.IsTrue(costumes.Any(c => c.StartsWith(expected)), $"no rack releases {expected}; found {string.Join(", ", costumes)}");
             }
@@ -206,7 +206,7 @@ public class ClothPinTests
     public void AttachedClothHangsFromTheTopBandAndDrapesOnThePlayerOnly()
     {
         var settings = new BossFightSettings();
-        var garment = AssetDatabase.LoadAssetAtPath<GameObject>(GarmentClothBuilder.PrefabFolder + "/WizardRobeGarment.prefab");
+        var garment = AssetDatabase.LoadAssetAtPath<GameObject>(GarmentClothBuilder.PrefabFolder + "/Evil Blood WizardGarment.prefab");
         Assert.IsNotNull(garment);
         var instance = Object.Instantiate(garment);
         var player = new GameObject("Player");

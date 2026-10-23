@@ -12,7 +12,7 @@ namespace BossFight.Editor
         public const string SpawnerName = "ClothingSpawner";
         public const string SpawnPointName = "ClothingSpawnPoint";
         public const string ClothingPrefab = BossFightPaths.PrefabsFolder + "/PossessedClothing.prefab";
-        private const string CostumePrefab = "Assets/Prefabs/Costumes/WizardRobe.prefab";
+        private const string CostumePrefab = "Assets/Prefabs/Costumes/Evil Blood Wizard.prefab"; // renamed from WizardRobe on main
 
         public static void Build()
         {

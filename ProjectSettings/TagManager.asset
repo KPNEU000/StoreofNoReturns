@@ -11,6 +11,8 @@ TagManager:
   - Poster
   - SceneManager
   - Enemy
+  - ScrollRect
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - 
   - interactable
   - 
-  - 
+  - Outline
   - 
   - 
   - 

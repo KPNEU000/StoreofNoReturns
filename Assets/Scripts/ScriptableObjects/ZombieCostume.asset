@@ -15,7 +15,8 @@ MonoBehaviour:
   costumeName: Zombie
   returnValue: 100
   costumeModel: {fileID: 4934502139020659760, guid: 82593fbdae0a3c64caabae2a2a78e079, type: 3}
-  dateOfPurchase: 10/30/2001
+  dateOfPurchase: 10/30/2002
   reasons: 02000000
   computerViewSpriteFront: {fileID: 21300000, guid: 8e2b5e7038b5ca8468da8fe5f488f8d4, type: 3}
   computerViewSpriteBack: {fileID: 21300000, guid: 3a971d458a828bd47954d42646421c1f, type: 3}
+  accessories: 

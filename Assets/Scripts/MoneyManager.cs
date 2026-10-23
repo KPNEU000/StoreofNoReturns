@@ -146,17 +146,10 @@ public class MoneyManager : MonoBehaviour
         {
             //Start boss battle
             print("boss battle starts");
-            var director = FindFirstObjectByType<BossDirector>();
-            if (director != null)
-            {
-                director.StartFight(AngeredCustomerRegistry.Count);
-            }
-            else
-            {
-                customerBehaviour.gameObject.GetComponent<Enemy>().enabled = true;
-                customerBehaviour.gameObject.tag = "Enemy";
-                playerMovement.enableMovement();
-            }
+            //customerBehaviour.gameObject.GetComponent<Enemy>().enabled = true;
+            //customerBehaviour.gameObject.tag = "Enemy";
+            //playerMovement.enableMovement();
+            SceneLoadingManager.Instance.GoToNextScene();
         }
     }
 

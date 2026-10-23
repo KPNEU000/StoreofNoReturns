@@ -56,7 +56,7 @@ public class TimeManager : MonoBehaviour
             timer -= realSecondsPerInGameMinute;
             AdvanceMinute();
             UpdateTimeText();
-            CheckEndOfTime();
+            CheckEndOfTime(); // TEMP: disabled for dialogue testing
         }
     }
 
@@ -100,11 +100,10 @@ public class TimeManager : MonoBehaviour
         if (CurrentHour == endHour && CurrentMinute == endMinute)
         {
             shopClosed = true;
+            if (customerSpawner != null) customerSpawner.WitchComes();
+            // Boss Scene has no SceneLoadingManager; don't throw there.
             var sceneLoader = FindFirstObjectByType<SceneLoadingManager>();
-            if (sceneLoader != null)
-            {
-                sceneLoader.GoToNextScene();
-            }
+            if (sceneLoader != null) sceneLoader.GoToNextScene();
             //perform end of game boss battle thing
         }
     }

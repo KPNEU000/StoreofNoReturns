@@ -1506,6 +1506,112 @@ Transform:
   - {fileID: 1802667238}
   m_Father: {fileID: 1776671719}
   m_LocalEulerAnglesHint: {x: 47.55882, y: -4.6489944, z: -12.379707}
+--- !u!1001 &37614448
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1246531825}
+    m_Modifications:
+    - target: {fileID: 197970119010822195, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_Name
+      value: PausePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 197970119010822195, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+--- !u!224 &37614449 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3096675549516162237, guid: 31d81e02307b9f143a40b1174787586a, type: 3}
+  m_PrefabInstance: {fileID: 37614448}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &49546706
 GameObject:
   m_ObjectHideFlags: 0
@@ -5254,12 +5360,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   gameManager: {fileID: 133887730}
+  dialogueManager: {fileID: 0}
   frontSprite: {fileID: 1632594106}
   backSprite: {fileID: 994715730}
   dopText: {fileID: 762277421}
   nameText: {fileID: 1904410432}
   accessoriesText: {fileID: 1294236541}
   priceText: {fileID: 1493845058}
+  inspectCostume: {fileID: 0}
 --- !u!1 &164234455
 GameObject:
   m_ObjectHideFlags: 0
@@ -12487,7 +12595,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
-  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  - {fileID: 4936287486793651546, guid: ad7571d405c3b403eb4697f470247929, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -12686,7 +12794,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
-  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  - {fileID: 4936287486793651546, guid: ad7571d405c3b403eb4697f470247929, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -13177,6 +13285,9 @@ MonoBehaviour:
   basePosition: {fileID: 394936252}
   pixelationFilter: {fileID: 1246531821}
   customerCanvas: {fileID: 0}
+  outlineMaterial: {fileID: 0}
+  posterCanvas: {fileID: 0}
+  computerCanvas: {fileID: 0}
 --- !u!114 &394936254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20757,7 +20868,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
-  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  - {fileID: 4936287486793651546, guid: ad7571d405c3b403eb4697f470247929, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -37230,7 +37341,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
-  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  - {fileID: 4936287486793651546, guid: ad7571d405c3b403eb4697f470247929, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -41574,7 +41685,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
-  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  - {fileID: 4936287486793651546, guid: ad7571d405c3b403eb4697f470247929, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -43714,7 +43825,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 2892068233996699481, guid: c01de2821c276f94bb2ba56c0129083f, type: 3}
   garmentPrefabs:
-  - {fileID: 8081653448326425463, guid: 5b0522a484afb4963852ad4e2c208d48, type: 3}
+  - {fileID: 2076241484449432722, guid: a995f02c5e08b4071aa9350b051f263a, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -43903,6 +44014,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 376710390}
+  - {fileID: 37614449}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -51499,6 +51611,7 @@ MonoBehaviour:
   repManager: {fileID: 0}
   customerCostume: {fileID: 0}
   dialogue: []
+  inkFile: {fileID: 0}
   genuineReason: 0
   wrongReasonAmount: -2
 --- !u!1 &1468334892
@@ -56587,7 +56700,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 6754478548331413432, guid: 5c55ff89aeac635448e62cb073ef10a3, type: 3}
   garmentPrefabs:
-  - {fileID: 2351980221827400068, guid: 8488c3aa8b5224890a4437b65d123214, type: 3}
+  - {fileID: 2631298758016437824, guid: c3c078bf999ea40798d59595827bdc2e, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -60603,6 +60716,9 @@ MonoBehaviour:
   - {fileID: 27374928}
   activeCustomers: []
   witch: {fileID: 1898725736}
+  dialogueManager: {fileID: 0}
+  openingInkFile: {fileID: 0}
+  witchInkFile: {fileID: 0}
 --- !u!4 &1739026499
 Transform:
   m_ObjectHideFlags: 0
@@ -61528,7 +61644,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
-  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  - {fileID: 4936287486793651546, guid: ad7571d405c3b403eb4697f470247929, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -65764,7 +65880,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 8554172815481801290, guid: bccb528c814eb5349979e9a4d5406a37, type: 3}
   garmentPrefabs:
-  - {fileID: 6812737689486625329, guid: 83776c3350d59405a873e0fdcf8c7ddc, type: 3}
+  - {fileID: 9026643832412361139, guid: a8ab5ef11fb6048b891b71bab70b096a, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -66198,7 +66314,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
-  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  - {fileID: 4936287486793651546, guid: ad7571d405c3b403eb4697f470247929, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -66391,6 +66507,7 @@ MonoBehaviour:
   customerCostume: {fileID: 11400000, guid: 2a2954463af730c47abc169a61c7ec20, type: 2}
   dialogue:
   - Yo
+  inkFile: {fileID: 0}
   genuineReason: 0
   wrongReasonAmount: -2
 --- !u!54 &1898725738
@@ -67096,7 +67213,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
-  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  - {fileID: 4936287486793651546, guid: ad7571d405c3b403eb4697f470247929, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -69227,7 +69344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFight.BossMusic
   director: {fileID: 514971802}
-  volume: 0.25
+  volume: 0.375
   fadeSeconds: 2.5
 --- !u!82 &1984663532
 AudioSource:
@@ -74004,7 +74121,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
-  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  - {fileID: 4936287486793651546, guid: ad7571d405c3b403eb4697f470247929, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}
@@ -74441,7 +74558,7 @@ MonoBehaviour:
   costumePrefabs:
   - {fileID: 7707577448653574811, guid: 7dcba9c7f083b384185a1929f9342e02, type: 3}
   garmentPrefabs:
-  - {fileID: 750663430134190628, guid: 746535bb625294b51aa443ce0da974c7, type: 3}
+  - {fileID: 4936287486793651546, guid: ad7571d405c3b403eb4697f470247929, type: 3}
   telegraphHum: {fileID: 8300000, guid: 1b2494ebd181e4b62af5517f1aae5678, type: 3}
   telegraphCreak: {fileID: 8300000, guid: 749d09a74f73846899969441b95bb168, type: 3}
   slamSound: {fileID: 8300000, guid: f7f502a1429f34ab3a8d0ba507314912, type: 3}

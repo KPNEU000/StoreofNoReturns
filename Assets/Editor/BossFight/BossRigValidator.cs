@@ -12,7 +12,6 @@ namespace BossFight.Editor
         public static void Validate()
         {
             var errors = new List<string>();
-            CostumeReturnValueBuilder.Validate(errors);
 
             var config = ConfigBuilder.Load();
             if (config == null)
