@@ -5,7 +5,7 @@
   <WwiseStreamingAssetsPath>Audio/GeneratedSoundBanks</WwiseStreamingAssetsPath>
   <RootOutputPath>../../../Documents/WwiseProjects/StoreofNoReturns/GeneratedSoundBanks/</RootOutputPath>
   <CreatedPicker>true</CreatedPicker>
-  <CreateWwiseGlobal>true</CreateWwiseGlobal>
+  <CreateWwiseGlobal>false</CreateWwiseGlobal>
   <CreateWwiseListener>true</CreateWwiseListener>
   <ObjectReferenceAutoCleanup>true</ObjectReferenceAutoCleanup>
   <LoadSoundEngineInEditMode>true</LoadSoundEngineInEditMode>

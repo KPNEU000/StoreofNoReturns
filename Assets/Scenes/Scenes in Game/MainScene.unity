@@ -3097,7 +3097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8767f52c1d668469f9dc68afafb4a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoneyManager
-  startingMoney: 1000
+  startingMoney: 1350
   heatingCutOff: 100
   heatingCutOffAlert: {fileID: 1027833848}
   lightingCutOff: 500
@@ -3166,11 +3166,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1146c287278e8d14cb41dd88faede93a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReputationManager
-  startingReputation: 80
+  startingReputation: 50
   minimumReputation: 0
   maximumReputation: 100
-  correctRefundReward: 5
-  unfairDenialPenalty: 10
+  correctRefundReward: 10
+  unfairDenialPenalty: 20
   incorrectRefundPenalty: 0
   correctDenialReward: 0
 --- !u!1 &135492483
@@ -37979,7 +37979,7 @@ MonoBehaviour:
   dialogue: []
   inkFile: {fileID: 0}
   genuineReason: 0
-  wrongReasonAmount: -2
+  wrongReasonAmount: -4
 --- !u!1 &1468334892
 GameObject:
   m_ObjectHideFlags: 0
@@ -49451,7 +49451,7 @@ MonoBehaviour:
   - Yo
   inkFile: {fileID: 0}
   genuineReason: 0
-  wrongReasonAmount: -2
+  wrongReasonAmount: -4
 --- !u!54 &1898725738
 Rigidbody:
   m_ObjectHideFlags: 0

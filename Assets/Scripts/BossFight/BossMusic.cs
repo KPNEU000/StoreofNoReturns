@@ -11,7 +11,7 @@ namespace BossFight
         [SerializeField]
         private BossDirector director;
         [SerializeField]
-        private float volume = 0.1125f; // 2026-10-23: ambient loop at 30% of the final-playtest 0.375
+        private float volume = 0.3f; // SoundBuilder sets each layer's volume
         [SerializeField]
         private float fadeSeconds = 2.5f;
         [SerializeField]

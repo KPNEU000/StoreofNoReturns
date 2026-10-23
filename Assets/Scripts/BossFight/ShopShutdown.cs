@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 namespace BossFight
 {
     // Runtime guard: the boss fight has no shop customers and no shop clock. The Boss Scene builder already
-    // saves these off; this catches anything left on. Only touches the given scene, so a TimeManager carried
-    // over from MainScene by DontDestroyOnLoad keeps working when the shop is played again.
+    // saves these off; this catches anything left on. Only touches the given scene.
     public static class ShopShutdown
     {
         // Returns how many objects/components it switched off.

@@ -206,7 +206,7 @@ namespace BossFight.Editor
                 rect.offsetMin = new Vector2(30f, 15f);
                 rect.offsetMax = new Vector2(-30f, -15f);
                 var text = go.AddComponent<TextMeshProUGUI>();
-                text.font = TMP_Settings.defaultFontAsset;
+                text.font = FontBuilder.Load();
                 text.fontSize = 44f;
                 text.alignment = TextAlignmentOptions.Center;
                 text.color = Color.white;
@@ -287,7 +287,7 @@ namespace BossFight.Editor
                 var go = new GameObject(HudPromptName, typeof(RectTransform));
                 go.transform.SetParent(overlay.transform, false);
                 var text = go.AddComponent<TextMeshProUGUI>();
-                text.font = TMP_Settings.defaultFontAsset;
+                text.font = FontBuilder.Load();
                 text.color = new Color(1f, 0.93f, 0.7f, 1f);
                 text.raycastTarget = false;
                 text.textWrappingMode = TextWrappingModes.Normal;

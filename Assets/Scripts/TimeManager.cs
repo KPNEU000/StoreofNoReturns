@@ -28,15 +28,10 @@ public class TimeManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        // Each scene keeps its own Game Manager. This object also holds MoneyManager and ReputationManager, and
+        // keeping MainScene's alive (DontDestroyOnLoad) destroyed Boss Scene's copy, which the boss fight uses.
+        // MainScene values reach the fight through BossRunState instead.
+        Instance = this;
     }
 
     void Start()

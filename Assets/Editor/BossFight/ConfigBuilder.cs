@@ -17,7 +17,7 @@ namespace BossFight.Editor
             "bookScale", "bookTelegraphSeconds", "witchHoverHeight", "caveInChunkRadius", "bookFlightSpeed", "clothingHitCost", "monsterHitCostAtRep100", "maxClothingAlive", "waveNextDelaySeconds", "waveClearFraction", "rackTelegraphSeconds", "monsterAttackMoveFactor", "slashMaxTargets", "clothingHoverHeight",
             "glassHudWidth", "glassHudHeight", "caveInChunkRestHeight",
             "invincibilitySeconds", "slashReach", "bookThrowIntervalSeconds", "slashArcDegrees",
-            "flashlightInnerSpotAngle", "debugReputation",
+            "flashlightInnerSpotAngle", "debugReputation", "debugStartMoney",
         };
 
         // Creates the config asset with defaults, then writes the tuned values into it (new or existing).

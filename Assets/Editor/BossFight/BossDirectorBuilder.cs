@@ -456,7 +456,7 @@ namespace BossFight.Editor
             rect.anchoredPosition = offset;
             rect.sizeDelta = new Vector2(900f, size * 1.4f);
             var label = go.AddComponent<TextMeshProUGUI>();
-            label.font = TMP_Settings.defaultFontAsset;
+            label.font = FontBuilder.Load();
             label.fontSize = size;
             label.alignment = TextAlignmentOptions.TopRight;
             label.color = Color.white;

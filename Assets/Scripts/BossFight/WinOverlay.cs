@@ -89,6 +89,8 @@ namespace BossFight
             var rect = AddRect(parent, name, anchor, anchor, Vector2.zero);
             rect.sizeDelta = new Vector2(1600f, size * 1.6f);
             var label = rect.gameObject.AddComponent<TextMeshProUGUI>();
+            var font = BossFont.Get();
+            if (font != null) label.font = font;
             label.text = text;
             label.fontSize = size;
             label.color = color;

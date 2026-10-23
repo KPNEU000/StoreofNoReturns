@@ -149,8 +149,8 @@ MonoBehaviour:
     openingWitchTutorialDistance: 6
     tutorialWitchHit: 10
     openingWitchReturnSeconds: 1.2
-    debugStartMoney: 600
-    debugReputation: 80
+    debugStartMoney: 800
+    debugReputation: 50
     debugAngeredCustomers: 3
     debugLoseMoneyLarge: 100
     debugLoseMoneySmall: 25

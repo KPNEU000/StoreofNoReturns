@@ -203,8 +203,8 @@ namespace BossFight
         public float openingWitchReturnSeconds = 1.2f;
 
         [Header("Debug (P = jump to boss start)")]
-        public float debugStartMoney = 600f;
-        public int debugReputation = 80; // 2026-10-23: matches MainScene's starting reputation
+        public float debugStartMoney = 800f; // 2026-10-23: between the shop's worst ($550) and perfect ($1050) results
+        public int debugReputation = 50; // 2026-10-23: MainScene's starting reputation
         public int debugAngeredCustomers = 3;
         public float debugLoseMoneyLarge = 100f;
         public float debugLoseMoneySmall = 25f;

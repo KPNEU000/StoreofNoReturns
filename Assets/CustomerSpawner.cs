@@ -194,9 +194,8 @@ public class CustomerSpawner : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError(
-                        "SceneLoadingManager instance is NULL!"
-                    );
+                    // Started from MainScene instead of the Title Screen: no SceneLoadingManager exists yet.
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Boss Scene");
                 }
             }
         );
