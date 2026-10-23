@@ -29,7 +29,8 @@ namespace BossFight
         private void Update()
         {
             var kb = Keyboard.current;
-            if (!Debug.isDebugBuild || kb == null) return;
+            // A real run (arrived from the shop) ignores every test key, so money and reputation stay what the shop left.
+            if (!Debug.isDebugBuild || kb == null || fromShop) return;
             if (kb.pKey.wasPressedThisFrame) JumpToBossStart();
             if (kb.leftBracketKey.wasPressedThisFrame && moneyManager != null) moneyManager.SubtractMoney(settings.debugLoseMoneyLarge);
             if (kb.rightBracketKey.wasPressedThisFrame && moneyManager != null) moneyManager.SubtractMoney(settings.debugLoseMoneySmall);
@@ -56,6 +57,7 @@ namespace BossFight
 
             if (BossRunState.HasData)
             {
+                fromShop = true;
                 if (moneyManager != null)
                     moneyManager.SetMoney(BossRunState.Money);
 
@@ -77,9 +79,12 @@ namespace BossFight
             }
         }
 
+        private bool fromShop;
+
         private void JumpToBossStart()
         {
-            if (director == null || director.Phase != BossPhase.Intro) return;
+            // Only before the fight starts: P during the opening used to reset money and reputation to the test values.
+            if (director == null || director.Phase != BossPhase.Intro || director.OpeningRunning) return;
             if (moneyManager != null) moneyManager.SetMoney(settings.debugStartMoney);
             if (reputationManager != null)
             {
