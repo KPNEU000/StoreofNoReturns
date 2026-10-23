@@ -57,7 +57,7 @@ MonoBehaviour:
     monsterSpeedFactor: 0.95
     boostedMonsterSpeedFactor: 1.4
     clothingHp: 10
-    clothingHoverHeight: 1.35
+    clothingHoverHeight: 1.2
     clothingFlopSeconds: 1.5
     waveIntervalSeconds: 20
     waveMinCostumes: 4

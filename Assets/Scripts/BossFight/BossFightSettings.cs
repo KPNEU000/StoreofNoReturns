@@ -75,7 +75,7 @@ namespace BossFight
         [Header("Enemies: clothing")]
         public float clothingHp = 10f;
         // How high a possessed garment's hanger floats above the floor (round 14: raised from 1.0).
-        public float clothingHoverHeight = 1.35f;
+        public float clothingHoverHeight = 1.2f; // final: between the original 1.0 and 1.35
         public float clothingFlopSeconds = 1.5f;
         public float waveIntervalSeconds = 20f; // unused since playtest round 6 (waves follow kills, see WaveScheduler)
         public int waveMinCostumes = 4; // unused
