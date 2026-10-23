@@ -22007,7 +22007,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -22060,7 +22060,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -47553,7 +47553,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343199476}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 127c2fb21649c4dde93bbdd4bfb94848, type: 2}
 --- !u!4 &1343199479
 Transform:
   m_ObjectHideFlags: 0
@@ -47562,13 +47562,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343199476}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.2, y: 6.0750413, z: 2.2}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1.31, z: 0}
+  m_LocalScale: {x: 80, y: 1, z: 150}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1523467203}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1344121940
 GameObject:
   m_ObjectHideFlags: 0
@@ -51485,6 +51485,7 @@ MonoBehaviour:
   lineIndex: 0
   remainingDistance: 0
   velocity: 0
+  footstepInterval: 0.7
   done: 0
 --- !u!195 &1465837767
 NavMeshAgent:
@@ -66648,6 +66649,7 @@ MonoBehaviour:
   lineIndex: 0
   remainingDistance: 0
   velocity: 0
+  footstepInterval: 0.7
   done: 0
 --- !u!195 &1898725740
 NavMeshAgent:
