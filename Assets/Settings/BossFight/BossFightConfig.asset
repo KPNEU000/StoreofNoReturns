@@ -33,7 +33,7 @@ MonoBehaviour:
     monsterHitCostAtRep100: 50
     bookHitCost: 50
     debrisHitCost: 50
-    invincibilitySeconds: 0.6
+    invincibilitySeconds: 0.75
     hitFlashSeconds: 0.25
     monsterHpMultiplierAtRep0: 2
     monsterHpMultiplierAtRep50: 1
@@ -63,6 +63,7 @@ MonoBehaviour:
     waveMaxCostumes: 6
     waveFirstDelaySeconds: 3
     waveNextDelaySeconds: 5
+    waveStallSeconds: 6
     waveClearFraction: 0.75
     rackTelegraphSeconds: 2.2
     rackLiftMeters: 0.8

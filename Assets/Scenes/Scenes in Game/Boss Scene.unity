@@ -37466,7 +37466,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1042491605}
-  - component: {fileID: 1042491606}
   m_Layer: 0
   m_Name: ClothingRackPockets_Left
   m_TagString: Untagged
@@ -37491,26 +37490,6 @@ Transform:
   - {fileID: 1877955913}
   m_Father: {fileID: 1838009690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1042491606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1042491604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
-  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
-  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
-  costumePrefabs:
-  - {fileID: 899621543398838884, guid: 092b62eb30990644f8e2063c332e7246, type: 3}
-  - {fileID: 8554172815481801290, guid: bccb528c814eb5349979e9a4d5406a37, type: 3}
-  garmentPrefabs:
-  - {fileID: 2286682023976722883, guid: cfe85e62e649e4fe0bfaa7e93c12ce64, type: 3}
-  - {fileID: 6812737689486625329, guid: 83776c3350d59405a873e0fdcf8c7ddc, type: 3}
 --- !u!1 &1043312601
 GameObject:
   m_ObjectHideFlags: 0
@@ -43343,6 +43322,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1241703677}
+  - component: {fileID: 1241703678}
   m_Layer: 0
   m_Name: ClothingRackLShape_TopRight
   m_TagString: Untagged
@@ -43368,6 +43348,24 @@ Transform:
   - {fileID: 1365254080}
   m_Father: {fileID: 2014338326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1241703678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241703676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 2892068233996699481, guid: c01de2821c276f94bb2ba56c0129083f, type: 3}
+  garmentPrefabs:
+  - {fileID: 8081653448326425463, guid: 5b0522a484afb4963852ad4e2c208d48, type: 3}
 --- !u!1 &1245773078
 GameObject:
   m_ObjectHideFlags: 0
@@ -46509,6 +46507,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1322606753}
+  - component: {fileID: 1322606754}
   m_Layer: 0
   m_Name: ClothingRackLShape_TopLeft
   m_TagString: Untagged
@@ -46534,6 +46533,24 @@ Transform:
   - {fileID: 1561119943}
   m_Father: {fileID: 1042491605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1322606754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322606752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 899621543398838884, guid: 092b62eb30990644f8e2063c332e7246, type: 3}
+  garmentPrefabs:
+  - {fileID: 2286682023976722883, guid: cfe85e62e649e4fe0bfaa7e93c12ce64, type: 3}
 --- !u!1001 &1325894992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56031,6 +56048,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1599254348}
+  - component: {fileID: 1599254349}
   m_Layer: 0
   m_Name: ClothingRackLShape_BottomRight
   m_TagString: Untagged
@@ -56056,6 +56074,24 @@ Transform:
   - {fileID: 2109941926}
   m_Father: {fileID: 2014338326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1599254349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599254347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 6754478548331413432, guid: 5c55ff89aeac635448e62cb073ef10a3, type: 3}
+  garmentPrefabs:
+  - {fileID: 2351980221827400068, guid: 8488c3aa8b5224890a4437b65d123214, type: 3}
 --- !u!1 &1604357802
 GameObject:
   m_ObjectHideFlags: 0
@@ -65183,6 +65219,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1877955913}
+  - component: {fileID: 1877955914}
   m_Layer: 0
   m_Name: ClothingRackLShape_BottomLeft
   m_TagString: Untagged
@@ -65208,6 +65245,24 @@ Transform:
   - {fileID: 1540012734}
   m_Father: {fileID: 1042491605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1877955914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877955912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
+  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
+  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
+  costumePrefabs:
+  - {fileID: 8554172815481801290, guid: bccb528c814eb5349979e9a4d5406a37, type: 3}
+  garmentPrefabs:
+  - {fileID: 6812737689486625329, guid: 83776c3350d59405a873e0fdcf8c7ddc, type: 3}
 --- !u!1 &1883330439
 GameObject:
   m_ObjectHideFlags: 0
@@ -69268,7 +69323,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2014338326}
-  - component: {fileID: 2014338327}
   m_Layer: 0
   m_Name: ClothingRackPockets_Right
   m_TagString: Untagged
@@ -69293,26 +69347,6 @@ Transform:
   - {fileID: 1599254348}
   m_Father: {fileID: 1838009690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2014338327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2014338325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 310e5016bb0fb4b6f9438eb44837b1de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossFight.PossessableRack
-  config: {fileID: 11400000, guid: fedd150fdc9944b898b73a7301480886, type: 2}
-  possessedColor: {r: 0.6, g: 0.1, b: 0.9, a: 1}
-  costumePrefabs:
-  - {fileID: 2892068233996699481, guid: c01de2821c276f94bb2ba56c0129083f, type: 3}
-  - {fileID: 6754478548331413432, guid: 5c55ff89aeac635448e62cb073ef10a3, type: 3}
-  garmentPrefabs:
-  - {fileID: 8081653448326425463, guid: 5b0522a484afb4963852ad4e2c208d48, type: 3}
-  - {fileID: 2351980221827400068, guid: 8488c3aa8b5224890a4437b65d123214, type: 3}
 --- !u!1 &2017786791
 GameObject:
   m_ObjectHideFlags: 0

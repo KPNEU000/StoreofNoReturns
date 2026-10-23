@@ -36,7 +36,7 @@ namespace BossFight
         public float bookHitCost = 50f;
         // A falling ceiling chunk landing on the player: charged once per chunk, never while standing in it.
         public float debrisHitCost = 50f;
-        public float invincibilitySeconds = 0.6f; // round 7: 0.25 too punishing, 0.75 too easy
+        public float invincibilitySeconds = 0.75f; // round 8
         public float hitFlashSeconds = 0.25f;
 
         [Header("Economy: reputation -> monster HP multiplier")]
@@ -82,9 +82,12 @@ namespace BossFight
         // waveNextDelaySeconds after waveClearFraction of that wave is dead.
         public float waveFirstDelaySeconds = 3f;
         public float waveNextDelaySeconds = 6f; // playtest round 7 (was 5)
+        // Safety net (round 8): if nothing from the current wave dies for this long, the next rack starts anyway
+        // and the old wave stays alive (covers costumes stuck somewhere unreachable).
+        public float waveStallSeconds = 6f;
         [Range(0f, 1f)] public float waveClearFraction = 0.75f;
         public float rackTelegraphSeconds = 3f; // longer, so it can be spotted from across the store
-        public float rackLiftMeters = 1.6f;
+        public float rackLiftMeters = 1.6f; // unused since round 8: the lift clears the neighbouring racks (RackLift)
         public float waveRingMinRadius = 1.4f;
         public float waveRingMaxRadius = 2.6f;
         // Costumes per wave at 100 reputation; worse reputation multiplies the swarm (not its HP).

@@ -23,6 +23,13 @@ namespace BossFight.Editor
             return null;
         }
 
+        public static List<T> FindAllInScene<T>(Scene scene) where T : Component
+        {
+            var all = new List<T>();
+            foreach (var root in scene.GetRootGameObjects()) all.AddRange(root.GetComponentsInChildren<T>(true));
+            return all;
+        }
+
         // The player is whichever object has PlayerMovement.
         public static PlayerMovement FindPlayer(Scene scene)
         {

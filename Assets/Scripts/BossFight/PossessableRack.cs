@@ -108,6 +108,45 @@ namespace BossFight
         }
 
         private static readonly Color TelegraphGlow = new Color(1f, 0.95f, 0.9f, 1f);
+        private static Material glowMaterial;
+        private float liftMeters;
+
+        private static Bounds RendererBounds(Component c)
+        {
+            var renderers = c.GetComponentsInChildren<Renderer>();
+            if (renderers.Length == 0) return new Bounds(c.transform.position, Vector3.zero);
+            var b = renderers[0].bounds;
+            for (int i = 1; i < renderers.Length; i++) b.Encapsulate(renderers[i].bounds);
+            return b;
+        }
+
+        // Clear of every other rack, under the ceiling.
+        private static float LiftFor(PossessableRack rack)
+        {
+            var own = RendererBounds(rack);
+            float neighbourTop = own.max.y;
+            foreach (var other in FindObjectsByType<PossessableRack>(FindObjectsSortMode.None))
+            {
+                if (other == rack || other.possessed) continue;
+                neighbourTop = Mathf.Max(neighbourTop, RendererBounds(other).max.y);
+            }
+            var ceiling = GameObject.Find("Ceiling");
+            var ceilingRenderer = ceiling != null ? ceiling.GetComponent<Renderer>() : null;
+            float ceilingBottom = ceilingRenderer != null ? ceilingRenderer.bounds.min.y : own.max.y + 4f;
+            return Rules.RackLift.Meters(own.min.y, own.size.y, neighbourTop, ceilingBottom);
+        }
+
+        // The rack's own materials have no emission, so a property-block glow never showed: swap to a solid,
+        // over-bright unlit material for the telegraph (the rack disappears on release, so nothing to restore).
+        private static Material GlowMaterial()
+        {
+            if (glowMaterial != null) return glowMaterial;
+            var shader = Shader.Find("Universal Render Pipeline/Unlit");
+            if (shader == null) return null;
+            glowMaterial = new Material(shader) { name = "RackTelegraphGlow" };
+            glowMaterial.SetColor("_BaseColor", new Color(1.6f, 1.5f, 1.35f, 1f));
+            return glowMaterial;
+        }
         private Coroutine telegraph;
         private ParticleSystem aura;
         private Light auraLight;
@@ -120,6 +159,7 @@ namespace BossFight
             possessed = true;
             releasePoint = CenterPoint();
             restPosition = transform.position;
+            liftMeters = LiftFor(this);
             telegraph = StartCoroutine(TelegraphRoutine(seconds));
             return true;
         }
@@ -128,7 +168,6 @@ namespace BossFight
         {
             var settings = BossFightConfig.SettingsOf(config);
             var renderers = GetComponentsInChildren<Renderer>();
-            var block = new MaterialPropertyBlock();
             aura = CreateAura();
             aura.transform.position = releasePoint + Vector3.up * 1f;
             auraLight = new GameObject("RackAuraLight").AddComponent<Light>();
@@ -140,25 +179,29 @@ namespace BossFight
             auraLight.shadows = LightShadows.None;
             auraLight.transform.position = releasePoint + Vector3.up * 1.2f;
             seconds = Mathf.Max(seconds, 0.01f);
+            var glowSwap = GlowMaterial();
+            bool swapped = false;
             for (float t = 0f; t < seconds; t += Time.deltaTime)
             {
                 float k = Mathf.Clamp01(t / seconds);
-                float glow = Mathf.Lerp(1.5f, 6f, k);
-                foreach (var r in renderers)
+                // Lights up within the first fifth of the telegraph and stays lit.
+                if (!swapped && glowSwap != null && k >= 0.2f)
                 {
-                    if (r == null) continue;
-                    r.GetPropertyBlock(block);
-                    block.SetColor(BaseColorId, Color.white);
-                    block.SetColor(ColorId, Color.white);
-                    block.SetColor(EmissionColorId, TelegraphGlow * glow);
-                    r.SetPropertyBlock(block);
+                    swapped = true;
+                    foreach (var r in renderers)
+                    {
+                        if (r == null) continue;
+                        var lit = new Material[r.sharedMaterials.Length];
+                        for (int i = 0; i < lit.Length; i++) lit[i] = glowSwap;
+                        r.sharedMaterials = lit;
+                    }
                 }
                 // Rises quickly, then hangs and shakes harder and harder.
-                float lift = settings.rackLiftMeters * Mathf.SmoothStep(0f, 1f, Mathf.Min(1f, k * 2.5f));
+                float lift = liftMeters * Mathf.SmoothStep(0f, 1f, Mathf.Min(1f, k * 2.5f));
                 var shake = Random.insideUnitSphere * (0.03f + 0.12f * k);
                 shake.y *= 0.4f;
                 transform.position = restPosition + Vector3.up * lift + shake;
-                auraLight.intensity = Mathf.Lerp(4f, 12f, k) * (0.85f + 0.15f * Mathf.Sin(t * 30f));
+                auraLight.intensity = Mathf.Lerp(6f, 18f, k) * (0.85f + 0.15f * Mathf.Sin(t * 30f));
                 yield return null;
             }
             telegraph = null;

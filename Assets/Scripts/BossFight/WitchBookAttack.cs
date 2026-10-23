@@ -124,15 +124,13 @@ namespace BossFight
             }
             if (candidates.Count == 0)
             {
-                // Everything is on the floor: the longest-settled book goes back to its shelf.
-                ThrowableBook oldest = null;
+                // Infinite ammo without magically refilled shelves (round 8): once the shelves are bare she pulls
+                // books up off the floor where they landed.
                 foreach (var book in books)
                 {
-                    if (book != null && book.IsInert && (oldest == null || book.InertSince < oldest.InertSince)) oldest = book;
+                    if (book != null && book.IsInert) candidates.Add(book);
                 }
-                if (oldest == null) return null;
-                oldest.ResetToShelf();
-                return oldest;
+                if (candidates.Count == 0) return null;
             }
             var positions = new List<Vector3>(candidates.Count);
             foreach (var book in candidates) positions.Add(book.transform.position);

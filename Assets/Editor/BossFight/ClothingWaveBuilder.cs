@@ -33,6 +33,13 @@ namespace BossFight.Editor
                 }
 
                 bool changed = false;
+                // Racks that stopped being racks (the middle groups, now split into their sections) lose the component.
+                foreach (var stale in BuilderUtil.FindAllInScene<PossessableRack>(boss.Scene))
+                {
+                    if (racks.Contains(stale.transform)) continue;
+                    Object.DestroyImmediate(stale);
+                    changed = true;
+                }
                 foreach (var rack in racks)
                 {
                     var possessable = rack.GetComponent<PossessableRack>();
@@ -82,7 +89,12 @@ namespace BossFight.Editor
             {
                 foreach (var t in root.GetComponentsInChildren<Transform>(true))
                 {
-                    if (t.name.StartsWith(RackPrefix) && !HasRackAncestor(t)) result.Add(t);
+                    if (!t.name.StartsWith(RackPrefix) || HasRackAncestor(t)) continue;
+                    // Playtest round 8: the middle "pockets" are groups of rack sections; each section rises and
+                    // spawns on its own, like the wall racks.
+                    var sections = RackSections(t);
+                    if (sections.Count >= 2) result.AddRange(sections);
+                    else result.Add(t);
                 }
             }
             foreach (var wallName in WallNames)
@@ -96,6 +108,16 @@ namespace BossFight.Editor
                 }
             }
             return result;
+        }
+
+        private static List<Transform> RackSections(Transform group)
+        {
+            var sections = new List<Transform>();
+            foreach (Transform child in group)
+            {
+                if (child.name.StartsWith(RackPrefix) && child.GetComponentInChildren<Renderer>(true) != null) sections.Add(child);
+            }
+            return sections;
         }
 
         private static bool HasRackAncestor(Transform t)

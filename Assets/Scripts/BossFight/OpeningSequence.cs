@@ -251,15 +251,31 @@ namespace BossFight
         private Vector3 TutorialWitchSpot()
         {
             if (player == null) return witch != null ? witch.position : Vector3.zero;
-            var forward = Planar.Direction(player.transform.forward);
+            var forward = StoreForward();
             var start = vaultTarget != null ? vaultTarget.position : player.transform.position + forward * settings.openingVaultDistance;
             var spot = OnNavMesh(start + forward * settings.openingWitchTutorialDistance);
             return new Vector3(spot.x, witchPost.y, spot.z);
         }
 
+        // Playtest round 8: the Witch, the tutorial costume and the vault used to follow wherever the player was
+        // looking when they clicked (facing the back wall put them behind the counter). Everything now uses the
+        // fixed direction from the player's start spot to the vault landing point: straight at the store front.
+        private Vector3 storeForward;
+
+        private Vector3 StoreForward()
+        {
+            if (storeForward == Vector3.zero && player != null)
+            {
+                storeForward = vaultTarget != null
+                    ? Planar.Direction(vaultTarget.position - player.transform.position)
+                    : Planar.Direction(player.transform.forward);
+            }
+            return storeForward;
+        }
+
         private Quaternion FacingPlayer()
         {
-            return player != null ? Quaternion.LookRotation(-Planar.Direction(player.transform.forward)) : witch.rotation;
+            return player != null ? Quaternion.LookRotation(-StoreForward()) : witch.rotation;
         }
 
         // Round-2 playtest: from her post by the door she was lost in the fog, so she casts from right in front of the player.
@@ -268,7 +284,7 @@ namespace BossFight
             if (witch == null || player == null) return;
             witchPost = witch.position;
             witchPostRotation = witch.rotation;
-            var forward = Planar.Direction(player.transform.forward);
+            var forward = StoreForward();
             var spot = player.transform.position + forward * settings.openingWitchCounterDistance;
             spot = new Vector3(spot.x, witchPost.y, spot.z);
             witch.position = spot;
@@ -507,7 +523,7 @@ namespace BossFight
             }
             else
             {
-                var forward = Vector3.ProjectOnPlane(player.transform.forward, Vector3.up).normalized;
+                var forward = StoreForward();
                 vaultEnd = vaultStart + forward * settings.openingVaultDistance;
             }
             vaultElapsed = 0f;
@@ -544,7 +560,7 @@ namespace BossFight
             Prompt(SlashPrompt);
             if (spawner == null || player == null) return;
             // Starts off to one side of the player and floats back and forth across their view; it cannot hurt them.
-            TutorialRules.PassEndpoints(player.transform.position, player.transform.forward, TutorialPassAhead, TutorialPassHalfWidth, out var from, out var to);
+            TutorialRules.PassEndpoints(player.transform.position, StoreForward(), TutorialPassAhead, TutorialPassHalfWidth, out var from, out var to);
             from = OnNavMesh(from);
             to = OnNavMesh(to);
             costumeSpawned = spawner.SpawnHarmless(from, from, to) != null;

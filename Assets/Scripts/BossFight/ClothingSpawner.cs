@@ -71,11 +71,11 @@ namespace BossFight
             var spawned = new System.Collections.Generic.List<PossessedClothing>();
             if (prefab == null) return spawned;
             float start = Random.Range(0f, 360f);
+            var interior = InteriorReference();
             for (int i = 0; i < count && alive.Count < cap; i++)
             {
                 float angle = start + 360f * i / Mathf.Max(count, 1) + Random.Range(-12f, 12f);
-                var point = center + Quaternion.Euler(0f, angle, 0f) * Vector3.forward * Random.Range(minRadius, maxRadius);
-                if (UnityEngine.AI.NavMesh.SamplePosition(point, out var hit, 2f, UnityEngine.AI.NavMesh.AllAreas)) point = hit.position;
+                var point = StoreSpot(center, angle, minRadius, maxRadius, interior);
                 var enemy = Instantiate(prefab, point, Quaternion.identity);
                 enemy.Init(this, spawnIndex++);
                 enemy.ScaleHealth(hpMultiplier);
@@ -84,6 +84,38 @@ namespace BossFight
                 spawned.Add(enemy);
             }
             return spawned;
+        }
+
+        // Round 8: a ring point beside a wall rack could snap onto the NavMesh outside the wall and strand the
+        // costume. A spot only counts if the store interior (the player's floor) can be walked to from it indoors;
+        // otherwise try nearer the rack, other angles, and finally the store interior itself.
+        private static Vector3 StoreSpot(Vector3 center, float angle, float minRadius, float maxRadius, Vector3? interior)
+        {
+            for (int attempt = 0; attempt < 8; attempt++)
+            {
+                float radius = Mathf.Lerp(maxRadius, minRadius * 0.5f, attempt / 7f);
+                float a = angle + attempt * 47f;
+                var point = center + Quaternion.Euler(0f, a, 0f) * Vector3.forward * radius;
+                if (!UnityEngine.AI.NavMesh.SamplePosition(point, out var hit, 1.5f, NavAgents.IndoorMask)) continue;
+                if (interior == null || ConnectedIndoors(hit.position, interior.Value)) return hit.position;
+            }
+            return interior ?? center;
+        }
+
+        private static bool ConnectedIndoors(Vector3 from, Vector3 to)
+        {
+            var path = new UnityEngine.AI.NavMeshPath();
+            return UnityEngine.AI.NavMesh.CalculatePath(from, to, NavAgents.IndoorMask, path)
+                && path.status == UnityEngine.AI.NavMeshPathStatus.PathComplete;
+        }
+
+        // The player is always inside the store (PlayerBoundsGuard), so their floor marks the interior.
+        private static Vector3? InteriorReference()
+        {
+            var player = FindFirstObjectByType<PlayerMovement>();
+            if (player == null) return null;
+            return UnityEngine.AI.NavMesh.SamplePosition(player.transform.position, out var hit, 3f, NavAgents.IndoorMask)
+                ? hit.position : (Vector3?)null;
         }
 
         // One costume that cannot hurt the player and patrols between two points; null when the cap is reached.

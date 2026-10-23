@@ -17,7 +17,7 @@ public class PlaytestRound7Tests
     public void RoundSevenTuning()
     {
         var s = new BossFightSettings();
-        Assert.AreEqual(0.6f, s.invincibilitySeconds, 1e-5f);
+        Assert.AreEqual(0.75f, s.invincibilitySeconds, 1e-5f); // round 8
         Assert.AreEqual(6f, s.waveNextDelaySeconds, 1e-5f);
         Assert.AreEqual(3f, s.rackTelegraphSeconds, 1e-5f);
         Assert.AreEqual(8.4f, s.bookFlightSpeed, 1e-4f);
