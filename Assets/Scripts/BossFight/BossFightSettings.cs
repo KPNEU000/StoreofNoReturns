@@ -204,7 +204,7 @@ namespace BossFight
 
         [Header("Debug (P = jump to boss start)")]
         public float debugStartMoney = 600f;
-        public int debugReputation = 50;
+        public int debugReputation = 80; // 2026-10-23: matches MainScene's starting reputation
         public int debugAngeredCustomers = 3;
         public float debugLoseMoneyLarge = 100f;
         public float debugLoseMoneySmall = 25f;

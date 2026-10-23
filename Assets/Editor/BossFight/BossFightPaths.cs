@@ -4,6 +4,7 @@ namespace BossFight.Editor
     {
         public const string SettingsFolder = "Assets/Settings/BossFight";
         public const string PrefabsFolder = "Assets/Prefabs/BossFight";
+        public const string ModelsFolder = "Assets/Models/BossFight";
         public const string ConfigAsset = SettingsFolder + "/BossFightConfig.asset";
         public const string RigPrefab = PrefabsFolder + "/BossFightRig.prefab";
         public const string RigName = "BossFightRig";

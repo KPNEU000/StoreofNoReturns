@@ -10,3 +10,4 @@ Downloaded 2026-10-23.
 | witch_magic, witch_book_cast, rack_telegraph_hum, door_blast, ceiling_rumble | forceField_000/001/002, lowFrequency_explosion_000/001 | Kenney, "Sci-fi Sounds" (CC0) https://kenney.nl/assets/sci-fi-sounds |
 | monster_windup_growl, monster_scream_1-3 | qubodup-GhostMoan05/01/03/04 | qubodup, "Ghost Monster Voice Moaning & Growling" (CC0) https://opengameart.org/node/12500 |
 | music_boss_loop | Insistent | yd, "Insistent: background loop" (CC0) https://opengameart.org/content/insistent-background-loop |
+| heartbeat_loop, boss_music | heartbeat_loop.wav, boss_music.wav | Provided by the team, 2026-10-23 (ends faded over 4 ms so the loop doesn't click) |

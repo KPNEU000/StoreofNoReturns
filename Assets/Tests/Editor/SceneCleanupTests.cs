@@ -76,6 +76,19 @@ public class SceneCleanupTests
     }
 
     [Test]
+    public void ShopShutdownKeepsOnlyThePlayerCameraListener()
+    {
+        var shopCamera = Make("ComputerCamera").AddComponent<AudioListener>();
+        var playerCamera = Make("Main Camera").AddComponent<AudioListener>();
+        Make("Sword", playerCamera.transform).AddComponent<PlayerSword>();
+
+        ShopShutdown.Apply(SceneManager.GetActiveScene());
+
+        Assert.IsFalse(shopCamera.enabled, "a shop camera listener would play the fight's 3D sounds from the shop");
+        Assert.IsTrue(playerCamera.enabled);
+    }
+
+    [Test]
     public void ShopShutdownLeavesTheBossWitchAlone()
     {
         var boss = Make("Witch").AddComponent<WitchBoss>();

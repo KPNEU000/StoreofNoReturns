@@ -12,6 +12,17 @@ namespace BossFight.Editor
     {
         public const string AudioFolder = "Assets/Audio/BossFight";
         internal const string MusicName = "BossMusic";
+        internal const string HeartbeatName = "BossHeartbeat";
+        internal const string ThemeName = "BossTheme";
+
+        // 2026-10-23 mix: the dark ambient loop at 30% from the opening, a quiet heartbeat until the first hit on the
+        // Witch, then the boss theme on top.
+        private static readonly (string name, string clip, float volume, float fade, bool startAfterHit, bool stopAtHit)[] MusicLayers =
+        {
+            (MusicName, "music_boss_loop", 0.1125f, 2.5f, false, false),
+            (HeartbeatName, "heartbeat_loop", 0.3f, 0.75f, false, true),
+            (ThemeName, "boss_music", 0.3f, 1.5f, true, false),
+        };
 
         internal static AudioClip Clip(string name)
         {
@@ -61,33 +72,93 @@ namespace BossFight.Editor
                     changed |= SetArray(steps, "steps", clips);
                 }
 
-                var music = BuilderUtil.FindByName(scene, MusicName);
-                if (music == null)
-                {
-                    var go = new GameObject(MusicName, typeof(AudioSource), typeof(BossMusic));
-                    UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(go, scene);
-                    music = go.transform;
-                    changed = true;
-                }
-                var source = music.GetComponent<AudioSource>();
-                var loop = Clip("music_boss_loop");
-                if (source.clip != loop || source.playOnAwake || !source.loop)
-                {
-                    source.clip = loop;
-                    source.playOnAwake = false;
-                    source.loop = true;
-                    changed = true;
-                }
                 var director = BuilderUtil.FindInScene<BossDirector>(scene);
-                var musicSo = new SerializedObject(music.GetComponent<BossMusic>());
-                var volume = musicSo.FindProperty("volume");
-                if (!Mathf.Approximately(volume.floatValue, 0.375f)) { volume.floatValue = 0.375f; changed = true; }
-                changed |= BuilderUtil.SetReference(musicSo, "director", director);
-                changed |= musicSo.ApplyModifiedPropertiesWithoutUndo();
+                foreach (var layer in MusicLayers) changed |= EnsureMusic(scene, director, layer);
+                changed |= EnsurePlayerListener(scene);
 
                 if (changed) EditorSceneManager.MarkSceneDirty(scene);
                 boss.SaveIfDirty();
             }
+        }
+
+        private static bool EnsureMusic(UnityEngine.SceneManagement.Scene scene, BossDirector director,
+            (string name, string clip, float volume, float fade, bool startAfterHit, bool stopAtHit) layer)
+        {
+            bool changed = false;
+            var music = BuilderUtil.FindByName(scene, layer.name);
+            if (music == null)
+            {
+                var go = new GameObject(layer.name, typeof(AudioSource), typeof(BossMusic));
+                UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(go, scene);
+                music = go.transform;
+                changed = true;
+            }
+            var source = music.GetComponent<AudioSource>();
+            var clip = Clip(layer.clip);
+            StreamMusic(clip);
+            if (source.clip != clip || source.playOnAwake || !source.loop)
+            {
+                source.clip = clip;
+                source.playOnAwake = false;
+                source.loop = true;
+                changed = true;
+            }
+            var so = new SerializedObject(music.GetComponent<BossMusic>());
+            changed |= SetFloat(so, "volume", layer.volume);
+            changed |= SetFloat(so, "fadeSeconds", layer.fade);
+            changed |= SetBool(so, "startAfterFirstHit", layer.startAfterHit);
+            changed |= SetBool(so, "stopAtFirstHit", layer.stopAtHit);
+            changed |= BuilderUtil.SetReference(so, "director", director);
+            changed |= so.ApplyModifiedPropertiesWithoutUndo();
+            return changed;
+        }
+
+        // Music tracks stream as Vorbis instead of sitting decompressed in memory (boss_music.wav alone is 41 s).
+        internal static void StreamMusic(AudioClip clip)
+        {
+            var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(clip)) as AudioImporter;
+            if (importer == null) return;
+            var settings = importer.defaultSampleSettings;
+            if (settings.loadType == AudioClipLoadType.Streaming && settings.compressionFormat == AudioCompressionFormat.Vorbis) return;
+            settings.loadType = AudioClipLoadType.Streaming;
+            settings.compressionFormat = AudioCompressionFormat.Vorbis;
+            importer.defaultSampleSettings = settings;
+            importer.SaveAndReimport();
+        }
+
+        private static bool SetFloat(SerializedObject so, string field, float value)
+        {
+            var prop = so.FindProperty(field);
+            if (Mathf.Approximately(prop.floatValue, value)) return false;
+            prop.floatValue = value;
+            return true;
+        }
+
+        private static bool SetBool(SerializedObject so, string field, bool value)
+        {
+            var prop = so.FindProperty(field);
+            if (prop.boolValue == value) return false;
+            prop.boolValue = value;
+            return true;
+        }
+
+        // The team's Wwise setup replaced the player camera's AudioListener with Wwise's own listener; the fight's
+        // sounds are Unity AudioSources, so the camera holding the sword needs a Unity listener as well.
+        // ShopShutdown switches the shop cameras' listeners off.
+        private static bool EnsurePlayerListener(UnityEngine.SceneManagement.Scene scene)
+        {
+            var sword = BuilderUtil.FindInScene<PlayerSword>(scene);
+            var camera = sword != null ? sword.GetComponentInParent<Camera>(true) : null;
+            if (camera == null) throw new System.InvalidOperationException("Boss Scene has no camera holding the PlayerSword");
+            var listener = camera.GetComponent<AudioListener>();
+            if (listener == null)
+            {
+                camera.gameObject.AddComponent<AudioListener>();
+                return true;
+            }
+            if (listener.enabled) return false;
+            listener.enabled = true;
+            return true;
         }
 
         private static void AssignPrefab()
@@ -146,8 +217,19 @@ namespace BossFight.Editor
             Need(BuilderUtil.FindInScene<PlayerHitReceiver>(scene), "PlayerHitReceiver", "hitSound");
             Need(BuilderUtil.FindInScene<WitchBookAttack>(scene), "WitchBookAttack", "castSound");
             foreach (var rack in BuilderUtil.FindAllInScene<PossessableRack>(scene)) Need(rack, rack.name, "telegraphHum", "slamSound");
-            var music = BuilderUtil.FindByName(scene, MusicName);
-            if (music == null || music.GetComponent<AudioSource>().clip == null) errors.Add("Sound: Boss Scene has no BossMusic with a clip");
+            foreach (var layer in MusicLayers)
+            {
+                var music = BuilderUtil.FindByName(scene, layer.name);
+                var source = music != null ? music.GetComponent<AudioSource>() : null;
+                if (source == null || source.clip == null) errors.Add($"Sound: Boss Scene has no {layer.name} with a clip");
+            }
+            var listeners = new List<AudioListener>();
+            foreach (var root in scene.GetRootGameObjects()) listeners.AddRange(root.GetComponentsInChildren<AudioListener>(true));
+            var enabled = listeners.FindAll(l => l.enabled && l.gameObject.activeInHierarchy);
+            if (enabled.Count != 1 || !ShopShutdown.IsPlayerListener(enabled[0]))
+            {
+                errors.Add($"Sound: Boss Scene needs exactly one enabled AudioListener, on the player camera (found {enabled.Count})");
+            }
             var player = BuilderUtil.FindPlayer(scene);
             if (player == null || player.GetComponent<PlayerFootsteps>() == null) errors.Add("Sound: the player has no PlayerFootsteps");
         }

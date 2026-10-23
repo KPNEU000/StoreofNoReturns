@@ -23,7 +23,9 @@ namespace BossFight
         }
 
         // Shop pieces still running, in scene order: active customer objects (not under a WitchBoss), then
-        // enabled CustomerSpawner and TimeManager components, per root. Shared with the builder's validator.
+        // enabled CustomerSpawner, TimeManager and shop-camera AudioListener components, per root. Shared with the
+        // builder's validator. Only the player camera (the one holding the sword) keeps a listener: several enabled
+        // listeners leave Unity to pick one, and the fight's 3D sounds then come from a shop camera.
         public static List<Component> StillOn(Scene scene)
         {
             var result = new List<Component>();
@@ -42,8 +44,17 @@ namespace BossFight
                 {
                     if (clock.enabled) result.Add(clock);
                 }
+                foreach (var listener in root.GetComponentsInChildren<AudioListener>(true))
+                {
+                    if (listener.enabled && !IsPlayerListener(listener)) result.Add(listener);
+                }
             }
             return result;
+        }
+
+        public static bool IsPlayerListener(AudioListener listener)
+        {
+            return listener.GetComponentInChildren<PlayerSword>(true) != null;
         }
     }
 }

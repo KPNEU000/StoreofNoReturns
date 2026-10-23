@@ -73,6 +73,9 @@ namespace BossFight.Editor
             else
             {
                 BuilderUtil.RequireFields(sword, new[] { "config", "movement", "pivot" }, errors);
+                var pivot = sword.transform.Find(SwordPivotName);
+                if (pivot == null || pivot.Find(SwordModelName) == null) errors.Add($"Boss Scene sword has no {SwordModelName}");
+                if (pivot != null && pivot.Find("Blade") != null) errors.Add("Boss Scene sword still has the placeholder box Blade");
             }
             if (flashlight == null)
             {
@@ -113,18 +116,34 @@ namespace BossFight.Editor
         // Round-2 playtest: the 0.9 m blade read as a dagger.
         internal const float SwordBladeLength = 2f; // playtest: trying a long blade to see how it reads
 
-        // Existing swords are kept, so the length is enforced on the blade and its trail tip every build.
+        // 2026-10-23: the team's sword model replaces the box blade. It is Y-up with its tip at +Y and the grip
+        // around its origin; the slanted side of the tip (model +Z) is turned to local -X, the leading side of the
+        // right-to-left slash (SwordPose). Flip SwordModelYaw to 90 if the edge reads as backwards.
+        internal const string SwordModelPath = BossFightPaths.ModelsFolder + "/Sword.fbx";
+        internal const string SwordModelName = "SwordModel";
+        internal const float SwordModelYaw = -90f;
+        internal const float SwordModelTipHeight = 1.972f; // model units, measured from the FBX
+        private static readonly (string part, string material, Color color)[] SwordMaterials =
+        {
+            ("Cube", "SwordHandle", new Color(0.367f, 0.212f, 0.040f)),
+            ("Cube.001", "SwordBlade", new Color(0.728f, 0.728f, 0.728f)),
+            ("Plane", "SwordGuard", new Color(0.120f, 0.120f, 0.120f)),
+        };
+
+        // Existing swords are kept, so the length is enforced on the model and the trail tip every build.
         private static void EnsureBladeLength(Transform pivot, float length, ref bool changed)
         {
-            var blade = pivot.Find("Blade");
-            if (blade != null)
+            var model = pivot.Find(SwordModelName);
+            if (model != null)
             {
-                var scale = new Vector3(blade.localScale.x, length, blade.localScale.z);
-                var position = new Vector3(0f, length * 0.5f, 0f);
-                if ((blade.localScale - scale).sqrMagnitude > 1e-8f || (blade.localPosition - position).sqrMagnitude > 1e-8f)
+                var scale = Vector3.one * (length / SwordModelTipHeight);
+                var rotation = Quaternion.Euler(0f, SwordModelYaw, 0f);
+                if ((model.localScale - scale).sqrMagnitude > 1e-8f || model.localPosition.sqrMagnitude > 1e-8f
+                    || Quaternion.Angle(model.localRotation, rotation) > 0.01f)
                 {
-                    blade.localScale = scale;
-                    blade.localPosition = position;
+                    model.localScale = scale;
+                    model.localPosition = Vector3.zero;
+                    model.localRotation = rotation;
                     changed = true;
                 }
             }
@@ -143,13 +162,6 @@ namespace BossFight.Editor
             if (pivot.childCount == 0)
             {
                 pivot.localPosition = new Vector3(0.35f, -0.4f, 0.6f);
-                var blade = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                blade.name = "Blade";
-                Object.DestroyImmediate(blade.GetComponent<Collider>());
-                blade.transform.SetParent(pivot, false);
-                blade.transform.localScale = new Vector3(0.06f, 0.9f, 0.02f);
-                blade.transform.localPosition = new Vector3(0f, 0.45f, 0f);
-
                 var tip = new GameObject("BladeTip");
                 tip.transform.SetParent(pivot, false);
                 tip.transform.localPosition = new Vector3(0f, 0.9f, 0f);
@@ -160,6 +172,14 @@ namespace BossFight.Editor
                 trail.sharedMaterial = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Line.mat");
                 changed = true;
             }
+            // The placeholder box blade made before the model arrived.
+            var box = pivot.Find("Blade");
+            if (box != null)
+            {
+                Object.DestroyImmediate(box.gameObject);
+                changed = true;
+            }
+            EnsureSwordModel(pivot, ref changed);
             EnsureBladeLength(pivot, SwordBladeLength, ref changed);
 
             var component = sword.GetComponent<PlayerSword>();
@@ -173,6 +193,43 @@ namespace BossFight.Editor
             so.FindProperty("movement").objectReferenceValue = player;
             so.FindProperty("pivot").objectReferenceValue = pivot;
             changed |= so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private static void EnsureSwordModel(Transform pivot, ref bool changed)
+        {
+            var model = pivot.Find(SwordModelName);
+            if (model == null)
+            {
+                var asset = AssetDatabase.LoadAssetAtPath<GameObject>(SwordModelPath);
+                if (asset == null) throw new System.InvalidOperationException($"Sword model missing: {SwordModelPath}");
+                var instance = (GameObject)PrefabUtility.InstantiatePrefab(asset, pivot);
+                instance.name = SwordModelName;
+                model = instance.transform;
+                changed = true;
+            }
+            foreach (var (part, material, color) in SwordMaterials)
+            {
+                var child = model.Find(part);
+                var renderer = child != null ? child.GetComponent<MeshRenderer>() : null;
+                if (renderer == null) throw new System.InvalidOperationException($"Sword model has no '{part}' mesh");
+                var mat = BuilderUtil.EnsureLitMaterial($"{BossFightPaths.SettingsFolder}/{material}.mat", color);
+                if (renderer.sharedMaterial != mat)
+                {
+                    renderer.sharedMaterials = new[] { mat };
+                    changed = true;
+                }
+                if (renderer.shadowCastingMode != UnityEngine.Rendering.ShadowCastingMode.Off)
+                {
+                    renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                    changed = true;
+                }
+            }
+            // PlayerSword's overlap query hits every layer, so the held model must not carry a collider.
+            foreach (var collider in model.GetComponentsInChildren<Collider>(true))
+            {
+                Object.DestroyImmediate(collider);
+                changed = true;
+            }
         }
 
         private static void BuildFlashlight(Transform camera, BossFightConfig config, ref bool changed)
