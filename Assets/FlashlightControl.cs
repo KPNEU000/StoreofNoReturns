@@ -15,6 +15,12 @@ public class FlashlightControl : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.F))
         {
             light.enabled = !light.enabled;
+            StoreofNoReturnsSfx.Post(
+                light.enabled
+                    ? StoreofNoReturnsSfx.FlashlightOn
+                    : StoreofNoReturnsSfx.FlashlightOff,
+                gameObject
+            );
         }
     }
 }

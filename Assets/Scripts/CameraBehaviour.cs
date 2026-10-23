@@ -58,6 +58,7 @@ public class CameraBehaviour : MonoBehaviour
         currentFOV = baseFOV;
         cam.fieldOfView = currentFOV;
         frontdesk.CustomerInService += performZoom;
+        AddComputerButtonSounds();
 
         BossBattleTest.BossFight += disable;
     }
@@ -160,6 +161,7 @@ public class CameraBehaviour : MonoBehaviour
 
     private void EnterComputerInteraction()
     {
+        StoreofNoReturnsSfx.Post(StoreofNoReturnsSfx.ComputerInteract, gameObject);
         posterCanvas.SetActive(false);
         cam.enabled = false;
         comCam.enabled = true;
@@ -168,6 +170,18 @@ public class CameraBehaviour : MonoBehaviour
         physicsRaycaster.enabled = false;
         pixelationFilter.SetActive(false);
         active = false;
+    }
+
+    private void AddComputerButtonSounds()
+    {
+        if (computerCanvas == null) return;
+
+        foreach (Button button in computerCanvas.GetComponentsInChildren<Button>(true))
+        {
+            button.onClick.AddListener(() =>
+                StoreofNoReturnsSfx.Post(StoreofNoReturnsSfx.ComputerInteract, gameObject)
+            );
+        }
     }
 
     public void ExitComputerInteraction()

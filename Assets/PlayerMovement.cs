@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     public static Action PlayerMoved;
 
     Vector3 PathTrail;
+    Vector3 footstepTrail;
+    [SerializeField] float footstepDistance = 0.6f;
+    bool usesBossFootsteps;
 
     // Other components (e.g. the slash) can slow the player by setting this; 1 = full speed.
     public float SpeedMultiplier { get; set; } = 1f;
@@ -41,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         PathTrail = transform.position;
+        footstepTrail = transform.position;
+        usesBossFootsteps = GetComponent<BossFight.PlayerFootsteps>() != null;
         BossBattleTest.BossFight += enableMovement;
         controller = GetComponent<CharacterController>();
         smoothing = new MoveSmoothing(accelTime);
@@ -117,6 +122,15 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.y -= gravity * Time.deltaTime;
         verticalVelocity = moveDirection.y;
         controller.Move(new Vector3(moveDirection.x * EffectiveSpeed, moveDirection.y, moveDirection.z * EffectiveSpeed) * Time.deltaTime);
+        if (!usesBossFootsteps && planarVelocity.sqrMagnitude > 0.01f &&
+            Vector3.Distance(transform.position, footstepTrail) >= footstepDistance)
+        {
+            footstepTrail = transform.position;
+            StoreofNoReturnsSfx.Post(
+                StoreofNoReturnsSfx.PlayerFootstep,
+                gameObject
+            );
+        }
         if(Vector3.Distance(transform.position, PathTrail) >= navRecalcThreshold)
         {
             PathTrail = transform.position;
