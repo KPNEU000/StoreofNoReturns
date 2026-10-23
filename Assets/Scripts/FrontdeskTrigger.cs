@@ -44,6 +44,10 @@ public class FrontdeskTrigger : MonoBehaviour
         if (col.transform.CompareTag("Customer"))
         {
             col.GetComponent<CustomerBehaviour>().StopWalking();
+            StoreofNoReturnsSfx.Post(
+                StoreofNoReturnsSfx.CustomerArrive,
+                col.gameObject
+            );
             CustomerInService?.Invoke();
 
             dialogueManager.StartDialogue(

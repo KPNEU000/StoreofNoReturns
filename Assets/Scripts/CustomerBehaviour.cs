@@ -19,6 +19,8 @@ public class CustomerBehaviour : MonoBehaviour
     [SerializeField] public int lineIndex;
     [SerializeField] float remainingDistance;
     [SerializeField] float velocity;
+    [SerializeField] float footstepInterval = 0.7f;
+    float nextFootstepTime;
     public bool done = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -56,6 +58,15 @@ public class CustomerBehaviour : MonoBehaviour
         if (agent.velocity.magnitude > 0)
         {
             animator.SetBool("Walking", true);
+
+            if (Time.time >= nextFootstepTime)
+            {
+                nextFootstepTime = Time.time + footstepInterval;
+                StoreofNoReturnsSfx.Post(
+                    StoreofNoReturnsSfx.CustomerFootstep,
+                    gameObject
+                );
+            }
         }
         else
         {
@@ -80,10 +91,18 @@ public class CustomerBehaviour : MonoBehaviour
         if (Positively)
         {
             animator.Play("Excited");
+            StoreofNoReturnsSfx.Post(
+                StoreofNoReturnsSfx.CustomerExcited,
+                gameObject
+            );
         }
         else
         {
             animator.Play("Dissapointed");
+            StoreofNoReturnsSfx.Post(
+                StoreofNoReturnsSfx.CustomerDisappointed,
+                gameObject
+            );
         }
 
         customerSpawner.NewCustomer();

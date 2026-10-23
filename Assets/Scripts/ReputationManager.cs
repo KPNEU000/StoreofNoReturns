@@ -68,6 +68,13 @@ public class ReputationManager : MonoBehaviour
 
         OnReputationChanged?.Invoke(CurrentReputation);
 
+        StoreofNoReturnsSfx.Post(
+            amount > 0
+                ? StoreofNoReturnsSfx.ReputationUp
+                : StoreofNoReturnsSfx.ReputationDown,
+            gameObject
+        );
+
         Debug.Log($"Reputation: {CurrentReputation}");
     }
 }

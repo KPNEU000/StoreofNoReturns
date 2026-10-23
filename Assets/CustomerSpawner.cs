@@ -23,6 +23,11 @@ public class CustomerSpawner : MonoBehaviour
 
     private void Start()
     {
+        StoreofNoReturnsSfx.Post(
+            StoreofNoReturnsSfx.ShopMusic,
+            gameObject
+        );
+
         if (dialogueManager != null && openingInkFile != null)
         {
             dialogueManager.StartCutscene(openingInkFile, NewCustomer);
@@ -54,6 +59,14 @@ public class CustomerSpawner : MonoBehaviour
         print(customer.name);
         customer.gameObject.SetActive(true);
         customer.transform.position = transform.position;
+        StoreofNoReturnsSfx.Post(
+            StoreofNoReturnsSfx.CustomerEntryDoor,
+            customer
+        );
+        StoreofNoReturnsSfx.Post(
+            StoreofNoReturnsSfx.CustomerEntryChime,
+            customer
+        );
         CustomerBehaviour customerBehaviour = customer.GetComponent<CustomerBehaviour>();
         customerBehaviour.lineIndex = activeCustomers.Count;
         activeCustomers.Add(customerBehaviour);
