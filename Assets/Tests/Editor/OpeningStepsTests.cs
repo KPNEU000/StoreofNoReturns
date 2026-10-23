@@ -23,10 +23,9 @@ public class OpeningStepsTests
         var s = new OpeningSignals
         {
             LeftClick = info.Condition == OpeningCondition.LeftClick,
-            FlashlightPressed = info.Condition == OpeningCondition.FlashlightPressed,
-            FlashlightOn = info.Condition == OpeningCondition.FlashlightOn,
             VaultDone = info.Condition == OpeningCondition.VaultDone,
             CostumeDead = info.Condition == OpeningCondition.CostumeDead,
+            WitchHit = info.Condition == OpeningCondition.WitchHit,
         };
         Assert.IsTrue(steps.Advance(s, info.Condition == OpeningCondition.Seconds ? info.Seconds : 0f));
         return steps.Finished ? OpeningStep.DoorBlast : steps.Current.Step;
@@ -38,8 +37,8 @@ public class OpeningStepsTests
         var expected = new[]
         {
             OpeningStep.LockPlayer, OpeningStep.MagicToMonitor, OpeningStep.ShatterMonitor, OpeningStep.CrackScreen,
-            OpeningStep.WitchLine, OpeningStep.GrabSword, OpeningStep.GrabFlashlight, OpeningStep.MoveLine,
-            OpeningStep.Vault, OpeningStep.TutorialLight, OpeningStep.TutorialSlash, OpeningStep.DoorBlast,
+            OpeningStep.WitchLine, OpeningStep.GrabSword, OpeningStep.Vault, OpeningStep.TutorialSlash,
+            OpeningStep.HitWitch, OpeningStep.WitchRetreat, OpeningStep.DoorBlast,
         };
         CollectionAssert.AreEqual(expected, steps.All.Select(i => i.Step).ToArray());
     }
@@ -88,51 +87,53 @@ public class OpeningStepsTests
     }
 
     [Test]
-    public void SwordWaitsForLeftClickNotF()
+    public void SwordWaitsForLeftClick()
     {
         GoTo(OpeningStep.GrabSword);
-        Assert.IsFalse(steps.Advance(new OpeningSignals { FlashlightPressed = true, FlashlightOn = true }, 100f));
+        Assert.IsFalse(steps.Advance(new OpeningSignals { VaultDone = true, WitchHit = true }, 100f));
         Assert.IsTrue(steps.Advance(new OpeningSignals { LeftClick = true }, 0f));
-        Assert.AreEqual(OpeningStep.GrabFlashlight, steps.Current.Step);
+        Assert.AreEqual(OpeningStep.Vault, steps.Current.Step);
     }
 
     [Test]
-    public void FlashlightWaitsForFNotLeftClick()
+    public void TheTutorialNoLongerTeachesTheFlashlight()
     {
-        GoTo(OpeningStep.GrabFlashlight);
-        Assert.IsFalse(steps.Advance(new OpeningSignals { LeftClick = true }, 100f));
-        Assert.IsTrue(steps.Advance(new OpeningSignals { FlashlightPressed = true }, 0f));
-        Assert.AreEqual(OpeningStep.MoveLine, steps.Current.Step);
+        // Playtest round 5: the flashlight is automatic, so no step waits on it.
+        var names = steps.All.Select(i => i.Step.ToString()).ToArray();
+        CollectionAssert.DoesNotContain(names, "GrabFlashlight");
+        CollectionAssert.DoesNotContain(names, "TutorialLight");
     }
 
     [Test]
     public void OnlyOneStepAdvancesPerCall()
     {
         GoTo(OpeningStep.GrabSword);
-        var all = new OpeningSignals { LeftClick = true, FlashlightPressed = true, FlashlightOn = true, VaultDone = true, CostumeDead = true };
+        var all = new OpeningSignals { LeftClick = true, VaultDone = true, CostumeDead = true, WitchHit = true };
         Assert.IsTrue(steps.Advance(all, 0f));
-        Assert.AreEqual(OpeningStep.GrabFlashlight, steps.Current.Step);
+        Assert.AreEqual(OpeningStep.Vault, steps.Current.Step);
     }
 
     [Test]
     public void VaultNeedsTheVaultToFinish()
     {
         GoTo(OpeningStep.Vault);
-        Assert.IsFalse(steps.Advance(new OpeningSignals { LeftClick = true, FlashlightOn = true }, 100f));
+        Assert.IsFalse(steps.Advance(new OpeningSignals { LeftClick = true }, 100f));
         Assert.IsTrue(steps.Advance(new OpeningSignals { VaultDone = true }, 0f));
-        Assert.AreEqual(OpeningStep.TutorialLight, steps.Current.Step);
+        Assert.AreEqual(OpeningStep.TutorialSlash, steps.Current.Step);
     }
 
     [Test]
-    public void CostumeMustBeLitThenSlashedBeforeTheDoorBlast()
+    public void CostumeThenOneHitOnTheWitchThenSheRetreatsBeforeTheDoorBlast()
     {
-        GoTo(OpeningStep.TutorialLight);
-        // Costume dying without the light being held does not skip the light prompt.
-        Assert.IsFalse(steps.Advance(new OpeningSignals { CostumeDead = true }, 100f));
-        Assert.IsTrue(steps.Advance(new OpeningSignals { FlashlightOn = true }, 0f));
-        Assert.AreEqual(OpeningStep.TutorialSlash, steps.Current.Step);
-        Assert.IsFalse(steps.Advance(new OpeningSignals { FlashlightOn = true, LeftClick = true }, 100f));
+        GoTo(OpeningStep.TutorialSlash);
+        Assert.IsFalse(steps.Advance(new OpeningSignals { LeftClick = true, WitchHit = true }, 100f));
         Assert.IsTrue(steps.Advance(new OpeningSignals { CostumeDead = true }, 0f));
+        Assert.AreEqual(OpeningStep.HitWitch, steps.Current.Step);
+        Assert.IsFalse(steps.Advance(new OpeningSignals { LeftClick = true, CostumeDead = true }, 100f), "waits for a real hit");
+        Assert.IsTrue(steps.Advance(new OpeningSignals { WitchHit = true }, 0f));
+        Assert.AreEqual(OpeningStep.WitchRetreat, steps.Current.Step);
+        Assert.IsFalse(steps.Advance(None, settings.openingWitchReturnSeconds - 0.01f));
+        Assert.IsTrue(steps.Advance(None, 0.02f));
         Assert.AreEqual(OpeningStep.DoorBlast, steps.Current.Step);
         Assert.IsFalse(steps.Finished);
     }

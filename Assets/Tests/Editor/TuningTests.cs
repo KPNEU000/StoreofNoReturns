@@ -13,7 +13,7 @@ public class TuningTests
         Assert.AreEqual(0.51f, s.clothingSpeedFactor);
         Assert.AreEqual(0.95f, s.monsterSpeedFactor);
         Assert.AreEqual(1.4f, s.boostedMonsterSpeedFactor);
-        Assert.AreEqual(0.9f * 0.51f, s.SlashMoveSpeedFactor, 1e-4f);
+        Assert.AreEqual(0.95f * 0.51f, s.SlashMoveSpeedFactor, 1e-4f);
     }
 
     [Test]
@@ -30,7 +30,7 @@ public class TuningTests
     public void BookTuning()
     {
         var s = new BossFightSettings();
-        Assert.AreEqual(1.5f, s.bookScale);
+        Assert.AreEqual(2.25f, s.bookScale);
         Assert.AreEqual(0.8f, new BookThrowRules(s).TelegraphSeconds);
         BookThrowRules.ScaleAboutBase(new Vector3(1f, 2f, 3f), new Vector3(0.1f, 0.4f, 0.2f), 1.5f, out var pos, out var scale);
         Assert.AreEqual(new Vector3(0.15f, 0.6f, 0.3f), scale);
@@ -54,7 +54,7 @@ public class TuningTests
         var off = rules.Target(original, 0f);
         // Dark enough that the flashlight matters, but (round-2 playtest) not so dark the store can't be navigated.
         Assert.Less(off.ambientIntensity, 0.12f);
-        Assert.Greater(off.ambientIntensity, 0.05f);
+        Assert.Greater(off.ambientIntensity, 0.04f); // round 5: ~1.5x the original pitch black (0.03)
         Assert.Less(off.reflectionIntensity, 0.12f);
         Assert.Less(off.fogColor.g, 0.12f);
         Assert.Less(off.ambientLight.r, 0.12f);
@@ -75,7 +75,7 @@ public class TuningTests
         Assert.AreEqual(0.95f, s.monsterSpeedFactor);
         Assert.AreEqual(1.4f, s.boostedMonsterSpeedFactor);
         Assert.GreaterOrEqual(s.flashlightRange, 30f);
-        Assert.AreEqual(1.5f, s.bookScale);
+        Assert.AreEqual(2.25f, s.bookScale);
         Assert.AreEqual(0.8f, s.bookTelegraphSeconds);
     }
 }

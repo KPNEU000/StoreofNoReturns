@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace BossFight
 {
-    // The Witch's only attack, Phase2: a purple arm reaches a wall book, a slash arc sweeps, the book glows and
-    // hangs (telegraph), then flies at where the player stood at release time.
+    // The Witch's only attack, Phase2: a purple arm reaches a wall book, a slash arc sweeps, the book glows, she
+    // levitates it over to herself and holds it (telegraph), then throws it from her at where the player stood.
     public class WitchBookAttack : MonoBehaviour
     {
         [SerializeField]
@@ -177,13 +177,25 @@ namespace BossFight
             }
             arcTrail.emitting = false;
 
-            // The glowing hang is the telegraph the player reads before release.
+            // She draws the book through the air to her side (playtest round 5), so every throw comes from her.
+            t = 0f;
+            while (t < PullSeconds)
+            {
+                t += Time.deltaTime;
+                float f = Mathf.Clamp01(t / PullSeconds);
+                float eased = f * f * (3f - 2f * f);
+                current.transform.position = Vector3.Lerp(home, HoldPoint(), eased) + Vector3.up * Mathf.Sin(f * Mathf.PI) * 0.8f;
+                SetArm(1f);
+                yield return null;
+            }
+
+            // The glowing hold beside her is the telegraph the player reads before release.
             t = 0f;
             while (t < rules.TelegraphSeconds)
             {
                 t += Time.deltaTime;
                 float f = Mathf.Clamp01(t / Mathf.Max(rules.TelegraphSeconds, 0.01f));
-                current.transform.position = home + Vector3.up * (hangRiseMeters * f);
+                current.transform.position = HoldPoint() + Vector3.up * (hangRiseMeters * f + Mathf.Sin(t * 12f) * 0.03f);
                 SetArm(1f);
                 yield return null;
             }
@@ -193,6 +205,18 @@ namespace BossFight
             current.Launch(PlayerCenter(), rules, receiver, PlayerCenter, () => Phase2);
             current = null;
             sequence = null;
+        }
+
+        private const float PullSeconds = 0.9f;
+
+        // Just in front of the Witch, toward the player, at chest height.
+        private Vector3 HoldPoint()
+        {
+            var hand = Hand;
+            var toPlayer = PlayerCenter() - hand;
+            toPlayer.y = 0f;
+            var forward = toPlayer.sqrMagnitude > 1e-4f ? toPlayer.normalized : witch.forward;
+            return hand + forward * 1f + Vector3.up * 0.2f;
         }
 
         private void SetArm(float extend)

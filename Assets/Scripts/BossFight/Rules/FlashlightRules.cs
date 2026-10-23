@@ -17,6 +17,10 @@ namespace BossFight.Rules
 
         public float Faint => settings.flashlightFaintGlow;
 
+        // Playtest round 5: no button. The beam comes on by itself once the store lights go out (money <= the
+        // blackout threshold) and stays on; slashing still drops it to the faint glow.
+        public bool ShouldBeOn(float money) => money <= settings.blackoutMoney;
+
         public float Step(float current, bool held, bool slashing, float dt)
         {
             if (slashing) return Faint;

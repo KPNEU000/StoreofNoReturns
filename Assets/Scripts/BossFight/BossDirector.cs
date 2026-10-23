@@ -96,11 +96,19 @@ namespace BossFight
             UpdateMonsterCount();
         }
 
-        // Returns true when the damage landed (Phase2 only).
+        // Raised when the player lands the tutorial hit on the unshielded Witch.
+        public event Action IntroWitchHit;
+
+        // Opens the single tutorial hit (Intro only).
+        public void OpenIntroHit() => machine.OpenIntroHit();
+
+        // Returns true when the damage landed (Phase2, or the one tutorial hit).
         public bool DamageWitch(float amount)
         {
+            bool intro = machine.Phase == BossPhase.Intro;
             bool landed = machine.WitchDamageable && amount > 0f;
             if (machine.DamageWitch(amount)) OnPhaseChanged();
+            if (landed && intro) IntroWitchHit?.Invoke();
             return landed;
         }
 

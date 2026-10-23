@@ -113,6 +113,7 @@ namespace BossFight
                 if (spawnDelay <= 0f) Activate();
                 return;
             }
+            if (flashingRed && Time.time >= flashUntil) RestoreMaterials();
             if (tinted && Time.time >= flashUntil) ApplyTint(boosted ? boostTint : Color.white, boosted);
             if (player == null || !agent.isOnNavMesh) return;
 
@@ -123,13 +124,17 @@ namespace BossFight
             }
 
             var pos = transform.position;
+            // Playtest round 5: a swing in progress keeps coming at the player instead of planting its feet, so
+            // walking away no longer cancels the threat; backing off still only works if they outpace it.
             if (attack.State == MonsterAttackState.Windup)
             {
-                agent.isStopped = true;
+                agent.isStopped = false;
+                NavAgents.Steer(agent, repath, player.position);
             }
             else if (attack.TryBegin(pos, player.position))
             {
-                agent.isStopped = true;
+                agent.isStopped = false;
+                NavAgents.Steer(agent, repath, player.position);
                 Play(AttackState);
             }
             else
@@ -185,6 +190,7 @@ namespace BossFight
             }
             flashUntil = Time.time + damageFlashSeconds;
             ApplyTint(Color.red, true);
+            FlashRed();
             if (hurtSound != null) AudioSource.PlayClipAtPoint(hurtSound, transform.position);
             // Playtest: hits used to cancel the wind-up, so spam-slashing a monster made it harmless. A swing in
             // progress now always finishes; the flinch only plays when it is not attacking.
@@ -201,6 +207,7 @@ namespace BossFight
 
         private void Die()
         {
+            if (flashingRed) RestoreMaterials();
             dead = true;
             hp = 0f;
             boosted = false;
@@ -237,6 +244,46 @@ namespace BossFight
             if (animator == null) return;
             if (!restart && animator.GetCurrentAnimatorStateInfo(0).IsName(state)) return;
             animator.Play(state, 0, 0f);
+        }
+
+        // The tint alone barely shows on the dark monster texture in a dark store, so a hit swaps every renderer to
+        // a solid unlit red for the flash and back again (playtest round 5).
+        private static Material redFlash;
+        private Material[][] originalMaterials;
+        private bool flashingRed;
+
+        private void FlashRed()
+        {
+            if (redFlash == null)
+            {
+                var shader = Shader.Find("Universal Render Pipeline/Unlit");
+                if (shader == null) return;
+                redFlash = new Material(shader) { name = "MonsterHitFlash" };
+                redFlash.SetColor("_BaseColor", new Color(1f, 0.12f, 0.1f, 1f));
+            }
+            if (!flashingRed)
+            {
+                originalMaterials = new Material[renderers.Length][];
+                for (int i = 0; i < renderers.Length; i++)
+                {
+                    if (renderers[i] == null) continue;
+                    originalMaterials[i] = renderers[i].sharedMaterials;
+                    var red = new Material[originalMaterials[i].Length];
+                    for (int k = 0; k < red.Length; k++) red[k] = redFlash;
+                    renderers[i].sharedMaterials = red;
+                }
+            }
+            flashingRed = true;
+        }
+
+        private void RestoreMaterials()
+        {
+            flashingRed = false;
+            if (originalMaterials == null) return;
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (renderers[i] != null && originalMaterials[i] != null) renderers[i].sharedMaterials = originalMaterials[i];
+            }
         }
 
         private void ApplyTint(Color color, bool emissive)

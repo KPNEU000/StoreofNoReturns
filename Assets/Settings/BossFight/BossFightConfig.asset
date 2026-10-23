@@ -21,8 +21,8 @@ MonoBehaviour:
     flickerIntervalMaxSeconds: 5
     mildFlickerMinIntensity: 0.6
     strongFlickerMinIntensity: 0.3
-    outsideLightIntensity: 0.12
-    blackoutEnvironmentFactor: 0.09
+    outsideLightIntensity: 0.075
+    blackoutEnvironmentFactor: 0.045
     flickerFloorIntensity: 0.3
     flickerDipSecondsMin: 0.06
     flickerDipSecondsMax: 0.18
@@ -32,14 +32,15 @@ MonoBehaviour:
     monsterHitCostAtRep50: 75
     monsterHitCostAtRep100: 50
     bookHitCost: 50
-    invincibilitySeconds: 1
+    debrisHitCost: 50
+    invincibilitySeconds: 0.75
     hitFlashSeconds: 0.25
     monsterHpMultiplierAtRep0: 2
     monsterHpMultiplierAtRep50: 1
     monsterHpMultiplierAtRep100: 0.5
     maxMonsters: 6
-    slashArcDegrees: 70
-    slashReach: 2.5
+    slashArcDegrees: 120
+    slashReach: 2.75
     slashMaxTargets: 3
     slashDamage: 10
     slashWindupSeconds: 0.15
@@ -47,10 +48,10 @@ MonoBehaviour:
     flashlightRampUpSeconds: 0.5
     flashlightRampDownSeconds: 0.25
     flashlightFaintGlow: 0.1
-    flashlightFullIntensity: 8
+    flashlightFullIntensity: 14
     flashlightRange: 35
     flashlightSpotAngle: 75
-    flashlightInnerSpotAngle: 55
+    flashlightInnerSpotAngle: 65
     moveAccelerationSeconds: 0.1
     clothingSpeedFactor: 0.51
     monsterSpeedFactor: 0.95
@@ -84,9 +85,9 @@ MonoBehaviour:
     witchHoverHeight: 0
     tetherIntervalSeconds: 12
     tetherDurationSeconds: 5
-    bookThrowIntervalSeconds: 6
+    bookThrowIntervalSeconds: 7
     bookTelegraphSeconds: 0.8
-    bookScale: 1.5
+    bookScale: 2.25
     bookArmSeconds: 0.4
     bookSweepSeconds: 0.3
     bookFlightSpeed: 12
@@ -127,6 +128,8 @@ MonoBehaviour:
     glassHudCrackScale: 10
     glassHudCrackWidth: 0.022
     openingWitchCounterDistance: 4.5
+    openingWitchTutorialDistance: 6
+    tutorialWitchHit: 10
     openingWitchReturnSeconds: 1.2
     debugStartMoney: 600
     debugReputation: 50

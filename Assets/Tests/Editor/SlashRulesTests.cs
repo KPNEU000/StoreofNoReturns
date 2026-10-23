@@ -37,11 +37,11 @@ public class SlashRulesTests
         Assert.IsEmpty(Select(new Vector3(0f, 0f, -1f)));
     }
 
-    [TestCase(34f, true)]
-    [TestCase(36f, false)]
-    [TestCase(-34f, true)]
-    [TestCase(-36f, false)]
-    public void ArcIsPlusMinus35Degrees(float degrees, bool hit)
+    [TestCase(59f, true)]
+    [TestCase(61f, false)]
+    [TestCase(-59f, true)]
+    [TestCase(-61f, false)]
+    public void ArcIsPlusMinus60Degrees(float degrees, bool hit)
     {
         Vector3 pos = Quaternion.Euler(0f, degrees, 0f) * Vector3.forward * 1.5f;
         Assert.AreEqual(hit, Select(pos).Count == 1);
@@ -77,11 +77,11 @@ public class SlashRulesTests
     }
 
     [Test]
-    public void SlashMoveSpeedIsNinetyPercentOfClothingSpeed()
+    public void SlashMoveSpeedIsNinetyFivePercentOfClothingSpeed()
     {
         var settings = new BossFightSettings();
         float walk = 10f;
         float clothing = walk * settings.clothingSpeedFactor;
-        Assert.AreEqual(0.9f * clothing, rules.MoveSpeed(walk), 1e-4f);
+        Assert.AreEqual(0.95f * clothing, rules.MoveSpeed(walk), 1e-4f);
     }
 }

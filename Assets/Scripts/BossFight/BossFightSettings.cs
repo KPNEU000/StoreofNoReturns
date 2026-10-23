@@ -9,7 +9,7 @@ namespace BossFight
     public class BossFightSettings
     {
         // Slash move speed is always derived from clothing speed, never stored.
-        public const float SlashSpeedOfClothing = 0.9f; // playtest: slashing leaves you 10% slower than the clothes
+        public const float SlashSpeedOfClothing = 0.95f; // playtest round 5: back to 5% slower than the clothes
 
         [Header("Economy: light tiers (money thresholds)")]
         public float mildFlickerMoney = 700f;
@@ -20,9 +20,9 @@ namespace BossFight
         public float flickerIntervalMaxSeconds = 5f;
         [Range(0f, 1f)] public float mildFlickerMinIntensity = 0.6f;
         [Range(0f, 1f)] public float strongFlickerMinIntensity = 0.3f;
-        public float outsideLightIntensity = 0.12f;
+        public float outsideLightIntensity = 0.075f;
         // Off tier: ambient/environment light, reflections and fog colour are scaled to this fraction of their original.
-        [Range(0f, 1f)] public float blackoutEnvironmentFactor = 0.09f; // round-2 playtest: 0.03 was too dark to navigate
+        [Range(0f, 1f)] public float blackoutEnvironmentFactor = 0.045f; // playtest: 0.03 too dark, 0.09 made the flashlight pointless
         [Range(0f, 1f)] public float flickerFloorIntensity = 0.3f;
         public float flickerDipSecondsMin = 0.06f;
         public float flickerDipSecondsMax = 0.18f;
@@ -34,7 +34,9 @@ namespace BossFight
         public float monsterHitCostAtRep50 = 75f;
         public float monsterHitCostAtRep100 = 50f;
         public float bookHitCost = 50f;
-        public float invincibilitySeconds = 1f; // playtest: 0.5 s let swarms drain money too fast
+        // A falling ceiling chunk landing on the player: charged once per chunk, never while standing in it.
+        public float debrisHitCost = 50f;
+        public float invincibilitySeconds = 0.75f; // playtest: 0.5 drained too fast, 1 felt too safe
         public float hitFlashSeconds = 0.25f;
 
         [Header("Economy: reputation -> monster HP multiplier")]
@@ -46,8 +48,8 @@ namespace BossFight
         public int maxMonsters = 6;
 
         [Header("Player combat: slash")]
-        public float slashArcDegrees = 70f;
-        public float slashReach = 2.5f;
+        public float slashArcDegrees = 120f; // playtest round 5 (was 70)
+        public float slashReach = 2.75f;
         public int slashMaxTargets = 3;
         public float slashDamage = 10f;
         public float slashWindupSeconds = 0.15f;
@@ -57,10 +59,10 @@ namespace BossFight
         public float flashlightRampUpSeconds = 0.5f;
         public float flashlightRampDownSeconds = 0.25f;
         [Range(0f, 1f)] public float flashlightFaintGlow = 0.1f;
-        public float flashlightFullIntensity = 8f;
+        public float flashlightFullIntensity = 14f; // brighter for the darker blackout; light sits behind the eye (see PlayerFlashlight)
         public float flashlightRange = 35f;
         public float flashlightSpotAngle = 75f;
-        public float flashlightInnerSpotAngle = 55f;
+        public float flashlightInnerSpotAngle = 65f; // wide inner cone for an even pool rather than a hot centre
 
         [Header("Player movement")]
         public float moveAccelerationSeconds = 0.1f;
@@ -110,9 +112,9 @@ namespace BossFight
         public float witchHoverHeight = 0f;
         public float tetherIntervalSeconds = 12f;
         public float tetherDurationSeconds = 5f;
-        public float bookThrowIntervalSeconds = 6f; // playtest: throws came too often
+        public float bookThrowIntervalSeconds = 7f; // playtest: throws came too often
         public float bookTelegraphSeconds = 0.8f;
-        public float bookScale = 1.5f;
+        public float bookScale = 2.25f; // 1.5x the first playtest size, twice
         public float bookArmSeconds = 0.4f;
         public float bookSweepSeconds = 0.3f;
         public float bookFlightSpeed = 12f;
@@ -164,6 +166,10 @@ namespace BossFight
         public float glassHudCrackWidth = 0.022f;
         // The Witch casts from the customer spot this far in front of the player, then glides back to her post.
         public float openingWitchCounterDistance = 4.5f;
+        // Tutorial: after the cast the Witch waits this far past the vault point (down the centre aisle, between the
+        // racks) for the player's first hit, which deals tutorialWitchHit and sends her back to her post.
+        public float openingWitchTutorialDistance = 6f;
+        public float tutorialWitchHit = 10f;
         public float openingWitchReturnSeconds = 1.2f;
 
         [Header("Debug (P = jump to boss start)")]

@@ -5,16 +5,15 @@ using UnityEngine.InputSystem;
 
 namespace BossFight
 {
-    // The Witch's arrival: cinematic, then a tutorial that teaches the sword and flashlight, then the door blast.
+    // The Witch's arrival: cinematic, then a tutorial (grab the sword, slash a costume, walk up and hit the Witch),
+    // then she shields, leaps back to the door and blasts it open. The flashlight is automatic (PlayerFlashlight).
     // OpeningSteps decides when each step ends; this class does what each step looks like.
     public class OpeningSequence : MonoBehaviour
     {
         private const string WitchLine = "I'm turning everyone who hates you into monsters…";
         private const string SwordPrompt = "Left-click: grab the sword";
-        private const string FlashlightPrompt = "F: grab the flashlight";
-        private const string MovePrompt = "Get to the middle of the store…";
-        private const string LightPrompt = "What is that? Press F to turn on your flashlight.";
-        private const string SlashPrompt = "Left-click to slash.";
+        private const string SlashPrompt = "What is that? Left-click to slash it.";
+        private const string HitWitchPrompt = "WASD to move. Hit the Witch!";
 
         [SerializeField]
         private BossFightConfig config;
@@ -75,8 +74,13 @@ namespace BossFight
         // The Witch casts from the customer spot in front of the counter (in view), then glides back to her post.
         private Vector3 witchPost;
         private Quaternion witchPostRotation;
-        private Vector3 witchReturnFrom;
-        private float witchReturnElapsed = -1f;
+        private Vector3 witchMoveFrom;
+        private Vector3 witchMoveTo;
+        private Quaternion witchMoveRotation;
+        private float witchMoveArc;
+        private float witchMoveElapsed = -1f;
+        private WitchBoss witchBoss;
+        private bool witchHit;
         private bool vaulting;
         private float vaultElapsed;
         private Vector3 vaultStart;
@@ -105,20 +109,32 @@ namespace BossFight
                 swordObject = FindFirstObjectByType<PlayerSword>(FindObjectsInactive.Include).gameObject;
             }
             if (player != null) controller = player.GetComponent<CharacterController>();
-            // Both tools are handed over during the tutorial.
+            // The sword is handed over during the tutorial; the flashlight is always held.
             if (swordObject != null) swordObject.SetActive(false);
-            if (flashlight != null) flashlight.gameObject.SetActive(false);
             if (monitorGlass != null) monitorGlass.gameObject.SetActive(false);
         }
 
         private void OnEnable()
         {
-            if (director != null) director.OpeningRequested += Begin;
+            if (director != null)
+            {
+                director.OpeningRequested += Begin;
+                director.IntroWitchHit += OnIntroWitchHit;
+            }
+        }
+
+        private void OnIntroWitchHit()
+        {
+            witchHit = true;
         }
 
         private void OnDisable()
         {
-            if (director != null) director.OpeningRequested -= Begin;
+            if (director != null)
+            {
+                director.OpeningRequested -= Begin;
+                director.IntroWitchHit -= OnIntroWitchHit;
+            }
             RestoreController();
         }
 
@@ -137,13 +153,12 @@ namespace BossFight
             var signals = new OpeningSignals
             {
                 LeftClick = mouse != null && mouse.leftButton.wasPressedThisFrame,
-                FlashlightPressed = Keyboard.current != null && Keyboard.current.fKey.wasPressedThisFrame,
-                FlashlightOn = flashlight != null && flashlight.isActiveAndEnabled && flashlight.IsOn,
+                WitchHit = witchHit,
                 VaultDone = vaultDone,
                 CostumeDead = costumeSpawned && (spawner == null || spawner.AliveCount == 0),
             };
             UpdateStep(steps.Current.Step);
-            UpdateWitchReturn();
+            UpdateWitchMove();
             if (!steps.Advance(signals, Time.deltaTime)) return;
             if (steps.Finished)
             {
@@ -163,20 +178,16 @@ namespace BossFight
                 case OpeningStep.CrackScreen: CrackScreen(); break;
                 case OpeningStep.WitchLine: BossTextBox.Show(WitchLine, settings.openingWitchLineSeconds); break;
                 case OpeningStep.GrabSword:
-                    StartWitchReturn();
+                    MoveWitch(TutorialWitchSpot(), FacingPlayer());
                     Prompt(SwordPrompt);
                     break;
-                case OpeningStep.GrabFlashlight:
+                case OpeningStep.Vault:
                     if (swordObject != null) swordObject.SetActive(true);
-                    Prompt(FlashlightPrompt);
+                    StartVault();
                     break;
-                case OpeningStep.MoveLine:
-                    GiveFlashlight();
-                    Prompt(MovePrompt);
-                    break;
-                case OpeningStep.Vault: StartVault(); break;
-                case OpeningStep.TutorialLight: SummonCostume(); break;
-                case OpeningStep.TutorialSlash: Prompt(SlashPrompt); break;
+                case OpeningStep.TutorialSlash: SummonCostume(); break;
+                case OpeningStep.HitWitch: StartWitchHunt(); break;
+                case OpeningStep.WitchRetreat: WitchRetreats(); break;
                 case OpeningStep.DoorBlast: BlastDoor(); break;
             }
         }
@@ -214,7 +225,41 @@ namespace BossFight
             lighting = FindFirstObjectByType<StoreLightingController>();
             if (lighting != null) lighting.ForceNormal = true;
             rig = FindFirstObjectByType<BossFightRig>();
+            witchBoss = witch != null ? witch.GetComponent<WitchBoss>() : null;
+            // Unshielded through the tutorial so the player can land the first hit on her.
+            if (witchBoss != null) witchBoss.SetShield(false);
             BringWitchToCounter();
+        }
+
+        // Free movement and one open hit on the Witch, who waits down the aisle behind the tutorial costume.
+        private void StartWitchHunt()
+        {
+            if (player != null) player.enableMovement();
+            if (director != null) director.OpenIntroHit();
+            Prompt(HitWitchPrompt);
+        }
+
+        // The hit landed: she throws up her shield and leaps back to her post by the door.
+        private void WitchRetreats()
+        {
+            ClearPrompt();
+            if (witchBoss != null) witchBoss.SetShield(true);
+            Burst(WitchHand(), new Color(0.75f, 0.35f, 1f, 1f), 120, 0.6f, 4f);
+            MoveWitch(witchPost, witchPostRotation, 1.5f);
+        }
+
+        private Vector3 TutorialWitchSpot()
+        {
+            if (player == null) return witch != null ? witch.position : Vector3.zero;
+            var forward = Planar.Direction(player.transform.forward);
+            var start = vaultTarget != null ? vaultTarget.position : player.transform.position + forward * settings.openingVaultDistance;
+            var spot = OnNavMesh(start + forward * settings.openingWitchTutorialDistance);
+            return new Vector3(spot.x, witchPost.y, spot.z);
+        }
+
+        private Quaternion FacingPlayer()
+        {
+            return player != null ? Quaternion.LookRotation(-Planar.Direction(player.transform.forward)) : witch.rotation;
         }
 
         // Round-2 playtest: from her post by the door she was lost in the fog, so she casts from right in front of the player.
@@ -231,25 +276,28 @@ namespace BossFight
             Burst(WitchHand(), new Color(0.75f, 0.35f, 1f, 1f), 50, 0.6f, 3f);
         }
 
-        private void StartWitchReturn()
+        // Drifts (or leaps, with a higher arc) to `to` over openingWitchReturnSeconds.
+        private void MoveWitch(Vector3 to, Quaternion rotation, float arcHeight = 0.6f)
         {
-            if (witch == null || witchReturnElapsed != -1f || witchPost == Vector3.zero) return;
-            witchReturnFrom = witch.position;
-            witchReturnElapsed = 0f;
+            if (witch == null || witchPost == Vector3.zero) return;
+            witchMoveFrom = witch.position;
+            witchMoveTo = to;
+            witchMoveRotation = rotation;
+            witchMoveArc = arcHeight;
+            witchMoveElapsed = 0f;
         }
 
-        private void UpdateWitchReturn()
+        private void UpdateWitchMove()
         {
-            if (witch == null || witchReturnElapsed < 0f) return;
-            witchReturnElapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(witchReturnElapsed / Mathf.Max(settings.openingWitchReturnSeconds, 1e-3f));
+            if (witch == null || witchMoveElapsed < 0f) return;
+            witchMoveElapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(witchMoveElapsed / Mathf.Max(settings.openingWitchReturnSeconds, 1e-3f));
             float eased = t * t * (3f - 2f * t);
-            // Floats up and back, like she is drifting rather than walking.
-            witch.position = Vector3.Lerp(witchReturnFrom, witchPost, eased) + Vector3.up * Mathf.Sin(t * Mathf.PI) * 0.6f;
+            witch.position = Vector3.Lerp(witchMoveFrom, witchMoveTo, eased) + Vector3.up * Mathf.Sin(t * Mathf.PI) * witchMoveArc;
             if (t >= 1f)
             {
-                witch.rotation = witchPostRotation;
-                witchReturnElapsed = -2f; // done; never restarts
+                witch.rotation = witchMoveRotation;
+                witchMoveElapsed = -1f;
             }
         }
 
@@ -444,13 +492,6 @@ namespace BossFight
             renderer.sharedMaterial = material;
         }
 
-        private void GiveFlashlight()
-        {
-            if (flashlight == null) return;
-            flashlight.gameObject.SetActive(true);
-            flashlight.BrightMultiplier = settings.openingFlashlightMultiplier;
-        }
-
         private void StartVault()
         {
             ClearPrompt();
@@ -500,7 +541,7 @@ namespace BossFight
 
         private void SummonCostume()
         {
-            Prompt(LightPrompt);
+            Prompt(SlashPrompt);
             if (spawner == null || player == null) return;
             // Starts off to one side of the player and floats back and forth across their view; it cannot hurt them.
             TutorialRules.PassEndpoints(player.transform.position, player.transform.forward, TutorialPassAhead, TutorialPassHalfWidth, out var from, out var to);
@@ -541,7 +582,6 @@ namespace BossFight
             WarnIfDoorwayClosed();
             if (doorBarrier != null) doorBarrier.enabled = true;
             if (lighting != null) lighting.ForceNormal = false;
-            if (flashlight != null) flashlight.BrightMultiplier = 1f;
             if (director != null) director.BeginFight(monsterCount);
         }
 

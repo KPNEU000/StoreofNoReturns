@@ -46,8 +46,8 @@ public class MoveSmoothingTests
         Assert.AreEqual(new Vector2(5f, -2f), MoveSmoothing.LookDelta(new Vector2(50f, -20f), 0.1f));
     }
 
-    [TestCase(100f, 0.13f)]
-    [TestCase(0f, 0.13f)]
+    [TestCase(100f, 0.195f)]
+    [TestCase(0f, 0.195f)]
     [TestCase(0.3f, 0.3f)]
     public void LegacySensitivityIsNormalized(float input, float expected)
     {

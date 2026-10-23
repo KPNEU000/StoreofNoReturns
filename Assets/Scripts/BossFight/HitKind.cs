@@ -5,6 +5,7 @@ namespace BossFight
     {
         Clothing,
         Monster,
-        Book
+        Book,
+        Debris
     }
 }

@@ -23,6 +23,27 @@ namespace BossFight.Rules
 
         public static bool Fallen(float y, float safeY) => y < safeY - FallDistance;
 
+        // Points across the store the player must be able to see at least one of (over the racks, under the ceiling)
+        // to count as inside. The store's front corners are indented, so pockets inside the footprint rectangle are
+        // really outside; from there every sight line crosses a wall.
+        public static Vector3[] SightAnchors(Rect footprint, float height)
+        {
+            var c = footprint.center;
+            float dx = footprint.width * 0.3f;
+            float dz = footprint.height * 0.3f;
+            return new[]
+            {
+                new Vector3(c.x, height, c.y),
+                new Vector3(c.x - dx, height, c.y - dz),
+                new Vector3(c.x + dx, height, c.y - dz),
+                new Vector3(c.x - dx, height, c.y + dz),
+                new Vector3(c.x + dx, height, c.y + dz),
+            };
+        }
+
+        // Consecutive failed sight checks before the player is put back (a single blocked check is not enough).
+        public const int OutsideChecksBeforeRestore = 3;
+
         // True when the player must be put back at their last safe spot.
         public static bool MustRestore(Rect footprint, bool hasFootprint, Vector3 position, float safeY)
         {

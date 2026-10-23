@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace BossFight.Rules
 {
     public enum BossPhase
@@ -19,7 +21,11 @@ namespace BossFight.Rules
         public int MonstersAlive { get; private set; }
         public float WitchHp { get; private set; }
 
-        public bool WitchDamageable => Phase == BossPhase.Phase2;
+        // The tutorial lets the player land exactly one hit on the Witch before the fight starts.
+        public bool IntroHitOpen { get; private set; }
+        private bool introHitTaken;
+
+        public bool WitchDamageable => Phase == BossPhase.Phase2 || IntroHitOpen;
         public bool IsOver => Phase == BossPhase.Won || Phase == BossPhase.Lost;
 
         public BossPhaseMachine(BossFightSettings settings)
@@ -33,7 +39,7 @@ namespace BossFight.Rules
         {
             if (Phase != BossPhase.Intro) return false;
             MonstersAlive = monsterCount > 0 ? monsterCount : 0;
-            WitchHp = witchMaxHp;
+            IntroHitOpen = false; // the tutorial hit (if any) already came off her HP
             Phase = MonstersAlive > 0 ? BossPhase.Phase1 : BossPhase.Phase2;
             return true;
         }
@@ -49,10 +55,24 @@ namespace BossFight.Rules
             return false;
         }
 
-        // Damage outside Phase2 (shielded, not started, or over) is ignored.
+        public void OpenIntroHit()
+        {
+            if (Phase == BossPhase.Intro && !introHitTaken) IntroHitOpen = true;
+        }
+
+        // Damage outside Phase2 (shielded, not started, or over) is ignored, except the one tutorial hit.
+        // Returns true when the phase changed.
         public bool DamageWitch(float amount)
         {
             if (!WitchDamageable || amount <= 0f) return false;
+            if (Phase == BossPhase.Intro)
+            {
+                // The tutorial hit can never kill her.
+                WitchHp = Mathf.Max(1f, WitchHp - amount);
+                IntroHitOpen = false;
+                introHitTaken = true;
+                return false;
+            }
             WitchHp -= amount;
             if (WitchHp <= 0f)
             {

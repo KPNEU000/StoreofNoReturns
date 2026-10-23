@@ -6,7 +6,7 @@ namespace BossFight.Rules
     public class MoveSmoothing
     {
         public const float DefaultAccelTime = 0.1f;
-        public const float DefaultSensitivity = 0.13f; // degrees per pixel (playtest: 0.1 felt slightly slow)
+        public const float DefaultSensitivity = 0.195f; // degrees per pixel (playtests: 0.1, then 0.13, each felt slow)
         // Scenes serialized the old Time.deltaTime-scaled value (100); anything above this is legacy.
         public const float MaxSensitivity = 5f;
 

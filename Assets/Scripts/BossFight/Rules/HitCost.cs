@@ -20,6 +20,8 @@ namespace BossFight.Rules
                     return settings.clothingHitCost;
                 case HitKind.Book:
                     return settings.bookHitCost;
+                case HitKind.Debris:
+                    return settings.debrisHitCost;
                 default:
                     return reputationScaling.MonsterHitCost(reputation);
             }

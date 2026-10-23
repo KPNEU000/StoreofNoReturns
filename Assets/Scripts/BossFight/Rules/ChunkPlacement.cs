@@ -72,6 +72,17 @@ namespace BossFight.Rules
         // A landed chunk that cuts the player off from the Witch crumbles away.
         public static bool Crumbles(NavMeshPathStatus status) => status != NavMeshPathStatus.PathComplete;
 
+        // A landing chunk hits the player (once) when they stand within this fraction of its radius of its centre.
+        public const float CrushRadiusFraction = 0.9f;
+
+        public static bool LandsOn(Vector3 chunkCentre, Vector3 player, float radius)
+        {
+            float dx = chunkCentre.x - player.x;
+            float dz = chunkCentre.z - player.z;
+            float r = radius * CrushRadiusFraction;
+            return dx * dx + dz * dz <= r * r;
+        }
+
         // A spot must be at least this fraction of the chunk radius from any NavMesh edge (racks, counter, walls).
         public const float OpenFloorRadiusFraction = 0.6f;
 

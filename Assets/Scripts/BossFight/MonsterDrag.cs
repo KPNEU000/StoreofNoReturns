@@ -94,10 +94,12 @@ namespace BossFight
             wrist = FindWrist(bodies);
             if (wrist == null) return;
 
-            // Kinematic anchor on the hand bone; the body hangs from it by the wrist.
+            // Kinematic anchor behind the monster's right hip, not on the hand bone: the run animation swung the hand
+            // hard enough to whip the body around (playtest round 5). The body hangs from it by the wrist.
             var anchor = new GameObject("DragAnchor");
-            anchor.transform.SetParent(hand, false);
-            anchor.transform.position = WristPoint(wrist);
+            anchor.transform.SetParent(transform, false);
+            anchor.transform.localPosition = new Vector3(0.35f, 0.8f, -0.45f);
+            body.transform.position += anchor.transform.position - WristPoint(wrist);
             var anchorBody = anchor.AddComponent<Rigidbody>();
             anchorBody.isKinematic = true;
             var characterJoint = wrist.gameObject.AddComponent<CharacterJoint>();
@@ -108,7 +110,71 @@ namespace BossFight
             characterJoint.enableProjection = true;
             joint = characterJoint;
 
+            Calm(bodies);
             EnsureFloor(layer);
+        }
+
+        private static PhysicsMaterial slick;
+
+        // Heavy, damped, frictionless, box-shaped limbs slide along the floor behind the monster instead of flailing.
+        private void Calm(Rigidbody[] bodies)
+        {
+            if (slick == null)
+            {
+                slick = new PhysicsMaterial("DraggedBodySlick")
+                {
+                    dynamicFriction = 0f,
+                    staticFriction = 0f,
+                    bounciness = 0f,
+                    frictionCombine = PhysicsMaterialCombine.Minimum,
+                    bounceCombine = PhysicsMaterialCombine.Minimum,
+                };
+            }
+            foreach (var rb in bodies)
+            {
+                rb.mass *= 3f;
+                rb.linearDamping = 0.6f;
+                rb.angularDamping = 4f;
+                rb.maxDepenetrationVelocity = 1f;
+                rb.solverIterations = 12;
+                rb.interpolation = RigidbodyInterpolation.Interpolate;
+                foreach (var capsule in rb.GetComponents<CapsuleCollider>()) BoxFromCapsule(capsule);
+                foreach (var c in rb.GetComponents<Collider>()) c.sharedMaterial = slick;
+            }
+            calmBodies = bodies;
+        }
+
+        private static void BoxFromCapsule(CapsuleCollider capsule)
+        {
+            var box = capsule.gameObject.AddComponent<BoxCollider>();
+            box.center = capsule.center;
+            float d = capsule.radius * 2f;
+            box.size = capsule.direction == 0 ? new Vector3(capsule.height, d, d)
+                : capsule.direction == 1 ? new Vector3(d, capsule.height, d)
+                : new Vector3(d, d, capsule.height);
+            Destroy(capsule);
+        }
+
+        private Rigidbody[] calmBodies;
+
+        // Keeps every part of the body inside the box behind the monster; it can trail and swing side to side but
+        // never get in front.
+        private void FixedUpdate()
+        {
+            if (calmBodies == null || released) return;
+            foreach (var rb in calmBodies)
+            {
+                if (rb == null || rb.isKinematic) continue;
+                var local = transform.InverseTransformPoint(rb.position);
+                var clamped = DraggedBodyRules.ClampBehind(local);
+                if ((clamped - local).sqrMagnitude < 1e-6f) continue;
+                rb.position = transform.TransformPoint(new Vector3(clamped.x, local.y, clamped.z));
+                // Drop the velocity that pushed it out of the box.
+                var v = transform.InverseTransformDirection(rb.linearVelocity);
+                if (local.x != clamped.x) v.x = 0f;
+                if (local.z != clamped.z) v.z = 0f;
+                rb.linearVelocity = transform.TransformDirection(v);
+            }
         }
 
         // The body rests on a thin proxy slab on its own layer at floor height, so it touches the ground and nothing
@@ -125,6 +191,7 @@ namespace BossFight
                 var slab = new GameObject("DraggedBodyFloor") { layer = layer };
                 var box = slab.AddComponent<BoxCollider>();
                 box.size = new Vector3(200f, 1f, 200f);
+                box.sharedMaterial = slick;
                 floor = box;
                 var navModifier = slab.AddComponent<Unity.AI.Navigation.NavMeshModifier>();
                 navModifier.ignoreFromBuild = true;

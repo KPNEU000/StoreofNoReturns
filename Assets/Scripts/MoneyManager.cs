@@ -65,6 +65,8 @@ public class MoneyManager : MonoBehaviour
         if (currentMoney <= 0 && !gameOver)
         {
             gameOver = true;
+            // The Game Over screen shows the reputation the run ended on.
+            BossFight.RunScore.Set(0f, reputationManager != null ? reputationManager.CurrentReputation : 0);
             if (SceneLoadingManager.Instance != null)
             {
                 SceneLoadingManager.Instance.LoadSceneByName("Game Over Screen");

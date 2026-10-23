@@ -7,17 +7,28 @@ using UnityEngine.UI;
 
 namespace BossFight
 {
-    // "You Won" over a dimmed screen: reputation as stars, the money left, and a key to return to the title.
-    // Built entirely at runtime so no scene file has to change.
+    // The end-of-run result over a dimmed screen: "You Won" with reputation stars and the money left, or "You Lost"
+    // with the stars and a line about the Witch. Space returns to the title. Built at runtime; no scene edits.
     public class WinOverlay : MonoBehaviour
     {
         public const string TitleSceneName = "Title Screen";
+        public const string LostLine = "The Witch got her refund. Every last cent of it.";
         private static readonly Color StarOn = new Color(1f, 0.82f, 0.25f, 1f);
         private static readonly Color StarOff = new Color(1f, 1f, 1f, 0.18f);
 
         private static Sprite starSprite;
 
         public static WinOverlay Show(float moneyLeft, int reputation)
+        {
+            return Build("YOU WON", reputation, BossHudText.Score(moneyLeft), 64f);
+        }
+
+        public static WinOverlay ShowLost(int reputation)
+        {
+            return Build("YOU LOST", reputation, LostLine, 44f);
+        }
+
+        private static WinOverlay Build(string title, int reputation, string detail, float detailSize)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -33,7 +44,7 @@ namespace BossFight
             var dim = AddRect(go.transform, "Dim", Vector2.zero, Vector2.one, Vector2.zero);
             dim.gameObject.AddComponent<Image>().color = new Color(0.02f, 0.01f, 0.04f, 0.78f);
 
-            AddLabel(go.transform, "YouWon", "YOU WON", 120f, new Vector2(0.5f, 0.68f), Color.white);
+            AddLabel(go.transform, "Title", title, 120f, new Vector2(0.5f, 0.68f), Color.white);
 
             int stars = StarRating.Stars(reputation);
             var row = AddRect(go.transform, "Stars", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0f, 20f));
@@ -47,7 +58,7 @@ namespace BossFight
                 image.color = i < stars ? StarOn : StarOff;
             }
             AddLabel(go.transform, "Reputation", $"Reputation {Mathf.Clamp(reputation, 0, 100)}/100", 34f, new Vector2(0.5f, 0.43f), new Color(1f, 1f, 1f, 0.75f));
-            AddLabel(go.transform, "MoneyLeft", BossHudText.Score(moneyLeft), 64f, new Vector2(0.5f, 0.33f), Color.white);
+            AddLabel(go.transform, "Detail", detail, detailSize, new Vector2(0.5f, 0.33f), Color.white);
             AddLabel(go.transform, "Continue", "Press Space to return to the title", 30f, new Vector2(0.5f, 0.15f), new Color(1f, 1f, 1f, 0.6f));
             return overlay;
         }

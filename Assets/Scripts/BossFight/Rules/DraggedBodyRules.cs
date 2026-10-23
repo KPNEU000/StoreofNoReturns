@@ -60,6 +60,19 @@ namespace BossFight.Rules
             return direction.sqrMagnitude > 1e-6f ? direction.normalized : Vector3.up;
         }
 
+        // The box behind a monster a dragged body may occupy, in the monster's local space (x right, z forward):
+        // never in front of it, at most `halfWidth` to either side, between `nearBack` and `farBack` behind it.
+        public const float BoxHalfWidth = 0.9f;
+        public const float BoxNearBack = 0.25f;
+        public const float BoxFarBack = 3.2f;
+
+        public static Vector3 ClampBehind(Vector3 local, float halfWidth = BoxHalfWidth, float nearBack = BoxNearBack, float farBack = BoxFarBack)
+        {
+            local.x = Mathf.Clamp(local.x, -halfWidth, halfWidth);
+            local.z = Mathf.Clamp(local.z, -farBack, -nearBack);
+            return local;
+        }
+
         public static float SwayAngle(float time, float degrees, float hertz)
         {
             return Mathf.Sin(time * hertz * 2f * Mathf.PI) * degrees;

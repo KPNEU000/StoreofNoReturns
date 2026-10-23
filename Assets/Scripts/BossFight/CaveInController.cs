@@ -277,6 +277,13 @@ namespace BossFight
                 yield return null;
             }
             chunk.transform.position = new Vector3(spot.Position.x, floorY, spot.Position.z);
+            // One-time damage if it comes down on the player; standing in it afterwards costs nothing.
+            if (player != null && ChunkPlacement.LandsOn(chunk.transform.position, player.transform.position, settings.caveInChunkRadius))
+            {
+                var receiver = player.GetComponent<PlayerHitReceiver>();
+                if (receiver == null) receiver = FindFirstObjectByType<PlayerHitReceiver>();
+                if (receiver != null) receiver.TryHit(HitKind.Debris);
+            }
             if (column != null) column.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             SpawnDust(chunk.transform.position + Vector3.up * 0.2f, 4.5f);
             PlaySound(impactSound, chunk.transform.position);

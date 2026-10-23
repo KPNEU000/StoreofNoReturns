@@ -91,6 +91,12 @@ namespace BossFight
             Idle();
         }
 
+        // The tutorial drops the shield so the player can land one hit; it goes back up as she retreats.
+        public void SetShield(bool up)
+        {
+            if (shield != null) shield.SetActive(up);
+        }
+
         public void TakeDamage(float amount, Vector3 from)
         {
             if (dead || director == null) return;

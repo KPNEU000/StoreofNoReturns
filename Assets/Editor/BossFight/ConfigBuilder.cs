@@ -15,7 +15,8 @@ namespace BossFight.Editor
             "outsideLightIntensity", "blackoutEnvironmentFactor",
             "bookScale", "bookTelegraphSeconds", "witchHoverHeight", "caveInChunkRadius",
             "glassHudWidth", "glassHudHeight", "caveInChunkRestHeight",
-            "invincibilitySeconds", "slashReach", "bookThrowIntervalSeconds",
+            "invincibilitySeconds", "slashReach", "bookThrowIntervalSeconds", "slashArcDegrees",
+            "flashlightInnerSpotAngle",
         };
 
         // Creates the config asset with defaults, then writes the tuned values into it (new or existing).

@@ -10,11 +10,10 @@ namespace BossFight.Rules
         CrackScreen,
         WitchLine,
         GrabSword,
-        GrabFlashlight,
-        MoveLine,
         Vault,
-        TutorialLight,
         TutorialSlash,
+        HitWitch,
+        WitchRetreat,
         DoorBlast
     }
 
@@ -23,20 +22,18 @@ namespace BossFight.Rules
         Immediate,
         Seconds,
         LeftClick,
-        FlashlightPressed,
-        FlashlightOn,
         VaultDone,
-        CostumeDead
+        CostumeDead,
+        WitchHit
     }
 
     // What the player and the scene did this frame; the opening only looks at what its current step waits for.
     public struct OpeningSignals
     {
         public bool LeftClick;
-        public bool FlashlightPressed;
-        public bool FlashlightOn;
         public bool VaultDone;
         public bool CostumeDead;
+        public bool WitchHit;
     }
 
     public readonly struct OpeningStepInfo
@@ -76,11 +73,12 @@ namespace BossFight.Rules
                 new OpeningStepInfo(OpeningStep.CrackScreen, OpeningCondition.Seconds, settings.openingCrackSeconds),
                 new OpeningStepInfo(OpeningStep.WitchLine, OpeningCondition.Seconds, settings.openingWitchLineSeconds),
                 new OpeningStepInfo(OpeningStep.GrabSword, OpeningCondition.LeftClick),
-                new OpeningStepInfo(OpeningStep.GrabFlashlight, OpeningCondition.FlashlightPressed),
-                new OpeningStepInfo(OpeningStep.MoveLine, OpeningCondition.Seconds, settings.openingMoveLineSeconds),
                 new OpeningStepInfo(OpeningStep.Vault, OpeningCondition.VaultDone),
-                new OpeningStepInfo(OpeningStep.TutorialLight, OpeningCondition.FlashlightOn),
                 new OpeningStepInfo(OpeningStep.TutorialSlash, OpeningCondition.CostumeDead),
+                // Free WASD; the objective is to land one hit on the unshielded Witch.
+                new OpeningStepInfo(OpeningStep.HitWitch, OpeningCondition.WitchHit),
+                // She raises her shield and leaps back to her post by the door.
+                new OpeningStepInfo(OpeningStep.WitchRetreat, OpeningCondition.Seconds, settings.openingWitchReturnSeconds),
                 new OpeningStepInfo(OpeningStep.DoorBlast, OpeningCondition.Immediate),
             };
         }
@@ -103,10 +101,9 @@ namespace BossFight.Rules
                 case OpeningCondition.Immediate: return true;
                 case OpeningCondition.Seconds: return elapsed >= info.Seconds;
                 case OpeningCondition.LeftClick: return s.LeftClick;
-                case OpeningCondition.FlashlightPressed: return s.FlashlightPressed;
-                case OpeningCondition.FlashlightOn: return s.FlashlightOn;
                 case OpeningCondition.VaultDone: return s.VaultDone;
                 case OpeningCondition.CostumeDead: return s.CostumeDead;
+                case OpeningCondition.WitchHit: return s.WitchHit;
                 default: return false;
             }
         }
