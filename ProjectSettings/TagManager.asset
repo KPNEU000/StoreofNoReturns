@@ -12,6 +12,7 @@ TagManager:
   - SceneManager
   - Enemy
   - ScrollRect
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
