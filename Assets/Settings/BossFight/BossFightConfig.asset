@@ -62,9 +62,9 @@ MonoBehaviour:
     waveMinCostumes: 4
     waveMaxCostumes: 6
     waveFirstDelaySeconds: 3
-    waveNextDelaySeconds: 3
+    waveNextDelaySeconds: 5
     waveStallSeconds: 6
-    waveClearFraction: 0.6666667
+    waveClearFraction: 0.8333333
     rackTelegraphSeconds: 4.5
     rackLiftMeters: 0.8
     waveRingMinRadius: 1.4

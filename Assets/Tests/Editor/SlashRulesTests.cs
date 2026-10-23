@@ -54,7 +54,7 @@ public class SlashRulesTests
     }
 
     [Test]
-    public void OnlyThreeClosestAreReturnedClosestFirst()
+    public void EveryTargetInRangeIsReturnedClosestFirst()
     {
         var result = Select(
             new Vector3(0f, 0f, 2f),
@@ -62,7 +62,8 @@ public class SlashRulesTests
             new Vector3(0f, 0f, 1.5f),
             new Vector3(0f, 0f, 1f),
             new Vector3(0f, 0f, 0.8f));
-        CollectionAssert.AreEqual(new[] { 1, 4, 3 }, result);
+        // Round 13: no pierce cap (it used to stop at the closest 3).
+        CollectionAssert.AreEqual(new[] { 1, 4, 3, 2, 0 }, result);
     }
 
     [Test]

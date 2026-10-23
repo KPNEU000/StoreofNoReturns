@@ -96,11 +96,19 @@ namespace BossFight
             if (movement != null) movement.SpeedMultiplier = 1f;
         }
 
+        // Round 13: a flat horizontal fan from the player's body along the way they face, measured to the nearest edge
+        // of each enemy whatever its height. It used to measure to collider centres (a garment's hanger), from a
+        // sword that dips with the camera, so aiming low or at a garment's chest fell short.
+        private const float SlashColumnHeight = 6f;
+
         private void DealDamage()
         {
-            Vector3 origin = transform.position;
-            Vector3 forward = transform.forward;
-            var colliders = Physics.OverlapSphere(origin, settings.slashReach, ~0, QueryTriggerInteraction.Ignore);
+            var player = movement != null ? movement.transform : transform;
+            Vector3 origin = player.position;
+            Vector3 forward = player.forward;
+            var bottom = origin + Vector3.down * SlashColumnHeight * 0.5f;
+            var top = origin + Vector3.up * SlashColumnHeight * 0.5f;
+            var colliders = Physics.OverlapCapsule(bottom, top, settings.slashReach, ~0, QueryTriggerInteraction.Ignore);
             var found = new List<IDamageable>();
             var positions = new List<Vector3>();
             foreach (var col in colliders)
@@ -110,7 +118,7 @@ namespace BossFight
                 if (damageable is BodyHitbox body && body.Owner != null) damageable = body.Owner;
                 if (damageable == null || !damageable.IsAlive) continue;
                 int index = found.IndexOf(damageable);
-                var position = col.transform.position;
+                var position = PlanarClosestPoint(col, origin);
                 if (index < 0)
                 {
                     found.Add(damageable);
@@ -126,6 +134,15 @@ namespace BossFight
                 found[i].TakeDamage(settings.slashDamage, origin);
                 if (hitSound != null) AudioSource.PlayClipAtPoint(hitSound, positions[i]);
             }
+        }
+
+        // The point of `col` horizontally closest to `origin`, taken at the collider's own height.
+        private static Vector3 PlanarClosestPoint(Collider col, Vector3 origin)
+        {
+            var bounds = col.bounds;
+            var level = new Vector3(origin.x, bounds.center.y, origin.z);
+            bool convex = !(col is MeshCollider mesh) || mesh.convex;
+            return convex ? col.ClosestPoint(level) : bounds.ClosestPoint(level);
         }
 
         // Upright -> point forward (windup) -> right-to-left sweep around the hit -> upright; pose comes from SwordPose.

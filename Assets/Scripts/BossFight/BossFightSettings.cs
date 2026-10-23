@@ -50,7 +50,7 @@ namespace BossFight
         [Header("Player combat: slash")]
         public float slashArcDegrees = 120f; // playtest round 5 (was 70)
         public float slashReach = 2.85f; // round 11: +0.1
-        public int slashMaxTargets = 3;
+        public int slashMaxTargets = 999; // round 13: no pierce cap (was 3)
         public float slashDamage = 10f;
         public float slashWindupSeconds = 0.15f;
         public float slashRecoverySeconds = 0.5f;
@@ -81,11 +81,11 @@ namespace BossFight
         // Round 6 waves: a rack shakes (telegraph), releases a ring of costumes, and the next rack starts shaking
         // waveNextDelaySeconds after waveClearFraction of that wave is dead.
         public float waveFirstDelaySeconds = 3f;
-        public float waveNextDelaySeconds = 3f; // round 12
+        public float waveNextDelaySeconds = 5f; // round 13
         // Safety net (round 8): if nothing from the current wave dies for this long, the next rack starts anyway
         // and the old wave stays alive (covers costumes stuck somewhere unreachable).
         public float waveStallSeconds = 6f; // unused since round 9 (removed: it stacked waves into a flood)
-        [Range(0f, 1f)] public float waveClearFraction = 4f / 6f; // round 11: a lane brings its next rack once 4 of 6 are dead
+        [Range(0f, 1f)] public float waveClearFraction = 5f / 6f; // round 13: a lane brings its next rack once 5 of 6 are dead
         public float rackTelegraphSeconds = 4.5f; // round 10
         public float rackLiftMeters = 1.6f; // unused since round 8: the lift clears the neighbouring racks (RackLift)
         public float waveRingMinRadius = 1.4f;

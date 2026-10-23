@@ -18,12 +18,12 @@ public class PlaytestRound9Tests
     }
 
     [Test]
-    public void ALaneBringsItsNextRackOnceFourOfSixAreDead()
+    public void ALaneBringsItsNextRackOnceFiveOfSixAreDead()
     {
         // Round 10 (was 4 of 6 with one lane and a cap of 8).
         var s = new BossFightSettings();
-        Assert.IsFalse(WaveScheduler.Cleared(6, 3, s.waveClearFraction), "3 dead is not enough");
-        Assert.IsTrue(WaveScheduler.Cleared(6, 2, s.waveClearFraction), "4 dead starts the lane's next rack (round 11)");
+        Assert.IsFalse(WaveScheduler.Cleared(6, 2, s.waveClearFraction), "4 dead is not enough");
+        Assert.IsTrue(WaveScheduler.Cleared(6, 1, s.waveClearFraction), "5 dead starts the lane's next rack (round 13)");
         Assert.AreEqual(14, s.maxClothingAlive, "two lanes of 6 plus one leftover each");
     }
 

@@ -20,6 +20,7 @@ namespace BossFight.Editor
             {
                 bool changed = false;
                 foreach (var section in Sections(boss.Scene)) changed |= OpenCorners(section);
+                changed |= BlockGapsForEnemies(boss.Scene);
                 if (changed) EditorSceneManager.MarkSceneDirty(boss.Scene);
                 boss.SaveIfDirty();
             }
@@ -93,6 +94,111 @@ namespace BossFight.Editor
             return changed;
         }
 
+        // Round 13: the corner gaps are for the player only. Each gap gets a Not Walkable NavMeshModifierVolume, so
+        // clothing and monsters path around the racks; the CharacterController never uses the NavMesh.
+        internal const string GapBlocksRootName = "RackGapEnemyBlocks";
+        private const int NotWalkableArea = 1;
+
+        private static bool BlockGapsForEnemies(UnityEngine.SceneManagement.Scene scene)
+        {
+            bool changed = false;
+            var root = BuilderUtil.FindByName(scene, GapBlocksRootName);
+            if (root == null)
+            {
+                var go = new GameObject(GapBlocksRootName);
+                UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(go, scene);
+                root = go.transform;
+                changed = true;
+            }
+            var wanted = new HashSet<string>();
+            foreach (var section in Sections(scene))
+            {
+                foreach (var (name, gap) in Gaps(section))
+                {
+                    wanted.Add(name);
+                    var block = ChildNamed(root, name);
+                    if (block == null)
+                    {
+                        block = new GameObject(name).transform;
+                        block.SetParent(root, false);
+                        changed = true;
+                    }
+                    var volume = block.GetComponent<Unity.AI.Navigation.NavMeshModifierVolume>();
+                    if (volume == null)
+                    {
+                        volume = block.gameObject.AddComponent<Unity.AI.Navigation.NavMeshModifierVolume>();
+                        changed = true;
+                    }
+                    if ((block.position - gap.center).sqrMagnitude > 1e-6f) { block.position = gap.center; changed = true; }
+                    if ((volume.size - gap.size).sqrMagnitude > 1e-6f) { volume.size = gap.size; changed = true; }
+                    if (volume.center != Vector3.zero) { volume.center = Vector3.zero; changed = true; }
+                    if (volume.area != NotWalkableArea) { volume.area = NotWalkableArea; changed = true; }
+                }
+            }
+            // Keep the first child of each wanted name; drop duplicates and older names.
+            var kept = new HashSet<string>();
+            var doomed = new List<GameObject>();
+            foreach (Transform child in root)
+            {
+                if (!(wanted.Contains(child.name) && kept.Add(child.name))) doomed.Add(child.gameObject);
+            }
+            foreach (var go in doomed) Object.DestroyImmediate(go);
+            changed |= doomed.Count > 0;
+            return changed;
+        }
+
+        private static Transform ChildNamed(Transform parent, string name)
+        {
+            foreach (Transform child in parent) if (child.name == name) return child;
+            return null;
+        }
+
+        // The open floor between the side bar and each long bar's trimmed end, as wide as the bar is thick.
+        internal static List<(string name, Bounds gap)> Gaps(Transform section)
+        {
+            var gaps = new List<(string, Bounds)>();
+            var boxes = new List<BoxCollider>(section.GetComponentsInChildren<BoxCollider>(true));
+            var side = SideBar(boxes);
+            if (side == null) return gaps;
+            var s = side.bounds;
+            bool sideAlongZ = s.size.z >= s.size.x;
+            int axis = sideAlongZ ? 0 : 2;
+            int across = sideAlongZ ? 2 : 0;
+            foreach (var bar in boxes)
+            {
+                if (bar == side) continue;
+                var b = bar.bounds;
+                float from, to;
+                if (b.min[axis] >= s.max[axis]) { from = s.max[axis]; to = b.min[axis]; }
+                else if (b.max[axis] <= s.min[axis]) { from = b.max[axis]; to = s.min[axis]; }
+                else continue;
+                if (to - from < 0.05f) continue;
+                var min = new Vector3(0f, b.min.y, 0f);
+                var max = new Vector3(0f, b.min.y + 2f, 0f);
+                min[axis] = from; max[axis] = to;
+                min[across] = b.min[across] - 0.2f; max[across] = b.max[across] + 0.2f;
+                var gap = new Bounds();
+                gap.SetMinMax(min, max);
+                // Must not start with "ClothingRack": the rack finder would mistake the blocker for a rack.
+                // No '/' either: Transform.Find reads it as a path separator.
+                gaps.Add(($"GapBlock: {section.name} - {bar.name}", gap));
+            }
+            return gaps;
+        }
+
+        private static BoxCollider SideBar(List<BoxCollider> boxes)
+        {
+            if (boxes.Count < 3) return null;
+            int alongX = 0;
+            foreach (var o in boxes) if (o.bounds.size.x > o.bounds.size.z) alongX++;
+            foreach (var b in boxes)
+            {
+                bool thisAlongX = b.bounds.size.x > b.bounds.size.z;
+                if (thisAlongX ? alongX == 1 : boxes.Count - alongX == 1) return b;
+            }
+            return null;
+        }
+
         // BoxCollider centre/size live in local space; the racks are only rotated in 90 degree steps.
         private static void SetWorldBounds(BoxCollider box, Bounds world)
         {
@@ -106,6 +212,12 @@ namespace BossFight.Editor
         // Called by BossRigValidator with the Boss Scene open.
         public static void Validate(UnityEngine.SceneManagement.Scene scene, List<string> errors)
         {
+            var blocks = BuilderUtil.FindByName(scene, GapBlocksRootName);
+            if (blocks == null) errors.Add($"Boss Scene has no '{GapBlocksRootName}' (enemy blockers for the rack corner gaps)");
+            else if (blocks.GetComponentsInChildren<Unity.AI.Navigation.NavMeshModifierVolume>(true).Length < 8)
+            {
+                errors.Add($"'{GapBlocksRootName}' should hold a Not Walkable volume for each of the 8 corner gaps");
+            }
             foreach (var section in Sections(scene))
             {
                 var boxes = section.GetComponentsInChildren<BoxCollider>(true);
