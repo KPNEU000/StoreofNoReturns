@@ -40,6 +40,7 @@ namespace BossFight
             }
             var witch = FindFirstObjectByType<WitchBoss>();
             if (witch != null) NavAgents.ExcludeFromNavMesh(witch.gameObject);
+            if (GetComponent<BossCursor>() == null) gameObject.AddComponent<BossCursor>();
             MarkOutside();
             // No baked NavMesh asset is committed; the shop is built into a NavMesh at runtime.
             navMeshSurface.BuildNavMesh();
