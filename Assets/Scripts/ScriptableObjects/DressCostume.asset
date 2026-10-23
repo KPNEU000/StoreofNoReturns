@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DressCostume
   m_EditorClassIdentifier: Assembly-CSharp::CostumeScriptData
   costumeName: UNKNOWN COSTUME
-  returnValue: 100
+  returnValue: -200
   costumeModel: {fileID: 6769698864430620868, guid: 35f2fe5f52d9a204ab4ffdba6d94dc20, type: 3}
   dateOfPurchase: 2/18/2001
   reasons: 060000000000000004000000

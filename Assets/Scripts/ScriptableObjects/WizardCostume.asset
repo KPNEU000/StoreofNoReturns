@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WizardCostume
   m_EditorClassIdentifier: Assembly-CSharp::CostumeScriptData
   costumeName: Evil Blood Wizard
-  returnValue: 100
+  returnValue: 50
   costumeModel: {fileID: 2892068233996699481, guid: c01de2821c276f94bb2ba56c0129083f, type: 3}
   dateOfPurchase: 10/28/2002
   reasons: 
