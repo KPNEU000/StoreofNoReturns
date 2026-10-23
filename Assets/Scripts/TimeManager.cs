@@ -9,7 +9,7 @@ public class TimeManager : MonoBehaviour
     [Header("Starting Time (in 24-hour format)")]
     [Range(0,23)] public int startHour = 18; //6:00PM
     [Range(0, 59)] public int starMinute = 0;
-    [Range(0, 23)] public int endHour = 0; //12:00AM
+    [Range(-23, 23)] public int endHour = 3; //12:00AM
     [Range(0, 59)] public int endMinute = 0;
 
     [Header("Time Settings")]
@@ -43,6 +43,7 @@ public class TimeManager : MonoBehaviour
     {
         CurrentHour = startHour;
         CurrentMinute = starMinute;
+        endHour = 3;
         timer = 0f;
     }
 
@@ -69,7 +70,7 @@ public class TimeManager : MonoBehaviour
             CurrentHour++;
             customerSpawner.NewCustomer();
 
-            if (CurrentHour >= 24)
+            if (CurrentHour == 24)
             {
                 CurrentHour = 0;
             }
@@ -86,13 +87,24 @@ public class TimeManager : MonoBehaviour
         {
             float timeHour = CurrentHour;
             string timeOfDay = " AM";
+            if(CurrentHour >= 6)
+            {
+                timeOfDay = " PM";
+            }
             if (CurrentHour >= 12)
             {
                 timeHour -= 12;
                 timeOfDay = " PM";
             }
+            else
+            {
+                timeText.text = $"{Mathf.Abs(timeHour):00}:{CurrentMinute:00}" + timeOfDay;
+                CurrentHour = (int)timeHour;
+            }
             timeText.text = $"{timeHour:00}:{CurrentMinute:00}" + timeOfDay;
+            CurrentHour = (int)timeHour;
         }
+
     }
 
     void CheckEndOfTime()

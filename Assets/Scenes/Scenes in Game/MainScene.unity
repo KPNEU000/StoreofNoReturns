@@ -9491,7 +9491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 0edb7cb9b9aa52949baabee5ca4d160d, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -9499,7 +9499,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: ef477908676518e429df7a08123eadd2, type: 2}
+  m_Texture: {fileID: 8400000, guid: b15243e048898df46a6f0d083bb79498, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -10103,7 +10103,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: ef477908676518e429df7a08123eadd2, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: b15243e048898df46a6f0d083bb79498, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -22189,6 +22189,7 @@ MonoBehaviour:
   gravity: 9.81
   airControll: 10
   navRecalcThreshold: 1
+  accelTime: 0.1
 --- !u!23 &1001882436
 MeshRenderer:
   m_ObjectHideFlags: 0

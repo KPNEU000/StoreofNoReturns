@@ -36,6 +36,10 @@ public class CustomerScript : MonoBehaviour
     {
         if (customerCostume.getReasons().Contains(reason))
         {
+            StoreofNoReturnsSfx.Post(
+                StoreofNoReturnsSfx.AccusationCorrect,
+                gameObject
+            );
            
             //go to sympatetic dialogue sentence for possible explanation of refund
             if (reason == invalidReturnReason.Stained || reason == invalidReturnReason.MissingAccessories || reason == invalidReturnReason.SlightlyDamaged)
@@ -57,6 +61,10 @@ public class CustomerScript : MonoBehaviour
         }
         else
         {
+            StoreofNoReturnsSfx.Post(
+                StoreofNoReturnsSfx.AccusationWrong,
+                gameObject
+            );
             //call reputation manager and provide dialogue calling clerk a dick
             repManager.ChangeReputation(wrongReasonAmount);
         }

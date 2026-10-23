@@ -84,6 +84,10 @@ public class DialogueManager : MonoBehaviour
     private void OpenDialoguePanel()
     {
         dialoguePanel.SetActive(true);
+        StoreofNoReturnsSfx.Post(
+            StoreofNoReturnsSfx.UiOpenDialogue,
+            gameObject
+        );
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -118,14 +122,31 @@ public class DialogueManager : MonoBehaviour
                 {
                     AddActionButton(
                         "Continue",
-                        ContinueStory
+                        () =>
+                        {
+                            StoreofNoReturnsSfx.Post(
+                                StoreofNoReturnsSfx.UiAdvance,
+                                gameObject
+                            );
+                            ContinueStory();
+                        }
                     );
                 }
                 else
                 {
                     if (isCutscene)
                     {
-                        AddActionButton("Continue", EndCutscene);
+                        AddActionButton(
+                            "Continue",
+                            () =>
+                            {
+                                StoreofNoReturnsSfx.Post(
+                                    StoreofNoReturnsSfx.UiAdvance,
+                                    gameObject
+                                );
+                                EndCutscene();
+                            }
+                        );
                     }
                     else
                     {
@@ -199,6 +220,11 @@ public class DialogueManager : MonoBehaviour
     {
         if (story == null) return;
 
+        StoreofNoReturnsSfx.Post(
+            StoreofNoReturnsSfx.UiChoice,
+            gameObject
+        );
+
         string choiceText = story.currentChoices[choiceIndex].text.Trim();
 
         switch (choiceText)
@@ -259,11 +285,19 @@ public class DialogueManager : MonoBehaviour
 
     public void ConfirmRefund()
     {
+        StoreofNoReturnsSfx.Post(
+            StoreofNoReturnsSfx.UiConfirm,
+            gameObject
+        );
         ShowDecisionResponse("refund_response");
     }
 
     public void DenyRefund()
     {
+        StoreofNoReturnsSfx.Post(
+            StoreofNoReturnsSfx.UiDeny,
+            gameObject
+        );
         ShowDecisionResponse("no_refund_response");
     }
 
@@ -288,6 +322,10 @@ public class DialogueManager : MonoBehaviour
 
     private void EndCustomerInteraction()
     {
+        StoreofNoReturnsSfx.Post(
+            StoreofNoReturnsSfx.UiBack,
+            gameObject
+        );
         ClearChoices();
 
         dialoguePanel.SetActive(false);
