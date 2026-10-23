@@ -219,13 +219,14 @@ namespace BossFight
                 }
                 // Rises quickly, then hangs and shakes harder and harder.
                 float lift = liftMeters * Mathf.SmoothStep(0f, 1f, Mathf.Min(1f, k * 2.5f));
-                var shake = Random.insideUnitSphere * (0.03f + 0.12f * k);
+                // Shakes harder and harder the longer it hangs there.
+                var shake = Random.insideUnitSphere * (0.02f + 0.3f * k * k);
                 shake.y *= 0.4f;
                 transform.position = restPosition + Vector3.up * lift + shake;
                 auraLight.intensity = Mathf.Lerp(6f, 18f, k) * (0.85f + 0.15f * Mathf.Sin(t * 30f));
                 if (hum != null)
                 {
-                    hum.volume = Mathf.Lerp(0.15f, 0.6f, k);
+                    hum.volume = Mathf.Clamp01(Mathf.Lerp(0.15f, 0.6f, k) * Sfx.Master);
                     hum.pitch = Mathf.Lerp(0.8f, 1.25f, k);
                 }
                 if (t >= nextCreak)

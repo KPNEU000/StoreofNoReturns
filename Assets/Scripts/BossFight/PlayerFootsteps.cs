@@ -42,7 +42,7 @@ namespace BossFight
             int pick = Random.Range(0, steps.Length);
             if (pick == last && steps.Length > 1) pick = (pick + 1) % steps.Length;
             last = pick;
-            Sfx.Play(steps[pick], transform.position, volume, 1f, 0.1f, 0f);
+            Sfx.Play(steps[pick], transform.position, volume / Sfx.Master, 1f, 0.1f, 0f); // footsteps keep their volume
         }
     }
 }

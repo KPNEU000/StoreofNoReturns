@@ -42,7 +42,11 @@ namespace BossFight.Editor
                 }
                 foreach (var rack in BuilderUtil.FindAllInScene<PossessableRack>(scene))
                 {
-                    changed |= SetOn(rack, ("telegraphHum", "rack_telegraph_hum"), ("telegraphCreak", "rack_telegraph_creak"), ("slamSound", "rack_slam"));
+                    changed |= SetOn(rack, ("telegraphHum", "rack_telegraph_hum"), ("slamSound", "rack_slam"));
+                    // The creak (it sounded like a squeaky door) was removed in the final playtest.
+                    var rackSo = new SerializedObject(rack);
+                    changed |= BuilderUtil.SetReference(rackSo, "telegraphCreak", null);
+                    changed |= rackSo.ApplyModifiedPropertiesWithoutUndo();
                 }
                 var spawner = BuilderUtil.FindInScene<MonsterSpawner>(scene);
                 if (spawner != null) changed |= SetArray(spawner, "screamSounds", Clip("monster_scream_1"), Clip("monster_scream_2"), Clip("monster_scream_3"));
@@ -76,6 +80,8 @@ namespace BossFight.Editor
                 }
                 var director = BuilderUtil.FindInScene<BossDirector>(scene);
                 var musicSo = new SerializedObject(music.GetComponent<BossMusic>());
+                var volume = musicSo.FindProperty("volume");
+                if (!Mathf.Approximately(volume.floatValue, 0.375f)) { volume.floatValue = 0.375f; changed = true; }
                 changed |= BuilderUtil.SetReference(musicSo, "director", director);
                 changed |= musicSo.ApplyModifiedPropertiesWithoutUndo();
 

@@ -10,7 +10,7 @@ namespace BossFight
         [SerializeField]
         private BossDirector director;
         [SerializeField]
-        private float volume = 0.25f;
+        private float volume = 0.375f; // final playtest: 50% louder
         [SerializeField]
         private float fadeSeconds = 2.5f;
 

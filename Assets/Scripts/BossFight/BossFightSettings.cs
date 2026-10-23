@@ -83,12 +83,12 @@ namespace BossFight
         // Round 6 waves: a rack shakes (telegraph), releases a ring of costumes, and the next rack starts shaking
         // waveNextDelaySeconds after waveClearFraction of that wave is dead.
         public float waveFirstDelaySeconds = 3f;
-        public float waveNextDelaySeconds = 4f; // round 14
+        public float waveNextDelaySeconds = 2f; // final: 2 s moved from the wait into the telegraph
         // Safety net (round 8): if nothing from the current wave dies for this long, the next rack starts anyway
         // and the old wave stays alive (covers costumes stuck somewhere unreachable).
         public float waveStallSeconds = 6f; // unused since round 9 (removed: it stacked waves into a flood)
         [Range(0f, 1f)] public float waveClearFraction = 4f / 6f; // round 14: a lane brings its next rack once 4 of 6 are dead
-        public float rackTelegraphSeconds = 4.5f; // round 10
+        public float rackTelegraphSeconds = 6.5f; // final: 4.5 + 2 s taken from the wait
         public float rackLiftMeters = 1.6f; // unused since round 8: the lift clears the neighbouring racks (RackLift)
         public float waveRingMinRadius = 1.4f;
         public float waveRingMaxRadius = 2.6f;

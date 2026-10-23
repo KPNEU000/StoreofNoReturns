@@ -35,6 +35,6 @@ public class PlaytestRound9Tests
         Assert.AreEqual(65f, new ReputationScaling(s).MonsterHitCost(100f), 1e-4f);
         Assert.AreEqual(75f, new ReputationScaling(s).MonsterHitCost(50f), 1e-4f);
         Assert.AreEqual(1.05f * s.clothingSpeedFactor, s.SlashMoveSpeedFactor, 1e-5f);
-        Assert.AreEqual(4.5f, s.rackTelegraphSeconds, 1e-5f); // round 10
+        Assert.AreEqual(6.5f, s.rackTelegraphSeconds, 1e-5f); // final
     }
 }

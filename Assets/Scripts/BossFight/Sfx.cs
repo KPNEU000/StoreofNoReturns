@@ -7,6 +7,8 @@ namespace BossFight
     public static class Sfx
     {
         public const float DefaultPitchJitter = 0.08f;
+        // Final playtest: every effect 25% louder (callers that must not change divide it back out).
+        public const float Master = 1.25f;
 
         public static void Play(AudioClip clip, Vector3 position, float volume = 1f, float pitch = 1f,
             float pitchJitter = DefaultPitchJitter, float spatial = 1f)
@@ -16,7 +18,7 @@ namespace BossFight
             go.transform.position = position;
             var source = go.AddComponent<AudioSource>();
             source.clip = clip;
-            source.volume = volume;
+            source.volume = Mathf.Clamp01(volume * Master);
             source.pitch = Mathf.Max(0.1f, pitch + Random.Range(-pitchJitter, pitchJitter));
             source.spatialBlend = spatial;
             source.minDistance = 3f;
