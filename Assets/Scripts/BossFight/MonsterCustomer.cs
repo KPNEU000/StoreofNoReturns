@@ -39,6 +39,7 @@ namespace BossFight
 
         private NavMeshAgent agent;
         private readonly RepathGate repath = new RepathGate();
+        private bool indoors;
         private MonsterAttack attack;
         private FlankRouting routing;
         private ReputationScaling reputationScaling;
@@ -123,6 +124,7 @@ namespace BossFight
                 return;
             }
 
+            if (!indoors) indoors = NavAgents.KeepInsideOnceIn(agent);
             var pos = transform.position;
             // A swing in progress plays its whole clip while lunging at the player at reduced speed; walking away
             // never cancels it back into a run.

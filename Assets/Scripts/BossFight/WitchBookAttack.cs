@@ -97,11 +97,15 @@ namespace BossFight
                 CancelSequence();
                 return;
             }
-            if (rules.Tick(Time.deltaTime, phase2, sequence != null) && witch != null && receiver != null)
+            bool busy = sequence != null || (lastThrown != null && lastThrown.State == ThrowableBook.BookState.Flying);
+            if (rules.Tick(Time.deltaTime, phase2, busy) && witch != null && receiver != null)
             {
                 sequence = StartCoroutine(ThrowRoutine());
             }
         }
+
+        // The book most recently thrown; the next countdown waits until it has landed.
+        private ThrowableBook lastThrown;
 
         private Vector3 Hand => witch.position + handOffset;
 
@@ -203,6 +207,7 @@ namespace BossFight
             // Release at where the player is now; the book does not home after this.
             arm.enabled = false;
             current.Launch(PlayerCenter(), rules, receiver, PlayerCenter, () => Phase2);
+            lastThrown = current;
             current = null;
             sequence = null;
         }

@@ -96,6 +96,7 @@ namespace BossFight
             routing = new FlankRouting(settings);
             agent = GetComponent<NavMeshAgent>();
             NavAgents.Configure(agent);
+            agent.areaMask = NavAgents.IndoorMask;
             NavAgents.ExcludeFromNavMesh(gameObject);
             bobPhase = Random.value * Mathf.PI * 2f;
 

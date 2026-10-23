@@ -20,9 +20,9 @@ namespace BossFight
         public float flickerIntervalMaxSeconds = 5f;
         [Range(0f, 1f)] public float mildFlickerMinIntensity = 0.6f;
         [Range(0f, 1f)] public float strongFlickerMinIntensity = 0.3f;
-        public float outsideLightIntensity = 0.075f;
+        public float outsideLightIntensity = 0.06f;
         // Off tier: ambient/environment light, reflections and fog colour are scaled to this fraction of their original.
-        [Range(0f, 1f)] public float blackoutEnvironmentFactor = 0.045f; // playtest: 0.03 too dark, 0.09 made the flashlight pointless
+        [Range(0f, 1f)] public float blackoutEnvironmentFactor = 0.036f; // round 7: a tad darker than 0.045
         [Range(0f, 1f)] public float flickerFloorIntensity = 0.3f;
         public float flickerDipSecondsMin = 0.06f;
         public float flickerDipSecondsMax = 0.18f;
@@ -36,7 +36,7 @@ namespace BossFight
         public float bookHitCost = 50f;
         // A falling ceiling chunk landing on the player: charged once per chunk, never while standing in it.
         public float debrisHitCost = 50f;
-        public float invincibilitySeconds = 0.25f; // playtest round 6: 0.75 made the fight too easy
+        public float invincibilitySeconds = 0.6f; // round 7: 0.25 too punishing, 0.75 too easy
         public float hitFlashSeconds = 0.25f;
 
         [Header("Economy: reputation -> monster HP multiplier")]
@@ -59,9 +59,9 @@ namespace BossFight
         public float flashlightRampUpSeconds = 0.5f;
         public float flashlightRampDownSeconds = 0.25f;
         [Range(0f, 1f)] public float flashlightFaintGlow = 0.1f;
-        public float flashlightFullIntensity = 9.5f; // round-4 look (8) with a slightly brighter centre
+        public float flashlightFullIntensity = 11f; // round 7: a tad brighter again
         public float flashlightRange = 35f;
-        public float flashlightSpotAngle = 45f; // playtest round 6: the 75 degree cone lit almost everything
+        public float flashlightSpotAngle = 47.25f; // round 7: 5% wider than 45 (the 75 degree cone lit everything)
         public float flashlightInnerSpotAngle = 28f;
 
         [Header("Player movement")]
@@ -81,14 +81,14 @@ namespace BossFight
         // Round 6 waves: a rack shakes (telegraph), releases a ring of costumes, and the next rack starts shaking
         // waveNextDelaySeconds after waveClearFraction of that wave is dead.
         public float waveFirstDelaySeconds = 3f;
-        public float waveNextDelaySeconds = 5f;
+        public float waveNextDelaySeconds = 6f; // playtest round 7 (was 5)
         [Range(0f, 1f)] public float waveClearFraction = 0.75f;
-        public float rackTelegraphSeconds = 2.2f;
-        public float rackLiftMeters = 0.8f;
+        public float rackTelegraphSeconds = 3f; // longer, so it can be spotted from across the store
+        public float rackLiftMeters = 1.6f;
         public float waveRingMinRadius = 1.4f;
         public float waveRingMaxRadius = 2.6f;
         // Costumes per wave at 100 reputation; worse reputation multiplies the swarm (not its HP).
-        public int waveBaseCostumes = 6;
+        public int waveBaseCostumes = 4; // round 7: 6 at medium reputation (50), 8 at zero, 4 at a perfect 100
         public float swarmMultiplierAtRep50 = 1.5f;
         public float swarmMultiplierAtRep0 = 2f;
         // At or below this reputation the swarm needs two slashes each.
@@ -136,7 +136,7 @@ namespace BossFight
         public float bookScale = 1.6f; // round 6: storybook proportions (thin), slightly larger than the shelf size
         public float bookArmSeconds = 0.4f;
         public float bookSweepSeconds = 0.3f;
-        public float bookFlightSpeed = 12f;
+        public float bookFlightSpeed = 8.4f; // round 7: 30% slower than 12
         public float bookHitRadius = 0.8f;
         public float bookGlowFadeSeconds = 1f;
         public float winPauseSeconds = 2f;

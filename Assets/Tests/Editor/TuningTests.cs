@@ -55,7 +55,7 @@ public class TuningTests
         var off = rules.Target(original, 0f);
         // Dark enough that the flashlight matters, but (round-2 playtest) not so dark the store can't be navigated.
         Assert.Less(off.ambientIntensity, 0.12f);
-        Assert.Greater(off.ambientIntensity, 0.04f); // round 5: ~1.5x the original pitch black (0.03)
+        Assert.Greater(off.ambientIntensity, 0.03f); // round 7: a tad darker than round 5, still above pitch black
         Assert.Less(off.reflectionIntensity, 0.12f);
         Assert.Less(off.fogColor.g, 0.12f);
         Assert.Less(off.ambientLight.r, 0.12f);

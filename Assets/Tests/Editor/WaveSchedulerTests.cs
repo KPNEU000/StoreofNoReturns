@@ -41,7 +41,7 @@ public class WaveSchedulerTests
         Assert.IsNull(Tick(s, 100f, size), "nobody died: no countdown");
         Assert.IsNull(Tick(s, 100f, 3), "half dead is not enough");
         Assert.AreEqual(WaveScheduler.Stage.WaitingForClear, s.Current);
-        Assert.IsNull(Tick(s, 0f, 1), "5 of 6 dead starts the countdown");
+        Assert.IsNull(Tick(s, 0f, 1), "three quarters dead starts the countdown");
         Assert.AreEqual(WaveScheduler.Stage.Countdown, s.Current);
         Assert.IsNull(Tick(s, settings.waveNextDelaySeconds - 0.1f, 1));
         Assert.AreEqual(WaveScheduler.WaveEvent.Telegraph, Tick(s, 0.2f, 1).Value.Event);
@@ -58,10 +58,10 @@ public class WaveSchedulerTests
         Assert.AreEqual(cleared, WaveScheduler.Cleared(size, alive, 0.75f));
     }
 
-    [TestCase(100, 6)]
-    [TestCase(50, 9)]
-    [TestCase(0, 12)]
-    [TestCase(75, 8)]
+    [TestCase(100, 4)]
+    [TestCase(50, 6)]
+    [TestCase(0, 8)]
+    [TestCase(75, 5)]
     public void WorseReputationMeansABiggerSwarm(int reputation, int size)
     {
         Assert.AreEqual(size, WaveScheduler.SwarmSize(settings, reputation));

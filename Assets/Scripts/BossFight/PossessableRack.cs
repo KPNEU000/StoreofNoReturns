@@ -107,6 +107,7 @@ namespace BossFight
             Destroy(burst.gameObject, 3f);
         }
 
+        private static readonly Color TelegraphGlow = new Color(1f, 0.95f, 0.9f, 1f);
         private Coroutine telegraph;
         private ParticleSystem aura;
         private Light auraLight;
@@ -132,22 +133,24 @@ namespace BossFight
             aura.transform.position = releasePoint + Vector3.up * 1f;
             auraLight = new GameObject("RackAuraLight").AddComponent<Light>();
             auraLight.type = LightType.Point;
-            auraLight.color = possessedColor;
-            auraLight.range = 5f;
+            // Playtest round 7: the rack must read from across the store, so it glows bright white (the purple stays
+            // in the particle aura) and lights its surroundings.
+            auraLight.color = TelegraphGlow;
+            auraLight.range = 9f;
             auraLight.shadows = LightShadows.None;
             auraLight.transform.position = releasePoint + Vector3.up * 1.2f;
             seconds = Mathf.Max(seconds, 0.01f);
             for (float t = 0f; t < seconds; t += Time.deltaTime)
             {
                 float k = Mathf.Clamp01(t / seconds);
-                var color = Color.Lerp(Color.white, possessedColor, Mathf.Min(1f, k * 1.5f));
+                float glow = Mathf.Lerp(1.5f, 6f, k);
                 foreach (var r in renderers)
                 {
                     if (r == null) continue;
                     r.GetPropertyBlock(block);
-                    block.SetColor(BaseColorId, color);
-                    block.SetColor(ColorId, color);
-                    block.SetColor(EmissionColorId, possessedColor * (k * 1.5f));
+                    block.SetColor(BaseColorId, Color.white);
+                    block.SetColor(ColorId, Color.white);
+                    block.SetColor(EmissionColorId, TelegraphGlow * glow);
                     r.SetPropertyBlock(block);
                 }
                 // Rises quickly, then hangs and shakes harder and harder.
@@ -155,7 +158,7 @@ namespace BossFight
                 var shake = Random.insideUnitSphere * (0.03f + 0.12f * k);
                 shake.y *= 0.4f;
                 transform.position = restPosition + Vector3.up * lift + shake;
-                auraLight.intensity = Mathf.Lerp(1f, 6f, k) * (0.85f + 0.15f * Mathf.Sin(t * 30f));
+                auraLight.intensity = Mathf.Lerp(4f, 12f, k) * (0.85f + 0.15f * Mathf.Sin(t * 30f));
                 yield return null;
             }
             telegraph = null;

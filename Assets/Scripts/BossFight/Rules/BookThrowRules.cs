@@ -43,17 +43,18 @@ namespace BossFight.Rules
             position = localPosition + new Vector3(0f, (scale.y - localScale.y) * 0.5f, 0f);
         }
 
-        // True on the frame a throw should start. Outside Phase2 the interval restarts; while a throw is still
-        // running (busy) a due throw waits for it to finish.
+        // True on the frame a throw should start. Outside Phase2 the interval restarts. Playtest round 7: the
+        // countdown only runs once the previous book has landed, so while a throw is in progress or the book is
+        // still in the air (busy) the full interval is held.
         public bool Tick(float deltaTime, bool phase2, bool busy)
         {
-            if (!phase2)
+            if (!phase2 || busy)
             {
                 timer = intervalSeconds;
                 return false;
             }
             timer -= deltaTime;
-            if (timer > 0f || busy) return false;
+            if (timer > 0f) return false;
             timer = intervalSeconds;
             return true;
         }

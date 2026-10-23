@@ -21,8 +21,8 @@ MonoBehaviour:
     flickerIntervalMaxSeconds: 5
     mildFlickerMinIntensity: 0.6
     strongFlickerMinIntensity: 0.3
-    outsideLightIntensity: 0.075
-    blackoutEnvironmentFactor: 0.045
+    outsideLightIntensity: 0.06
+    blackoutEnvironmentFactor: 0.036
     flickerFloorIntensity: 0.3
     flickerDipSecondsMin: 0.06
     flickerDipSecondsMax: 0.18
@@ -33,7 +33,7 @@ MonoBehaviour:
     monsterHitCostAtRep100: 50
     bookHitCost: 50
     debrisHitCost: 50
-    invincibilitySeconds: 0.25
+    invincibilitySeconds: 0.6
     hitFlashSeconds: 0.25
     monsterHpMultiplierAtRep0: 2
     monsterHpMultiplierAtRep50: 1
@@ -48,9 +48,9 @@ MonoBehaviour:
     flashlightRampUpSeconds: 0.5
     flashlightRampDownSeconds: 0.25
     flashlightFaintGlow: 0.1
-    flashlightFullIntensity: 9.5
+    flashlightFullIntensity: 11
     flashlightRange: 35
-    flashlightSpotAngle: 45
+    flashlightSpotAngle: 47.25
     flashlightInnerSpotAngle: 28
     moveAccelerationSeconds: 0.1
     clothingSpeedFactor: 0.51
@@ -103,7 +103,7 @@ MonoBehaviour:
     bookScale: 1.6
     bookArmSeconds: 0.4
     bookSweepSeconds: 0.3
-    bookFlightSpeed: 12
+    bookFlightSpeed: 8.4
     bookHitRadius: 0.8
     bookGlowFadeSeconds: 1
     winPauseSeconds: 2

@@ -3,8 +3,9 @@ using UnityEngine;
 
 namespace BossFight
 {
-    // Comes on by itself when the store lights go out (money <= $500) and stays on; slashing dims it to a faint
-    // glow. Drives a Spot Light that shines from the flashlight model's lens along the view.
+    // Stays in the player's pocket while the store lights are on. When they go out (money <= $500) it is pulled up
+    // into view and switched on, and stays on; slashing dims it to a faint glow. Drives a Spot Light that shines
+    // from the flashlight model's lens along the view.
     public class PlayerFlashlight : MonoBehaviour
     {
         [SerializeField]
@@ -28,6 +29,12 @@ namespace BossFight
         private MoneyManager money;
         // How far in front of the flashlight model's centre its lens is.
         private const float LensOffset = 0.15f;
+        // Pulled up from below the view into the hand (and back down into the pocket).
+        private const float PocketDrop = 0.45f;
+        private const float PullSeconds = 0.45f;
+        // 0 = in the pocket (hidden), 1 = in hand.
+        private float drawn;
+        private Renderer[] visualRenderers;
         private Vector3 restPosition;
 
         // Tutorial sets this above 1 for the extra bright beam.
@@ -52,7 +59,11 @@ namespace BossFight
                 beam.spotAngle = settings.flashlightSpotAngle;
                 beam.innerSpotAngle = Mathf.Min(settings.flashlightInnerSpotAngle, settings.flashlightSpotAngle);
             }
-            if (visual != null) restPosition = visual.localPosition;
+            if (visual != null)
+            {
+                restPosition = visual.localPosition;
+                visualRenderers = visual.GetComponentsInChildren<Renderer>(true);
+            }
             AimFromLens();
         }
 
@@ -93,15 +104,23 @@ namespace BossFight
         private void Update()
         {
             on = money != null && rules.ShouldBeOn(money.CurrentMoney);
-            if (on) fraction = rules.Step(Mathf.Max(fraction, rules.Faint), true, PlayerSword.IsSlashing, Time.deltaTime);
+            drawn = Mathf.MoveTowards(drawn, on ? 1f : 0f, Time.deltaTime / PullSeconds);
+            // The beam only comes on once the torch is fully in hand.
+            if (on && drawn >= 1f) fraction = rules.Step(Mathf.Max(fraction, rules.Faint), true, PlayerSword.IsSlashing, Time.deltaTime);
             else fraction = 0f;
             if (beam != null) beam.intensity = rules.Intensity(fraction);
 
             if (visual != null)
             {
+                bool visible = drawn > 0.001f;
+                if (visualRenderers != null)
+                {
+                    foreach (var r in visualRenderers) if (r != null && r.enabled != visible) r.enabled = visible;
+                }
                 float raised = Mathf.InverseLerp(rules.Faint, 1f, fraction);
                 float sway = Mathf.Sin(Time.time * 1.3f) * 0.008f;
-                visual.localPosition = restPosition + new Vector3(0f, sway, 0f);
+                float eased = drawn * drawn * (3f - 2f * drawn);
+                visual.localPosition = restPosition + new Vector3(0f, sway - PocketDrop * (1f - eased), 0f);
                 visual.localRotation = Quaternion.Euler(Vector3.Lerp(restEuler, raisedEuler, raised));
             }
         }

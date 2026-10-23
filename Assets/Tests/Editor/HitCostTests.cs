@@ -57,9 +57,9 @@ public class HitCostTests
     }
 
     [Test]
-    public void DefaultInvincibilityIsAQuarterSecond()
+    public void DefaultInvincibilityIsPointSixSeconds()
     {
-        Assert.AreEqual(0.25f, new BossFightSettings().invincibilitySeconds, 1e-4f);
+        Assert.AreEqual(0.6f, new BossFightSettings().invincibilitySeconds, 1e-4f);
     }
 
     [Test]

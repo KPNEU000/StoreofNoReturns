@@ -50,11 +50,13 @@ public class BookThrowRulesTests
     }
 
     [Test]
-    public void DueThrowWaitsWhileBusy()
+    public void CountdownOnlyStartsOnceThePreviousBookHasLanded()
     {
         var rules = Make();
-        Assert.IsFalse(rules.Tick(settings.bookThrowIntervalSeconds, true, true));
-        Assert.IsTrue(rules.Tick(0.01f, true, false));
+        // Busy (throwing, or the book still in the air) holds the full interval however long it lasts.
+        Assert.IsFalse(rules.Tick(settings.bookThrowIntervalSeconds * 3f, true, true));
+        Assert.IsFalse(rules.Tick(settings.bookThrowIntervalSeconds - 0.1f, true, false), "the countdown starts at the landing");
+        Assert.IsTrue(rules.Tick(0.2f, true, false));
     }
 
     [Test]
