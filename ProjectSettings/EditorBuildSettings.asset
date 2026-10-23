@@ -6,8 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Scenes in Game/Title Screen.unity
+    guid: 5c7357dfbeba7a34c835b60b1cc2a0c2
+  - enabled: 1
     path: Assets/Scenes/Scenes in Game/MainScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Scenes in Game/Boss Scene.unity
+    guid: e7a86fb344e128140902eb50653d0ec8
+  - enabled: 1
+    path: Assets/Scenes/Scenes in Game/Game Over Screen.unity
+    guid: 1c773c0c3c0fcb64a9f96cf86da3aa97
+  - enabled: 1
+    path: Assets/Scenes/Scenes in Game/You WIn Screen.unity
+    guid: 0c7627f472851ef40846d029b22e1540
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

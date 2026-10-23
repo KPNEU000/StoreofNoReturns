@@ -66,6 +66,12 @@ public class CameraBehaviour : MonoBehaviour
     {
         cameraBehaviourEnabled = false;
     }
+
+    // The boss opening takes the mouse: clicks must slash, not open the computer or poster views.
+    public void DisableForBoss()
+    {
+        disable();
+    }
     // Update is called once per frame
     void Update()
     {

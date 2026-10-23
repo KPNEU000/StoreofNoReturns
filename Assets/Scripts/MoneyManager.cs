@@ -1,31 +1,36 @@
 using TMPro;
 using UnityEngine;
 using System;
+using BossFight;
 public class MoneyManager : MonoBehaviour
 {
     [Header("GameData")]
     [SerializeField]
     private float startingMoney = 1000;
     [SerializeField]
-    private float heatingCutOff = 100;
+    private float heatingCutOff = 100; // unused
     [SerializeField]
-    private GameObject heatingCutOffAlert;
+    private GameObject heatingCutOffAlert; // unused
     [SerializeField]
-    private float lightingCutOff = 500;
+    private float lightingCutOff = 500; // unused (StoreLightingController owns lighting)
     [SerializeField]
-    private GameObject lightingCutOffAlert;
+    private GameObject lightingCutOffAlert; // unused
 
     [Header("Reputation")]
     [SerializeField]
     private ReputationManager reputationManager;
     
-    bool lightingCut = false;
-    bool heatingCut = false;
+    bool lightingCut = false; // unused
+    bool gameOver = false;
     CustomerScript customer;
     CustomerBehaviour customerBehaviour;
     CostumeScriptData costume;
+    int reputationAtInteractionStart;
 
     private float currentMoney;
+
+    public float CurrentMoney => currentMoney;
+    public event Action<float> OnMoneyChanged;
 
     [Header("UI")]
     [SerializeField]
@@ -40,9 +45,37 @@ public class MoneyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        AngeredCustomerRegistry.Reset();
         lights = GameObject.FindObjectsByType<Light>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
         currentMoney = startingMoney;
         currentMoneyValue.text = "$"+ currentMoney.ToString();
+        OnMoneyChanged?.Invoke(currentMoney);
+    }
+
+    public void SubtractMoney(float amount)
+    {
+        SetMoney(currentMoney - amount);
+    }
+
+    // Used by the boss debug jump (P) to start from the test money value.
+    public void SetMoney(float amount)
+    {
+        currentMoney = amount;
+        OnMoneyChanged?.Invoke(currentMoney);
+        if (currentMoney <= 0 && !gameOver)
+        {
+            gameOver = true;
+            // The Game Over screen shows the reputation the run ended on.
+            BossFight.RunScore.Set(0f, reputationManager != null ? reputationManager.CurrentReputation : 0);
+            if (SceneLoadingManager.Instance != null)
+            {
+                SceneLoadingManager.Instance.LoadSceneByName("Game Over Screen");
+            }
+            else
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Game Over Screen");
+            }
+        }
     }
 
     // Update is called once per frame
@@ -52,35 +85,13 @@ public class MoneyManager : MonoBehaviour
         {
             currentMoneyValue.text = "$" + currentMoney.ToString();
         }
-
-        if (currentMoney <= lightingCutOff && !lightingCut)
-        {
-            lightingCut = true;
-            flashlight.SetActive(true);
-            foreach (Light light in lights)
-            {
-                light.enabled = false;
-            }
-            lightingCutOffAlert.SetActive(true);
-        }
-
-        if (currentMoney <= heatingCutOff && !heatingCut)
-        {
-            heatingCut = true;
-            playerMovement.speed = playerMovement.speed * 0.5f;
-            heatingCutOffAlert.SetActive(true);
-        }
-
-        if (currentMoney == 0)
-        {
-            FindFirstObjectByType<SceneLoadingManager>().LoadSceneByName("Game Over");
-        }
     }
 
     public void GetCurrentCustomer(CustomerScript currentCustomer)
     {
         customer = currentCustomer;
         customerBehaviour = customer.GetComponent<CustomerBehaviour>();
+        reputationAtInteractionStart = reputationManager != null ? reputationManager.CurrentReputation : 0;
     }
 
     public void GetCurrentCostume(CostumeScriptData currentCustomer)
@@ -108,7 +119,7 @@ public class MoneyManager : MonoBehaviour
             {
                 reputationManager.ProcessRefund(false, true);
             }
-            currentMoney -= costume.getReturnValue();
+            SubtractMoney(costume.getReturnValue());
             customerBehaviour.Respond(true);
         }
         else
@@ -124,7 +135,14 @@ public class MoneyManager : MonoBehaviour
             customerBehaviour.Respond(false);
         }
 
-        if(customerBehaviour.gameObject.name == "Witch")
+        bool isWitch = customerBehaviour.gameObject.name == "Witch";
+        // The Witch is the boss, not one of the monsters she brings.
+        if (!isWitch && reputationManager != null)
+        {
+            AngeredCustomerRegistry.Record(customerBehaviour.gameObject.name, reputationAtInteractionStart, reputationManager.CurrentReputation);
+        }
+
+        if(isWitch)
         {
             //Start boss battle
             print("boss battle starts");

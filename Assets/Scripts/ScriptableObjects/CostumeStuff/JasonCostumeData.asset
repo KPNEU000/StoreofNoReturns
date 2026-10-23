@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: JasonCostumeData
   m_EditorClassIdentifier: Assembly-CSharp::CostumeScriptData
   costumeName: 
-  returnValue: 0
+  returnValue: 100
   costumeModel: {fileID: 0}
-  returnable: 0
+  dateOfPurchase: 
   reasons: 0000000003000000
+  computerViewSpriteFront: {fileID: 0}
+  computerViewSpriteBack: {fileID: 0}
+  accessories: 
