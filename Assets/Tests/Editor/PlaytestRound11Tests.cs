@@ -9,7 +9,7 @@ public class PlaytestRound11Tests
     public void RoundElevenTuning()
     {
         var s = new BossFightSettings();
-        Assert.AreEqual(25f, s.clothingHitCost); // round 12
+        Assert.AreEqual(50f, s.clothingHitCost); // 2026-10-23: doubled
         Assert.AreEqual(2f, s.waveNextDelaySeconds, 1e-5f); // final
         Assert.AreEqual(2.85f, s.slashReach, 1e-5f);
         Assert.AreEqual(0.25f, s.monsterAttackMoveFactor, 1e-5f);

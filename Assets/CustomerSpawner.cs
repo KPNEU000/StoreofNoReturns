@@ -188,15 +188,8 @@ public class CustomerSpawner : MonoBehaviour
                     $"Angered customers: {AngeredCustomerRegistry.Count}"
                 );
 
-                if (SceneLoadingManager.Instance != null)
-                {
-                    SceneLoadingManager.Instance.LoadSceneByName("Boss Scene");
-                }
-                else
-                {
-                    // Started from MainScene instead of the Title Screen: no SceneLoadingManager exists yet.
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("Boss Scene");
-                }
+                // The filtered shop frame fades into the HD fight (works with or without a SceneLoadingManager).
+                SceneCrossfade.Load("Boss Scene");
             }
         );
     }

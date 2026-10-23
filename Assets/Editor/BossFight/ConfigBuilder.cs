@@ -18,6 +18,7 @@ namespace BossFight.Editor
             "glassHudWidth", "glassHudHeight", "caveInChunkRestHeight",
             "invincibilitySeconds", "slashReach", "bookThrowIntervalSeconds", "slashArcDegrees",
             "flashlightInnerSpotAngle", "debugReputation", "debugStartMoney",
+            "monsterHitCostAtRep0", "monsterHitCostAtRep50",
         };
 
         // Creates the config asset with defaults, then writes the tuned values into it (new or existing).

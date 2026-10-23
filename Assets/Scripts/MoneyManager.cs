@@ -22,6 +22,7 @@ public class MoneyManager : MonoBehaviour
     CustomerScript customer;
     CustomerBehaviour customerBehaviour;
     CostumeScriptData costume;
+    FrontdeskTrigger frontdesk;
     int reputationAtInteractionStart;
 
     private float currentMoney;
@@ -127,9 +128,11 @@ public class MoneyManager : MonoBehaviour
 
     public void ReturnCostumeAction(bool confirmRefund)
     {
+        // Null once this customer's refund is decided: a second Yes/No click before "Close" used to charge
+        // again and spawn an extra customer.
         if (costume == null)
         {
-            Debug.LogWarning("No Costume assigned");
+            Debug.Log("Refund already decided (or no costume at the desk)");
             return;
         }
 
@@ -160,6 +163,10 @@ public class MoneyManager : MonoBehaviour
 
             customerBehaviour.Respond(false);
         }
+
+        costume = null;
+        if (frontdesk == null) frontdesk = FindFirstObjectByType<FrontdeskTrigger>();
+        if (frontdesk != null) frontdesk.ClearDisplay();
 
         bool isWitch =
             customerBehaviour.gameObject.name == "Witch";

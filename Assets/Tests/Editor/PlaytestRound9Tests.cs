@@ -31,9 +31,9 @@ public class PlaytestRound9Tests
     public void RoundNineTuning()
     {
         var s = new BossFightSettings();
-        Assert.AreEqual(25f, s.clothingHitCost); // round 12
-        Assert.AreEqual(65f, new ReputationScaling(s).MonsterHitCost(100f), 1e-4f);
-        Assert.AreEqual(75f, new ReputationScaling(s).MonsterHitCost(50f), 1e-4f);
+        Assert.AreEqual(50f, s.clothingHitCost); // 2026-10-23: doubled
+        Assert.AreEqual(130f, new ReputationScaling(s).MonsterHitCost(100f), 1e-4f); // 2026-10-23: doubled
+        Assert.AreEqual(150f, new ReputationScaling(s).MonsterHitCost(50f), 1e-4f);
         Assert.AreEqual(1.05f * s.clothingSpeedFactor, s.SlashMoveSpeedFactor, 1e-5f);
         Assert.AreEqual(6.5f, s.rackTelegraphSeconds, 1e-5f); // final
     }

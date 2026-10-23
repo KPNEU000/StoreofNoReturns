@@ -24,6 +24,7 @@ public static class ShopSceneTweaks
     [MenuItem("Boss Fight/Apply Shop Scene Tweaks")]
     public static void Run()
     {
+        TweakTitleScreen();
         TweakAssets();
         var scene = EditorSceneManager.OpenScene(MainScenePath, OpenSceneMode.Single);
         bool changed = false;
@@ -84,6 +85,32 @@ public static class ShopSceneTweaks
             EditorSceneManager.SaveScene(scene);
         }
         Debug.Log($"ShopSceneTweaks: {(changed ? "saved" : "no change")}");
+    }
+
+    // The title art and its Play/Quit buttons sit on "renderedCanvas", which used Constant Pixel Size: an 835x479 px
+    // picture, a small box on a large Game view (2026-10-23 playtest). Scaling with the screen fills it instead;
+    // the buttons scale with the picture, so clicks still line up.
+    private const string TitleScenePath = "Assets/Scenes/Scenes in Game/Title Screen.unity";
+    private static readonly Vector2 TitleReference = new Vector2(835f, 479f);
+
+    private static void TweakTitleScreen()
+    {
+        var scene = EditorSceneManager.OpenScene(TitleScenePath, OpenSceneMode.Single);
+        UnityEngine.UI.CanvasScaler scaler = null;
+        foreach (var root in scene.GetRootGameObjects())
+        {
+            if (root.name == "renderedCanvas") scaler = root.GetComponent<UnityEngine.UI.CanvasScaler>();
+        }
+        if (scaler == null) throw new System.InvalidOperationException("Title Screen has no renderedCanvas CanvasScaler");
+        if (scaler.uiScaleMode == UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize
+            && scaler.referenceResolution == TitleReference && Mathf.Approximately(scaler.matchWidthOrHeight, 0.5f)) return;
+        scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = TitleReference;
+        scaler.screenMatchMode = UnityEngine.UI.CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        scaler.matchWidthOrHeight = 0.5f;
+        EditorUtility.SetDirty(scaler);
+        EditorSceneManager.MarkSceneDirty(scene);
+        EditorSceneManager.SaveScene(scene);
     }
 
     private static void TweakAssets()

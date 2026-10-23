@@ -29,10 +29,11 @@ namespace BossFight
         public float strongFlickerIntervalScale = 0.5f;
 
         [Header("Economy: hits")]
-        public float clothingHitCost = 25f; // round 12
-        public float monsterHitCostAtRep0 = 100f;
-        public float monsterHitCostAtRep50 = 75f;
-        public float monsterHitCostAtRep100 = 65f; // round 9 (rep 50 stays 75, rep 0 stays 100)
+        // 2026-10-23 playtest: too easy, so clothing and monster hits cost double (was 25; 100/75/65).
+        public float clothingHitCost = 50f;
+        public float monsterHitCostAtRep0 = 200f;
+        public float monsterHitCostAtRep50 = 150f;
+        public float monsterHitCostAtRep100 = 130f;
         public float bookHitCost = 50f;
         // A falling ceiling chunk landing on the player: charged once per chunk, never while standing in it.
         public float debrisHitCost = 50f;

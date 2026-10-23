@@ -15,12 +15,13 @@ namespace BossFight.Editor
         internal const string HeartbeatName = "BossHeartbeat";
         internal const string ThemeName = "BossTheme";
 
-        // 2026-10-23 mix: a quiet heartbeat until the first hit on the Witch, then the boss theme. The old dark
-        // ambient loop (music_boss_loop, the MusicName object) was dropped: layered under the theme it sounded off.
+        // 2026-10-23 mix: the dark ambient loop (30%) and a quiet heartbeat until the first hit on the Witch, then
+        // the boss theme alone (layered under the theme, the ambient sounded off). Theme 25% up from 0.3.
         private static readonly (string name, string clip, float volume, float fade, bool startAfterHit, bool stopAtHit)[] MusicLayers =
         {
+            (MusicName, "music_boss_loop", 0.1125f, 0.75f, false, true),
             (HeartbeatName, "heartbeat_loop", 0.3f, 0.75f, false, true),
-            (ThemeName, "boss_music", 0.3f, 1.5f, true, false),
+            (ThemeName, "boss_music", 0.375f, 1.5f, true, false),
         };
 
         internal static AudioClip Clip(string name)
@@ -73,12 +74,6 @@ namespace BossFight.Editor
 
                 var director = BuilderUtil.FindInScene<BossDirector>(scene);
                 foreach (var layer in MusicLayers) changed |= EnsureMusic(scene, director, layer);
-                var ambient = BuilderUtil.FindByName(scene, MusicName);
-                if (ambient != null)
-                {
-                    Object.DestroyImmediate(ambient.gameObject);
-                    changed = true;
-                }
                 changed |= EnsurePlayerListener(scene);
 
                 if (changed) EditorSceneManager.MarkSceneDirty(scene);
@@ -228,7 +223,6 @@ namespace BossFight.Editor
                 var source = music != null ? music.GetComponent<AudioSource>() : null;
                 if (source == null || source.clip == null) errors.Add($"Sound: Boss Scene has no {layer.name} with a clip");
             }
-            if (BuilderUtil.FindByName(scene, MusicName) != null) errors.Add($"Sound: the dropped ambient layer {MusicName} is still in Boss Scene");
             var listeners = new List<AudioListener>();
             foreach (var root in scene.GetRootGameObjects()) listeners.AddRange(root.GetComponentsInChildren<AudioListener>(true));
             var enabled = listeners.FindAll(l => l.enabled && l.gameObject.activeInHierarchy);
