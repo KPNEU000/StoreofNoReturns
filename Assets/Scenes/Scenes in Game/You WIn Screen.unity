@@ -2026,7 +2026,8 @@ MonoBehaviour:
   - 'UI/UX: \n Josh Li, You Ning ..., Brandon Harris '
   - '2D Art: \n YouNing'
   - 'Lighting/VFX: \n Josh Li, Atilla Pauwels'
-  - 'Programming: \n Joel Bernardes, Josh Li, Enzo ..., Eshal Jahan, Atilla Pauwels'
+  - 'Programming: \n Joel Bernardes, Josh Li, Enzo Marcarian, Eshal Jahan, Atilla
+    Pauwels'
 --- !u!4 &714608679
 Transform:
   m_ObjectHideFlags: 0
@@ -5674,7 +5675,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -142.53235, y: 0, z: -129.24652, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

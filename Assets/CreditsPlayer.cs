@@ -26,7 +26,7 @@ public class CreditsPlayer : MonoBehaviour
         if(creditsIndex <= credits.Count - 1)
         creditsText.text = credits[creditsIndex];
         creditsIndex++;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.5f);
         print("next credit");
         StartCoroutine("NextCredits");
     }

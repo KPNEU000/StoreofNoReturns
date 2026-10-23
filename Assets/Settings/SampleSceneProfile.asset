@@ -65,7 +65,7 @@ MonoBehaviour:
   active: 0
   intensity:
     m_OverrideState: 1
-    m_Value: -0.046
+    m_Value: -0.83
   xMultiplier:
     m_OverrideState: 0
     m_Value: 1
@@ -118,10 +118,10 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.459
+    m_Value: 0.402
   smoothness:
-    m_OverrideState: 0
-    m_Value: 0.2
+    m_OverrideState: 1
+    m_Value: 0.601
   rounded:
     m_OverrideState: 0
     m_Value: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
     m_Value: 64
   baseHeight:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1.25
   maximumHeight:
     m_OverrideState: 1
     m_Value: 50
@@ -271,8 +271,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 2
   intensity:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 0.828
   response:
     m_OverrideState: 0
     m_Value: 1
