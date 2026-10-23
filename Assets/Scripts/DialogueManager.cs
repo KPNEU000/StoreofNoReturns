@@ -24,6 +24,9 @@ public class DialogueManager : MonoBehaviour
     private bool awaitingDecision = false;
     private bool showingDecisionResponse = false;
 
+    private bool isCutscene = false;
+    private System.Action onCutsceneFinished;
+
     private void Start()
     {
         dialoguePanel.SetActive(false);
@@ -31,6 +34,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Ink.UnityIntegration.InkFile customerInkFile)
     {
+        isCutscene = false;
         if (customerInkFile == null ||
             dialoguePanel == null ||
             dialogueText == null ||
@@ -45,6 +49,31 @@ public class DialogueManager : MonoBehaviour
 
         story = new Story(customerInkFile.storyJson);
 
+        awaitingDecision = false;
+        showingDecisionResponse = false;
+
+        OpenDialoguePanel();
+        ContinueStory();
+    }
+
+    public void StartCutscene(
+        Ink.UnityIntegration.InkFile cutsceneInkFile,
+        System.Action onFinished = null)
+    {
+        if (cutsceneInkFile == null ||
+            dialoguePanel == null ||
+            dialogueText == null ||
+            choicesContainer == null ||
+            choiceButtonPrefab == null)
+        {
+            Debug.LogError("Cutscene is missing references.");
+            return;
+        }
+
+        story = new Story(cutsceneInkFile.storyJson);
+
+        isCutscene = true;
+        onCutsceneFinished = onFinished;
         awaitingDecision = false;
         showingDecisionResponse = false;
 
@@ -94,14 +123,19 @@ public class DialogueManager : MonoBehaviour
                 }
                 else
                 {
-                    AddActionButton(
-                        showingDecisionResponse
-                            ? "Close"
-                            : "Finish",
-                        showingDecisionResponse
-                            ? EndCustomerInteraction
-                            : FinishQuestioning
-                    );
+                    if (isCutscene)
+                    {
+                        AddActionButton("Continue", EndCutscene);
+                    }
+                    else
+                    {
+                        AddActionButton(
+                            showingDecisionResponse ? "Close" : "Finish",
+                            showingDecisionResponse
+                                ? EndCustomerInteraction
+                                : FinishQuestioning
+                        );
+                    }
                 }
 
                 return;
@@ -111,6 +145,10 @@ public class DialogueManager : MonoBehaviour
         if (story.currentChoices.Count > 0)
         {
             DisplayChoices();
+        }
+        else if (isCutscene)
+        {
+            EndCutscene();
         }
         else if (showingDecisionResponse)
         {
@@ -268,5 +306,19 @@ public class DialogueManager : MonoBehaviour
         }
 
         Debug.Log("Customer interaction complete.");
+    }
+
+    private void EndCutscene()
+    {
+        ClearChoices();
+        dialoguePanel.SetActive(false);
+
+        story = null;
+        isCutscene = false;
+
+        var callback = onCutsceneFinished;
+        onCutsceneFinished = null;
+
+        callback?.Invoke();
     }
 }
