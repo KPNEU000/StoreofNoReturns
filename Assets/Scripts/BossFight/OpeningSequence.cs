@@ -112,6 +112,9 @@ namespace BossFight
             // The sword is handed over during the tutorial; the flashlight is always held.
             if (swordObject != null) swordObject.SetActive(false);
             if (monitorGlass != null) monitorGlass.gameObject.SetActive(false);
+            // The Witch only appears when she walks up to the counter.
+            var hiddenWitch = witch != null ? witch.GetComponent<WitchBoss>() : null;
+            if (hiddenWitch != null) hiddenWitch.SetPresent(false);
         }
 
         private void OnEnable()
@@ -227,7 +230,11 @@ namespace BossFight
             rig = FindFirstObjectByType<BossFightRig>();
             witchBoss = witch != null ? witch.GetComponent<WitchBoss>() : null;
             // Unshielded through the tutorial so the player can land the first hit on her.
-            if (witchBoss != null) witchBoss.SetShield(false);
+            if (witchBoss != null)
+            {
+                witchBoss.SetPresent(true);
+                witchBoss.SetShield(false);
+            }
             BringWitchToCounter();
         }
 

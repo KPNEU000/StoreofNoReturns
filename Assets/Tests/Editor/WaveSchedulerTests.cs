@@ -33,18 +33,18 @@ public class WaveSchedulerTests
     }
 
     [Test]
-    public void NextRackWaitsForThreeQuartersOfTheWaveThenTheDelay()
+    public void NextRackWaitsForMostOfTheWaveThenTheDelay()
     {
         var s = new WaveScheduler(settings, 100);
         Tick(s, settings.waveFirstDelaySeconds + 0.1f, 0);
         int size = Tick(s, settings.rackTelegraphSeconds + 0.1f, 0).Value.Count; // 6
-        Assert.IsNull(Tick(s, 1f, size), "nobody died: no countdown (well under the stall time)");
+        Assert.IsNull(Tick(s, 1f, size), "nobody died: no countdown");
         Assert.IsNull(Tick(s, 1f, 3), "one dead is not enough");
         Assert.AreEqual(WaveScheduler.Stage.WaitingForClear, s.Current);
-        Assert.IsNull(Tick(s, 0f, 1), "three quarters dead starts the countdown");
+        Assert.IsNull(Tick(s, 0f, 0), "the whole wave (4 at rep 100; 5/6 rounds up to all 4) starts the countdown");
         Assert.AreEqual(WaveScheduler.Stage.Countdown, s.Current);
-        Assert.IsNull(Tick(s, settings.waveNextDelaySeconds - 0.1f, 1));
-        Assert.AreEqual(WaveScheduler.WaveEvent.Telegraph, Tick(s, 0.2f, 1).Value.Event);
+        Assert.IsNull(Tick(s, settings.waveNextDelaySeconds - 0.1f, 0));
+        Assert.AreEqual(WaveScheduler.WaveEvent.Telegraph, Tick(s, 0.2f, 0).Value.Event);
     }
 
     [TestCase(6, 6, false)]

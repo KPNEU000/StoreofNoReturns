@@ -84,9 +84,20 @@ namespace BossFight
             if (director != null) director.PhaseChanged -= OnPhaseChanged;
         }
 
+        // Round 10: before the opening she is not in the store at all (her shield glowing by the door gave her away).
+        private bool absent;
+
+        public void SetPresent(bool present)
+        {
+            absent = !present;
+            foreach (var r in GetComponentsInChildren<Renderer>(true)) r.enabled = present;
+            foreach (var c in GetComponents<Collider>()) c.enabled = present;
+            if (!present && shield != null) shield.SetActive(false);
+        }
+
         private void Start()
         {
-            if (shield != null) shield.SetActive(true);
+            if (shield != null && !absent) shield.SetActive(true);
             ApplyShieldTexture();
             Idle();
         }

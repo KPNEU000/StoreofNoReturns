@@ -27,7 +27,7 @@ MonoBehaviour:
     flickerDipSecondsMin: 0.06
     flickerDipSecondsMax: 0.18
     strongFlickerIntervalScale: 0.5
-    clothingHitCost: 20
+    clothingHitCost: 25
     monsterHitCostAtRep0: 100
     monsterHitCostAtRep50: 75
     monsterHitCostAtRep100: 65
@@ -62,10 +62,10 @@ MonoBehaviour:
     waveMinCostumes: 4
     waveMaxCostumes: 6
     waveFirstDelaySeconds: 3
-    waveNextDelaySeconds: 5
+    waveNextDelaySeconds: 4
     waveStallSeconds: 6
-    waveClearFraction: 0.75
-    rackTelegraphSeconds: 2.2
+    waveClearFraction: 0.8333333
+    rackTelegraphSeconds: 4.5
     rackLiftMeters: 0.8
     waveRingMinRadius: 1.4
     waveRingMaxRadius: 2.6
@@ -74,7 +74,9 @@ MonoBehaviour:
     swarmMultiplierAtRep0: 2
     clothingDoubleHpReputation: 15
     waveMaxPerRack: 6
-    maxClothingAlive: 8
+    waveLanes: 2
+    waveLaneStaggerSeconds: 4
+    maxClothingAlive: 14
     rackFadeSeconds: 1
     clothPinBand: 0.15
     clothFreeDistance: 0.35

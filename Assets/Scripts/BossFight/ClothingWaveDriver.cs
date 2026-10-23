@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace BossFight
 {
-    // While the fight is in Phase1/Phase2: a rack shakes (telegraph), releases a ring of its costumes, and the next
-    // rack starts shaking a few seconds after most of that wave is dead. Wave size scales with reputation.
+    // While the fight is in Phase1/Phase2, runs waveLanes independent rack cycles (round 10: two racks always in
+    // play). In each lane a rack shakes (telegraph), releases a ring of its costumes, and the lane's next rack
+    // starts once most of that wave is dead. Wave size scales with reputation.
     public class ClothingWaveDriver : MonoBehaviour
     {
         [SerializeField]
@@ -17,15 +18,21 @@ namespace BossFight
         [SerializeField]
         private BossFightRig rig;
 
+        private class Lane
+        {
+            public WaveScheduler scheduler;
+            public PossessableRack shaking;
+            public Vector3 reuseSpot;
+            public GameObject[] reuseGarments;
+            public readonly List<PossessedClothing> wave = new List<PossessedClothing>();
+        }
+
         private BossFightSettings settings;
-        private WaveScheduler scheduler;
+        private readonly List<Lane> lanes = new List<Lane>();
         private float hpMultiplier = 1f;
         private readonly List<PossessableRack> racks = new List<PossessableRack>();
-        private readonly List<PossessedClothing> lastWave = new List<PossessedClothing>();
-        private PossessableRack shaking;
-        private Vector3 reuseSpot;
-        private ReputationManager reputation;
         private int reuseIndex;
+        private ReputationManager reputation;
 
         private void Awake()
         {
@@ -42,35 +49,45 @@ namespace BossFight
             if (director == null || spawner == null) return;
             var phase = director.Phase;
             if (phase == BossPhase.Intro) return;
-            if (scheduler == null)
-            {
-                // Reputation is read once, when the fight starts.
-                int rep = reputation != null ? reputation.CurrentReputation : 50;
-                scheduler = new WaveScheduler(settings, rep);
-                hpMultiplier = WaveScheduler.ClothingHpMultiplier(settings, rep);
-            }
+            if (lanes.Count == 0) StartLanes();
             if (phase == BossPhase.Won || phase == BossPhase.Lost)
             {
-                scheduler.Stop();
+                foreach (var lane in lanes) lane.scheduler.Stop();
                 return;
             }
 
-            var wave = scheduler.Tick(Time.deltaTime, LastWaveAlive(), spawner.AliveCount, spawner.Cap, CountFresh());
-            if (wave == null) return;
-            if (wave.Value.Event == WaveScheduler.WaveEvent.Telegraph) StartTelegraph(wave.Value.FreshRack);
-            else if (wave.Value.Event == WaveScheduler.WaveEvent.Release) ReleaseWave(wave.Value.Count);
+            foreach (var lane in lanes)
+            {
+                var wave = lane.scheduler.Tick(Time.deltaTime, Alive(lane.wave), spawner.AliveCount, spawner.Cap, CountFresh());
+                if (wave == null) continue;
+                if (wave.Value.Event == WaveScheduler.WaveEvent.Telegraph) StartTelegraph(lane, wave.Value.FreshRack);
+                else if (wave.Value.Event == WaveScheduler.WaveEvent.Release) ReleaseWave(lane, wave.Value.Count);
+            }
         }
 
-        private void StartTelegraph(bool fresh)
+        // Reputation is read once, when the fight starts; each lane starts waveLaneStaggerSeconds after the last.
+        private void StartLanes()
         {
-            shaking = null;
+            int rep = reputation != null ? reputation.CurrentReputation : 50;
+            hpMultiplier = WaveScheduler.ClothingHpMultiplier(settings, rep);
+            int count = Mathf.Max(1, settings.waveLanes);
+            for (int i = 0; i < count; i++)
+            {
+                float delay = settings.waveFirstDelaySeconds + i * settings.waveLaneStaggerSeconds;
+                lanes.Add(new Lane { scheduler = new WaveScheduler(settings, rep, delay) });
+            }
+        }
+
+        private void StartTelegraph(Lane lane, bool fresh)
+        {
+            lane.shaking = null;
             if (fresh)
             {
                 var candidates = racks.FindAll(r => r != null && !r.IsPossessed);
                 if (candidates.Count > 0)
                 {
-                    shaking = candidates[Random.Range(0, candidates.Count)];
-                    shaking.BeginTelegraph(settings.rackTelegraphSeconds);
+                    lane.shaking = candidates[Random.Range(0, candidates.Count)];
+                    lane.shaking.BeginTelegraph(settings.rackTelegraphSeconds);
                     return;
                 }
             }
@@ -78,26 +95,26 @@ namespace BossFight
             if (racks.Count == 0) return;
             reuseIndex = (reuseIndex + 1) % racks.Count;
             var spot = racks[reuseIndex];
-            reuseSpot = spot != null ? spot.ReleasePoint : transform.position;
+            lane.reuseSpot = spot != null ? spot.ReleasePoint : transform.position;
+            lane.reuseGarments = spot != null ? spot.Garments : null;
         }
 
-        private void ReleaseWave(int count)
+        private void ReleaseWave(Lane lane, int count)
         {
-            lastWave.Clear();
-            if (shaking != null)
+            lane.wave.Clear();
+            if (lane.shaking != null)
             {
-                lastWave.AddRange(shaking.Release(spawner, count, hpMultiplier, RebuildNavMesh));
-                shaking = null;
+                lane.wave.AddRange(lane.shaking.Release(spawner, count, hpMultiplier, RebuildNavMesh));
+                lane.shaking = null;
                 return;
             }
-            var garments = racks.Count > 0 && racks[reuseIndex] != null ? racks[reuseIndex].Garments : null;
-            lastWave.AddRange(spawner.SpawnRing(reuseSpot, count, garments, settings.waveRingMinRadius, settings.waveRingMaxRadius, hpMultiplier));
+            lane.wave.AddRange(spawner.SpawnRing(lane.reuseSpot, count, lane.reuseGarments, settings.waveRingMinRadius, settings.waveRingMaxRadius, hpMultiplier));
         }
 
-        private int LastWaveAlive()
+        private static int Alive(List<PossessedClothing> wave)
         {
             int n = 0;
-            foreach (var c in lastWave) if (c != null && c.IsAlive) n++;
+            foreach (var c in wave) if (c != null && c.IsAlive) n++;
             return n;
         }
 

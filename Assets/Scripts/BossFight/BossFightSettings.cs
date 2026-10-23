@@ -29,7 +29,7 @@ namespace BossFight
         public float strongFlickerIntervalScale = 0.5f;
 
         [Header("Economy: hits")]
-        public float clothingHitCost = 20f; // round 9
+        public float clothingHitCost = 25f; // back to 25 in round 10
         public float monsterHitCostAtRep0 = 100f;
         public float monsterHitCostAtRep50 = 75f;
         public float monsterHitCostAtRep100 = 65f; // round 9 (rep 50 stays 75, rep 0 stays 100)
@@ -81,12 +81,12 @@ namespace BossFight
         // Round 6 waves: a rack shakes (telegraph), releases a ring of costumes, and the next rack starts shaking
         // waveNextDelaySeconds after waveClearFraction of that wave is dead.
         public float waveFirstDelaySeconds = 3f;
-        public float waveNextDelaySeconds = 6f; // playtest round 7 (was 5)
+        public float waveNextDelaySeconds = 4f; // round 10 (was 6)
         // Safety net (round 8): if nothing from the current wave dies for this long, the next rack starts anyway
         // and the old wave stays alive (covers costumes stuck somewhere unreachable).
         public float waveStallSeconds = 6f; // unused since round 9 (removed: it stacked waves into a flood)
-        [Range(0f, 1f)] public float waveClearFraction = 4f / 6f; // round 9: the next rack once 4 of 6 are dead
-        public float rackTelegraphSeconds = 3.9f; // round 9: 30% longer (was 3)
+        [Range(0f, 1f)] public float waveClearFraction = 5f / 6f; // round 10: a lane brings its next rack once 5 of 6 are dead
+        public float rackTelegraphSeconds = 4.5f; // round 10
         public float rackLiftMeters = 1.6f; // unused since round 8: the lift clears the neighbouring racks (RackLift)
         public float waveRingMinRadius = 1.4f;
         public float waveRingMaxRadius = 2.6f;
@@ -98,7 +98,11 @@ namespace BossFight
         public int clothingDoubleHpReputation = 15;
         // Round 9: no rack ever releases more than this, whatever the reputation.
         public int waveMaxPerRack = 6;
-        public int maxClothingAlive = 8; // round 9: at most 2 left over plus a fresh 6
+        // Round 10: two racks are always in play. Each lane runs its own rack cycle; the second starts this long
+        // after the first.
+        public int waveLanes = 2;
+        public float waveLaneStaggerSeconds = 4f;
+        public int maxClothingAlive = 14; // round 10: two lanes of 6, plus one leftover each
         public float rackFadeSeconds = 1f;
 
         // Kept light for 15 alive: <= 400 welded particles per garment (baked by GarmentClothBuilder; delete the

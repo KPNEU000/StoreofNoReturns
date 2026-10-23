@@ -14,7 +14,7 @@ namespace BossFight.Editor
             "flashlightFullIntensity", "flashlightRange", "flashlightSpotAngle", "monsterBaseHp", "monsterWindupSeconds",
             "monsterAttackReach", "monsterAttackCooldownSeconds",
             "outsideLightIntensity", "blackoutEnvironmentFactor",
-            "bookScale", "bookTelegraphSeconds", "witchHoverHeight", "caveInChunkRadius", "bookFlightSpeed", "clothingHitCost", "monsterHitCostAtRep100", "maxClothingAlive",
+            "bookScale", "bookTelegraphSeconds", "witchHoverHeight", "caveInChunkRadius", "bookFlightSpeed", "clothingHitCost", "monsterHitCostAtRep100", "maxClothingAlive", "waveNextDelaySeconds", "waveClearFraction", "rackTelegraphSeconds",
             "glassHudWidth", "glassHudHeight", "caveInChunkRestHeight",
             "invincibilitySeconds", "slashReach", "bookThrowIntervalSeconds", "slashArcDegrees",
             "flashlightInnerSpotAngle",

@@ -40,11 +40,16 @@ namespace BossFight.Rules
         public Stage Current { get; private set; } = Stage.Countdown;
         public bool Stopped { get; private set; }
 
-        public WaveScheduler(BossFightSettings settings, int reputation)
+        public WaveScheduler(BossFightSettings settings, int reputation) : this(settings, reputation, settings.waveFirstDelaySeconds)
+        {
+        }
+
+        // `firstDelay`: seconds before this lane's first rack starts shaking (the second lane starts later).
+        public WaveScheduler(BossFightSettings settings, int reputation, float firstDelay)
         {
             this.settings = settings;
             plannedCount = Math.Min(SwarmSize(settings, reputation), Math.Max(1, settings.waveMaxPerRack));
-            timer = settings.waveFirstDelaySeconds;
+            timer = firstDelay;
         }
 
         public void Stop()
