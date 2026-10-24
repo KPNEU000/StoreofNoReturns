@@ -30,6 +30,18 @@ public class FrontdeskTrigger : MonoBehaviour
 
     }
 
+    // Blanks the computer once the refund is decided, so the same item can't be refunded again.
+    public void ClearDisplay()
+    {
+        if (frontSprite != null) frontSprite.enabled = false;
+        if (backSprite != null) backSprite.enabled = false;
+        if (dopText != null) dopText.text = "";
+        if (nameText != null) nameText.text = "";
+        if (accessoriesText != null) accessoriesText.text = "";
+        if (priceText != null) priceText.text = "";
+        if (inspectCostume != null) inspectCostume.setActiveCostume("");
+    }
+
     void OnTriggerEnter(Collider col)
     {
         if (col.GetComponent<CustomerBehaviour>() != null &&
@@ -67,6 +79,8 @@ public class FrontdeskTrigger : MonoBehaviour
 
             frontSprite.sprite = data.getFrontSprite();
             backSprite.sprite = data.getBackSprite();
+            frontSprite.enabled = true;
+            backSprite.enabled = true;
             dopText.text = data.getDateofPurchase();
             nameText.text = "Name: " + data.getName();
             accessoriesText.text = "Accessories: \n" + data.getAccessories();

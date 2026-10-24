@@ -12,13 +12,14 @@ public class HitCostTests
         cost = new HitCost(new BossFightSettings());
     }
 
-    [TestCase(HitKind.Clothing, 100f, 25f)]
-    [TestCase(HitKind.Clothing, 0f, 25f)]
+    // 2026-10-23 playtest: clothing and monster hits doubled.
+    [TestCase(HitKind.Clothing, 100f, 50f)]
+    [TestCase(HitKind.Clothing, 0f, 50f)]
     [TestCase(HitKind.Book, 100f, 50f)]
     [TestCase(HitKind.Book, 0f, 50f)]
-    [TestCase(HitKind.Monster, 0f, 100f)]
-    [TestCase(HitKind.Monster, 50f, 75f)]
-    [TestCase(HitKind.Monster, 100f, 65f)]
+    [TestCase(HitKind.Monster, 0f, 200f)]
+    [TestCase(HitKind.Monster, 50f, 150f)]
+    [TestCase(HitKind.Monster, 100f, 130f)]
     public void CostByKindAndReputation(HitKind kind, float reputation, float expected)
     {
         Assert.AreEqual(expected, cost.For(kind, reputation), 1e-4f);

@@ -506,6 +506,7 @@ MonoBehaviour:
   lineIndex: 0
   remainingDistance: 0
   velocity: 0
+  footstepInterval: 0.7
   done: 0
 --- !u!54 &6556840543701412746
 Rigidbody:
@@ -550,5 +551,6 @@ MonoBehaviour:
   customerCostume: {fileID: 11400000, guid: d4bf3fd03f661af4ebb4412f50f86e2c, type: 2}
   dialogue:
   - Yo
+  inkFile: {fileID: 0}
   genuineReason: 0
-  wrongReasonAmount: -2
+  wrongReasonAmount: -4

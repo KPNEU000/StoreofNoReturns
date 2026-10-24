@@ -28,15 +28,10 @@ public class TimeManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        // Each scene keeps its own Game Manager. This object also holds MoneyManager and ReputationManager, and
+        // keeping MainScene's alive (DontDestroyOnLoad) destroyed Boss Scene's copy, which the boss fight uses.
+        // MainScene values reach the fight through BossRunState instead.
+        Instance = this;
     }
 
     void Start()
@@ -114,8 +109,8 @@ public class TimeManager : MonoBehaviour
             shopClosed = true;
             if (customerSpawner != null) customerSpawner.WitchComes();
             // Boss Scene has no SceneLoadingManager; don't throw there.
-            var sceneLoader = FindFirstObjectByType<SceneLoadingManager>();
-            if (sceneLoader != null) sceneLoader.GoToNextScene();
+            // var sceneLoader = FindFirstObjectByType<SceneLoadingManager>();
+            // if (sceneLoader != null) sceneLoader.GoToNextScene();
             //perform end of game boss battle thing
         }
     }

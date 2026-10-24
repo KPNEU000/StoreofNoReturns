@@ -29,10 +29,11 @@ namespace BossFight
         public float strongFlickerIntervalScale = 0.5f;
 
         [Header("Economy: hits")]
-        public float clothingHitCost = 25f; // round 12
-        public float monsterHitCostAtRep0 = 100f;
-        public float monsterHitCostAtRep50 = 75f;
-        public float monsterHitCostAtRep100 = 65f; // round 9 (rep 50 stays 75, rep 0 stays 100)
+        // 2026-10-23 playtest: too easy, so clothing and monster hits cost double (was 25; 100/75/65).
+        public float clothingHitCost = 50f;
+        public float monsterHitCostAtRep0 = 200f;
+        public float monsterHitCostAtRep50 = 150f;
+        public float monsterHitCostAtRep100 = 130f;
         public float bookHitCost = 50f;
         // A falling ceiling chunk landing on the player: charged once per chunk, never while standing in it.
         public float debrisHitCost = 50f;
@@ -203,8 +204,8 @@ namespace BossFight
         public float openingWitchReturnSeconds = 1.2f;
 
         [Header("Debug (P = jump to boss start)")]
-        public float debugStartMoney = 600f;
-        public int debugReputation = 50;
+        public float debugStartMoney = 800f; // 2026-10-23: between the shop's worst ($550) and perfect ($1050) results
+        public int debugReputation = 50; // 2026-10-23: MainScene's starting reputation
         public int debugAngeredCustomers = 3;
         public float debugLoseMoneyLarge = 100f;
         public float debugLoseMoneySmall = 25f;

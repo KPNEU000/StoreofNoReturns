@@ -25,9 +25,11 @@ namespace BossFight.Editor
         public const string ShatterMaterial = BossFightPaths.SettingsFolder + "/WitchShatter.mat";
         private const float WitchDepthInside = 1.5f;
         private const float WitchLaneMargin = 0.75f;
-        // Dome proportions: it must enclose the Witch's capsule, so it is taller than she is and wider than her radius.
-        private const float DomeHeightFactor = 1.15f;
-        private const float DomeRadiusFactor = 2.2f;
+        // The team's shield (2026-10-23, strongpizzaboy): a slab mesh posed in the Witch's local space.
+        public const string ShieldMesh = "Assets/Models/Cube.mesh";
+        internal static readonly Vector3 ShieldLocalPosition = new Vector3(0f, 1.31f, 0f);
+        internal static readonly Quaternion ShieldLocalRotation = Quaternion.Euler(90f, 0f, 0f);
+        internal static readonly Vector3 ShieldLocalScale = new Vector3(80f, 1f, 150f);
         public const float LaneHalfWidth = 0.5f;
         private static readonly Color ShieldColor = new Color(0.6f, 0.2f, 1f, 0.3f);
         private static readonly Color ShatterColor = new Color(0.75f, 0.35f, 1f, 0.9f);
@@ -75,6 +77,7 @@ namespace BossFight.Editor
                 var witch = EnsureWitch(boss.Scene, witchPrefab, door, player, ref changed);
                 var shield = EnsureShield(witch, shieldMat, ref changed);
                 PlaceWitch(witch, shield, door, player, ref changed);
+                changed |= FaceShieldToPlayer(shield, player);
                 var burst = EnsureShatter(witch, shield.transform, shatterMat, ref changed);
                 changed |= PlaceShatter(witch, shield.transform, burst);
                 var hud = EnsureHud(boss.Scene, ref changed, out var moneyText, out var objectiveText);
@@ -166,6 +169,20 @@ namespace BossFight.Editor
                 {
                     errors.Add($"Boss Scene {ShieldName} must not have a collider");
                 }
+                var facing = shield != null ? shield.GetComponent<ShieldFacesPlayer>() : null;
+                if (shield != null && facing == null)
+                {
+                    errors.Add($"Boss Scene {ShieldName} has no ShieldFacesPlayer");
+                }
+                else if (facing != null)
+                {
+                    BuilderUtil.RequireFields(facing, new[] { "player" }, errors);
+                }
+                var shieldFilter = shield != null ? shield.GetComponent<MeshFilter>() : null;
+                if (shieldFilter != null && shieldFilter.sharedMesh != AssetDatabase.LoadAssetAtPath<Mesh>(ShieldMesh))
+                {
+                    errors.Add($"Boss Scene {ShieldName} must use {ShieldMesh}");
+                }
                 var door = BuilderUtil.FindByName(scene, DoorName);
                 if (door == null)
                 {
@@ -242,18 +259,33 @@ namespace BossFight.Editor
             radius = capsule != null ? capsule.radius * Mathf.Max(scale.x, scale.z) : 0.5f;
         }
 
-        // Dome radius and height for a Witch standing in the scene.
-        private static void DomeSize(WitchBoss witch, out float radius, out float height)
+        // World horizontal radius and top height of the shield, from its mesh bounds and its pose on the Witch.
+        private static void ShieldSize(WitchBoss witch, out float radius, out float height)
         {
-            Footprint(witch, out var worldRadius, out var worldHeight);
-            radius = worldRadius * DomeRadiusFactor;
-            height = worldHeight * DomeHeightFactor;
+            var bounds = LoadShieldMesh().bounds;
+            var scale = witch.transform.lossyScale;
+            radius = 0f;
+            height = 0f;
+            for (int i = 0; i < 8; i++)
+            {
+                var corner = bounds.center + Vector3.Scale(bounds.extents, new Vector3((i & 1) == 0 ? -1f : 1f, (i & 2) == 0 ? -1f : 1f, (i & 4) == 0 ? -1f : 1f));
+                var p = Vector3.Scale(scale, ShieldLocalPosition + ShieldLocalRotation * Vector3.Scale(ShieldLocalScale, corner));
+                radius = Mathf.Max(radius, Mathf.Abs(p.x), Mathf.Abs(p.z));
+                height = Mathf.Max(height, p.y);
+            }
+        }
+
+        private static Mesh LoadShieldMesh()
+        {
+            var mesh = AssetDatabase.LoadAssetAtPath<Mesh>(ShieldMesh);
+            if (mesh == null) throw new System.InvalidOperationException($"Witch shield mesh missing: {ShieldMesh}");
+            return mesh;
         }
 
         // On the floor beside the entrance, clear of the doorway lane, facing the player. Re-applied every build.
         private static void PlaceWitch(WitchBoss witch, GameObject shield, Transform door, PlayerMovement player, ref bool changed)
         {
-            DomeSize(witch, out var domeRadius, out _);
+            ShieldSize(witch, out var domeRadius, out _);
             var bounds = OpeningBuilder.DoorBounds(door);
             var doorCenter = bounds.center;
             doorCenter.y = BuilderUtil.PlayerFloorY(player);
@@ -271,7 +303,7 @@ namespace BossFight.Editor
             changed |= FitShield(witch, shield.transform);
         }
 
-        // Dome resting on the floor: a sphere centred on the Witch's feet, so only its upper half shows above the floor.
+        // Created from a primitive for its renderer; FitShield swaps in the team's mesh and pose.
         private static GameObject EnsureShield(WitchBoss witch, Material material, ref bool changed)
         {
             var existing = witch.transform.Find(ShieldName);
@@ -294,17 +326,45 @@ namespace BossFight.Editor
 
         private static bool FitShield(WitchBoss witch, Transform shield)
         {
-            DomeSize(witch, out var radius, out var height);
-            var scale = witch.transform.lossyScale;
-            var localScale = new Vector3(radius * 2f / scale.x, height * 2f / scale.y, radius * 2f / scale.z);
-            if (shield.localPosition == Vector3.zero && (shield.localScale - localScale).sqrMagnitude < 1e-8f)
+            var mesh = LoadShieldMesh();
+            var filter = shield.GetComponent<MeshFilter>();
+            bool changed = false;
+            if (filter.sharedMesh != mesh)
             {
-                return false;
+                filter.sharedMesh = mesh;
+                changed = true;
             }
-            shield.localPosition = Vector3.zero;
-            shield.localRotation = Quaternion.identity;
-            shield.localScale = localScale;
-            return true;
+            if ((shield.localPosition - ShieldLocalPosition).sqrMagnitude > 1e-8f
+                || Quaternion.Angle(shield.localRotation, ShieldLocalRotation) > 0.01f
+                || (shield.localScale - ShieldLocalScale).sqrMagnitude > 1e-8f)
+            {
+                shield.localPosition = ShieldLocalPosition;
+                shield.localRotation = ShieldLocalRotation;
+                shield.localScale = ShieldLocalScale;
+                changed = true;
+            }
+            return changed;
+        }
+
+        private static bool FaceShieldToPlayer(GameObject shield, PlayerMovement player)
+        {
+            bool changed = false;
+            var facing = shield.GetComponent<ShieldFacesPlayer>();
+            if (facing == null)
+            {
+                facing = shield.AddComponent<ShieldFacesPlayer>();
+                changed = true;
+            }
+            var so = new SerializedObject(facing);
+            changed |= BuilderUtil.SetReference(so, "player", player.transform);
+            var rest = so.FindProperty("restRotation");
+            if (Quaternion.Angle(rest.quaternionValue, ShieldLocalRotation) > 0.01f)
+            {
+                rest.quaternionValue = ShieldLocalRotation;
+                changed = true;
+            }
+            changed |= so.ApplyModifiedPropertiesWithoutUndo();
+            return changed;
         }
 
         private static ParticleSystem EnsureShatter(WitchBoss witch, Transform shield, Material material, ref bool changed)
@@ -343,10 +403,10 @@ namespace BossFight.Editor
             return ps;
         }
 
-        // Burst sits at the dome's centre of mass (half the dome height up) and spans the dome radius.
+        // Burst sits half the shield's height up and spans the shield's radius.
         private static bool PlaceShatter(WitchBoss witch, Transform shield, ParticleSystem burst)
         {
-            DomeSize(witch, out var radius, out var height);
+            ShieldSize(witch, out var radius, out var height);
             var scale = witch.transform.lossyScale;
             var local = new Vector3(0f, height * 0.5f / scale.y, 0f);
             var shape = burst.shape;
@@ -396,7 +456,7 @@ namespace BossFight.Editor
             rect.anchoredPosition = offset;
             rect.sizeDelta = new Vector2(900f, size * 1.4f);
             var label = go.AddComponent<TextMeshProUGUI>();
-            label.font = TMP_Settings.defaultFontAsset;
+            label.font = FontBuilder.Load();
             label.fontSize = size;
             label.alignment = TextAlignmentOptions.TopRight;
             label.color = Color.white;

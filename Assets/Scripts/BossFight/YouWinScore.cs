@@ -3,8 +3,9 @@ using UnityEngine.SceneManagement;
 
 namespace BossFight
 {
-    // Shows the result overlay in the You Win and Game Over scenes (stars, money left or the Witch's line), so the
-    // scene files themselves are never edited and the player never lands in an empty void.
+    // Shows the result overlay in the You Win scene (stars, money left), so the scene file itself is never edited
+    // and the player never lands in an empty void. The Game Over scene has the team's own GAME OVER screen
+    // (2026-10-23: a second "You Lost" on top of it was confusing), so there it only frees the mouse for its buttons.
     public class YouWinScore : MonoBehaviour
     {
         public const string GameOverSceneName = "Game Over Screen";
@@ -32,7 +33,11 @@ namespace BossFight
 
         private void Awake()
         {
-            if (lost) WinOverlay.ShowLost(RunScore.Reputation);
+            if (lost)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
             else WinOverlay.Show(RunScore.Value, RunScore.Reputation);
         }
     }

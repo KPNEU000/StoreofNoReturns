@@ -9,6 +9,7 @@ public static class StoreofNoReturnsSfx
 {
     private const string MainSoundBank = "StoreofNoReturns_Main.bnk";
     private static bool mainSoundBankRequested;
+    private static bool mainSoundBankMissing;
     public const string CustomerExcited = "PLAY_CUSTOMER_EXCITED";
     public const string CustomerDisappointed = "PLAY_CUSTOMER_DISSAPOINTED";
     public const string CustomerArrive = "PLAY_CUSTOMER_ARRIVE";
@@ -43,6 +44,7 @@ public static class StoreofNoReturnsSfx
         if (emitter != null)
         {
             EnsureMainSoundBankLoaded();
+            if (mainSoundBankMissing) return;
             AkUnitySoundEngine.PostEvent(eventName, emitter);
         }
     }
@@ -54,7 +56,15 @@ public static class StoreofNoReturnsSfx
             return;
         }
 
-        AkBankManager.LoadBank(MainSoundBank, false, false);
         mainSoundBankRequested = true;
+        // The generated soundbanks aren't in the repo yet (2026-10-23); without this check every run logged
+        // "Bank StoreofNoReturns_Main.bnk failed to load (AK_FileNotFound)". Commit the banks to bring sound back.
+        string basePath = AkBasePathGetter.Get().SoundBankBasePath;
+        if (string.IsNullOrEmpty(basePath) || !System.IO.File.Exists(System.IO.Path.Combine(basePath, MainSoundBank)))
+        {
+            mainSoundBankMissing = true;
+            return;
+        }
+        AkBankManager.LoadBank(MainSoundBank, false, false);
     }
 }

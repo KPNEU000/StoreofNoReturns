@@ -27,10 +27,10 @@ MonoBehaviour:
     flickerDipSecondsMin: 0.06
     flickerDipSecondsMax: 0.18
     strongFlickerIntervalScale: 0.5
-    clothingHitCost: 25
-    monsterHitCostAtRep0: 100
-    monsterHitCostAtRep50: 75
-    monsterHitCostAtRep100: 65
+    clothingHitCost: 50
+    monsterHitCostAtRep0: 200
+    monsterHitCostAtRep50: 150
+    monsterHitCostAtRep100: 130
     bookHitCost: 50
     debrisHitCost: 50
     invincibilitySeconds: 0.75
@@ -149,7 +149,7 @@ MonoBehaviour:
     openingWitchTutorialDistance: 6
     tutorialWitchHit: 10
     openingWitchReturnSeconds: 1.2
-    debugStartMoney: 600
+    debugStartMoney: 800
     debugReputation: 50
     debugAngeredCustomers: 3
     debugLoseMoneyLarge: 100

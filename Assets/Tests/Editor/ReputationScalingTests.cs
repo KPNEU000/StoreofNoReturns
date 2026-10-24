@@ -22,20 +22,20 @@ public class ReputationScalingTests
         Assert.AreEqual(expected, scaling.MonsterHpMultiplier(reputation), 1e-4f);
     }
 
-    [TestCase(0f, 100f)]
-    [TestCase(25f, 87.5f)]
-    [TestCase(50f, 75f)]
-    [TestCase(75f, 70f)]
-    [TestCase(100f, 65f)]
+    [TestCase(0f, 200f)] // 2026-10-23: monster hits doubled
+    [TestCase(25f, 175f)]
+    [TestCase(50f, 150f)]
+    [TestCase(75f, 140f)]
+    [TestCase(100f, 130f)]
     public void MonsterHitCostFollowsCurve(float reputation, float expected)
     {
         Assert.AreEqual(expected, scaling.MonsterHitCost(reputation), 1e-4f);
     }
 
-    [TestCase(-10f, 2f, 100f)]
-    [TestCase(-1000f, 2f, 100f)]
-    [TestCase(110f, 0.5f, 65f)]
-    [TestCase(1000f, 0.5f, 65f)]
+    [TestCase(-10f, 2f, 200f)]
+    [TestCase(-1000f, 2f, 200f)]
+    [TestCase(110f, 0.5f, 130f)]
+    [TestCase(1000f, 0.5f, 130f)]
     public void OutOfRangeReputationIsClamped(float reputation, float expectedHp, float expectedCost)
     {
         Assert.AreEqual(expectedHp, scaling.MonsterHpMultiplier(reputation), 1e-4f);
